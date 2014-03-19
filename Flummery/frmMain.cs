@@ -10,7 +10,7 @@ using OpenTK.Graphics.OpenGL;
 using ToxicRagers.Carmageddon.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
 
-namespace carmaModelViewer
+namespace Flummery
 {
     public partial class frmMain : Form
     {

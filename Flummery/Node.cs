@@ -4,7 +4,7 @@ using ToxicRagers.Helpers;
 //using System.Linq;
 //using System.Text;
 
-namespace carmaModelViewer
+namespace Flummery
 {
     class Node
     {

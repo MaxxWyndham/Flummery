@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
 
-namespace carmaModelViewer
+namespace Flummery
 {
     struct Vertex
     {

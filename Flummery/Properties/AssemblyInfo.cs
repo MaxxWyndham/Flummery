@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("carmaModelViewer")]
+[assembly: AssemblyTitle("Flummery")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MaxxTek Ltd")]
-[assembly: AssemblyProduct("carmaModelViewer")]
-[assembly: AssemblyCopyright("Copyright © MaxxTek Ltd 2011")]
+[assembly: AssemblyProduct("Flummery")]
+[assembly: AssemblyCopyright("Copyright ©Toxic Ragers 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

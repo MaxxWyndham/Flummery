@@ -1,4 +1,4 @@
-﻿namespace carmaModelViewer
+﻿namespace Flummery
 {
     partial class frmMain
     {
@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// this.glcViewport = new OpenTK.GLControl();
-        /// this.glcViewport = new carmaModelViewer.CustomGLControl();
+        /// this.glcViewport = new Flummery.CustomGLControl();
         /// </summary>
         private void InitializeComponent()
         {
