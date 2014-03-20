@@ -35,6 +35,7 @@
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tvOverview = new System.Windows.Forms.TreeView();
             this.txtDebug = new System.Windows.Forms.TextBox();
+            this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // glcViewport
@@ -72,6 +73,10 @@
             this.txtDebug.Size = new System.Drawing.Size(800, 82);
             this.txtDebug.TabIndex = 3;
             // 
+            // fbdBrowse
+            // 
+            this.fbdBrowse.ShowNewFolderButton = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -99,6 +104,7 @@
         private System.Windows.Forms.PropertyGrid pgSettings;
         private System.Windows.Forms.TreeView tvOverview;
         private System.Windows.Forms.TextBox txtDebug;
+        private System.Windows.Forms.FolderBrowserDialog fbdBrowse;
 
     }
 }

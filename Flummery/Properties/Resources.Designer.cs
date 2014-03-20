@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Flummery.Properties
-{
+namespace Flummery.Properties {
     using System;
     
     

@@ -45,6 +45,7 @@ namespace Flummery
         }
         #endregion
 
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             this.Text += " v0.0.0.8";
@@ -165,7 +166,7 @@ namespace Flummery
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 0.25f, 0.15f, 0, 0, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 5.0f, 10.0f, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
@@ -196,7 +197,11 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Reincarnation MDL File...", menuClick);
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
-            //menu.MenuItems[0].MenuItems[3].Select += new EventHandler(menuSelect);
+
+            menu.MenuItems.Add("&Debug");
+            menu.MenuItems[1].MenuItems.Add("Process all...");
+            menu.MenuItems[1].MenuItems[0].MenuItems.Add("MDL files", menuClick);
+
             this.Menu = menu;
         }
 
@@ -295,6 +300,7 @@ namespace Flummery
                     if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
                     {
                         var mdl = ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(ofdBrowse.FileName);
+                        if (mdl == null) { return; }
 
                         ToxicRagers.Helpers.Vector3[] vl = mdl.GetVertexList();
 
@@ -328,6 +334,28 @@ namespace Flummery
 
                         Node n = new Node(mdl.Name, vbo);
                         nodes.Add(n);
+                    }
+                    break;
+
+                case "MDL files":
+                    fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
+                    fbdBrowse.ShowDialog();
+
+                    if (fbdBrowse.SelectedPath.Length > 0)
+                    {
+                        Properties.Settings.Default.LastBrowsedFolder = fbdBrowse.SelectedPath;
+                        Properties.Settings.Default.Save();
+
+                        ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
+                            {
+                                foreach (FileInfo fi in d.GetFiles("*.mdl"))
+                                {
+                                    ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.FullName);
+                                }
+                            }
+                        );
+
+                        MessageBox.Show("Done!");
                     }
                     break;
 
