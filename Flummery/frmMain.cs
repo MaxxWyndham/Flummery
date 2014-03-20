@@ -27,7 +27,7 @@ namespace Flummery
         double accumulator = 0;
         int idleCounter = 0;
         string title = "";
-        bool bDoNothing = true;
+        bool bDoNothing = false;
 
         List<Node> nodes = new List<Node>();
 
@@ -101,14 +101,14 @@ namespace Flummery
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-            Bitmap bitmap = new Bitmap("data\\test.bmp");
-            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            {
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            }
-            bitmap.UnlockBits(data);
+            //Bitmap bitmap = new Bitmap("data\\test.bmp");
+            //BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+            //    ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //{
+            //    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+            //        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            //}
+            //bitmap.UnlockBits(data);
 
             GL.Enable(EnableCap.Texture2D);
         }
@@ -165,19 +165,15 @@ namespace Flummery
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 0.25f, 1.25f, 0, 0, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 0.25f, 0.15f, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
             GL.Rotate(-rotation, OpenTK.Vector3.UnitY);
 
-            //foreach (Node node in nodes)
-            //{
-            //    node.Render();
-            //}
-            if (nodes.Count > 0)
+            foreach (Node node in nodes)
             {
-                nodes[1].Render();
+                node.Render();
             }
             
             glcViewport.SwapBuffers();
@@ -197,7 +193,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
             //menu.MenuItems[0].MenuItems[1].MenuItems[0].Select += new EventHandler(menuSelect);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender DAT File...", menuClick);
-            //menu.MenuItems[0].MenuItems[1].MenuItems[1].Select += new EventHandler(menuSelect);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Reincarnation MDL File...", menuClick);
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
             //menu.MenuItems[0].MenuItems[3].Select += new EventHandler(menuSelect);
@@ -289,6 +285,49 @@ namespace Flummery
 
                         pgSettings.SelectedObject = c;
 
+                    }
+                    break;
+
+                case "Reincarnation MDL File...":
+                    ofdBrowse.Filter = "Carmageddon Reincarnation MDL files (*.mdl)|*.mdl|All Files (*.*)|*.*";
+                    ofdBrowse.ShowDialog();
+
+                    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
+                    {
+                        var mdl = ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(ofdBrowse.FileName);
+
+                        ToxicRagers.Helpers.Vector3[] vl = mdl.GetVertexList();
+
+                        Vertex[] v = new Vertex[vl.Length];
+
+                        for (int i = 0; i < v.Length; i++)
+                        {
+                            v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
+                        }
+
+                        for (int i = 0; i < v.Length; i += 3)
+                        {
+                            OpenTK.Vector3 v0 = v[i].Position;
+                            OpenTK.Vector3 v1 = v[i + 1].Position;
+                            OpenTK.Vector3 v2 = v[i + 2].Position;
+
+                            OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
+
+                            v[i].Normal += normal;
+                            v[i + 1].Normal += normal;
+                            v[i + 2].Normal += normal;
+                        }
+
+                        for (int i = 0; i < v.Length; i++)
+                        {
+                            v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
+                        }
+
+                        VertexBuffer vbo = new VertexBuffer(mdl.Name);
+                        vbo.SetData(v);
+
+                        Node n = new Node(mdl.Name, vbo);
+                        nodes.Add(n);
                     }
                     break;
 

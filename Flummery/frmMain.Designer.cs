@@ -42,7 +42,7 @@
             this.glcViewport.BackColor = System.Drawing.Color.Black;
             this.glcViewport.Location = new System.Drawing.Point(187, 12);
             this.glcViewport.Name = "glcViewport";
-            this.glcViewport.Size = new System.Drawing.Size(800, 283);
+            this.glcViewport.Size = new System.Drawing.Size(800, 535);
             this.glcViewport.TabIndex = 0;
             this.glcViewport.VSync = false;
             this.glcViewport.Load += new System.EventHandler(this.glcViewport_Load);
@@ -65,11 +65,11 @@
             // txtDebug
             // 
             this.txtDebug.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDebug.Location = new System.Drawing.Point(187, 301);
+            this.txtDebug.Location = new System.Drawing.Point(187, 553);
             this.txtDebug.Multiline = true;
             this.txtDebug.Name = "txtDebug";
             this.txtDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDebug.Size = new System.Drawing.Size(800, 334);
+            this.txtDebug.Size = new System.Drawing.Size(800, 82);
             this.txtDebug.TabIndex = 3;
             // 
             // frmMain
@@ -84,7 +84,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "frmMain";
-            this.Text = "Carmageddon Model Viewer";
+            this.Text = "Flummery";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

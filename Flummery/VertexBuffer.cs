@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
     struct Vertex
     {
-        public OpenTK.Vector3 Position;
-        public OpenTK.Vector3 Normal;
-        public OpenTK.Vector2 UV;
+        public Vector3 Position;
+        public Vector3 Normal;
+        public Vector2 UV;
 
         public static readonly int Stride = Marshal.SizeOf(default(Vertex));
     }
@@ -45,8 +46,8 @@ namespace Flummery
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
             GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, new IntPtr(0));
-            GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(OpenTK.Vector3.SizeInBytes));
-            GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * OpenTK.Vector3.SizeInBytes));
+            GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
+            GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
 
             GL.Enable(EnableCap.DepthTest);
 
