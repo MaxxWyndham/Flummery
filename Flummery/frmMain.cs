@@ -103,12 +103,8 @@ namespace Flummery
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
             //Bitmap bitmap = new Bitmap("data\\test.bmp");
-            //BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-            //    ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            //{
-            //    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-            //        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            //}
+            //BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             //bitmap.UnlockBits(data);
 
             GL.Enable(EnableCap.Texture2D);
@@ -166,7 +162,7 @@ namespace Flummery
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 5.0f, 10.0f, 0, 0, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 5.0f, 7.5f, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
@@ -187,8 +183,9 @@ namespace Flummery
             menu.MenuItems.Add("&File");
             menu.MenuItems[0].MenuItems.Add("&Open...", menuClick);
             menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlO;
-            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon 1 Car...", menuClick);
-            //menu.MenuItems[0].MenuItems[0].Select += new EventHandler(menuSelect);
+            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Accessory", menuClick);
+
             menu.MenuItems[0].MenuItems.Add("&Import");
             //menu.MenuItems[0].MenuItems[1].Select += new EventHandler(menuSelect);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
@@ -211,87 +208,174 @@ namespace Flummery
 
             switch (mi.Text)
             {
-                case "Carmageddon 1 Car...":
-                    ofdBrowse.Filter = "Carmageddon Car Files (*.txt)|*.txt|All Files (*.*)|*.*";
+                case "Accessory":
+                    ofdBrowse.Filter = "Carmageddon Reincarnation Accessory files (accessory.cnt)|accessory.cnt|All Files (*.*)|*.*";
                     ofdBrowse.ShowDialog();
 
                     if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
                     {
-                        FileInfo fi = new FileInfo(ofdBrowse.FileName);
-                        c1Car c = new c1Car(fi.Name.Replace(fi.Extension, ""));
-                        c.Load(fi.FullName, false);
+                        var fi = new FileInfo(ofdBrowse.FileName);
 
-                        tvOverview.Nodes.Clear();
-                        tvOverview.Nodes.Add("Actors");
-                        TreeNode ParentNode;
+                        var accessory = ToxicRagers.CarmageddonReincarnation.Formats.CNT.Load(ofdBrowse.FileName);
+                        var model = ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.DirectoryName + "\\" + accessory.Model + ".mdl");
+                        var materials = new List<ToxicRagers.CarmageddonReincarnation.Formats.MT2>();
+                        var textures = new List<ToxicRagers.CarmageddonReincarnation.Formats.TDX>();
 
-                        foreach (c2Act act in c.Actors)
+                        if (model != null)
                         {
-                            ParentNode = tvOverview.Nodes[0];
-
-                            foreach (Actor A in act.Actors)
+                            foreach (string material in model.Materials)
                             {
-                                switch (A.Section)
-                                {
-                                    case Actor.Sections.Name:
-                                        ParentNode = ParentNode.Nodes.Add(A.Name);
-                                        break;
-
-                                    case Actor.Sections.SubLevelEnd:
-                                        ParentNode = ParentNode.Parent;
-                                        break;
-                                }
+                                materials.Add(ToxicRagers.CarmageddonReincarnation.Formats.MT2.Load(fi.DirectoryName + "\\" + material + ".mt2"));
                             }
-                        }
 
-                        tvOverview.Nodes[0].ExpandAll();
-
-                        //c.Models[0].DatMeshes[0].Mesh.GetIndexList();
-                        foreach (c2Dat dat in c.Models)
-                        {
-                            foreach (DatMesh datmesh in dat.DatMeshes)
+                            foreach (var material in materials)
                             {
-                                ToxicRagers.Helpers.Vector3[] vl = datmesh.Mesh.GetVertexList();
-                                ToxicRagers.Helpers.Vector2[] uvl = datmesh.Mesh.GetUVList();
-
-                                Vertex[] v = new Vertex[vl.Length];
-
-                                for (int i = 0; i < v.Length; i++)
+                                if (File.Exists(fi.DirectoryName + "\\" + material.DiffuseColour + ".tdx"))
                                 {
-                                    v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
-                                    v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
+                                    textures.Add(ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.DirectoryName + "\\" + material.DiffuseColour + ".tdx"));
+                                }
+                                else if (File.Exists(fi.Directory.Parent.Parent.FullName + "\\Textures\\" + material.DiffuseColour + ".tdx"))
+                                {
+                                    textures.Add(ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.Directory.Parent.Parent.FullName + "\\Textures\\" + material.DiffuseColour + ".tdx"));
+                                }
+                                else
+                                {
+                                    return;
                                 }
 
-                                for (int i = 0; i < v.Length; i += 3)
-                                {
-                                    OpenTK.Vector3 v0 = v[i].Position;
-                                    OpenTK.Vector3 v1 = v[i + 1].Position;
-                                    OpenTK.Vector3 v2 = v[i + 2].Position;
+                                var texture = textures[textures.Count - 1];
 
-                                    OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
+                                GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.CompressedRgbaS3tcDxt5Ext, texture.mipMaps[0].Width, texture.mipMaps[0].Height, 0, texture.mipMaps[0].Data.Length, texture.mipMaps[0].Data);
+                                //textures.Add(new Gibbed.Duels.FileFormats.TdxFile());
+                                //textures[textures.Count - 1].Deserialize(new FileInfo(fi.DirectoryName + "\\" + material.Texture + ".tdx").OpenRead());
 
-                                    v[i].Normal += normal;
-                                    v[i + 1].Normal += normal;
-                                    v[i + 2].Normal += normal;
-                                }
+                                
 
-                                for (int i = 0; i < v.Length; i++)
-                                {
-                                    v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
-                                }
-
-                                VertexBuffer vbo = new VertexBuffer(datmesh.Name);
-                                vbo.SetData(v);
-
-                                Node n = new Node(datmesh.Name, vbo);
-                                nodes.Add(n);
+                                //Bitmap bitmap = ToxicRagers.CarmageddonReincarnation.Helpers.TDX.MakeBitmapFromDXT(texture.Mipmaps[0].Width, texture.Mipmaps[0].Height, texture.Mipmaps[0].Data, true);
+                                //BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                                //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                                //bitmap.UnlockBits(data);
                             }
+
+                            ToxicRagers.Helpers.Vector3[] vl = model.GetVertexList();
+                            ToxicRagers.Helpers.Vector2[] uvl = model.GetUVList();
+
+                            Vertex[] v = new Vertex[vl.Length];
+
+                            for (int i = 0; i < v.Length; i++)
+                            {
+                                v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
+                                v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
+                            }
+
+                            for (int i = 0; i < v.Length; i += 3)
+                            {
+                                OpenTK.Vector3 v0 = v[i].Position;
+                                OpenTK.Vector3 v1 = v[i + 1].Position;
+                                OpenTK.Vector3 v2 = v[i + 2].Position;
+
+                                OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
+
+                                v[i].Normal += normal;
+                                v[i + 1].Normal += normal;
+                                v[i + 2].Normal += normal;
+                            }
+
+                            for (int i = 0; i < v.Length; i++)
+                            {
+                                v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
+                            }
+
+                            VertexBuffer vbo = new VertexBuffer(model.Name);
+                            vbo.SetData(v);
+
+                            Node n = new Node(model.Name, vbo);
+                            nodes.Add(n);
                         }
-
-                        pgSettings.SelectedObject = c;
-
                     }
                     break;
+
+                //case "Carmageddon 1 Car...":
+                //    ofdBrowse.Filter = "Carmageddon Car Files (*.txt)|*.txt|All Files (*.*)|*.*";
+                //    ofdBrowse.ShowDialog();
+
+                //    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
+                //    {
+                //        FileInfo fi = new FileInfo(ofdBrowse.FileName);
+                //        c1Car c = new c1Car(fi.Name.Replace(fi.Extension, ""));
+                //        c.Load(fi.FullName, false);
+
+                //        tvOverview.Nodes.Clear();
+                //        tvOverview.Nodes.Add("Actors");
+                //        TreeNode ParentNode;
+
+                //        foreach (c2Act act in c.Actors)
+                //        {
+                //            ParentNode = tvOverview.Nodes[0];
+
+                //            foreach (Actor A in act.Actors)
+                //            {
+                //                switch (A.Section)
+                //                {
+                //                    case Actor.Sections.Name:
+                //                        ParentNode = ParentNode.Nodes.Add(A.Name);
+                //                        break;
+
+                //                    case Actor.Sections.SubLevelEnd:
+                //                        ParentNode = ParentNode.Parent;
+                //                        break;
+                //                }
+                //            }
+                //        }
+
+                //        tvOverview.Nodes[0].ExpandAll();
+
+                //        //c.Models[0].DatMeshes[0].Mesh.GetIndexList();
+                //        foreach (c2Dat dat in c.Models)
+                //        {
+                //            foreach (DatMesh datmesh in dat.DatMeshes)
+                //            {
+                //                ToxicRagers.Helpers.Vector3[] vl = datmesh.Mesh.GetVertexList();
+                //                ToxicRagers.Helpers.Vector2[] uvl = datmesh.Mesh.GetUVList();
+
+                //                Vertex[] v = new Vertex[vl.Length];
+
+                //                for (int i = 0; i < v.Length; i++)
+                //                {
+                //                    v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
+                //                    v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
+                //                }
+
+                //                for (int i = 0; i < v.Length; i += 3)
+                //                {
+                //                    OpenTK.Vector3 v0 = v[i].Position;
+                //                    OpenTK.Vector3 v1 = v[i + 1].Position;
+                //                    OpenTK.Vector3 v2 = v[i + 2].Position;
+
+                //                    OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
+
+                //                    v[i].Normal += normal;
+                //                    v[i + 1].Normal += normal;
+                //                    v[i + 2].Normal += normal;
+                //                }
+
+                //                for (int i = 0; i < v.Length; i++)
+                //                {
+                //                    v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
+                //                }
+
+                //                VertexBuffer vbo = new VertexBuffer(datmesh.Name);
+                //                vbo.SetData(v);
+
+                //                Node n = new Node(datmesh.Name, vbo);
+                //                nodes.Add(n);
+                //            }
+                //        }
+
+                //        pgSettings.SelectedObject = c;
+
+                //    }
+                //    break;
 
                 case "Reincarnation MDL File...":
                     ofdBrowse.Filter = "Carmageddon Reincarnation MDL files (*.mdl)|*.mdl|All Files (*.*)|*.*";
@@ -303,12 +387,14 @@ namespace Flummery
                         if (mdl == null) { return; }
 
                         ToxicRagers.Helpers.Vector3[] vl = mdl.GetVertexList();
+                        ToxicRagers.Helpers.Vector2[] uvl = mdl.GetUVList();
 
                         Vertex[] v = new Vertex[vl.Length];
 
                         for (int i = 0; i < v.Length; i++)
                         {
                             v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
+                            v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
                         }
 
                         for (int i = 0; i < v.Length; i += 3)

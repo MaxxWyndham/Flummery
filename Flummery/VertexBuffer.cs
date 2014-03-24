@@ -61,8 +61,10 @@ namespace Flummery
             GL.DepthFunc(DepthFunction.Lequal);
             //GL.BlendFunc(BlendingFactorSrc.DstColor, BlendingFactorDest.Zero);
             GL.Disable(EnableCap.Lighting);
-            GL.Color3(Color.Red);
-            GL.DrawArrays(BeginMode.Points, 0, length);
+
+            // Draw verts
+            //GL.Color3(Color.Red);
+            //GL.DrawArrays(BeginMode.Points, 0, length);
         }
     }
 }
