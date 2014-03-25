@@ -97,16 +97,6 @@ namespace Flummery
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
 
-            GL.GenTextures(1, out textureID);
-            GL.BindTexture(TextureTarget.Texture2D, textureID);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-            //Bitmap bitmap = new Bitmap("data\\test.bmp");
-            //BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            //bitmap.UnlockBits(data);
-
             GL.Enable(EnableCap.Texture2D);
         }
         #endregion
@@ -162,7 +152,7 @@ namespace Flummery
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 5.0f, 7.5f, 0, 0, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 5.0f, 7.5f, 0, 0, -2.5f, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
@@ -223,10 +213,12 @@ namespace Flummery
 
                         if (model != null)
                         {
-                            foreach (string material in model.Materials)
+                            foreach (var material in model.Materials)
                             {
-                                materials.Add(ToxicRagers.CarmageddonReincarnation.Formats.MT2.Load(fi.DirectoryName + "\\" + material + ".mt2"));
+                                materials.Add(ToxicRagers.CarmageddonReincarnation.Formats.MT2.Load(fi.DirectoryName + "\\" + material.Name + ".mt2"));
                             }
+
+                            int materialIndex = 0;
 
                             foreach (var material in materials)
                             {
@@ -234,63 +226,46 @@ namespace Flummery
                                 {
                                     textures.Add(ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.DirectoryName + "\\" + material.DiffuseColour + ".tdx"));
                                 }
-                                else if (File.Exists(fi.Directory.Parent.Parent.FullName + "\\Textures\\" + material.DiffuseColour + ".tdx"))
-                                {
-                                    textures.Add(ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.Directory.Parent.Parent.FullName + "\\Textures\\" + material.DiffuseColour + ".tdx"));
-                                }
                                 else
                                 {
-                                    return;
+                                    ofdBrowse.FileName = material.DiffuseColour + ".tdx";
+                                    ofdBrowse.Filter = material.DiffuseColour + ".tdx|" + material.DiffuseColour + ".tdx|Carmageddon ReinCARnation Texture (*.tdx)|*.tdx";
+                                    ofdBrowse.ShowDialog();
+
+                                    if (ofdBrowse.FileName != null)
+                                    {
+                                        textures.Add(ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(ofdBrowse.FileName));
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
                                 }
 
                                 var texture = textures[textures.Count - 1];
 
-                                GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.CompressedRgbaS3tcDxt5Ext, texture.mipMaps[0].Width, texture.mipMaps[0].Height, 0, texture.mipMaps[0].Data.Length, texture.mipMaps[0].Data);
-                                //textures.Add(new Gibbed.Duels.FileFormats.TdxFile());
-                                //textures[textures.Count - 1].Deserialize(new FileInfo(fi.DirectoryName + "\\" + material.Texture + ".tdx").OpenRead());
+                                int textureID = 0;
+                                Texture.CreateTexture(out textureID, texture.mipMaps[0].Width, texture.mipMaps[0].Height, texture.mipMaps[0].Data);
 
-                                
+                                var vl = model.GetTriangleStrip(materialIndex);
 
-                                //Bitmap bitmap = ToxicRagers.CarmageddonReincarnation.Helpers.TDX.MakeBitmapFromDXT(texture.Mipmaps[0].Width, texture.Mipmaps[0].Height, texture.Mipmaps[0].Data, true);
-                                //BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                                //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-                                //bitmap.UnlockBits(data);
+                                Vertex[] v = new Vertex[vl.Count];
+
+                                for (int i = 0; i < v.Length; i++)
+                                {
+                                    v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                                    v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
+                                    v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+                                }
+
+                                VertexBuffer vbo = new VertexBuffer(model.Name);
+                                vbo.SetData(v);
+
+                                Node n = new Node(model.Name, vbo, textureID);
+                                nodes.Add(n);
+
+                                materialIndex++;
                             }
-
-                            ToxicRagers.Helpers.Vector3[] vl = model.GetVertexList();
-                            ToxicRagers.Helpers.Vector2[] uvl = model.GetUVList();
-
-                            Vertex[] v = new Vertex[vl.Length];
-
-                            for (int i = 0; i < v.Length; i++)
-                            {
-                                v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
-                                v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
-                            }
-
-                            for (int i = 0; i < v.Length; i += 3)
-                            {
-                                OpenTK.Vector3 v0 = v[i].Position;
-                                OpenTK.Vector3 v1 = v[i + 1].Position;
-                                OpenTK.Vector3 v2 = v[i + 2].Position;
-
-                                OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
-
-                                v[i].Normal += normal;
-                                v[i + 1].Normal += normal;
-                                v[i + 2].Normal += normal;
-                            }
-
-                            for (int i = 0; i < v.Length; i++)
-                            {
-                                v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
-                            }
-
-                            VertexBuffer vbo = new VertexBuffer(model.Name);
-                            vbo.SetData(v);
-
-                            Node n = new Node(model.Name, vbo);
-                            nodes.Add(n);
                         }
                     }
                     break;
@@ -386,33 +361,14 @@ namespace Flummery
                         var mdl = ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(ofdBrowse.FileName);
                         if (mdl == null) { return; }
 
-                        ToxicRagers.Helpers.Vector3[] vl = mdl.GetVertexList();
-                        ToxicRagers.Helpers.Vector2[] uvl = mdl.GetUVList();
-
-                        Vertex[] v = new Vertex[vl.Length];
+                        var vl = mdl.GetTriangleStrip(0);
+                        Vertex[] v = new Vertex[vl.Count];
 
                         for (int i = 0; i < v.Length; i++)
                         {
-                            v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
-                            v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
-                        }
-
-                        for (int i = 0; i < v.Length; i += 3)
-                        {
-                            OpenTK.Vector3 v0 = v[i].Position;
-                            OpenTK.Vector3 v1 = v[i + 1].Position;
-                            OpenTK.Vector3 v2 = v[i + 2].Position;
-
-                            OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
-
-                            v[i].Normal += normal;
-                            v[i + 1].Normal += normal;
-                            v[i + 2].Normal += normal;
-                        }
-
-                        for (int i = 0; i < v.Length; i++)
-                        {
-                            v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
+                            v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                            v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
+                            v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
                         }
 
                         VertexBuffer vbo = new VertexBuffer(mdl.Name);

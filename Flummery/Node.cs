@@ -1,8 +1,5 @@
 ﻿using System;
 using ToxicRagers.Helpers;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
 
 namespace Flummery
 {
@@ -10,17 +7,18 @@ namespace Flummery
     {
         String Name;
         VertexBuffer VBO;
-        Matrix3D world;
+        int TextureID;
 
-        public Node(string name, VertexBuffer vbo)
+        public Node(string name, VertexBuffer vbo, int textureID = 0)
         {
             Name = name;
             VBO = vbo;
+            TextureID = textureID;
         }
 
         public void Render()
         {
-            VBO.Render();
+            VBO.Render(TextureID);
         }
     }
 }

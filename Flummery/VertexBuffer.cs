@@ -37,7 +37,7 @@ namespace Flummery
             GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(data.Length * Vertex.Stride), data, BufferUsageHint.StaticDraw);
         }
 
-        public void Render()
+        public void Render(int TextureID = 0)
         {
             GL.EnableClientState(ArrayCap.VertexArray);
             GL.EnableClientState(ArrayCap.NormalArray);
@@ -51,10 +51,12 @@ namespace Flummery
 
             GL.Enable(EnableCap.DepthTest);
 
-            GL.DepthFunc(DepthFunction.Lequal);
+            GL.BindTexture(TextureTarget.Texture2D, TextureID);
+
+            GL.DepthFunc(DepthFunction.Less);
             GL.Color3(Color.White);
             GL.Enable(EnableCap.Lighting);
-            GL.DrawArrays(BeginMode.Triangles, 0, length);
+            GL.DrawArrays(PrimitiveType.TriangleStrip, 0, length);
 
             //GL.Disable(EnableCap.DepthTest);
 
