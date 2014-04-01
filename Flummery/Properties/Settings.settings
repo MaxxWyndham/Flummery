@@ -1,8 +1,11 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="carmaModelViewer.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Flummery.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="LastBrowsedFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FolderHints" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

@@ -23,7 +23,6 @@ namespace Flummery
 
         Stopwatch sw = new Stopwatch();
         Single rotation = 0;
-        int textureID;
         double accumulator = 0;
         int idleCounter = 0;
         string title = "";
@@ -80,17 +79,19 @@ namespace Flummery
         {
             glcViewport.VSync = true;
 
-            GL.ClearColor(Color.Black);
+            GL.ClearColor(Color.CornflowerBlue);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             GL.ShadeModel(ShadingModel.Smooth);
             GL.PointSize(3.0f);
             GL.Enable(EnableCap.CullFace);
+            GL.FrontFace(FrontFaceDirection.Cw);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
             GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, -1.0f, 0.0f });
-            GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.3f, 0.3f, 0.3f, 1.0f });
+            GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Specular, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.SpotExponent, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 0.4f, 0.4f, 0.4f, 1.0f });
+            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 0.7f, 0.7f, 0.7f, 1.0f });
             GL.LightModel(LightModelParameter.LightModelTwoSide, 1);
             GL.LightModel(LightModelParameter.LightModelLocalViewer, 1);
 
@@ -139,6 +140,7 @@ namespace Flummery
             GL.Viewport(0, 0, w, h);
 
             float aspect_ratio = w / (float)h;
+
             OpenTK.Matrix4 perpective = OpenTK.Matrix4.CreatePerspectiveFieldOfView(OpenTK.MathHelper.PiOver4, aspect_ratio, 0.0001f, 64);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perpective);
@@ -152,9 +154,10 @@ namespace Flummery
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 5.0f, 7.5f, 0, 0, -2.5f, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 0.0f, 3.0f, 0, 0.0f, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
+            GL.Scale(1.0f, 1.0f, -1.0f);
 
             GL.Rotate(-rotation, OpenTK.Vector3.UnitY);
 
@@ -188,6 +191,7 @@ namespace Flummery
             menu.MenuItems.Add("&Debug");
             menu.MenuItems[1].MenuItems.Add("Process all...");
             menu.MenuItems[1].MenuItems[0].MenuItems.Add("MDL files", menuClick);
+            menu.MenuItems[1].MenuItems[0].MenuItems.Add("MTL files", menuClick);
 
             this.Menu = menu;
         }
@@ -199,74 +203,16 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "Accessory":
-                    ofdBrowse.Filter = "Carmageddon Reincarnation Accessory files (accessory.cnt)|accessory.cnt|All Files (*.*)|*.*";
-                    ofdBrowse.ShowDialog();
+                    ofdBrowse.Filter = "Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt|All Files (*.*)|*.*";
 
-                    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
                     {
-                        var fi = new FileInfo(ofdBrowse.FileName);
+                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        var accessory = ToxicRagers.CarmageddonReincarnation.Formats.CNT.Load(ofdBrowse.FileName);
-                        var model = ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.DirectoryName + "\\" + accessory.Model + ".mdl");
-                        var materials = new List<ToxicRagers.CarmageddonReincarnation.Formats.MT2>();
-                        var textures = new List<ToxicRagers.CarmageddonReincarnation.Formats.TDX>();
+                        Games.CarmageddonReincarnation.Loader.LoadAccessory(ofdBrowse.FileName, this, ref hints, ref nodes);
 
-                        if (model != null)
-                        {
-                            foreach (var material in model.Materials)
-                            {
-                                materials.Add(ToxicRagers.CarmageddonReincarnation.Formats.MT2.Load(fi.DirectoryName + "\\" + material.Name + ".mt2"));
-                            }
-
-                            int materialIndex = 0;
-
-                            foreach (var material in materials)
-                            {
-                                if (File.Exists(fi.DirectoryName + "\\" + material.DiffuseColour + ".tdx"))
-                                {
-                                    textures.Add(ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.DirectoryName + "\\" + material.DiffuseColour + ".tdx"));
-                                }
-                                else
-                                {
-                                    ofdBrowse.FileName = material.DiffuseColour + ".tdx";
-                                    ofdBrowse.Filter = material.DiffuseColour + ".tdx|" + material.DiffuseColour + ".tdx|Carmageddon ReinCARnation Texture (*.tdx)|*.tdx";
-                                    ofdBrowse.ShowDialog();
-
-                                    if (ofdBrowse.FileName != null)
-                                    {
-                                        textures.Add(ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(ofdBrowse.FileName));
-                                    }
-                                    else
-                                    {
-                                        return;
-                                    }
-                                }
-
-                                var texture = textures[textures.Count - 1];
-
-                                int textureID = 0;
-                                Texture.CreateTexture(out textureID, texture.mipMaps[0].Width, texture.mipMaps[0].Height, texture.mipMaps[0].Data);
-
-                                var vl = model.GetTriangleStrip(materialIndex);
-
-                                Vertex[] v = new Vertex[vl.Count];
-
-                                for (int i = 0; i < v.Length; i++)
-                                {
-                                    v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
-                                    v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
-                                    v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
-                                }
-
-                                VertexBuffer vbo = new VertexBuffer(model.Name);
-                                vbo.SetData(v);
-
-                                Node n = new Node(model.Name, vbo, textureID);
-                                nodes.Add(n);
-
-                                materialIndex++;
-                            }
-                        }
+                        Properties.Settings.Default.FolderHints = hints;
+                        Properties.Settings.Default.Save();
                     }
                     break;
 
@@ -389,12 +335,34 @@ namespace Flummery
                         Properties.Settings.Default.Save();
 
                         ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
+                        {
+                            foreach (FileInfo fi in d.GetFiles("*.mdl"))
                             {
-                                foreach (FileInfo fi in d.GetFiles("*.mdl"))
-                                {
-                                    ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.FullName);
-                                }
+                                ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.FullName);
                             }
+                        }
+                        );
+
+                        MessageBox.Show("Done!");
+                    }
+                    break;
+
+                case "MTL files":
+                    fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
+                    fbdBrowse.ShowDialog();
+
+                    if (fbdBrowse.SelectedPath.Length > 0)
+                    {
+                        Properties.Settings.Default.LastBrowsedFolder = fbdBrowse.SelectedPath;
+                        Properties.Settings.Default.Save();
+
+                        ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
+                        {
+                            foreach (FileInfo fi in d.GetFiles("*.mtl"))
+                            {
+                                ToxicRagers.CarmageddonReincarnation.Formats.MTL.Load(fi.FullName);
+                            }
+                        }
                         );
 
                         MessageBox.Show("Done!");
@@ -411,6 +379,32 @@ namespace Flummery
             }
         }
         #endregion
+
+        public bool TryLoadOrFindFile(string Filename, string FileType, string FileExtension, out string FilePath, params string[] hints)
+        {
+            var FileNames = Filename.Split(';');
+
+            foreach (string file in FileNames)
+            {
+                foreach (string hint in hints)
+                {
+                    FilePath = hint + "\\" + file;
+
+                    if (File.Exists(hint + "\\" + file)) { return true; }
+                }
+            }
+
+            ofdBrowse.FileName = "";
+            ofdBrowse.Filter = Filename + "|" + Filename + "|" + FileType + " (" + FileExtension + ")|" + FileExtension;
+            if (ofdBrowse.ShowDialog() == DialogResult.OK)
+            {
+                FilePath = ofdBrowse.FileName;
+                return true;
+            }
+
+            FilePath = null;
+            return false;
+        }
     }
 
     #region Vertex

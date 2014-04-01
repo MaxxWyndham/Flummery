@@ -53,7 +53,7 @@ namespace Flummery
 
             GL.BindTexture(TextureTarget.Texture2D, TextureID);
 
-            GL.DepthFunc(DepthFunction.Less);
+            GL.DepthFunc(DepthFunction.Lequal);
             GL.Color3(Color.White);
             GL.Enable(EnableCap.Lighting);
             GL.DrawArrays(PrimitiveType.TriangleStrip, 0, length);
