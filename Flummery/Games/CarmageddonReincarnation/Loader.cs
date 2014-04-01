@@ -9,7 +9,7 @@ namespace Flummery.Games.CarmageddonReincarnation
 {
     static class Loader
     {
-        public static void LoadAccessory(string FileName, frmMain ui, ref string hints, ref List<Node> nodes)
+        public static void LoadContent(string FileName, frmMain ui, ref string hints, ref List<Node> nodes)
         {
             FileInfo fi = new FileInfo(FileName);
             if (!hints.Contains(fi.DirectoryName + ";")) { hints += fi.DirectoryName + ";"; }

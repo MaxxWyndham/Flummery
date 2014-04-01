@@ -172,7 +172,7 @@ namespace Flummery
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 2.0f, 3.0f, 0, 1.0f, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 1.0f, 3.0f, 0, 1.0f, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
             GL.Scale(1.0f, 1.0f, -1.0f);
@@ -196,6 +196,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlO;
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Accessory", menuClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Pedestrian", menuClick);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
             //menu.MenuItems[0].MenuItems[1].Select += new EventHandler(menuSelect);
@@ -221,13 +222,27 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "Accessory":
-                    ofdBrowse.Filter = "Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt|All Files (*.*)|*.*";
+                    ofdBrowse.Filter = "Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt";
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        Games.CarmageddonReincarnation.Loader.LoadAccessory(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        Games.CarmageddonReincarnation.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+
+                        Properties.Settings.Default.FolderHints = hints;
+                        Properties.Settings.Default.Save();
+                    }
+                    break;
+
+                case "Pedestrian":
+                    ofdBrowse.Filter = "Carmageddon ReinCARnation Pedestrians (bodyform.cnt)|bodyform.cnt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
+
+                        Games.CarmageddonReincarnation.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
