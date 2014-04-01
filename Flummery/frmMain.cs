@@ -21,12 +21,13 @@ namespace Flummery
         }
         #endregion
 
+        public static bool bVertexBuffer = false;
+
         Stopwatch sw = new Stopwatch();
         Single rotation = 0;
         double accumulator = 0;
         int idleCounter = 0;
         string title = "";
-        bool bDoNothing = false;
 
         int renderMode = 0;
         int[] renderModes = new int[] { 6914, 6913, 6912 };
@@ -54,7 +55,6 @@ namespace Flummery
             title = this.Text;
 
             string version = GL.GetString(StringName.Version);
-            if (version == "1.1.0") { bDoNothing = true; }
 
             txtDebug.Text += "OpenGL Version : " + GL.GetString(StringName.Version) + "\r\n";
             txtDebug.Text += "Colour Depth   : " + glcViewport.Context.GraphicsMode.ColorFormat.ToString() + "\r\n";
@@ -62,15 +62,13 @@ namespace Flummery
             txtDebug.Text += "Stencil        : " + glcViewport.Context.GraphicsMode.Stencil + "\r\n";
             txtDebug.Text += "Samples        : " + glcViewport.Context.GraphicsMode.Samples + "\r\n";
             txtDebug.Text += "Extensions     :\r\n";
-            var extensions = new HashSet<string>(GL.GetString(StringName.Extensions).Split(new char[] { ' ' }));
-            foreach (var ext in extensions)
-            {
-                txtDebug.Text += ext + "\r\n";
-            }
+            var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
+            foreach (var ext in extensions) { txtDebug.Text += ext + "\r\n"; }
+
+            bVertexBuffer = extensions.Contains("GL_ARB_vertex_buffer_object");
 
             BuildMenu();
-
-            if (!bDoNothing) { GLControlInit(); }
+            GLControlInit();
 
             sw.Start();
 
@@ -123,7 +121,6 @@ namespace Flummery
         #region FPS and "animation"
         void Application_Idle(object sender, EventArgs e)
         {
-            if (bDoNothing) { return; }
             double milliseconds = dt;
             Accumulate(milliseconds);
             Animate(milliseconds);
@@ -151,8 +148,6 @@ namespace Flummery
 
         private void glcViewport_Load(object sender, EventArgs e)
         {
-            if (bDoNothing) { return; }
-
             int w = 800;// glcViewport.Width;
             int h = 600;// glcViewport.Height;
             GL.Viewport(0, 0, w, h);
@@ -168,8 +163,6 @@ namespace Flummery
 
         private void Render()
         {
-            if (bDoNothing) { return; }
-
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 1.0f, 3.0f, 0, 1.0f, 0, 0, 1, 0);

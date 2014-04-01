@@ -20,35 +20,33 @@ namespace Flummery
         string Name = "";
         int vbo;
         int length;
+        Vertex[] data = null;
 
         public VertexBuffer() { Name = ""; }
         public VertexBuffer(string name) { Name = name; }
 
         public void SetData(Vertex[] data)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
+            if (data == null) { throw new ArgumentNullException("data"); }
 
             length = data.Length;
 
-            GL.GenBuffers(1, out vbo);
+            if (Flummery.frmMain.bVertexBuffer)
+            {
+                GL.GenBuffers(1, out vbo);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(data.Length * Vertex.Stride), data, BufferUsageHint.StaticDraw);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+                GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(data.Length * Vertex.Stride), data, BufferUsageHint.StaticDraw);
+            }
+            else
+            {
+                this.data = new Vertex[data.Length];
+                Array.Copy(data, this.data, data.Length);
+            }
         }
 
         public void Render(int TextureID = 0)
         {
-            GL.EnableClientState(ArrayCap.VertexArray);
-            GL.EnableClientState(ArrayCap.NormalArray);
-            GL.EnableClientState(ArrayCap.TextureCoordArray);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-
-            GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, new IntPtr(0));
-            GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
-            GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
-
             GL.Enable(EnableCap.DepthTest);
 
             GL.BindTexture(TextureTarget.Texture2D, TextureID);
@@ -56,17 +54,32 @@ namespace Flummery
             GL.DepthFunc(DepthFunction.Lequal);
             GL.Color3(Color.White);
             GL.Enable(EnableCap.Lighting);
-            GL.DrawArrays(PrimitiveType.TriangleStrip, 0, length);
 
-            //GL.Disable(EnableCap.DepthTest);
+            if (Flummery.frmMain.bVertexBuffer)
+            {
+                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
-            GL.DepthFunc(DepthFunction.Lequal);
-            //GL.BlendFunc(BlendingFactorSrc.DstColor, BlendingFactorDest.Zero);
-            GL.Disable(EnableCap.Lighting);
+                GL.EnableClientState(ArrayCap.VertexArray);
+                GL.EnableClientState(ArrayCap.NormalArray);
+                GL.EnableClientState(ArrayCap.TextureCoordArray);
 
-            // Draw verts
-            //GL.Color3(Color.Red);
-            //GL.DrawArrays(BeginMode.Points, 0, length);
+                GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, new IntPtr(0));
+                GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
+                GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
+                
+                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, length);
+            }
+            else
+            {
+                GL.Begin(PrimitiveType.TriangleStrip);
+                for (uint i = 0; i < data.Length; i++)
+                {
+                    GL.Vertex3(data[i].Position);
+                    GL.Normal3(data[i].Normal);
+                    GL.TexCoord2(data[i].UV);
+                }
+                GL.End();
+            }
         }
     }
 }
