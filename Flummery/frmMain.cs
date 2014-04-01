@@ -28,6 +28,9 @@ namespace Flummery
         string title = "";
         bool bDoNothing = false;
 
+        int renderMode = 0;
+        int[] renderModes = new int[] { 6914, 6913, 6912 };
+
         List<Node> nodes = new List<Node>();
 
         #region DeltaTime
@@ -72,6 +75,21 @@ namespace Flummery
             sw.Start();
 
             Application.Idle += new EventHandler(Application_Idle);
+
+            this.KeyPreview = true;
+            this.KeyPress += new KeyPressEventHandler(frmMain_KeyPress);
+        }
+
+        void frmMain_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case (char)46:  // .
+                    renderMode++;
+                    if (renderMode == renderModes.Length) { renderMode = 0; }
+                    GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
+                    break;
+            }
         }
 
         #region GLControlInit()
@@ -82,10 +100,10 @@ namespace Flummery
             GL.ClearColor(Color.CornflowerBlue);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             GL.ShadeModel(ShadingModel.Smooth);
-            GL.PointSize(3.0f);
+            GL.PointSize(1.0f);
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Cw);
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
             GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, -1.0f, 0.0f });
             GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
@@ -154,7 +172,7 @@ namespace Flummery
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 0.0f, 3.0f, 0, 0.0f, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 2.0f, 3.0f, 0, 1.0f, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
             GL.Scale(1.0f, 1.0f, -1.0f);
@@ -307,21 +325,24 @@ namespace Flummery
                         var mdl = ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(ofdBrowse.FileName);
                         if (mdl == null) { return; }
 
-                        var vl = mdl.GetTriangleStrip(0);
-                        Vertex[] v = new Vertex[vl.Count];
-
-                        for (int i = 0; i < v.Length; i++)
+                        for (int j = 0; j < mdl.Materials.Count; j++)
                         {
-                            v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
-                            v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
-                            v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+                            var vl = mdl.GetTriangleStrip(j);
+                            Vertex[] v = new Vertex[vl.Count];
+
+                            for (int i = 0; i < v.Length; i++)
+                            {
+                                v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                                v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
+                                v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+                            }
+
+                            VertexBuffer vbo = new VertexBuffer(mdl.Name);
+                            vbo.SetData(v);
+
+                            Node n = new Node(mdl.Name, vbo);
+                            nodes.Add(n);
                         }
-
-                        VertexBuffer vbo = new VertexBuffer(mdl.Name);
-                        vbo.SetData(v);
-
-                        Node n = new Node(mdl.Name, vbo);
-                        nodes.Add(n);
                     }
                     break;
 
