@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
 
@@ -82,10 +82,18 @@ namespace Flummery
         {
             switch (e.KeyChar)
             {
+                case (char)44:  // ,
+                    toggleNodesRender();
+                    break;
+
                 case (char)46:  // .
                     renderMode++;
                     if (renderMode == renderModes.Length) { renderMode = 0; }
                     GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
+                    break;
+
+                default:
+                    Console.WriteLine((byte)e.KeyChar);
                     break;
             }
         }
@@ -98,7 +106,7 @@ namespace Flummery
             GL.ClearColor(Color.CornflowerBlue);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             GL.ShadeModel(ShadingModel.Smooth);
-            GL.PointSize(1.0f);
+            GL.PointSize(3.0f);
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
@@ -146,6 +154,29 @@ namespace Flummery
         }
         #endregion
 
+        private void toggleNodesRender()
+        {
+            if (nodes.Count == 0) { return; }
+
+            bool bAllVisibile = (nodes.Where(n => n.CanRender).Count() == nodes.Count);
+            int firstVisible = nodes.FindIndex(n => n.CanRender == true);
+
+            for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = false; }
+
+            if (bAllVisibile)
+            {
+                nodes[0].CanRender = true;
+            }
+            else if (firstVisible + 1 < nodes.Count)
+            {
+                nodes[firstVisible + 1].CanRender = true;
+            }
+            else
+            {
+                for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = true; }
+            }
+        }
+
         private void glcViewport_Load(object sender, EventArgs e)
         {
             int w = 800;// glcViewport.Width;
@@ -172,7 +203,7 @@ namespace Flummery
 
             GL.Rotate(-rotation, OpenTK.Vector3.UnitY);
 
-            foreach (Node node in nodes)
+            foreach (var node in nodes)
             {
                 node.Render();
             }
@@ -346,7 +377,7 @@ namespace Flummery
                             }
 
                             VertexBuffer vbo = new VertexBuffer(mdl.Name);
-                            vbo.SetData(v);
+                            vbo.SetData(v, (mdl.GetVertexMode(j) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Points));
 
                             Node n = new Node(mdl.Name, vbo);
                             nodes.Add(n);

@@ -90,7 +90,7 @@ namespace Flummery.Games.CarmageddonReincarnation
                             }
 
                             VertexBuffer vbo = new VertexBuffer(model.Name);
-                            vbo.SetData(v);
+                            vbo.SetData(v, (model.GetVertexMode(materialIndex) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Points));
 
                             Node n = new Node(model.Name, vbo, textureID);
                             nodes.Add(n);

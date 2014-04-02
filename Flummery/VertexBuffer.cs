@@ -20,16 +20,18 @@ namespace Flummery
         string Name = "";
         int vbo;
         int length;
+        PrimitiveType renderMode = PrimitiveType.TriangleStrip;
         Vertex[] data = null;
 
         public VertexBuffer() { Name = ""; }
         public VertexBuffer(string name) { Name = name; }
 
-        public void SetData(Vertex[] data)
+        public void SetData(Vertex[] data, PrimitiveType renderMode = PrimitiveType.TriangleStrip)
         {
             if (data == null) { throw new ArgumentNullException("data"); }
 
             length = data.Length;
+            this.renderMode = renderMode;
 
             if (Flummery.frmMain.bVertexBuffer)
             {
@@ -67,12 +69,12 @@ namespace Flummery
                 GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
                 GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
                 
-                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, length);
+                GL.DrawArrays(renderMode, 0, length);
             }
             else
             {
                 GL.Begin(PrimitiveType.TriangleStrip);
-                for (uint i = 0; i < data.Length; i++)
+                for (int i = 0; i < data.Length; i++)
                 {
                     GL.Vertex3(data[i].Position);
                     GL.Normal3(data[i].Normal);
