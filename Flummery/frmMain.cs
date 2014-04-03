@@ -110,7 +110,7 @@ namespace Flummery
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
-            GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, -1.0f, 0.0f });
+            GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, 2.0f, 0.0f });
             GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Specular, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
@@ -196,7 +196,7 @@ namespace Flummery
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 1.0f, 3.0f, 0, 1.0f, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 2.0f, 3.0f, 0, 1.0f, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
             GL.Scale(1.0f, 1.0f, -1.0f);
@@ -221,6 +221,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Accessory", menuClick);
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Pedestrian", menuClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Vehicle", menuClick);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
             //menu.MenuItems[0].MenuItems[1].Select += new EventHandler(menuSelect);
@@ -233,6 +234,7 @@ namespace Flummery
 
             menu.MenuItems.Add("&Debug");
             menu.MenuItems[1].MenuItems.Add("Process all...");
+            menu.MenuItems[1].MenuItems[0].MenuItems.Add("CNT files", menuClick);
             menu.MenuItems[1].MenuItems[0].MenuItems.Add("MDL files", menuClick);
             menu.MenuItems[1].MenuItems[0].MenuItems.Add("MTL files", menuClick);
 
@@ -261,6 +263,20 @@ namespace Flummery
 
                 case "Pedestrian":
                     ofdBrowse.Filter = "Carmageddon ReinCARnation Pedestrians (bodyform.cnt)|bodyform.cnt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
+
+                        Games.CarmageddonReincarnation.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+
+                        Properties.Settings.Default.FolderHints = hints;
+                        Properties.Settings.Default.Save();
+                    }
+                    break;
+
+                case "Vehicle":
+                    ofdBrowse.Filter = "Carmageddon ReinCARnation Vehicles (car.cnt)|car.cnt";
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK)
                     {
@@ -385,29 +401,10 @@ namespace Flummery
                     }
                     break;
 
+                case "CNT files":
                 case "MDL files":
-                    fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
-                    fbdBrowse.ShowDialog();
-
-                    if (fbdBrowse.SelectedPath.Length > 0)
-                    {
-                        Properties.Settings.Default.LastBrowsedFolder = fbdBrowse.SelectedPath;
-                        Properties.Settings.Default.Save();
-
-                        ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
-                        {
-                            foreach (FileInfo fi in d.GetFiles("*.mdl"))
-                            {
-                                ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.FullName);
-                            }
-                        }
-                        );
-
-                        MessageBox.Show("Done!");
-                    }
-                    break;
-
                 case "MTL files":
+                    string extension = mi.Text.Substring(0, 3).ToLower();
                     fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
                     fbdBrowse.ShowDialog();
 
@@ -418,9 +415,22 @@ namespace Flummery
 
                         ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
                         {
-                            foreach (FileInfo fi in d.GetFiles("*.mtl"))
+                            foreach (FileInfo fi in d.GetFiles("*." + extension))
                             {
-                                ToxicRagers.CarmageddonReincarnation.Formats.MTL.Load(fi.FullName);
+                                switch (extension)
+                                {
+                                    case "cnt":
+                                        ToxicRagers.CarmageddonReincarnation.Formats.CNT.Load(fi.FullName);
+                                        break;
+
+                                    case "mdl":
+                                        ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.FullName);
+                                        break;
+
+                                    case "mtl":
+                                        ToxicRagers.CarmageddonReincarnation.Formats.MTL.Load(fi.FullName);
+                                        break;
+                                }
                             }
                         }
                         );

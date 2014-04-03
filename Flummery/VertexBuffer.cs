@@ -68,7 +68,7 @@ namespace Flummery
                 GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, new IntPtr(0));
                 GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
                 GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
-                
+
                 GL.DrawArrays(renderMode, 0, length);
             }
             else

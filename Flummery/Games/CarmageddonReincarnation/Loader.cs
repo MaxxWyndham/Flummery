@@ -11,6 +11,8 @@ namespace Flummery.Games.CarmageddonReincarnation
     {
         public static void LoadContent(string FileName, frmMain ui, ref string hints, ref List<Node> nodes)
         {
+            nodes.Clear();
+
             FileInfo fi = new FileInfo(FileName);
             if (!hints.Contains(fi.DirectoryName + ";")) { hints += fi.DirectoryName + ";"; }
 
@@ -33,9 +35,11 @@ namespace Flummery.Games.CarmageddonReincarnation
                     if (!hints.Contains(path.Substring(0, path.LastIndexOf("\\")) + ";")) { hints += path.Substring(0, path.LastIndexOf("\\")) + ";"; }
                     model = MDL.Load(path);
 
+                    Console.WriteLine("Loading MDL: \"{0}\".  Faces {1}  Verts {2}", model.Name, model.FaceCount, model.VertexCount);
+
                     foreach (var material in model.Materials)
                     {
-                        if (ui.TryLoadOrFindFile(material.Name + ".mtl;" + material.Name + ".mt2", "Carmageddon ReinCARnation Material", "*.mtl;*.mt2", out path, hints.Split(';')))
+                        if (ui.TryLoadOrFindFile(material.Name + ".mt2;" + material.Name + ".mtl", "Carmageddon ReinCARnation Material", "*.mt2;*.mtl", out path, hints.Split(';')))
                         {
                             if (!hints.Contains(path.Substring(0, path.LastIndexOf("\\")) + ";")) { hints += path.Substring(0, path.LastIndexOf("\\")) + ";"; }
 
@@ -76,7 +80,7 @@ namespace Flummery.Games.CarmageddonReincarnation
                             var texture = textures[textures.Count - 1];
 
                             int textureID = 0;
-                            Texture.CreateTexture(out textureID, texture.Format, texture.mipMaps[0].Width, texture.mipMaps[0].Height, texture.mipMaps[0].Data);
+                            Texture.CreateTexture(out textureID, texture.Name, texture.Format, texture.mipMaps[0].Width, texture.mipMaps[0].Height, texture.mipMaps[0].Data);
 
                             var vl = model.GetTriangleStrip(materialIndex);
 
