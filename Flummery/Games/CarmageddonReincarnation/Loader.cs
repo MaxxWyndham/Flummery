@@ -14,7 +14,7 @@ namespace Flummery.Games.CarmageddonReincarnation
             nodes.Clear();
 
             FileInfo fi = new FileInfo(FileName);
-            if (!hints.Contains(fi.DirectoryName + ";")) { hints += fi.DirectoryName + ";"; }
+            hints = AddHint(fi.DirectoryName, hints);
 
             var accessory = CNT.Load(FileName);
 
@@ -32,7 +32,7 @@ namespace Flummery.Games.CarmageddonReincarnation
 
                 if (ui.TryLoadOrFindFile(cnt.Model + ".mdl", "Carmageddon ReinCARnation MDL file", ".mdl", out path, hints.Split(';')))
                 {
-                    if (!hints.Contains(path.Substring(0, path.LastIndexOf("\\")) + ";")) { hints += path.Substring(0, path.LastIndexOf("\\")) + ";"; }
+                    hints = AddHint(path.Substring(0, path.LastIndexOf("\\")), hints);
                     model = MDL.Load(path);
 
                     Console.WriteLine("Loading MDL: \"{0}\".  Faces {1}  Verts {2}", model.Name, model.FaceCount, model.VertexCount);
@@ -41,7 +41,7 @@ namespace Flummery.Games.CarmageddonReincarnation
                     {
                         if (ui.TryLoadOrFindFile(material.Name + ".mt2;" + material.Name + ".mtl", "Carmageddon ReinCARnation Material", "*.mt2;*.mtl", out path, hints.Split(';')))
                         {
-                            if (!hints.Contains(path.Substring(0, path.LastIndexOf("\\")) + ";")) { hints += path.Substring(0, path.LastIndexOf("\\")) + ";"; }
+                            hints = AddHint(path.Substring(0, path.LastIndexOf("\\")), hints);
 
                             if (path.EndsWith("mtl", StringComparison.CurrentCultureIgnoreCase))
                             {
@@ -83,7 +83,6 @@ namespace Flummery.Games.CarmageddonReincarnation
                             Texture.CreateTexture(out textureID, texture.Name, texture.Format, texture.mipMaps[0].Width, texture.mipMaps[0].Height, texture.mipMaps[0].Data);
 
                             var vl = model.GetTriangleStrip(materialIndex);
-                            var vm = model.GetMaterialMode(materialIndex);
 
                             Vertex[] v = new Vertex[vl.Count];
 
@@ -98,7 +97,7 @@ namespace Flummery.Games.CarmageddonReincarnation
                             }
 
                             VertexBuffer vbo = new VertexBuffer(model.Name);
-                            vbo.SetData(v, (vm == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
+                            vbo.SetData(v, (model.GetMaterialMode(materialIndex) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
 
                             Node n = new Node(model.Name, vbo, textureID);
                             nodes.Add(n);
@@ -113,6 +112,17 @@ namespace Flummery.Games.CarmageddonReincarnation
             {
                 ProcessCNT(subcnt, ui, ref hints, ref nodes);
             }
+        }
+
+        static string AddHint(string hint, string hints)
+        {
+            var list = new List<string>(hints.Split(';'));
+            int index = list.IndexOf(hint);
+
+            if (index > -1) { list.RemoveAt(index); }
+            list.Insert(0, hint);
+
+            return string.Join(";", list.ToArray());
         }
     }
 }

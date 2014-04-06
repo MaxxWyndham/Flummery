@@ -391,7 +391,7 @@ namespace Flummery
                             }
 
                             VertexBuffer vbo = new VertexBuffer(mdl.Name);
-                            vbo.SetData(v);
+                            vbo.SetData(v, (mdl.GetMaterialMode(j) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
 
                             Node n = new Node(mdl.Name, vbo);
                             nodes.Add(n);
