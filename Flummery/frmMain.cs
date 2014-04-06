@@ -196,7 +196,7 @@ namespace Flummery
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 2.0f, 3.0f, 0, 1.0f, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 3.0f, 7.0f, 0, 1.0f, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
             GL.Scale(1.0f, 1.0f, -1.0f);
@@ -224,9 +224,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Vehicle", menuClick);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
-            //menu.MenuItems[0].MenuItems[1].Select += new EventHandler(menuSelect);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
-            //menu.MenuItems[0].MenuItems[1].MenuItems[0].Select += new EventHandler(menuSelect);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender DAT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Reincarnation MDL File...", menuClick);
             menu.MenuItems[0].MenuItems.Add("-");
@@ -393,7 +391,7 @@ namespace Flummery
                             }
 
                             VertexBuffer vbo = new VertexBuffer(mdl.Name);
-                            vbo.SetData(v, (mdl.GetVertexMode(j) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Points));
+                            vbo.SetData(v);
 
                             Node n = new Node(mdl.Name, vbo);
                             nodes.Add(n);

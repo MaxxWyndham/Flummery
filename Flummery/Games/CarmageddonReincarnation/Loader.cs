@@ -83,18 +83,22 @@ namespace Flummery.Games.CarmageddonReincarnation
                             Texture.CreateTexture(out textureID, texture.Name, texture.Format, texture.mipMaps[0].Width, texture.mipMaps[0].Height, texture.mipMaps[0].Data);
 
                             var vl = model.GetTriangleStrip(materialIndex);
+                            var vm = model.GetMaterialMode(materialIndex);
 
                             Vertex[] v = new Vertex[vl.Count];
 
                             for (int i = 0; i < v.Length; i++)
                             {
-                                v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                                //v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
                                 v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
                                 v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+
+                                var x = vl[i].Position * cnt.CombinedTransform;
+                                v[i].Position = new OpenTK.Vector3(x.X, x.Y, x.Z);
                             }
 
                             VertexBuffer vbo = new VertexBuffer(model.Name);
-                            vbo.SetData(v, (model.GetVertexMode(materialIndex) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Points));
+                            vbo.SetData(v, (vm == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
 
                             Node n = new Node(model.Name, vbo, textureID);
                             nodes.Add(n);
