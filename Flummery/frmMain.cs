@@ -34,6 +34,8 @@ namespace Flummery
 
         List<Node> nodes = new List<Node>();
 
+        public ToxicRagers.CarmageddonReincarnation.Formats.CNT content;
+
         #region DeltaTime
         private double dt
         {
@@ -196,9 +198,11 @@ namespace Flummery
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 3.0f, 7.0f, 0, 1.0f, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 1.5f, 50.0f, 0, 1.0f, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
+
+            // Fix for OpenGL LHS
             GL.Scale(1.0f, 1.0f, -1.0f);
 
             GL.Rotate(-rotation, OpenTK.Vector3.UnitY);
@@ -280,7 +284,7 @@ namespace Flummery
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        Games.CarmageddonReincarnation.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        content = Games.CarmageddonReincarnation.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
@@ -472,6 +476,28 @@ namespace Flummery
 
             FilePath = null;
             return false;
+        }
+
+        public ToxicRagers.CarmageddonReincarnation.Formats.CNT nodeCNT;
+
+        private void tvOverview_OnDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            nodeCNT = content.FindByName(e.Node.Text);
+
+            txtM11.Text = nodeCNT.Transform.M11.ToString(); txtM12.Text = nodeCNT.Transform.M12.ToString(); txtM13.Text = nodeCNT.Transform.M13.ToString();
+            txtM21.Text = nodeCNT.Transform.M11.ToString(); txtM22.Text = nodeCNT.Transform.M22.ToString(); txtM23.Text = nodeCNT.Transform.M23.ToString();
+            txtM31.Text = nodeCNT.Transform.M11.ToString(); txtM32.Text = nodeCNT.Transform.M32.ToString(); txtM33.Text = nodeCNT.Transform.M33.ToString();
+            txtM41.Text = nodeCNT.Transform.M11.ToString(); txtM42.Text = nodeCNT.Transform.M42.ToString(); txtM43.Text = nodeCNT.Transform.M43.ToString();
+        }
+
+        private void cmdAccept_Click(object sender, EventArgs e)
+        {
+            nodeCNT.Transform.M11 = Convert.ToSingle(txtM11.Text); nodeCNT.Transform.M12 = Convert.ToSingle(txtM12.Text); nodeCNT.Transform.M13 = Convert.ToSingle(txtM13.Text);
+            nodeCNT.Transform.M21 = Convert.ToSingle(txtM21.Text); nodeCNT.Transform.M22 = Convert.ToSingle(txtM22.Text); nodeCNT.Transform.M23 = Convert.ToSingle(txtM23.Text);
+            nodeCNT.Transform.M31 = Convert.ToSingle(txtM31.Text); nodeCNT.Transform.M32 = Convert.ToSingle(txtM32.Text); nodeCNT.Transform.M33 = Convert.ToSingle(txtM33.Text);
+            nodeCNT.Transform.M41 = Convert.ToSingle(txtM41.Text); nodeCNT.Transform.M42 = Convert.ToSingle(txtM42.Text); nodeCNT.Transform.M43 = Convert.ToSingle(txtM43.Text);
+
+
         }
     }
 

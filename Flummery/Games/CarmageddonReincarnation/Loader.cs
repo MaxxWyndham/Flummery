@@ -9,16 +9,37 @@ namespace Flummery.Games.CarmageddonReincarnation
 {
     static class Loader
     {
-        public static void LoadContent(string FileName, frmMain ui, ref string hints, ref List<Node> nodes)
+        public static CNT LoadContent(string FileName, frmMain ui, ref string hints, ref List<Node> nodes)
         {
+            var tvOverview = (TreeView)ui.Controls["tvOverview"];
             nodes.Clear();
+            tvOverview.Nodes.Clear();
 
             FileInfo fi = new FileInfo(FileName);
             hints = AddHint(fi.DirectoryName, hints);
 
-            var accessory = CNT.Load(FileName);
+            var cnt = CNT.Load(FileName);
 
-            ProcessCNT(accessory, ui, ref hints, ref nodes);
+            ProcessCNT(cnt, ui, ref hints, ref nodes);
+
+            TreeNode ParentNode = tvOverview.Nodes.Add("ROOT");
+            TravelTree(cnt, ref ParentNode);
+            tvOverview.Nodes[0].Expand();
+            tvOverview.Nodes[0].Nodes[0].Expand();
+
+            return cnt;
+        }
+
+        public static void TravelTree(CNT cnt, ref TreeNode node)
+        {
+            node = node.Nodes.Add(cnt.Name);
+
+            foreach (var c in cnt.Children)
+            {
+                TravelTree(c, ref node);
+            }
+
+            node = node.Parent;
         }
 
         static void ProcessCNT(CNT cnt, frmMain ui, ref string hints, ref List<Node> nodes)
