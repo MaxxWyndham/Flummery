@@ -79,6 +79,8 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Games\CarmageddonReincarnation\Loader.cs" />
+    <Compile Include="Games\Novadrome\Loader.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

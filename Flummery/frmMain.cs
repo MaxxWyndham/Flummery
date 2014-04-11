@@ -27,16 +27,16 @@ namespace Flummery
         Single rotation = 0;
         double accumulator = 0;
         int idleCounter = 0;
-        string title = "";
+//        string title = "";
 
         int renderMode = 0;
         int[] renderModes = new int[] { 6914, 6913, 6912 };
 
         List<Node> nodes = new List<Node>();
 
-        public ToxicRagers.CarmageddonReincarnation.Formats.CNT content;
+        public ToxicRagers.Stainless.Formats.CNT content;
 
-        #region DeltaTime
+//        #region DeltaTime
         private double dt
         {
             get
@@ -48,31 +48,21 @@ namespace Flummery
                 return timeslice;
             }
         }
-        #endregion
+//        #endregion
 
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            this.Text += " v0.0.0.8";
-            title = this.Text;
-
-            string version = GL.GetString(StringName.Version);
-
-            txtDebug.Text += "OpenGL Version : " + GL.GetString(StringName.Version) + "\r\n";
-            txtDebug.Text += "Colour Depth   : " + glcViewport.Context.GraphicsMode.ColorFormat.ToString() + "\r\n";
-            txtDebug.Text += "Depth Buffer   : " + glcViewport.Context.GraphicsMode.Depth + "\r\n";
-            txtDebug.Text += "Stencil        : " + glcViewport.Context.GraphicsMode.Stencil + "\r\n";
-            txtDebug.Text += "Samples        : " + glcViewport.Context.GraphicsMode.Samples + "\r\n";
-            txtDebug.Text += "Extensions     :\r\n";
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            foreach (var ext in extensions) { txtDebug.Text += ext + "\r\n"; }
+            this.Text += " v0.0.1.0";
+            //title = this.Text;
 
             bVertexBuffer = extensions.Contains("GL_ARB_vertex_buffer_object");
 
             BuildMenu();
             GLControlInit();
 
-            sw.Start();
+            //sw.Start();
 
             Application.Idle += new EventHandler(Application_Idle);
 
@@ -100,18 +90,16 @@ namespace Flummery
             }
         }
 
-        #region GLControlInit()
         private void GLControlInit()
         {
-            glcViewport.VSync = true;
+            //glcViewport.VSync = true;
 
-            GL.ClearColor(Color.CornflowerBlue);
+            GL.ClearColor(Color.Gray);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             GL.ShadeModel(ShadingModel.Smooth);
             GL.PointSize(3.0f);
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Cw);
-            GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
             GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, 2.0f, 0.0f });
             GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
@@ -126,9 +114,8 @@ namespace Flummery
 
             GL.Enable(EnableCap.Texture2D);
         }
-        #endregion
 
-        #region FPS and "animation"
+//        #region FPS and "animation"
         void Application_Idle(object sender, EventArgs e)
         {
             double milliseconds = dt;
@@ -149,12 +136,12 @@ namespace Flummery
             accumulator += milliseconds;
             if (accumulator > 1000)
             {
-                this.Text = title + " (" + idleCounter + ")";
+                //this.Text = title + " (" + idleCounter + ")";
                 accumulator -= 1000;
-                idleCounter = 0; 
+                idleCounter = 0;
             }
         }
-        #endregion
+//        #endregion
 
         private void toggleNodesRender()
         {
@@ -181,8 +168,8 @@ namespace Flummery
 
         private void glcViewport_Load(object sender, EventArgs e)
         {
-            int w = 800;// glcViewport.Width;
-            int h = 600;// glcViewport.Height;
+            int w = glcViewport.Width;
+            int h = glcViewport.Height;
             GL.Viewport(0, 0, w, h);
 
             float aspect_ratio = w / (float)h;
@@ -198,7 +185,7 @@ namespace Flummery
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 1.5f, 50.0f, 0, 1.0f, 0, 0, 1, 0);
+            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 2.5f, 8.0f, 0, 0.5f, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
@@ -211,11 +198,10 @@ namespace Flummery
             {
                 node.Render();
             }
-            
+
             glcViewport.SwapBuffers();
         }
 
-        #region Menu functionality
         private void BuildMenu()
         {
             MainMenu menu = new MainMenu();
@@ -223,27 +209,89 @@ namespace Flummery
             menu.MenuItems[0].MenuItems.Add("&Open...", menuClick);
             menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlO;
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Accessory", menuClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Pedestrian", menuClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Vehicle", menuClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Novadrome");
+            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Vehicle", menuNovadromeClick);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender DAT File...", menuClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Reincarnation MDL File...", menuClick);
+            //menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
+            //menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender DAT File...", menuClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless CNT File...", menuClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless MDL File...", menuClick);
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
 
             menu.MenuItems.Add("&Debug");
+            menu.MenuItems[1].MenuItems.Add("Process...");
+            menu.MenuItems[1].MenuItems[0].MenuItems.Add("XT2 file", menuNovadromeClick);
             menu.MenuItems[1].MenuItems.Add("Process all...");
-            menu.MenuItems[1].MenuItems[0].MenuItems.Add("CNT files", menuClick);
-            menu.MenuItems[1].MenuItems[0].MenuItems.Add("MDL files", menuClick);
-            menu.MenuItems[1].MenuItems[0].MenuItems.Add("MTL files", menuClick);
+            menu.MenuItems[1].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[1].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[1].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[1].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
 
             this.Menu = menu;
         }
 
         private void menuClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Stainless CNT File...":
+                    ofdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
+
+                        Games.Novadrome.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+
+                        Properties.Settings.Default.FolderHints = hints;
+                        Properties.Settings.Default.Save();
+                    }
+                    break;
+
+                case "Stainless MDL File...":
+                    ofdBrowse.Filter = "Stainless MDL files (*.mdl)|*.mdl";
+                    ofdBrowse.ShowDialog();
+
+                    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
+                    {
+                        var mdl = ToxicRagers.Stainless.Formats.MDL.Load(ofdBrowse.FileName);
+                        if (mdl == null) { return; }
+
+                        for (int j = 0; j < mdl.Materials.Count; j++)
+                        {
+                            var vl = mdl.GetTriangleStrip(j);
+                            Vertex[] v = new Vertex[vl.Count];
+
+                            for (int i = 0; i < v.Length; i++)
+                            {
+                                v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                                v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
+                                v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+                            }
+
+                            VertexBuffer vbo = new VertexBuffer(mdl.Name);
+                            vbo.SetData(v, (mdl.GetMaterialMode(j) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
+
+                            Node n = new Node(mdl.Name, vbo);
+                            nodes.Add(n);
+                        }
+                    }
+                    break;
+
+                case "E&xit":
+                    Application.Exit();
+                    break;
+            }
+        }
+
+        private void menuCarmageddonReincarnationClick(object sender, EventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
 
@@ -291,118 +339,6 @@ namespace Flummery
                     }
                     break;
 
-                //case "Carmageddon 1 Car...":
-                //    ofdBrowse.Filter = "Carmageddon Car Files (*.txt)|*.txt|All Files (*.*)|*.*";
-                //    ofdBrowse.ShowDialog();
-
-                //    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
-                //    {
-                //        FileInfo fi = new FileInfo(ofdBrowse.FileName);
-                //        c1Car c = new c1Car(fi.Name.Replace(fi.Extension, ""));
-                //        c.Load(fi.FullName, false);
-
-                //        tvOverview.Nodes.Clear();
-                //        tvOverview.Nodes.Add("Actors");
-                //        TreeNode ParentNode;
-
-                //        foreach (c2Act act in c.Actors)
-                //        {
-                //            ParentNode = tvOverview.Nodes[0];
-
-                //            foreach (Actor A in act.Actors)
-                //            {
-                //                switch (A.Section)
-                //                {
-                //                    case Actor.Sections.Name:
-                //                        ParentNode = ParentNode.Nodes.Add(A.Name);
-                //                        break;
-
-                //                    case Actor.Sections.SubLevelEnd:
-                //                        ParentNode = ParentNode.Parent;
-                //                        break;
-                //                }
-                //            }
-                //        }
-
-                //        tvOverview.Nodes[0].ExpandAll();
-
-                //        //c.Models[0].DatMeshes[0].Mesh.GetIndexList();
-                //        foreach (c2Dat dat in c.Models)
-                //        {
-                //            foreach (DatMesh datmesh in dat.DatMeshes)
-                //            {
-                //                ToxicRagers.Helpers.Vector3[] vl = datmesh.Mesh.GetVertexList();
-                //                ToxicRagers.Helpers.Vector2[] uvl = datmesh.Mesh.GetUVList();
-
-                //                Vertex[] v = new Vertex[vl.Length];
-
-                //                for (int i = 0; i < v.Length; i++)
-                //                {
-                //                    v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
-                //                    v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
-                //                }
-
-                //                for (int i = 0; i < v.Length; i += 3)
-                //                {
-                //                    OpenTK.Vector3 v0 = v[i].Position;
-                //                    OpenTK.Vector3 v1 = v[i + 1].Position;
-                //                    OpenTK.Vector3 v2 = v[i + 2].Position;
-
-                //                    OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
-
-                //                    v[i].Normal += normal;
-                //                    v[i + 1].Normal += normal;
-                //                    v[i + 2].Normal += normal;
-                //                }
-
-                //                for (int i = 0; i < v.Length; i++)
-                //                {
-                //                    v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
-                //                }
-
-                //                VertexBuffer vbo = new VertexBuffer(datmesh.Name);
-                //                vbo.SetData(v);
-
-                //                Node n = new Node(datmesh.Name, vbo);
-                //                nodes.Add(n);
-                //            }
-                //        }
-
-                //        pgSettings.SelectedObject = c;
-
-                //    }
-                //    break;
-
-                case "Reincarnation MDL File...":
-                    ofdBrowse.Filter = "Carmageddon Reincarnation MDL files (*.mdl)|*.mdl|All Files (*.*)|*.*";
-                    ofdBrowse.ShowDialog();
-
-                    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
-                    {
-                        var mdl = ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(ofdBrowse.FileName);
-                        if (mdl == null) { return; }
-
-                        for (int j = 0; j < mdl.Materials.Count; j++)
-                        {
-                            var vl = mdl.GetTriangleStrip(j);
-                            Vertex[] v = new Vertex[vl.Count];
-
-                            for (int i = 0; i < v.Length; i++)
-                            {
-                                v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
-                                v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
-                                v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
-                            }
-
-                            VertexBuffer vbo = new VertexBuffer(mdl.Name);
-                            vbo.SetData(v, (mdl.GetMaterialMode(j) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
-
-                            Node n = new Node(mdl.Name, vbo);
-                            nodes.Add(n);
-                        }
-                    }
-                    break;
-
                 case "CNT files":
                 case "MDL files":
                 case "MTL files":
@@ -422,15 +358,15 @@ namespace Flummery
                                 switch (extension)
                                 {
                                     case "cnt":
-                                        ToxicRagers.CarmageddonReincarnation.Formats.CNT.Load(fi.FullName);
+                                        ToxicRagers.Stainless.Formats.CNT.Load(fi.FullName);
                                         break;
 
                                     case "mdl":
-                                        ToxicRagers.CarmageddonReincarnation.Formats.MDL.Load(fi.FullName);
+                                        ToxicRagers.Stainless.Formats.MDL.Load(fi.FullName);
                                         break;
 
                                     case "mtl":
-                                        ToxicRagers.CarmageddonReincarnation.Formats.MTL.Load(fi.FullName);
+                                        ToxicRagers.Stainless.Formats.MTL.Load(fi.FullName);
                                         break;
                                 }
                             }
@@ -440,17 +376,58 @@ namespace Flummery
                         MessageBox.Show("Done!");
                     }
                     break;
+            }
+        }
 
-                case "E&xit":
-                    Application.Exit();
+        private void menuNovadromeClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Vehicle":
+                    ofdBrowse.Filter = "Novadrome Vehicles (carbody.cnt)|carbody.cnt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
+                        nodes.Clear();
+
+                        Games.Novadrome.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+
+                        Properties.Settings.Default.FolderHints = hints;
+                        Properties.Settings.Default.Save();
+                    }
                     break;
 
-                default:
-                    MessageBox.Show("[code goes here]");
+                case "XT2 file":
+                    ToxicRagers.Novadrome.Formats.XT2.Load(@"F:\Novadrome_Demo\Novadrome_Demo\WADs\data\DATA\TEXTURES\LEVEL1_BRONZE.XT2");
+                    ToxicRagers.Novadrome.Formats.XT2.Load(@"F:\Novadrome_Demo\Novadrome_Demo\WADs\data\DATA\FRONTEND\CONTROLLER360.XT2");
+                    break;
+
+                case "XT2 files":
+                    fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
+                    fbdBrowse.ShowDialog();
+
+                    if (fbdBrowse.SelectedPath.Length > 0)
+                    {
+                        Properties.Settings.Default.LastBrowsedFolder = fbdBrowse.SelectedPath;
+                        Properties.Settings.Default.Save();
+
+                        ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
+                        {
+                            foreach (FileInfo fi in d.GetFiles("*.xt2"))
+                            {
+                                ToxicRagers.Novadrome.Formats.XT2.Load(fi.FullName);
+                            }
+                        }
+                        );
+
+                        MessageBox.Show("Done!");
+                    }
                     break;
             }
         }
-        #endregion
 
         public bool TryLoadOrFindFile(string Filename, string FileType, string FileExtension, out string FilePath, params string[] hints)
         {
@@ -478,32 +455,12 @@ namespace Flummery
             return false;
         }
 
-        public ToxicRagers.CarmageddonReincarnation.Formats.CNT nodeCNT;
-
-        private void tvOverview_OnDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            nodeCNT = content.FindByName(e.Node.Text);
-
-            txtM11.Text = nodeCNT.Transform.M11.ToString(); txtM12.Text = nodeCNT.Transform.M12.ToString(); txtM13.Text = nodeCNT.Transform.M13.ToString();
-            txtM21.Text = nodeCNT.Transform.M11.ToString(); txtM22.Text = nodeCNT.Transform.M22.ToString(); txtM23.Text = nodeCNT.Transform.M23.ToString();
-            txtM31.Text = nodeCNT.Transform.M11.ToString(); txtM32.Text = nodeCNT.Transform.M32.ToString(); txtM33.Text = nodeCNT.Transform.M33.ToString();
-            txtM41.Text = nodeCNT.Transform.M11.ToString(); txtM42.Text = nodeCNT.Transform.M42.ToString(); txtM43.Text = nodeCNT.Transform.M43.ToString();
-        }
-
-        private void cmdAccept_Click(object sender, EventArgs e)
-        {
-            nodeCNT.Transform.M11 = Convert.ToSingle(txtM11.Text); nodeCNT.Transform.M12 = Convert.ToSingle(txtM12.Text); nodeCNT.Transform.M13 = Convert.ToSingle(txtM13.Text);
-            nodeCNT.Transform.M21 = Convert.ToSingle(txtM21.Text); nodeCNT.Transform.M22 = Convert.ToSingle(txtM22.Text); nodeCNT.Transform.M23 = Convert.ToSingle(txtM23.Text);
-            nodeCNT.Transform.M31 = Convert.ToSingle(txtM31.Text); nodeCNT.Transform.M32 = Convert.ToSingle(txtM32.Text); nodeCNT.Transform.M33 = Convert.ToSingle(txtM33.Text);
-            nodeCNT.Transform.M41 = Convert.ToSingle(txtM41.Text); nodeCNT.Transform.M42 = Convert.ToSingle(txtM42.Text); nodeCNT.Transform.M43 = Convert.ToSingle(txtM43.Text);
-
-
-        }
+//        public ToxicRagers.CarmageddonReincarnation.Formats.CNT nodeCNT;
     }
 
-    #region Vertex
+//    #region Vertex
 
-    #endregion
+//    #endregion
 
 }
  

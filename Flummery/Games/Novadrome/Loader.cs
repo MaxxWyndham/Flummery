@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using ToxicRagers.Stainless.Formats;
-using ToxicRagers.CarmageddonReincarnation.Formats;
+using ToxicRagers.Novadrome.Formats;
 using ToxicRagers.CarmageddonReincarnation.Helpers;
 
-namespace Flummery.Games.CarmageddonReincarnation
+namespace Flummery.Games.Novadrome
 {
     static class Loader
     {
         public static CNT LoadContent(string FileName, frmMain ui, ref string hints, ref List<Node> nodes)
         {
             //var tvOverview = (TreeView)ui.Controls["tvOverview"];
-            nodes.Clear();
             //tvOverview.Nodes.Clear();
 
             FileInfo fi = new FileInfo(FileName);
@@ -49,10 +48,10 @@ namespace Flummery.Games.CarmageddonReincarnation
             {
                 string path;
                 var model = new MDL();
-                var materials = new List<Material>();
-                var textures = new List<TDX>();
+                var materials = new List<MTL>();
+                var textures = new List<XT2>();
 
-                if (ui.TryLoadOrFindFile(cnt.Model + ".mdl", "Carmageddon ReinCARnation MDL file", ".mdl", out path, hints.Split(';')))
+                if (ui.TryLoadOrFindFile(cnt.Model + ".mdl", "Novadrome MDL file", ".mdl", out path, hints.Split(';')))
                 {
                     hints = AddHint(path.Substring(0, path.LastIndexOf("\\")), hints);
                     model = MDL.Load(path);
@@ -61,19 +60,10 @@ namespace Flummery.Games.CarmageddonReincarnation
 
                     foreach (var material in model.Materials)
                     {
-                        if (ui.TryLoadOrFindFile(material.Name + ".mt2;" + material.Name + ".mtl", "Carmageddon ReinCARnation Material", "*.mt2;*.mtl", out path, hints.Split(';')))
+                        if (ui.TryLoadOrFindFile(material.Name + ".mtl", "Novadrome Material", "*.mtl", out path, hints.Split(';')))
                         {
                             hints = AddHint(path.Substring(0, path.LastIndexOf("\\")), hints);
-
-                            if (path.EndsWith("mtl", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                materials.Add(MTL.Load(path));
-                            }
-                            else
-                            {
-                                materials.Add(MT2.Load(path));
-                            }
-
+                            materials.Add(MTL.Load(path));
                         }
                         else
                         {
@@ -85,14 +75,13 @@ namespace Flummery.Games.CarmageddonReincarnation
 
                     foreach (var material in materials)
                     {
-                        var mat = (material as MT2);
-                        string fileName = (mat != null ? mat.DiffuseColour : (material as MTL).Textures[0]) + ".tdx";
+                        string fileName = material.Textures[material.Textures.Count - 1] + ".xt2";
 
-                        if (fileName != ".tdx")
+                        if (fileName != ".xt2")
                         {
-                            if (ui.TryLoadOrFindFile(fileName, "Carmageddon ReinCARnation Texture", "*.tdx", out path, hints.Split(';')))
+                            if (ui.TryLoadOrFindFile(fileName, "Novadrome Texture", "*.xt2", out path, hints.Split(';')))
                             {
-                                textures.Add(TDX.Load(path));
+                                textures.Add(XT2.Load(path));
                             }
                             else
                             {
