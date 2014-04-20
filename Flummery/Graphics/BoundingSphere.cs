@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flummery
 {
-    class Model
+    class BoundingSphere
     {
     }
 }

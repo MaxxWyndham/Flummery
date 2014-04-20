@@ -2,19 +2,26 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using ToxicRagers.Helpers;
 using ToxicRagers.Stainless.Formats;
 using ToxicRagers.CarmageddonReincarnation.Formats;
-using ToxicRagers.CarmageddonReincarnation.Helpers;
 
-namespace Flummery.Games.CarmageddonReincarnation
+namespace Flummery.Games
 {
     static class Loader
     {
-        public static CNT LoadContent(string FileName, frmMain ui, ref string hints, ref List<Node> nodes)
+        public static CNT LoadContent(string FileName, frmMain ui, ref string hints, ref List<Node> nodes, bool bReset = false)
         {
-            //var tvOverview = (TreeView)ui.Controls["tvOverview"];
-            nodes.Clear();
-            //tvOverview.Nodes.Clear();
+            var tvOverview = (TreeView)ui.Controls.Find("tvNodes", true)[0];
+            TreeNode ParentNode;
+
+            if (bReset)
+            {
+                nodes.Clear();
+                tvOverview.Nodes.Clear();
+            }
+
+            ParentNode = (tvOverview.Nodes.Count == 0 ? tvOverview.Nodes.Add("ROOT") : tvOverview.Nodes[0]);
 
             FileInfo fi = new FileInfo(FileName);
             hints = AddHint(fi.DirectoryName, hints);
@@ -22,11 +29,10 @@ namespace Flummery.Games.CarmageddonReincarnation
             var cnt = CNT.Load(FileName);
 
             ProcessCNT(cnt, ui, ref hints, ref nodes);
-
-            //TreeNode ParentNode = tvOverview.Nodes.Add("ROOT");
-            //TravelTree(cnt, ref ParentNode);
-            //tvOverview.Nodes[0].Expand();
-            //tvOverview.Nodes[0].Nodes[0].Expand();
+            
+            TravelTree(cnt, ref ParentNode);
+            tvOverview.Nodes[0].Expand();
+            tvOverview.Nodes[0].Nodes[0].Expand();
 
             return cnt;
         }
@@ -50,9 +56,8 @@ namespace Flummery.Games.CarmageddonReincarnation
                 string path;
                 var model = new MDL();
                 var materials = new List<Material>();
-                var textures = new List<TDX>();
 
-                if (ui.TryLoadOrFindFile(cnt.Model + ".mdl", "Carmageddon ReinCARnation MDL file", ".mdl", out path, hints.Split(';')))
+                if (ui.TryLoadOrFindFile(cnt.Model + ".mdl", "Stainless MDL file", ".mdl", out path, hints.Split(';')))
                 {
                     hints = AddHint(path.Substring(0, path.LastIndexOf("\\")), hints);
                     model = MDL.Load(path);
@@ -61,7 +66,7 @@ namespace Flummery.Games.CarmageddonReincarnation
 
                     foreach (var material in model.Materials)
                     {
-                        if (ui.TryLoadOrFindFile(material.Name + ".mt2;" + material.Name + ".mtl", "Carmageddon ReinCARnation Material", "*.mt2;*.mtl", out path, hints.Split(';')))
+                        if (ui.TryLoadOrFindFile(material.Name + ".mt2;" + material.Name + ".mtl", "Stainless Material", "*.mt2;*.mtl", out path, hints.Split(';')))
                         {
                             hints = AddHint(path.Substring(0, path.LastIndexOf("\\")), hints);
 
@@ -88,42 +93,33 @@ namespace Flummery.Games.CarmageddonReincarnation
                         var mat = (material as MT2);
                         string fileName = (mat != null ? mat.DiffuseColour : (material as MTL).Textures[0]) + ".tdx";
 
+                        int textureID = 0;
+
                         if (fileName != ".tdx")
                         {
-                            if (ui.TryLoadOrFindFile(fileName, "Carmageddon ReinCARnation Texture", "*.tdx", out path, hints.Split(';')))
+                            if (ui.TryLoadOrFindFile(fileName, "Texture", "*.tdx", out path, hints.Split(';')))
                             {
-                                textures.Add(TDX.Load(path));
+                                var texture = TDX.Load(path);
+                                Texture.CreateTexture(out textureID, texture.Name, texture.Format.ToString(), texture.MipMaps[0].Width, texture.MipMaps[0].Height, texture.MipMaps[0].Data);
                             }
-                            else
-                            {
-                                return;
-                            }
-
-                            var texture = textures[textures.Count - 1];
-
-                            int textureID = 0;
-                            Texture.CreateTexture(out textureID, texture.Name, texture.Format, texture.mipMaps[0].Width, texture.mipMaps[0].Height, texture.mipMaps[0].Data);
-
-                            var vl = model.GetTriangleStrip(materialIndex);
-
-                            Vertex[] v = new Vertex[vl.Count];
-
-                            for (int i = 0; i < v.Length; i++)
-                            {
-                                //v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
-                                v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
-                                v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
-
-                                var x = vl[i].Position * cnt.CombinedTransform;
-                                v[i].Position = new OpenTK.Vector3(x.X, x.Y, x.Z);
-                            }
-
-                            VertexBuffer vbo = new VertexBuffer(model.Name);
-                            vbo.SetData(v, (model.GetMaterialMode(materialIndex) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
-
-                            Node n = new Node(model.Name, vbo, textureID);
-                            nodes.Add(n);
                         }
+
+                        var vl = model.GetTriangleStrip(materialIndex);
+
+                        Vertex[] v = new Vertex[vl.Count];
+
+                        for (int i = 0; i < v.Length; i++)
+                        {
+                            v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                            v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
+                            v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+                        }
+
+                        VertexBuffer vbo = new VertexBuffer(model.Name);
+                        vbo.SetData(v, (model.GetMaterialMode(materialIndex) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
+
+                        Node n = new Node(model.Name, vbo, textureID);
+                        nodes.Add(n);
 
                         materialIndex++;
                     }
