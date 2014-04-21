@@ -1,19 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using ToxicRagers.Helpers;
+using OpenTK;
 
 namespace Flummery
 {
-    public class Model
+    public class Model : Asset
     {
-        List<ModelBone> Bones;
-        List<ModelMesh> Meshes;
+        List<ModelBone> bones;
+        List<ModelMesh> meshes;
         ModelBone Root;
-        object Tag;
+        object tag;
 
-        public void CopyAbsoluteBoneTransformsTo(Matrix3D[] destinationBoneTransforms) { }
-        public void CopyBoneTransformsFrom(Matrix3D[] sourceBoneTransforms) { }
-        public void CopyBoneTransformsTo(Matrix3D[] destinationBoneTransforms) { }
-        public void Draw(Matrix3D world, Matrix3D view, Matrix3D projection) { }
+        public List<ModelBone> Bones { get { return bones; } }
+        public List<ModelMesh> Meshes { get { return meshes; } }
+
+        public object Tag
+        {
+            get { return tag; }
+            set { tag = value; }
+        }
+
+        public Model()
+        {
+            bones = new List<ModelBone>();
+            meshes = new List<ModelMesh>();
+        }
+
+        public void CopyAbsoluteBoneTransformsTo(Matrix3d[] destinationBoneTransforms) { }
+        public void CopyBoneTransformsFrom(Matrix3d[] sourceBoneTransforms) { }
+        public void CopyBoneTransformsTo(Matrix3d[] destinationBoneTransforms) { }
+
+        public void AddMesh(ModelMesh mesh)
+        {
+            meshes.Add(mesh);
+        }
+
+        public void Draw(Matrix3d world, Matrix3d view, Matrix3d projection) 
+        {
+            foreach (var mesh in meshes)
+            {
+                mesh.Draw();
+            }
+        }
     }
 }

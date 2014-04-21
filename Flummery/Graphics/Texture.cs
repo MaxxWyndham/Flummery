@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
-    public class Texture
+    public class Texture : Asset
     {
         public static Dictionary<string, int> Textures = new Dictionary<string, int>();
 

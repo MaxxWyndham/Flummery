@@ -55,7 +55,7 @@ namespace Flummery.Games
             {
                 string path;
                 var model = new MDL();
-                var materials = new List<Material>();
+                var materials = new List<ToxicRagers.Helpers.Material>();
 
                 if (ui.TryLoadOrFindFile(cnt.Model + ".mdl", "Stainless MDL file", ".mdl", out path, hints.Split(';')))
                 {
@@ -64,9 +64,9 @@ namespace Flummery.Games
 
                     Console.WriteLine("Loading MDL: \"{0}\".  Faces {1}  Verts {2}", model.Name, model.FaceCount, model.VertexCount);
 
-                    foreach (var material in model.Materials)
+                    foreach (var mesh in model.Meshes)
                     {
-                        if (ui.TryLoadOrFindFile(material.Name + ".mt2;" + material.Name + ".mtl", "Stainless Material", "*.mt2;*.mtl", out path, hints.Split(';')))
+                        if (ui.TryLoadOrFindFile(mesh.Name + ".mt2;" + mesh.Name + ".mtl", "Stainless Material", "*.mt2;*.mtl", out path, hints.Split(';')))
                         {
                             hints = AddHint(path.Substring(0, path.LastIndexOf("\\")), hints);
 
@@ -104,22 +104,22 @@ namespace Flummery.Games
                             }
                         }
 
-                        var vl = model.GetTriangleStrip(materialIndex);
+                        //var vl = model.GetTriangleStrip(materialIndex);
 
-                        Vertex[] v = new Vertex[vl.Count];
+                        //Vertex[] v = new Vertex[vl.Count];
 
-                        for (int i = 0; i < v.Length; i++)
-                        {
-                            v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
-                            v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
-                            v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
-                        }
+                        //for (int i = 0; i < v.Length; i++)
+                        //{
+                        //    v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                        //    v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
+                        //    v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+                        //}
 
-                        VertexBuffer vbo = new VertexBuffer(model.Name);
-                        vbo.SetData(v, (model.GetMaterialMode(materialIndex) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
+                        //VertexBuffer vbo = new VertexBuffer(model.Name);
+                        //vbo.SetData(v);
 
-                        Node n = new Node(model.Name, vbo, textureID);
-                        nodes.Add(n);
+                        //Node n = new Node(model.Name, vbo, textureID);
+                        //nodes.Add(n);
 
                         materialIndex++;
                     }

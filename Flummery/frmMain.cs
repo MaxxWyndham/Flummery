@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using OpenTK.Graphics.OpenGL;
 
+using OpenTK.Graphics.OpenGL;
 using ToxicRagers.Carmageddon.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
-using System.Drawing.Imaging;
 
 namespace Flummery
 {
@@ -20,10 +20,8 @@ namespace Flummery
             InitializeComponent();
         }
 
-        public static bool bVertexBuffer = false;
-
         ContentManager Content = new ContentManager();
-        Model model = new Model();
+        SceneManager scene;
 
         Stopwatch sw = new Stopwatch();
         Single rotation = 0;
@@ -56,10 +54,10 @@ namespace Flummery
         private void frmMain_Load(object sender, EventArgs e)
         {
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.1.1";
+            this.Text += " v0.0.1.2";
             //title = this.Text;
 
-            bVertexBuffer = extensions.Contains("GL_ARB_vertex_buffer_object");
+            scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
             BuildMenu();
             GLControlInit();
@@ -147,25 +145,25 @@ namespace Flummery
 
         private void toggleNodesRender()
         {
-            if (nodes.Count == 0) { return; }
+            //if (nodes.Count == 0) { return; }
 
-            bool bAllVisibile = (nodes.Where(n => n.CanRender).Count() == nodes.Count);
-            int firstVisible = nodes.FindIndex(n => n.CanRender == true);
+            //bool bAllVisibile = (nodes.Where(n => n.CanRender).Count() == nodes.Count);
+            //int firstVisible = nodes.FindIndex(n => n.CanRender == true);
 
-            for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = false; }
+            //for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = false; }
 
-            if (bAllVisibile)
-            {
-                nodes[0].CanRender = true;
-            }
-            else if (firstVisible + 1 < nodes.Count)
-            {
-                nodes[firstVisible + 1].CanRender = true;
-            }
-            else
-            {
-                for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = true; }
-            }
+            //if (bAllVisibile)
+            //{
+            //    nodes[0].CanRender = true;
+            //}
+            //else if (firstVisible + 1 < nodes.Count)
+            //{
+            //    nodes[firstVisible + 1].CanRender = true;
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = true; }
+            //}
         }
 
         private void glcViewport_Load(object sender, EventArgs e)
@@ -186,9 +184,9 @@ namespace Flummery
             GL.LoadMatrix(ref perpective);
         }
 
-        private void glcViewport_Paint(object sender, PaintEventArgs e) { Render(); }
+        private void glcViewport_Paint(object sender, PaintEventArgs e) { Draw(); }
 
-        private void Render()
+        private void Draw()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -201,10 +199,7 @@ namespace Flummery
 
             GL.Rotate(-rotation, OpenTK.Vector3.UnitY);
 
-            foreach (var node in nodes)
-            {
-                node.Render();
-            }
+            scene.Draw();
 
             glcViewport.SwapBuffers();
         }
@@ -320,11 +315,11 @@ namespace Flummery
 
                             //mdlxx.Save(@"D:\FuckYeah.mdl");
 
-                            VertexBuffer vbo = new VertexBuffer(datmesh.Name);
-                            vbo.SetData(v, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
+                            //VertexBuffer vbo = new VertexBuffer(datmesh.Name);
+                            //vbo.SetData(v, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
 
-                            Node n = new Node(datmesh.Name, vbo);
-                            nodes.Add(n);
+                            //Node n = new Node(datmesh.Name, vbo);
+                            //nodes.Add(n);
                         }
                     }
                     break;
@@ -335,27 +330,29 @@ namespace Flummery
 
                     if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
                     {
-                        var mdl = ToxicRagers.Stainless.Formats.MDL.Load(ofdBrowse.FileName);
-                        if (mdl == null) { return; }
+                        scene.Add(Flummery.ContentPipeline.Stainless.MDLImporter.Import(ofdBrowse.FileName));
 
-                        for (int j = 0; j < mdl.Materials.Count; j++)
-                        {
-                            var vl = mdl.GetTriangleStrip(j);
-                            Vertex[] v = new Vertex[vl.Count];
+                        //var mdl = ToxicRagers.Stainless.Formats.MDL.Load(ofdBrowse.FileName);
+                        //if (mdl == null) { return; }
 
-                            for (int i = 0; i < v.Length; i++)
-                            {
-                                v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
-                                v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
-                                v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
-                            }
+                        //for (int j = 0; j < mdl.Materials.Count; j++)
+                        //{
+                        //    var vl = mdl.GetTriangleStrip(j);
+                        //    Vertex[] v = new Vertex[vl.Count];
 
-                            VertexBuffer vbo = new VertexBuffer(mdl.Name);
-                            vbo.SetData(v, (mdl.GetMaterialMode(j) == "trianglestrip" ? OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip : OpenTK.Graphics.OpenGL.PrimitiveType.Triangles));
+                        //    for (int i = 0; i < v.Length; i++)
+                        //    {
+                        //        v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
+                        //        v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
+                        //        v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
+                        //    }
 
-                            Node n = new Node(mdl.Name, vbo);
-                            nodes.Add(n);
-                        }
+                        //    VertexBuffer vbo = new VertexBuffer(mdl.Name);
+                        //    vbo.SetData(v);
+
+                        //    Node n = new Node(mdl.Name, vbo);
+                        //    nodes.Add(n);
+                        //}
                     }
                     break;
 
@@ -364,7 +361,7 @@ namespace Flummery
 
                     //Bitmap bitmap = new Bitmap(@"F:\websites\toxic-ragers.co.uk\images\misc\novadrome_xt2_CONTROLLER360003.png");
                     //byte[] data = new byte[bitmap.Width*bitmap.Height*4];
-                    //byte[] dest = new byte[ToxicRagers.Helpers.Squish.GetStorageRequirements(bitmap.Width, bitmap.Height, ToxicRagers.Helpers.SquishFlags.kDxt3 | ToxicRagers.Helpers.SquishFlags.kColourIterativeClusterFit | ToxicRagers.Helpers.SquishFlags.kWeightColourByAlpha )];
+                    //byte[] dest = new byte[Squish.Squish.GetStorageRequirements(bitmap.Width, bitmap.Height, Squish.SquishFlags.kDxt3 | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha)];
 
                     //int ii = 0;
                     //for (int y = 0; y < bitmap.Height; y++)
@@ -381,7 +378,7 @@ namespace Flummery
                     //    }
                     //}
 
-                    //ToxicRagers.Helpers.Squish.CompressImage(data, bitmap.Width, bitmap.Height, ref dest, ToxicRagers.Helpers.SquishFlags.kDxt3 | ToxicRagers.Helpers.SquishFlags.kColourIterativeClusterFit | ToxicRagers.Helpers.SquishFlags.kWeightColourByAlpha);
+                    //Squish.Squish.CompressImage(data, bitmap.Width, bitmap.Height, ref dest, Squish.SquishFlags.kDxt3 | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha);
                     
                     //using (BinaryWriter bw = new BinaryWriter(new FileStream(@"D:\FuckYeah.dds", FileMode.Create)))
                     //{

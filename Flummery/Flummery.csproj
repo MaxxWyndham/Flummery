@@ -72,8 +72,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\MDLImporter.cs" />
+    <Compile Include="Graphics\Asset.cs" />
     <Compile Include="Graphics\BoundingSphere.cs" />
     <Compile Include="Graphics\ContentManager.cs" />
+    <Compile Include="Graphics\IndexBuffer.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\ModelBone.cs" />
     <Compile Include="frmMain.cs">
@@ -82,11 +86,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Games\Generic\Loader.cs" />
+    <Compile Include="ContentPipeline\Stainless\Loader.cs" />
     <Compile Include="Graphics\Model.cs" />
     <Compile Include="Graphics\ModelMesh.cs" />
     <Compile Include="Graphics\ModelMeshPart.cs" />
     <Compile Include="Graphics\Node.cs" />
+    <Compile Include="Graphics\SceneManager.cs" />
     <Compile Include="MaterialItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -131,12 +136,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
-      <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
-      <Name>ToxicRagers</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
@@ -153,7 +152,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
+      <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
+      <Name>ToxicRagers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

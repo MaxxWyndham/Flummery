@@ -3,14 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flummery", "Flummery\Flummery.csproj", "{B782F332-6247-4269-A088-40FF881EFE31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToxicRagers", "..\ToxicRagers\ToxicRagers\ToxicRagers.csproj", "{9B9C928D-9E64-400E-961E-F134E659146B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6D558C02-7C7B-4CEC-BD10-0CBB8613AF1C}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToxicRagers", "..\ToxicRagers\ToxicRagers\ToxicRagers.csproj", "{9B9C928D-9E64-400E-961E-F134E659146B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSquishNet", "..\LibSquishNet\LibSquishNet\LibSquishNet.csproj", "{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,16 @@ Global
 		{9B9C928D-9E64-400E-961E-F134E659146B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9B9C928D-9E64-400E-961E-F134E659146B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9B9C928D-9E64-400E-961E-F134E659146B}.Release|x86.ActiveCfg = Release|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8B187D46-BC8E-4B5A-AE68-326958BC9AAA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

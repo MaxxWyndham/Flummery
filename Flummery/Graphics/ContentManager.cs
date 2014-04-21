@@ -6,6 +6,7 @@ namespace Flummery
     {
         public T Load<T>(string assetName)
         {
+            
             return default(T);
         }
     }
