@@ -10,7 +10,7 @@ namespace Flummery
         List<Model> models = new List<Model>();
         bool bVertexBuffer;
 
-        public bool UseVertexBuffer { get { return bVertexBuffer; } }
+        public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
 
         public SceneManager(bool bUseVertexBuffer = true)
         {

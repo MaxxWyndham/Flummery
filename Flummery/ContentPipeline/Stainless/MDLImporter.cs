@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ToxicRagers.Stainless.Formats;
+using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {
@@ -36,12 +37,28 @@ namespace Flummery.ContentPipeline.Stainless
                         meshpart.AddTriangleVertex(vLookup[mdlmesh.StripList[j + 0].Index]);
                         meshpart.AddTriangleVertex(vLookup[mdlmesh.StripList[j + 1].Index]);
                         meshpart.AddTriangleVertex(vLookup[mdlmesh.StripList[j + 2].Index]);
+
+                        meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.StripList[j + 0].Index].Normal.X, mdl.Vertices[mdlmesh.StripList[j + 0].Index].Normal.Y, mdl.Vertices[mdlmesh.StripList[j + 0].Index].Normal.Z));
+                        meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.StripList[j + 1].Index].Normal.X, mdl.Vertices[mdlmesh.StripList[j + 1].Index].Normal.Y, mdl.Vertices[mdlmesh.StripList[j + 1].Index].Normal.Z));
+                        meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.StripList[j + 2].Index].Normal.X, mdl.Vertices[mdlmesh.StripList[j + 2].Index].Normal.Y, mdl.Vertices[mdlmesh.StripList[j + 2].Index].Normal.Z));
+
+                        meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.StripList[j + 0].Index].UV.X, mdl.Vertices[mdlmesh.StripList[j + 0].Index].UV.Y));
+                        meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.StripList[j + 1].Index].UV.X, mdl.Vertices[mdlmesh.StripList[j + 1].Index].UV.Y));
+                        meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.StripList[j + 2].Index].UV.X, mdl.Vertices[mdlmesh.StripList[j + 2].Index].UV.Y));
                     }
                     else
                     {
                         meshpart.AddTriangleVertex(vLookup[mdlmesh.StripList[j + 0].Index]);
                         meshpart.AddTriangleVertex(vLookup[mdlmesh.StripList[j + 2].Index]);
                         meshpart.AddTriangleVertex(vLookup[mdlmesh.StripList[j + 1].Index]);
+
+                        meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.StripList[j + 0].Index].Normal.X, mdl.Vertices[mdlmesh.StripList[j + 0].Index].Normal.Y, mdl.Vertices[mdlmesh.StripList[j + 0].Index].Normal.Z));
+                        meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.StripList[j + 2].Index].Normal.X, mdl.Vertices[mdlmesh.StripList[j + 2].Index].Normal.Y, mdl.Vertices[mdlmesh.StripList[j + 2].Index].Normal.Z));
+                        meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.StripList[j + 1].Index].Normal.X, mdl.Vertices[mdlmesh.StripList[j + 1].Index].Normal.Y, mdl.Vertices[mdlmesh.StripList[j + 1].Index].Normal.Z));
+
+                        meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.StripList[j + 0].Index].UV.X, mdl.Vertices[mdlmesh.StripList[j + 0].Index].UV.Y));
+                        meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.StripList[j + 2].Index].UV.X, mdl.Vertices[mdlmesh.StripList[j + 2].Index].UV.Y));
+                        meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.StripList[j + 1].Index].UV.X, mdl.Vertices[mdlmesh.StripList[j + 1].Index].UV.Y));
                     }
                 }
 
@@ -56,6 +73,14 @@ namespace Flummery.ContentPipeline.Stainless
                     meshpart.AddTriangleVertex(vLookup[mdlmesh.PatchList[j + 0].Index]);
                     meshpart.AddTriangleVertex(vLookup[mdlmesh.PatchList[j + 1].Index]);
                     meshpart.AddTriangleVertex(vLookup[mdlmesh.PatchList[j + 2].Index]);
+
+                    meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.PatchList[j + 0].Index].Normal.X, mdl.Vertices[mdlmesh.PatchList[j + 0].Index].Normal.Y, mdl.Vertices[mdlmesh.PatchList[j + 0].Index].Normal.Z));
+                    meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.PatchList[j + 1].Index].Normal.X, mdl.Vertices[mdlmesh.PatchList[j + 1].Index].Normal.Y, mdl.Vertices[mdlmesh.PatchList[j + 1].Index].Normal.Z));
+                    meshpart.AddVertexNormal(new Vector3(mdl.Vertices[mdlmesh.PatchList[j + 2].Index].Normal.X, mdl.Vertices[mdlmesh.PatchList[j + 2].Index].Normal.Y, mdl.Vertices[mdlmesh.PatchList[j + 2].Index].Normal.Z));
+
+                    meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.PatchList[j + 0].Index].UV.X, mdl.Vertices[mdlmesh.PatchList[j + 0].Index].UV.Y));
+                    meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.PatchList[j + 1].Index].UV.X, mdl.Vertices[mdlmesh.PatchList[j + 1].Index].UV.Y));
+                    meshpart.AddVertexUV(new Vector2(mdl.Vertices[mdlmesh.PatchList[j + 2].Index].UV.X, mdl.Vertices[mdlmesh.PatchList[j + 2].Index].UV.Y));
                 }
 
                 mesh.AddModelMeshPart(meshpart);

@@ -279,26 +279,26 @@ namespace Flummery
                             for (int i = 0; i < v.Length; i++)
                             {
                                 v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
-                                v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
+                                //v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
                             }
 
-                            for (int i = 0; i < v.Length; i += 3)
-                            {
-                                OpenTK.Vector3 v0 = v[i].Position;
-                                OpenTK.Vector3 v1 = v[i + 1].Position;
-                                OpenTK.Vector3 v2 = v[i + 2].Position;
+                            //for (int i = 0; i < v.Length; i += 3)
+                            //{
+                            //    OpenTK.Vector3 v0 = v[i].Position;
+                            //    OpenTK.Vector3 v1 = v[i + 1].Position;
+                            //    OpenTK.Vector3 v2 = v[i + 2].Position;
 
-                                OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
+                            //    OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
 
-                                v[i].Normal += normal;
-                                v[i + 1].Normal += normal;
-                                v[i + 2].Normal += normal;
-                            }
+                            //    v[i].Normal += normal;
+                            //    v[i + 1].Normal += normal;
+                            //    v[i + 2].Normal += normal;
+                            //}
 
-                            for (int i = 0; i < v.Length; i++)
-                            {
-                                v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
-                            }
+                            //for (int i = 0; i < v.Length; i++)
+                            //{
+                            //    v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
+                            //}
 
 
                             //ToxicRagers.Stainless.Formats.MDL mdlxx = new ToxicRagers.Stainless.Formats.MDL();
