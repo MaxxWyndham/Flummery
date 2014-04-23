@@ -330,7 +330,11 @@ namespace Flummery
 
                     if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
                     {
+                        Stopwatch t = new Stopwatch();
+                        t.Start();
                         scene.Add(Flummery.ContentPipeline.Stainless.MDLImporter.Import(ofdBrowse.FileName));
+                        t.Stop();
+                        Console.WriteLine(t.Elapsed.Duration().ToString());
 
                         //var mdl = ToxicRagers.Stainless.Formats.MDL.Load(ofdBrowse.FileName);
                         //if (mdl == null) { return; }

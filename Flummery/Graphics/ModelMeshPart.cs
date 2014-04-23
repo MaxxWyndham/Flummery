@@ -15,6 +15,8 @@ namespace Flummery
         VertexBuffer vertexBuffer;
         int VertexOffset;
 
+        bool bRequiresFinalise = false;
+
         List<Vector3> verts;
         List<Vector3> norms;
         List<Vector2> uvs;
@@ -51,6 +53,40 @@ namespace Flummery
             }
         }
 
+        public int CreateNormal(Single x, Single y, Single z)
+        {
+            var v = new Vector3(x, y, z);
+
+            var i = norms.IndexOf(v);
+
+            if (i == -1)
+            {
+                norms.Add(v);
+                return norms.Count - 1;
+            }
+            else
+            {
+                return i;
+            }
+        }
+
+        public int CreateUV(Single u, Single v)
+        {
+            var uv = new Vector2(u, v);
+
+            var i = uvs.IndexOf(uv);
+
+            if (i == -1)
+            {
+                uvs.Add(uv);
+                return uvs.Count - 1;
+            }
+            else
+            {
+                return i;
+            }
+        }
+
         public void AddTriangleVertex(int index)
         {
             face[point] = index;
@@ -72,59 +108,86 @@ namespace Flummery
             uvs.Add(uv);
         }
 
+        List<string> faces = new List<string>();
+
+        public void AddFace(int[] positions, int[] normals, int[] uvs)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                string key = string.Format("{0}.{1}.{2}", positions[i], normals[i], uvs[i]);
+                int index = faces.IndexOf(key);
+
+                if (index == -1)
+                {
+                    faces.Add(key);
+
+                    var v = new Vertex();
+                    v.Position = verts[positions[i]];
+                    v.Normal = norms[normals[i]];
+                    v.UV = this.uvs[uvs[i]];
+
+                    vertexBuffer.AddVertex(v);
+                    indexBuffer.AddIndex(faces.Count - 1);
+                }
+                else
+                {
+                    indexBuffer.AddIndex(index);
+                }
+            }
+        }
+
         public void Finalise()
         {
             if (SceneManager.Scene.CanUseVertexBuffer)
             {
-                // prepare Vertex array
-                List<Vertex> vl = new List<Vertex>();
+                //// prepare Vertex array
+                //List<Vertex> vl = new List<Vertex>();
 
-                for (int i = 0; i < indexBuffer.Data.Length; i++)
-                {
-                    var v = new Vertex();
-                    v.Position = verts[indexBuffer.Data[i]];
-                    v.Normal = norms[i];
-                    v.UV = uvs[i];
+                //for (int i = 0; i < indexBuffer.Data.Length; i++)
+                //{
+                //    var v = new Vertex();
+                //    v.Position = verts[indexBuffer.Data[i]];
+                //    v.Normal = norms[i];
+                //    v.UV = uvs[i];
 
-                    //vl.Add(v);
+                //    //vl.Add(v);
 
-                    //if (!vl.Contains(v))
-                    //{
+                //    //if (!vl.Contains(v))
+                //    //{
                         
-                    //}
-                }
+                //    //}
+                //}
 
-                if (norms.Count == 0)
-                {
-                    for (int i = 0; i < vl.Count; i += 3)
-                    {
-                        Vertex v0 = vl[i + 0];
-                        Vertex v1 = vl[i + 1];
-                        Vertex v2 = vl[i + 2];
+                //if (norms.Count == 0)
+                //{
+                //    for (int i = 0; i < vl.Count; i += 3)
+                //    {
+                //        Vertex v0 = vl[i + 0];
+                //        Vertex v1 = vl[i + 1];
+                //        Vertex v2 = vl[i + 2];
 
-                        Vector3 normal = Vector3.Normalize(Vector3.Cross(v2.Position - v0.Position, v1.Position - v0.Position));
+                //        Vector3 normal = Vector3.Normalize(Vector3.Cross(v2.Position - v0.Position, v1.Position - v0.Position));
 
-                        v0.Normal += normal;
-                        v1.Normal += normal;
-                        v2.Normal += normal;
+                //        v0.Normal += normal;
+                //        v1.Normal += normal;
+                //        v2.Normal += normal;
 
-                        vl[i + 0] = v0;
-                        vl[i + 1] = v1;
-                        vl[i + 2] = v2;
-                    }
+                //        vl[i + 0] = v0;
+                //        vl[i + 1] = v1;
+                //        vl[i + 2] = v2;
+                //    }
 
-                    for (int i = 0; i < vl.Count; i++)
-                    {
-                        var v = vl[i];
-                        v.Normal = Vector3.Normalize(v.Normal);
-                        vl[i] = v;
-                    }
-                }
+                //    for (int i = 0; i < vl.Count; i++)
+                //    {
+                //        var v = vl[i];
+                //        v.Normal = Vector3.Normalize(v.Normal);
+                //        vl[i] = v;
+                //    }
+                //}
 
-                vertexBuffer.Initialise(vl);
+                indexBuffer.Initialise();
+                vertexBuffer.Initialise();
             }
-            // turn indexBuffer and verts into proper buffer objects
-            // See commented code in VertexBuffer and http://www.opentk.com/node/2302#comment-11602
         }
 
         public void Draw()
@@ -141,7 +204,8 @@ namespace Flummery
 
             if (SceneManager.Scene.CanUseVertexBuffer)
             {
-                vertexBuffer.Draw();
+                indexBuffer.Draw();
+                vertexBuffer.Draw(indexBuffer.Length);
             }
             else
             {
