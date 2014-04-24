@@ -18,12 +18,7 @@ namespace Flummery
     public sealed class VertexBuffer
     {
         List<Vertex> data = new List<Vertex>();
-
-        //string Name = "";
         int vbo;
-        //int length;
-        //PrimitiveType renderMode = PrimitiveType.TriangleStrip;
-        //Vertex[] data = null;
 
         public int Length { get { return (data != null ? data.Count : 0); } }
 

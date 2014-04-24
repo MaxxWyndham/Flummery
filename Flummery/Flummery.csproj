@@ -90,7 +90,6 @@
     <Compile Include="Graphics\Model.cs" />
     <Compile Include="Graphics\ModelMesh.cs" />
     <Compile Include="Graphics\ModelMeshPart.cs" />
-    <Compile Include="Graphics\Node.cs" />
     <Compile Include="Graphics\SceneManager.cs" />
     <Compile Include="MaterialItem.cs">
       <SubType>UserControl</SubType>

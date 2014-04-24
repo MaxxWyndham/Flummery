@@ -18,13 +18,12 @@ namespace Flummery.ContentPipeline.Stainless
 
             for (int i = 0; i < mdl.Meshes.Count; i++)
             {
-                var mdlmesh = mdl.GetMesh(i);
-
-                int p = 0;
                 ModelMeshPart meshpart = new ModelMeshPart();
                 var pLookup = new Dictionary<int, int>();
                 var nLookup = new Dictionary<int, int>();
                 var tLookup = new Dictionary<int, int>();
+
+                var mdlmesh = mdl.GetMesh(i);
 
                 // Process triangle strip
                 for (int j = 0; j < mdlmesh.StripList.Count; j++)

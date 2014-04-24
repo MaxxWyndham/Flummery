@@ -32,8 +32,6 @@ namespace Flummery
         int renderMode = 0;
         int[] renderModes = new int[] { 6914, 6913, 6912 };
 
-        List<Node> nodes = new List<Node>();
-
         public ToxicRagers.Stainless.Formats.CNT content;
 
 //        #region DeltaTime
@@ -253,7 +251,7 @@ namespace Flummery
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
@@ -330,33 +328,7 @@ namespace Flummery
 
                     if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
                     {
-                        Stopwatch t = new Stopwatch();
-                        t.Start();
                         scene.Add(Flummery.ContentPipeline.Stainless.MDLImporter.Import(ofdBrowse.FileName));
-                        t.Stop();
-                        Console.WriteLine(t.Elapsed.Duration().ToString());
-
-                        //var mdl = ToxicRagers.Stainless.Formats.MDL.Load(ofdBrowse.FileName);
-                        //if (mdl == null) { return; }
-
-                        //for (int j = 0; j < mdl.Materials.Count; j++)
-                        //{
-                        //    var vl = mdl.GetTriangleStrip(j);
-                        //    Vertex[] v = new Vertex[vl.Count];
-
-                        //    for (int i = 0; i < v.Length; i++)
-                        //    {
-                        //        v[i].Position = new OpenTK.Vector3(vl[i].Position.X, vl[i].Position.Y, vl[i].Position.Z);
-                        //        v[i].Normal = new OpenTK.Vector3(vl[i].Normal.X, vl[i].Normal.Y, vl[i].Normal.Z);
-                        //        v[i].UV = new OpenTK.Vector2(vl[i].UV.X, vl[i].UV.Y);
-                        //    }
-
-                        //    VertexBuffer vbo = new VertexBuffer(mdl.Name);
-                        //    vbo.SetData(v);
-
-                        //    Node n = new Node(mdl.Name, vbo);
-                        //    nodes.Add(n);
-                        //}
                     }
                     break;
 
@@ -438,7 +410,7 @@ namespace Flummery
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
@@ -452,7 +424,7 @@ namespace Flummery
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
@@ -466,7 +438,7 @@ namespace Flummery
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        content = Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        //content = Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
@@ -533,9 +505,9 @@ namespace Flummery
                     if (ofdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
-                        nodes.Clear();
+                        //nodes.Clear();
 
-                        Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
