@@ -8,8 +8,14 @@ namespace Flummery
         BoundingSphere BoundingSphere;
         List<ModelMeshPart> meshParts;
         string Name;
-        ModelBone Parent;
+        ModelBone parent;
         object Tag;
+
+        public ModelBone Parent
+        {
+            get { return parent; }
+            set { parent = value; }
+        }
 
         public ModelMesh()
         {

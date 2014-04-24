@@ -52,10 +52,10 @@ namespace Flummery
         private void frmMain_Load(object sender, EventArgs e)
         {
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.1.2";
+            this.Text += " v0.0.1.3";
             //title = this.Text;
 
-            scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
+            scene = new SceneManager(tsslProgress, extensions.Contains("GL_ARB_vertex_buffer_object"));
 
             BuildMenu();
             GLControlInit();
@@ -188,16 +188,7 @@ namespace Flummery
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            OpenTK.Matrix4 lookat = OpenTK.Matrix4.LookAt(0, 2.5f, 8.0f, 0, 0.5f, 0, 0, 1, 0);
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadMatrix(ref lookat);
-
-            // Fix for OpenGL LHS
-            GL.Scale(1.0f, 1.0f, -1.0f);
-
-            GL.Rotate(-rotation, OpenTK.Vector3.UnitY);
-
-            scene.Draw();
+            scene.Draw(rotation);
 
             glcViewport.SwapBuffers();
         }
@@ -230,6 +221,7 @@ namespace Flummery
             menu.MenuItems[1].MenuItems[0].MenuItems.Add("XT2 file", menuNovadromeClick);
             menu.MenuItems[1].MenuItems.Add("Process all...");
             menu.MenuItems[1].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[1].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
             menu.MenuItems[1].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
             menu.MenuItems[1].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
             menu.MenuItems[1].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
@@ -410,7 +402,7 @@ namespace Flummery
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        scene.Add(Flummery.ContentPipeline.Stainless.CNTImporter.Import(ofdBrowse.FileName));
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
@@ -438,7 +430,7 @@ namespace Flummery
                     {
                         string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
-                        //content = Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
+                        scene.Add(Flummery.ContentPipeline.Stainless.CNTImporter.Import(ofdBrowse.FileName));
 
                         Properties.Settings.Default.FolderHints = hints;
                         Properties.Settings.Default.Save();
@@ -449,7 +441,8 @@ namespace Flummery
                 case "MDL files":
                 case "MTL files":
                 case "TDX files":
-                    string extension = mi.Text.Substring(0, 3).ToLower();
+                case "LIGHT files":
+                    string extension = mi.Text.Substring(0, mi.Text.IndexOf(' ')).ToLower();
                     fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
                     fbdBrowse.ShowDialog();
 
@@ -478,6 +471,10 @@ namespace Flummery
 
                                     case "tdx":
                                         ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.FullName);
+                                        break;
+
+                                    case "light":
+                                        ToxicRagers.CarmageddonReincarnation.Formats.LIGHT.Load(fi.FullName);
                                         break;
                                 }
 
