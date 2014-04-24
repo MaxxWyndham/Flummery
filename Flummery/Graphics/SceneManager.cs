@@ -12,11 +12,15 @@ namespace Flummery
         List<Model> models = new List<Model>();
         ToolStripStatusLabel progress;
         bool bVertexBuffer;
+        Camera camera;
 
         public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
+        public Camera Camera { get { return camera; } }
 
         public SceneManager(ToolStripStatusLabel progressbar, bool bUseVertexBuffer = true)
         {
+            camera = new Camera();
+
             this.progress = progressbar;
             bVertexBuffer = bUseVertexBuffer;
             Scene = this;
@@ -27,14 +31,18 @@ namespace Flummery
             models.Add(asset);
         }
 
-        public void Draw(float rotation = 0)
+        public void Update(float dt)
         {
-            Matrix4 lookat = Matrix4.LookAt(0, 2.5f, 8.0f, 0, 0.5f, 0, 0, 1, 0);
+            camera.Update(dt);
+        }
+
+        public void Draw()
+        {
+            Matrix4 lookat = camera.viewMatrix;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
             GL.Scale(1.0f, 1.0f, -1.0f);
-            GL.Rotate(-rotation, OpenTK.Vector3.UnitY);
 
             foreach (var model in models)
             {

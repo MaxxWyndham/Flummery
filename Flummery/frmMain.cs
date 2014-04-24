@@ -24,7 +24,6 @@ namespace Flummery
         SceneManager scene;
 
         Stopwatch sw = new Stopwatch();
-        Single rotation = 0;
         double accumulator = 0;
         int idleCounter = 0;
 //        string title = "";
@@ -52,7 +51,7 @@ namespace Flummery
         private void frmMain_Load(object sender, EventArgs e)
         {
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.1.3";
+            this.Text += " v0.0.1.4";
             //title = this.Text;
 
             scene = new SceneManager(tsslProgress, extensions.Contains("GL_ARB_vertex_buffer_object"));
@@ -72,11 +71,11 @@ namespace Flummery
         {
             switch (e.KeyChar)
             {
-                case (char)44:  // ,
+                case ',':
                     toggleNodesRender();
                     break;
 
-                case (char)46:  // .
+                case '.':
                     renderMode++;
                     if (renderMode == renderModes.Length) { renderMode = 0; }
                     GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
@@ -123,8 +122,6 @@ namespace Flummery
 
         private void Animate(double milliseconds)
         {
-            float deltaRotation = (float)milliseconds / 20.0f;
-            rotation += deltaRotation;
             glcViewport.Invalidate();
         }
 
@@ -177,18 +174,22 @@ namespace Flummery
 
             float aspect_ratio = w / (float)h;
 
-            OpenTK.Matrix4 perpective = OpenTK.Matrix4.CreatePerspectiveFieldOfView(OpenTK.MathHelper.PiOver4, aspect_ratio, 0.0001f, 64);
+            OpenTK.Matrix4 perpective = OpenTK.Matrix4.CreatePerspectiveFieldOfView(OpenTK.MathHelper.PiOver4, aspect_ratio, 0.0001f, 640);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perpective);
         }
 
-        private void glcViewport_Paint(object sender, PaintEventArgs e) { Draw(); }
+        private void glcViewport_Paint(object sender, PaintEventArgs e) 
+        {
+            scene.Update((float)dt);
+            Draw(); 
+        }
 
         private void Draw()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            scene.Draw(rotation);
+            scene.Draw();
 
             glcViewport.SwapBuffers();
         }
@@ -389,6 +390,21 @@ namespace Flummery
             }
         }
 
+        private void openContent(string filter)
+        {
+            ofdBrowse.Filter = filter;
+
+            if (ofdBrowse.ShowDialog() == DialogResult.OK)
+            {
+                string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
+
+                scene.Add(Flummery.ContentPipeline.Stainless.CNTImporter.Import(ofdBrowse.FileName));
+
+                Properties.Settings.Default.FolderHints = hints;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         private void menuCarmageddonReincarnationClick(object sender, EventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
@@ -396,45 +412,15 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "Accessory":
-                    ofdBrowse.Filter = "Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt";
-
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
-                    {
-                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
-
-                        scene.Add(Flummery.ContentPipeline.Stainless.CNTImporter.Import(ofdBrowse.FileName));
-
-                        Properties.Settings.Default.FolderHints = hints;
-                        Properties.Settings.Default.Save();
-                    }
+                    openContent("Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt");
                     break;
 
                 case "Pedestrian":
-                    ofdBrowse.Filter = "Carmageddon ReinCARnation Pedestrians (bodyform.cnt)|bodyform.cnt";
-
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
-                    {
-                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
-
-                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
-
-                        Properties.Settings.Default.FolderHints = hints;
-                        Properties.Settings.Default.Save();
-                    }
+                    openContent("Carmageddon ReinCARnation Pedestrians (bodyform.cnt)|bodyform.cnt");
                     break;
 
                 case "Vehicle":
-                    ofdBrowse.Filter = "Carmageddon ReinCARnation Vehicles (car.cnt)|car.cnt";
-
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
-                    {
-                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
-
-                        scene.Add(Flummery.ContentPipeline.Stainless.CNTImporter.Import(ofdBrowse.FileName));
-
-                        Properties.Settings.Default.FolderHints = hints;
-                        Properties.Settings.Default.Save();
-                    }
+                    openContent("Carmageddon ReinCARnation Vehicles (car.cnt)|car.cnt");
                     break;
 
                 case "CNT files":
