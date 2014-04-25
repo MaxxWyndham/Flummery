@@ -36,10 +36,12 @@
             this.scTreeView = new System.Windows.Forms.SplitContainer();
             this.tvNodes = new System.Windows.Forms.TreeView();
             this.glcViewport = new OpenTK.GLControl();
+            this.flpMaterials = new System.Windows.Forms.FlowLayoutPanel();
             this.ssStatus = new System.Windows.Forms.StatusStrip();
             this.tsslProgress = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.scViewMaterial)).BeginInit();
             this.scViewMaterial.Panel1.SuspendLayout();
+            this.scViewMaterial.Panel2.SuspendLayout();
             this.scViewMaterial.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scTreeView)).BeginInit();
             this.scTreeView.Panel1.SuspendLayout();
@@ -54,6 +56,9 @@
             // 
             // scViewMaterial
             // 
+            this.scViewMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.scViewMaterial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.scViewMaterial.Location = new System.Drawing.Point(0, 0);
             this.scViewMaterial.Name = "scViewMaterial";
@@ -66,9 +71,10 @@
             // 
             // scViewMaterial.Panel2
             // 
+            this.scViewMaterial.Panel2.Controls.Add(this.flpMaterials);
             this.scViewMaterial.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.scViewMaterial.Size = new System.Drawing.Size(978, 600);
-            this.scViewMaterial.SplitterDistance = 490;
+            this.scViewMaterial.Size = new System.Drawing.Size(978, 617);
+            this.scViewMaterial.SplitterDistance = 520;
             this.scViewMaterial.TabIndex = 1;
             // 
             // scTreeView
@@ -85,7 +91,7 @@
             // scTreeView.Panel2
             // 
             this.scTreeView.Panel2.Controls.Add(this.glcViewport);
-            this.scTreeView.Size = new System.Drawing.Size(978, 490);
+            this.scTreeView.Size = new System.Drawing.Size(978, 520);
             this.scTreeView.SplitterDistance = 250;
             this.scTreeView.TabIndex = 0;
             // 
@@ -96,8 +102,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvNodes.Location = new System.Drawing.Point(3, 3);
             this.tvNodes.Name = "tvNodes";
-            this.tvNodes.Size = new System.Drawing.Size(242, 482);
+            this.tvNodes.Size = new System.Drawing.Size(242, 622);
             this.tvNodes.TabIndex = 0;
+            this.tvNodes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvNodes_NodeMouseDoubleClick);
             // 
             // glcViewport
             // 
@@ -107,12 +114,24 @@
             this.glcViewport.BackColor = System.Drawing.Color.Black;
             this.glcViewport.Location = new System.Drawing.Point(3, 5);
             this.glcViewport.Name = "glcViewport";
-            this.glcViewport.Size = new System.Drawing.Size(716, 480);
+            this.glcViewport.Size = new System.Drawing.Size(716, 620);
             this.glcViewport.TabIndex = 1;
             this.glcViewport.VSync = false;
             this.glcViewport.Load += new System.EventHandler(this.glcViewport_Load);
             this.glcViewport.Paint += new System.Windows.Forms.PaintEventHandler(this.glcViewport_Paint);
             this.glcViewport.Resize += new System.EventHandler(this.glcViewport_Resize);
+            // 
+            // flpMaterials
+            // 
+            this.flpMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpMaterials.AutoScroll = true;
+            this.flpMaterials.Location = new System.Drawing.Point(3, 3);
+            this.flpMaterials.Name = "flpMaterials";
+            this.flpMaterials.Size = new System.Drawing.Size(970, 85);
+            this.flpMaterials.TabIndex = 0;
+            this.flpMaterials.WrapContents = false;
             // 
             // ssStatus
             // 
@@ -138,13 +157,13 @@
             this.ClientSize = new System.Drawing.Size(978, 642);
             this.Controls.Add(this.ssStatus);
             this.Controls.Add(this.scViewMaterial);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Flummery";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.scViewMaterial.Panel1.ResumeLayout(false);
+            this.scViewMaterial.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scViewMaterial)).EndInit();
             this.scViewMaterial.ResumeLayout(false);
             this.scTreeView.Panel1.ResumeLayout(false);
@@ -169,6 +188,7 @@
         private System.Windows.Forms.TreeView tvNodes;
         private System.Windows.Forms.StatusStrip ssStatus;
         private System.Windows.Forms.ToolStripStatusLabel tsslProgress;
+        private System.Windows.Forms.FlowLayoutPanel flpMaterials;
 
     }
 }

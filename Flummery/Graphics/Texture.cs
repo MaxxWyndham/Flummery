@@ -1,25 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
+using Flummery.ContentPipeline.Stainless;
 using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
     public class Texture : Asset
     {
-        public static Dictionary<string, int> Textures = new Dictionary<string, int>();
+        int texture;
+        string name;
+        string format;
+        int width;
+        int height;
+        byte[] data;
 
-        public static void CreateTexture(out int texture, string name, string format, int width, int height, byte[] data)
+        public int ID { get { return texture; } }
+
+        public string Name
         {
-            if (Textures.ContainsKey(name))
-            {
-                texture = Textures[name];
-                return;
-            }
+            get { return name; }
+            set { name = value; }
+        }
 
-            Console.WriteLine("Creating texture: {0}", name);
-
+        public Texture()
+        {
             GL.GenTextures(1, out texture);
             GL.BindTexture(TextureTarget.Texture2D, texture);
+        }
+
+        public static Texture CreateFromMaterial(string name)
+        {
+            return SceneManager.Scene.Content.Load<Texture, MaterialImporter>(name, true);
+        }
+
+        public void SetData(string name, string format, int width, int height, byte[] data)
+        {
+            this.name = name;
+            this.format = format;
+            this.width = width;
+            this.height = height;
+            this.data = data;
 
             switch (format)
             {
@@ -46,8 +65,6 @@ namespace Flummery
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-            Textures[name] = texture;
         }
     }
 }

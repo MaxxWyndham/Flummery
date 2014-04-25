@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 using OpenTK.Graphics.OpenGL;
-using ToxicRagers.Carmageddon.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
+using Flummery.ContentPipeline.Stainless;
 
 namespace Flummery
 {
@@ -20,20 +18,14 @@ namespace Flummery
             InitializeComponent();
         }
 
-        ContentManager Content = new ContentManager();
         SceneManager scene;
 
         Stopwatch sw = new Stopwatch();
         double accumulator = 0;
-        int idleCounter = 0;
-//        string title = "";
 
         int renderMode = 0;
         int[] renderModes = new int[] { 6914, 6913, 6912 };
 
-        public ToxicRagers.Stainless.Formats.CNT content;
-
-//        #region DeltaTime
         private double dt
         {
             get
@@ -45,21 +37,18 @@ namespace Flummery
                 return timeslice;
             }
         }
-//        #endregion
-
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.1.5";
-            //title = this.Text;
+            this.Text += " v0.0.1.6";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
             BuildMenu();
             GLControlInit();
 
-            //sw.Start();
+            sw.Start();
 
             Application.Idle += new EventHandler(Application_Idle);
 
@@ -72,31 +61,41 @@ namespace Flummery
 
         void scene_OnAdd(object sender, AddEventArgs e)
         {
-            TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
-
             var m = (e.Item as Model);
+
             if (m != null)
             {
-                OpenTK.Matrix4[] bones = new OpenTK.Matrix4[m.Bones.Count];
-                m.CopyAbsoluteBoneTransformsTo(bones);
+                TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
 
-                for (int i = 0; i < bones.Length; i++)
-                {
-                    Console.WriteLine("{0}) {1}", i, m.Bones[i].Name);
-                    Console.WriteLine("{0}", bones[i]);
-                }
+                //OpenTK.Matrix4[] bones = new OpenTK.Matrix4[m.Bones.Count];
+                //m.CopyAbsoluteBoneTransformsTo(bones);
+
+                //for (int i = 0; i < bones.Length; i++)
+                //{
+                //    Console.WriteLine("{0}) {1}", i, m.Bones[i].Name);
+                //    Console.WriteLine("{0}", bones[i]);
+                //}
 
                 TravelTree(m.Root.Children[0], ref ParentNode);
-            }
 
-            tvNodes.Nodes[0].Expand();
-            tvNodes.Nodes[0].Nodes[0].Expand();
+                tvNodes.Nodes[0].Expand();
+                tvNodes.Nodes[0].Nodes[0].Expand();
+            }
+            else
+            {
+                var t = (e.Item as Texture);
+
+                var mi = new MaterialItem();
+                mi.MaterialName = t.Name;
+
+                flpMaterials.Controls.Add(mi);
+            }
         }
 
         public static void TravelTree(ModelBone bone, ref TreeNode node)
         {
-            Console.WriteLine("{0}", bone.Name);
-            Console.WriteLine("{0}", bone.Transform);
+            //Console.WriteLine("{0}", bone.Name);
+            //Console.WriteLine("{0}", bone.Transform);
 
             node = node.Nodes.Add(bone.Name);
             node.Tag = bone.Index;
@@ -130,14 +129,14 @@ namespace Flummery
                     break;
 
                 default:
-                    Console.WriteLine((byte)e.KeyChar);
+                //    Console.WriteLine((byte)e.KeyChar);
                     break;
             }
         }
 
         private void GLControlInit()
         {
-            //glcViewport.VSync = true;
+            glcViewport.VSync = true;
 
             GL.ClearColor(Color.Gray);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
@@ -160,7 +159,6 @@ namespace Flummery
             GL.Enable(EnableCap.Texture2D);
         }
 
-//        #region FPS and "animation"
         void Application_Idle(object sender, EventArgs e)
         {
             double milliseconds = dt;
@@ -175,16 +173,9 @@ namespace Flummery
 
         private void Accumulate(double milliseconds)
         {
-            idleCounter++;
             accumulator += milliseconds;
-            if (accumulator > 1000)
-            {
-                //this.Text = title + " (" + idleCounter + ")";
-                accumulator -= 1000;
-                idleCounter = 0;
-            }
+            if (accumulator > 1000) { accumulator -= 1000; }
         }
-//        #endregion
 
         private void toggleNodesRender()
         {
@@ -250,6 +241,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlO;
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Novadrome");
@@ -290,12 +282,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK)
                     {
-                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
-
                         //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
-
-                        Properties.Settings.Default.FolderHints = hints;
-                        Properties.Settings.Default.Save();
                     }
                     break;
 
@@ -444,12 +431,7 @@ namespace Flummery
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK)
             {
-                string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
-
-                scene.Add(Flummery.ContentPipeline.Stainless.CNTImporter.Import(ofdBrowse.FileName));
-
-                Properties.Settings.Default.FolderHints = hints;
-                Properties.Settings.Default.Save();
+                scene.Add(scene.Content.Load<Model, CNTImporter>(ofdBrowse.FileName));
             }
         }
 
@@ -461,6 +443,10 @@ namespace Flummery
             {
                 case "Accessory":
                     openContent("Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt");
+                    break;
+
+                case "Environment":
+                    openContent("Carmageddon ReinCARnation Environment files (level.cnt)|level.cnt");
                     break;
 
                 case "Pedestrian":
@@ -535,13 +521,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK)
                     {
-                        string hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
-                        //nodes.Clear();
-
                         //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
-
-                        Properties.Settings.Default.FolderHints = hints;
-                        Properties.Settings.Default.Save();
                     }
                     break;
 
@@ -574,30 +554,9 @@ namespace Flummery
             }
         }
 
-        public bool TryLoadOrFindFile(string Filename, string FileType, string FileExtension, out string FilePath, params string[] hints)
+        private void tvNodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var FileNames = Filename.Split(';');
-
-            foreach (string file in FileNames)
-            {
-                foreach (string hint in hints)
-                {
-                    FilePath = hint + "\\" + file;
-
-                    if (File.Exists(hint + "\\" + file)) { return true; }
-                }
-            }
-
-            ofdBrowse.FileName = "";
-            ofdBrowse.Filter = Filename + "|" + Filename + "|" + FileType + " (" + FileExtension + ")|" + FileExtension;
-            if (ofdBrowse.ShowDialog() == DialogResult.OK)
-            {
-                FilePath = ofdBrowse.FileName;
-                return true;
-            }
-
-            FilePath = null;
-            return false;
+            MessageBox.Show(e.Node.Tag.ToString());
         }
     }
 }

@@ -41,29 +41,29 @@ namespace Flummery
 
             if (state[Key.Keypad4])
             {
-                yaw += .02f * dt;
+                yaw += .2f * dt;
             }
             if (state[Key.Keypad6])
             {
-                yaw += -.02f * dt;
+                yaw += -.2f * dt;
             }
 
             if (state[Key.Keypad2])
             {
-                pitch += -.02f * dt;
+                pitch += -.2f * dt;
             }
             if (state[Key.Keypad8])
             {
-                pitch += .02f * dt;
+                pitch += .2f * dt;
             }
 
             if (state[Key.Keypad7])
             {
-                roll += -.02f * dt;
+                roll += -.2f * dt;
             }
             if (state[Key.Keypad9])
             {
-                roll += .02f * dt;
+                roll += .2f * dt;
             }
 
             //  A/Z zoom in/out, numpad 7/9 barrel roll right/left, numpad 2/8 look up/down, numpad 4/6 look left/right, numpad 1/3 strafe left/right

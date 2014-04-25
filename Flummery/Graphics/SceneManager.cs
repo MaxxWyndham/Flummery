@@ -8,12 +8,17 @@ namespace Flummery
     public class SceneManager
     {
         public static SceneManager Scene;
+
         List<Model> models = new List<Model>();
+        List<Texture> textures = new List<Texture>();
+
         bool bVertexBuffer;
         Camera camera;
+        ContentManager content;
 
         public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
         public Camera Camera { get { return camera; } }
+        public ContentManager Content { get { return content; } }
 
         public delegate void AddHandler(object sender, AddEventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
@@ -22,15 +27,25 @@ namespace Flummery
 
         public SceneManager(bool bUseVertexBuffer = true)
         {
+            content = new ContentManager();
             camera = new Camera();
 
             bVertexBuffer = bUseVertexBuffer;
             Scene = this;
         }
 
-        public void Add(Model asset)
+        public void Add(Asset asset)
         {
-            models.Add(asset);
+            var m = (asset as Model);
+
+            if (m != null)
+            {
+                models.Add(m);
+            }
+            else
+            {
+                textures.Add(asset as Texture);
+            }
 
             if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset)); }
         }

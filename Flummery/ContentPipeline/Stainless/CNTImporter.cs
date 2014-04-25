@@ -5,11 +5,11 @@ using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {
-    class CNTImporter
+    class CNTImporter : ContentImporter
     {
         static string rootPath;
 
-        public static Model Import(string path)
+        public override Asset Import(string path)
         {
             CNT cnt = CNT.Load(path);
             Model model = new Model();

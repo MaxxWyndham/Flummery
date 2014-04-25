@@ -25,6 +25,8 @@ namespace Flummery.ContentPipeline.Stainless
 
                 var mdlmesh = mdl.GetMesh(i);
 
+                meshpart.Texture = Texture.CreateFromMaterial(path.Substring(0, path.LastIndexOf("\\") + 1) + mdlmesh.Name);
+
                 // Process triangle strip
                 for (int j = 0; j < mdlmesh.StripList.Count; j++)
                 {

@@ -12,6 +12,12 @@ namespace Flummery
 {
     public partial class MaterialItem : UserControl
     {
+        public string MaterialName
+        {
+            get { return lblName.Text; }
+            set { lblName.Text = value; }
+        }
+
         public MaterialItem()
         {
             InitializeComponent();
@@ -31,12 +37,12 @@ namespace Flummery
 
         void MaterialItem_Click(object sender, EventArgs e)
         {
-            SngClick(this, e);
+            if (SngClick != null) { SngClick(this, e); }
         }
 
         void MaterialItem_DoubleClick(object sender, EventArgs e)
         {
-            DblClick(this, e);
+            if (DblClick != null) { DblClick(this, e); }
         }
     }
 }

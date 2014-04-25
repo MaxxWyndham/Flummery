@@ -14,6 +14,7 @@ namespace Flummery
         object Tag;
         VertexBuffer vertexBuffer;
         int VertexOffset;
+        Texture texture;
 
         bool bRequiresFinalise = false;
 
@@ -25,6 +26,11 @@ namespace Flummery
         int point = 0;
 
         public int VertexCount { get { return vertexBuffer.Length; } }
+        public Texture Texture
+        {
+            get { return texture; }
+            set { texture = value; }
+        }
 
         public ModelMeshPart()
         {
@@ -196,7 +202,7 @@ namespace Flummery
 
             GL.Enable(EnableCap.DepthTest);
 
-            //GL.BindTexture(TextureTarget.Texture2D, TextureID);
+            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
             GL.DepthFunc(DepthFunction.Lequal);
             GL.Color3(Color.White);
