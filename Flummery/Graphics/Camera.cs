@@ -25,6 +25,8 @@ namespace Flummery
             speed = .3f;
 
             cameraRotation = Matrix4.Identity;
+
+            position = new Vector3(0, 2.0f, 3.0f);
         }
 
         public void Update(float dt)
@@ -37,55 +39,60 @@ namespace Flummery
         {
             var state = Keyboard.GetState();
 
-            if (state[Key.J])
+            if (state[Key.Keypad4])
             {
                 yaw += .02f * dt;
             }
-            if (state[Key.L])
+            if (state[Key.Keypad6])
             {
                 yaw += -.02f * dt;
             }
-            if (state[Key.I])
+
+            if (state[Key.Keypad2])
             {
                 pitch += -.02f * dt;
             }
-            if (state[Key.K])
+            if (state[Key.Keypad8])
             {
                 pitch += .02f * dt;
             }
-            if (state[Key.U])
+
+            if (state[Key.Keypad7])
             {
                 roll += -.02f * dt;
             }
-            if (state[Key.O])
+            if (state[Key.Keypad9])
             {
                 roll += .02f * dt;
             }
 
-            if (state[Key.W])
+            //  A/Z zoom in/out, numpad 7/9 barrel roll right/left, numpad 2/8 look up/down, numpad 4/6 look left/right, numpad 1/3 strafe left/right
+
+            if (state[Key.A])
             {
                 MoveCamera(GetForward(cameraRotation) * dt);
             }
-            if (state[Key.S])
+            if (state[Key.Z])
             {
                 MoveCamera(-GetForward(cameraRotation) * dt);
             }
-            if (state[Key.A])
+            if (state[Key.Keypad1])
             {
                 MoveCamera(-GetRight(cameraRotation) * dt);
             }
-            if (state[Key.D])
+            if (state[Key.Keypad3])
             {
                 MoveCamera(GetRight(cameraRotation) * dt);
             }
-            if (state[Key.E])
-            {
-                MoveCamera(GetUp(cameraRotation) * dt);
-            }
-            if (state[Key.Q])
-            {
-                MoveCamera(-GetUp(cameraRotation) * dt);
-            }
+
+            //if (state[Key.E])
+            //{
+            //    MoveCamera(GetUp(cameraRotation) * dt);
+            //}
+            //if (state[Key.Q])
+            //{
+            //    MoveCamera(-GetUp(cameraRotation) * dt);
+            //}
         }
 
         private Vector3 GetRight(Matrix4 m, bool normalise = false)

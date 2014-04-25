@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -10,18 +9,21 @@ namespace Flummery
     {
         public static SceneManager Scene;
         List<Model> models = new List<Model>();
-        ToolStripStatusLabel progress;
         bool bVertexBuffer;
         Camera camera;
 
         public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
         public Camera Camera { get { return camera; } }
 
-        public SceneManager(ToolStripStatusLabel progressbar, bool bUseVertexBuffer = true)
+        public delegate void AddHandler(object sender, AddEventArgs e);
+        public delegate void ProgressHandler(object sender, ProgressEventArgs e);
+        public event AddHandler OnAdd;
+        public event ProgressHandler OnProgress;
+
+        public SceneManager(bool bUseVertexBuffer = true)
         {
             camera = new Camera();
 
-            this.progress = progressbar;
             bVertexBuffer = bUseVertexBuffer;
             Scene = this;
         }
@@ -29,6 +31,8 @@ namespace Flummery
         public void Add(Model asset)
         {
             models.Add(asset);
+
+            if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset)); }
         }
 
         public void Update(float dt)
@@ -64,8 +68,27 @@ namespace Flummery
 
         public void UpdateProgress(string message)
         {
-            progress.Text = message;
-            progress.Owner.Refresh();
+            if (OnProgress != null) { OnProgress(this, new ProgressEventArgs(message)); }
+        }
+    }
+
+    public class AddEventArgs : EventArgs
+    {
+        public Asset Item { get; private set; }
+
+        public AddEventArgs(Asset item)
+        {
+            Item = item;
+        }
+    }
+
+    public class ProgressEventArgs : EventArgs
+    {
+        public string Status { get; private set; }
+
+        public ProgressEventArgs(string status)
+        {
+            Status = status;
         }
     }
 }

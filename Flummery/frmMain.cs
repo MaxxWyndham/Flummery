@@ -51,10 +51,10 @@ namespace Flummery
         private void frmMain_Load(object sender, EventArgs e)
         {
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.1.4";
+            this.Text += " v0.0.1.5";
             //title = this.Text;
 
-            scene = new SceneManager(tsslProgress, extensions.Contains("GL_ARB_vertex_buffer_object"));
+            scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
             BuildMenu();
             GLControlInit();
@@ -65,6 +65,54 @@ namespace Flummery
 
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(frmMain_KeyPress);
+
+            scene.OnAdd += scene_OnAdd;
+            scene.OnProgress += scene_OnProgress;
+        }
+
+        void scene_OnAdd(object sender, AddEventArgs e)
+        {
+            TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
+
+            var m = (e.Item as Model);
+            if (m != null)
+            {
+                OpenTK.Matrix4[] bones = new OpenTK.Matrix4[m.Bones.Count];
+                m.CopyAbsoluteBoneTransformsTo(bones);
+
+                for (int i = 0; i < bones.Length; i++)
+                {
+                    Console.WriteLine("{0}) {1}", i, m.Bones[i].Name);
+                    Console.WriteLine("{0}", bones[i]);
+                }
+
+                TravelTree(m.Root.Children[0], ref ParentNode);
+            }
+
+            tvNodes.Nodes[0].Expand();
+            tvNodes.Nodes[0].Nodes[0].Expand();
+        }
+
+        public static void TravelTree(ModelBone bone, ref TreeNode node)
+        {
+            Console.WriteLine("{0}", bone.Name);
+            Console.WriteLine("{0}", bone.Transform);
+
+            node = node.Nodes.Add(bone.Name);
+            node.Tag = bone.Index;
+
+            foreach (var b in bone.Children)
+            {
+                TravelTree(b, ref node);
+            }
+
+            node = node.Parent;
+        }
+
+        void scene_OnProgress(object sender, ProgressEventArgs e)
+        {
+            tsslProgress.Text = e.Status;
+            tsslProgress.Owner.Refresh();
         }
 
         void frmMain_KeyPress(object sender, KeyPressEventArgs e)

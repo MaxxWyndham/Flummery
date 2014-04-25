@@ -18,6 +18,8 @@ namespace Flummery.ContentPipeline.Stainless
 
             ProcessCNT(cnt, model);
 
+            SceneManager.Scene.UpdateProgress(string.Format("Loaded {0}", cnt.Name));
+
             return model;
         }
 
@@ -37,6 +39,7 @@ namespace Flummery.ContentPipeline.Stainless
                 boneIndex = model.AddMesh(null, ParentBoneIndex);
             }
 
+            model.SetName(cnt.Name, boneIndex);
             model.SetTransform(
                 new Matrix4 (
                     cnt.Transform.M11, cnt.Transform.M12, cnt.Transform.M13, 0,

@@ -73,6 +73,11 @@ namespace Flummery
             bones[BoneIndex].Transform = transform;
         }
 
+        public void SetName(string name, int BoneIndex = 0)
+        {
+            bones[BoneIndex].Name = name;
+        }
+
         public void Draw(Matrix4 world, Matrix4 view, Matrix4 projection) 
         {
             foreach (var mesh in meshes)
