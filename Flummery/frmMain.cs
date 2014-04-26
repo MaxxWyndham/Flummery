@@ -41,7 +41,7 @@ namespace Flummery
         private void frmMain_Load(object sender, EventArgs e)
         {
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.1.6";
+            this.Text += " v0.0.1.7";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -87,6 +87,7 @@ namespace Flummery
 
                 var mi = new MaterialItem();
                 mi.MaterialName = t.Name;
+                mi.SetThumbnail(((ToxicRagers.CarmageddonReincarnation.Formats.TDX)t.Tag).Decompress());
 
                 flpMaterials.Controls.Add(mi);
             }

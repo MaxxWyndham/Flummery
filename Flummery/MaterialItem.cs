@@ -18,6 +18,9 @@ namespace Flummery
             set { lblName.Text = value; }
         }
 
+        public event EventHandler DblClick;
+        public event EventHandler SngClick;
+
         public MaterialItem()
         {
             InitializeComponent();
@@ -32,9 +35,6 @@ namespace Flummery
             }
         }
 
-        public event EventHandler DblClick;
-        public event EventHandler SngClick;
-
         void MaterialItem_Click(object sender, EventArgs e)
         {
             if (SngClick != null) { SngClick(this, e); }
@@ -43,6 +43,11 @@ namespace Flummery
         void MaterialItem_DoubleClick(object sender, EventArgs e)
         {
             if (DblClick != null) { DblClick(this, e); }
+        }
+
+        public void SetThumbnail(Bitmap b)
+        {
+            pbThumb.Image = b;
         }
     }
 }
