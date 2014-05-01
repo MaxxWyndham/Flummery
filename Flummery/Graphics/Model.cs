@@ -6,9 +6,16 @@ namespace Flummery
 {
     public class Model : Asset
     {
+        public enum CoordinateSystem
+        {
+            LeftHanded,
+            RightHanded
+        }
+
         List<ModelBone> bones;
         List<ModelMesh> meshes;
         object tag;
+        CoordinateSystem coords = CoordinateSystem.LeftHanded;
 
         public List<ModelBone> Bones { get { return bones; } }
         public List<ModelMesh> Meshes { get { return meshes; } }
@@ -18,6 +25,12 @@ namespace Flummery
         {
             get { return tag; }
             set { tag = value; }
+        }
+
+        public CoordinateSystem Handedness
+        {
+            get { return coords; }
+            set { coords = value; }
         }
 
         public Model()
@@ -33,6 +46,7 @@ namespace Flummery
             for (int i = 0; i < bones.Count; i++)
             {
                 ModelBone bone = bones[i];
+
                 if (bone.Parent == null)
                 {
                     destinationBoneTransforms[i] = bone.Transform;
@@ -57,7 +71,8 @@ namespace Flummery
 
             if (mesh != null)
             {
-                mesh.Parent = bones[ParentBoneIndex];
+                b.Tag = mesh;
+                mesh.Parent = bones[b.Index];
                 meshes.Add(mesh);
             }
             else
@@ -68,6 +83,16 @@ namespace Flummery
             return b.Index;
         }
 
+        public ModelMesh FindMesh(string name)
+        {
+            foreach (var mesh in meshes)
+            {
+                if (mesh.Name == name) { return mesh; }
+            }
+
+            return null;
+        }
+
         public void SetTransform(Matrix4 transform, int BoneIndex = 0)
         {
             bones[BoneIndex].Transform = transform;
@@ -76,6 +101,13 @@ namespace Flummery
         public void SetName(string name, int BoneIndex = 0)
         {
             bones[BoneIndex].Name = name;
+        }
+
+        public void SetMesh(ModelMesh mesh, int BoneIndex = 0)
+        {
+            bones[BoneIndex].Tag = mesh;
+            mesh.Parent = bones[BoneIndex];
+            meshes.Add(mesh);
         }
 
         public void Draw(Matrix4 world, Matrix4 view, Matrix4 projection) 

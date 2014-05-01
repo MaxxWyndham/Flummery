@@ -7,9 +7,15 @@ namespace Flummery
     {
         BoundingSphere BoundingSphere;
         List<ModelMeshPart> meshParts;
-        string Name;
+        string name;
         ModelBone parent;
         object Tag;
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
         public ModelBone Parent
         {
@@ -17,14 +23,19 @@ namespace Flummery
             set { parent = value; }
         }
 
+        public List<ModelMeshPart> MeshParts
+        {
+            get { return meshParts; }
+        }
+
         public ModelMesh()
         {
             meshParts = new List<ModelMeshPart>();
         }
 
-        public void AddModelMeshPart(ModelMeshPart meshpart)
+        public void AddModelMeshPart(ModelMeshPart meshpart, bool bFinalise = true)
         {
-            meshpart.Finalise();
+            if (bFinalise) { meshpart.Finalise(); }
             meshParts.Add(meshpart);
         }
 

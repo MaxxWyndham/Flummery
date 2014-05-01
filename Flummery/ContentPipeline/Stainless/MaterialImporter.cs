@@ -28,13 +28,14 @@ namespace Flummery.ContentPipeline.Stainless
             var mat = (material as MT2);
             string fileName = (mat != null ? mat.DiffuseColour : (material as MTL).Textures[0]);
 
-            if (fileName == "")
+            if (fileName == null || fileName == "")
             {
                 return new Texture() { Name = fileName };
             }
             else
             {
-                return SceneManager.Scene.Content.Load<Texture, TDXImporter>(fileName);
+                path = path.Substring(0, path.LastIndexOf("\\") + 1);
+                return SceneManager.Scene.Content.Load<Texture, TDXImporter>(fileName, path);
             }
         }
     }

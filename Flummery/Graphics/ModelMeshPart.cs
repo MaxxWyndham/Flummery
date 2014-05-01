@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -18,6 +19,7 @@ namespace Flummery
 
         bool bRequiresFinalise = false;
 
+        List<string> faces = new List<string>();
         List<Vector3> verts;
         List<Vector3> norms;
         List<Vector2> uvs;
@@ -25,7 +27,15 @@ namespace Flummery
         int[] face = new int[3];
         int point = 0;
 
+        public IndexBuffer IndexBuffer { get { return indexBuffer; } }
+        public VertexBuffer VertexBuffer { get { return vertexBuffer; } }
+
+        public List<string> Faces { get { return faces; } }
+        public List<Vector3> VertexList { get { return verts; } }
+        public List<Vector3> NormalList { get { return norms; } }
+        public List<Vector2> UVList { get { return uvs; } }
         public int VertexCount { get { return vertexBuffer.Length; } }
+
         public Texture Texture
         {
             get { return texture; }
@@ -114,8 +124,6 @@ namespace Flummery
             uvs.Add(uv);
         }
 
-        List<string> faces = new List<string>();
-
         public void AddFace(int[] positions, int[] normals, int[] uvs)
         {
             for (int i = 0; i < 3; i++)
@@ -129,7 +137,7 @@ namespace Flummery
 
                     var v = new Vertex();
                     v.Position = verts[positions[i]];
-                    v.Normal = norms[normals[i]];
+                    if (normals[i] > -1) { v.Normal = norms[normals[i]]; }
                     v.UV = this.uvs[uvs[i]];
 
                     vertexBuffer.AddVertex(v);
@@ -202,7 +210,9 @@ namespace Flummery
 
             GL.Enable(EnableCap.DepthTest);
 
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            GL.BindTexture(TextureTarget.Texture2D, (texture != null ? texture.ID : 0));
+
+            GL.Disable(EnableCap.Blend);
 
             GL.DepthFunc(DepthFunction.Lequal);
             GL.Color3(Color.White);
@@ -218,9 +228,21 @@ namespace Flummery
                 GL.Begin(PrimitiveType.Triangles);
                 for (int i = 0; i < data.Length; i += 3)
                 {
-                    GL.Vertex3(verts[data[i + 0]]);
-                    GL.Vertex3(verts[data[i + 1]]);
-                    GL.Vertex3(verts[data[i + 2]]);
+                    var v1 = faces[data[i + 0]].Split('.').Select(int.Parse).ToList();
+                    var v2 = faces[data[i + 1]].Split('.').Select(int.Parse).ToList();
+                    var v3 = faces[data[i + 2]].Split('.').Select(int.Parse).ToList();
+
+                    GL.Vertex3(verts[v1[0]]);
+                    GL.Vertex3(verts[v2[0]]);
+                    GL.Vertex3(verts[v3[0]]);
+
+                    GL.Normal3(norms[v1[1]]);
+                    GL.Normal3(norms[v2[1]]);
+                    GL.Normal3(norms[v3[1]]);
+
+                    GL.TexCoord2(uvs[v1[2]]);
+                    GL.TexCoord2(uvs[v2[2]]);
+                    GL.TexCoord2(uvs[v3[2]]);
                 }
                 GL.End();
             }

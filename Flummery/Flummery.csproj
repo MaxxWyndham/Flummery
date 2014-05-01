@@ -72,11 +72,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentPipeline\ContentExporter.cs" />
     <Compile Include="ContentPipeline\ContentImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\ACTImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\CNTExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\DATImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MaterialImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\MDLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\TDXExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\TDXImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\TIFImporter.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Graphics\Asset.cs" />
     <Compile Include="Graphics\BoundingSphere.cs" />
     <Compile Include="Graphics\Camera.cs" />
@@ -154,6 +162,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\LibSquishNet\LibSquishNet\LibSquishNet.csproj">
+      <Project>{8b187d46-bc8e-4b5a-ae68-326958bc9aaa}</Project>
+      <Name>LibSquishNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
       <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
       <Name>ToxicRagers</Name>

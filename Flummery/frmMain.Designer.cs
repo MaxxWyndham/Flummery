@@ -35,7 +35,6 @@
             this.scViewMaterial = new System.Windows.Forms.SplitContainer();
             this.scTreeView = new System.Windows.Forms.SplitContainer();
             this.tvNodes = new System.Windows.Forms.TreeView();
-            this.glcViewport = new OpenTK.GLControl();
             this.flpMaterials = new System.Windows.Forms.FlowLayoutPanel();
             this.ssStatus = new System.Windows.Forms.StatusStrip();
             this.tsslProgress = new System.Windows.Forms.ToolStripStatusLabel();
@@ -45,7 +44,6 @@
             this.scViewMaterial.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scTreeView)).BeginInit();
             this.scTreeView.Panel1.SuspendLayout();
-            this.scTreeView.Panel2.SuspendLayout();
             this.scTreeView.SuspendLayout();
             this.ssStatus.SuspendLayout();
             this.SuspendLayout();
@@ -74,7 +72,7 @@
             this.scViewMaterial.Panel2.Controls.Add(this.flpMaterials);
             this.scViewMaterial.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.scViewMaterial.Size = new System.Drawing.Size(978, 617);
-            this.scViewMaterial.SplitterDistance = 520;
+            this.scViewMaterial.SplitterDistance = 506;
             this.scViewMaterial.TabIndex = 1;
             // 
             // scTreeView
@@ -87,11 +85,7 @@
             // scTreeView.Panel1
             // 
             this.scTreeView.Panel1.Controls.Add(this.tvNodes);
-            // 
-            // scTreeView.Panel2
-            // 
-            this.scTreeView.Panel2.Controls.Add(this.glcViewport);
-            this.scTreeView.Size = new System.Drawing.Size(978, 520);
+            this.scTreeView.Size = new System.Drawing.Size(978, 506);
             this.scTreeView.SplitterDistance = 250;
             this.scTreeView.TabIndex = 0;
             // 
@@ -102,24 +96,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvNodes.Location = new System.Drawing.Point(3, 3);
             this.tvNodes.Name = "tvNodes";
-            this.tvNodes.Size = new System.Drawing.Size(242, 622);
+            this.tvNodes.Size = new System.Drawing.Size(242, 498);
             this.tvNodes.TabIndex = 0;
             this.tvNodes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvNodes_NodeMouseDoubleClick);
-            // 
-            // glcViewport
-            // 
-            this.glcViewport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.glcViewport.BackColor = System.Drawing.Color.Black;
-            this.glcViewport.Location = new System.Drawing.Point(3, 5);
-            this.glcViewport.Name = "glcViewport";
-            this.glcViewport.Size = new System.Drawing.Size(716, 620);
-            this.glcViewport.TabIndex = 1;
-            this.glcViewport.VSync = false;
-            this.glcViewport.Load += new System.EventHandler(this.glcViewport_Load);
-            this.glcViewport.Paint += new System.Windows.Forms.PaintEventHandler(this.glcViewport_Paint);
-            this.glcViewport.Resize += new System.EventHandler(this.glcViewport_Resize);
             // 
             // flpMaterials
             // 
@@ -129,7 +108,7 @@
             this.flpMaterials.AutoScroll = true;
             this.flpMaterials.Location = new System.Drawing.Point(3, 3);
             this.flpMaterials.Name = "flpMaterials";
-            this.flpMaterials.Size = new System.Drawing.Size(970, 85);
+            this.flpMaterials.Size = new System.Drawing.Size(970, 99);
             this.flpMaterials.TabIndex = 0;
             this.flpMaterials.WrapContents = false;
             // 
@@ -167,7 +146,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.scViewMaterial)).EndInit();
             this.scViewMaterial.ResumeLayout(false);
             this.scTreeView.Panel1.ResumeLayout(false);
-            this.scTreeView.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scTreeView)).EndInit();
             this.scTreeView.ResumeLayout(false);
             this.ssStatus.ResumeLayout(false);
@@ -183,7 +161,6 @@
         private System.Windows.Forms.OpenFileDialog ofdBrowse;
         private System.Windows.Forms.FolderBrowserDialog fbdBrowse;
         private System.Windows.Forms.SplitContainer scViewMaterial;
-        private OpenTK.GLControl glcViewport;
         private System.Windows.Forms.SplitContainer scTreeView;
         private System.Windows.Forms.TreeView tvNodes;
         private System.Windows.Forms.StatusStrip ssStatus;

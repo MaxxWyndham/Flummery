@@ -9,6 +9,8 @@ namespace Flummery.ContentPipeline.Stainless
     {
         static string rootPath;
 
+        public override string GetExtension() { return "cnt"; }
+
         public override Asset Import(string path)
         {
             CNT cnt = CNT.Load(path);
@@ -31,7 +33,7 @@ namespace Flummery.ContentPipeline.Stainless
 
             if (cnt.Model != null)
             {
-                var m = MDLImporter.Import(rootPath + cnt.Model + ".mdl");
+                var m = SceneManager.Scene.Content.Load<Model, MDLImporter>(cnt.Model, rootPath);
                 boneIndex = model.AddMesh(m.Meshes[0], ParentBoneIndex);
             }
             else
@@ -42,10 +44,10 @@ namespace Flummery.ContentPipeline.Stainless
             model.SetName(cnt.Name, boneIndex);
             model.SetTransform(
                 new Matrix4 (
-                    cnt.Transform.M11, cnt.Transform.M12, cnt.Transform.M13, 0,
-                    cnt.Transform.M21, cnt.Transform.M22, cnt.Transform.M23, 0,
-                    cnt.Transform.M31, cnt.Transform.M32, cnt.Transform.M33, 0,
-                    cnt.Transform.M41, cnt.Transform.M42, cnt.Transform.M43, 1
+                    cnt.Transform.M11, cnt.Transform.M12,  cnt.Transform.M13, 0,
+                    cnt.Transform.M21, cnt.Transform.M22,  cnt.Transform.M23, 0,
+                    cnt.Transform.M31, cnt.Transform.M32,  cnt.Transform.M33, 0,
+                    cnt.Transform.M41, cnt.Transform.M42, -cnt.Transform.M43, 1
                 ), boneIndex);
 
             foreach (CNT subcnt in cnt.Children)

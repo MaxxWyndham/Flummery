@@ -5,22 +5,18 @@ namespace Flummery.ContentPipeline
 {
     public abstract class ContentImporter    
     {
-        public virtual string GetExtension()
-        {
-            return "";
-        }
+        public virtual string GetExtension() { return ""; }
+        public virtual string GetHints(string currentPath) { return null; }
 
-        public string Find(string assetName)
+        public string Find(string assetName, string currentPath = null)
         {
-            if (File.Exists(assetName)) { return assetName; }
+            if (currentPath != null && File.Exists(currentPath + assetName)) { return currentPath + assetName; }
 
-            if (assetName.IndexOf("\\") > -1) 
-            {
-                var hint = assetName.Substring(0, assetName.LastIndexOf("\\") + 1);
-                assetName = assetName.Replace(hint, "");
-                ContentManager.AddHint(hint);
-            }
-            if (assetName.IndexOf(".") > -1) { assetName = assetName.Substring(0, assetName.LastIndexOf(".") - 1); }
+            if (currentPath != null) { ContentManager.AddHint(currentPath); }
+            if (assetName.IndexOf(".") > -1) { assetName = assetName.Substring(0, assetName.LastIndexOf(".")); }
+
+            string hints = GetHints(currentPath);
+            if (hints != null) { foreach (var hint in hints.Split(';')) { ContentManager.AddHint(hint); } }
 
             string path;
 

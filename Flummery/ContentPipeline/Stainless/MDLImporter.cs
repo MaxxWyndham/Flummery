@@ -5,13 +5,16 @@ using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {
-    class MDLImporter
+    class MDLImporter : ContentImporter
     {
-        public static Model Import(string path)
+        public override string GetExtension() { return "mdl"; }
+
+        public override Asset Import(string path)
         {
             MDL mdl = MDL.Load(path);
             Model model = new Model();
 
+            model.Handedness = Model.CoordinateSystem.RightHanded;
             model.Tag = mdl;
 
             ModelMesh mesh = new ModelMesh();
@@ -25,31 +28,31 @@ namespace Flummery.ContentPipeline.Stainless
 
                 var mdlmesh = mdl.GetMesh(i);
 
-                meshpart.Texture = Texture.CreateFromMaterial(path.Substring(0, path.LastIndexOf("\\") + 1) + mdlmesh.Name);
+                meshpart.Texture = Texture.CreateFromMaterial(mdlmesh.Name, path.Substring(0, path.LastIndexOf("\\") + 1));
 
                 // Process triangle strip
                 for (int j = 0; j < mdlmesh.StripList.Count; j++)
                 {
-                    pLookup[mdlmesh.StripList[j].Index] = meshpart.CreatePosition(mdl.Vertices[mdlmesh.StripList[j].Index].Position.X, mdl.Vertices[mdlmesh.StripList[j].Index].Position.Y, mdl.Vertices[mdlmesh.StripList[j].Index].Position.Z);
+                    pLookup[mdlmesh.StripList[j].Index] = meshpart.CreatePosition(mdl.Vertices[mdlmesh.StripList[j].Index].Position.X, mdl.Vertices[mdlmesh.StripList[j].Index].Position.Y, -mdl.Vertices[mdlmesh.StripList[j].Index].Position.Z);
                     nLookup[mdlmesh.StripList[j].Index] = meshpart.CreateNormal(mdl.Vertices[mdlmesh.StripList[j].Index].Normal.X, mdl.Vertices[mdlmesh.StripList[j].Index].Normal.Y, mdl.Vertices[mdlmesh.StripList[j].Index].Normal.Z);
                     tLookup[mdlmesh.StripList[j].Index] = meshpart.CreateUV(mdl.Vertices[mdlmesh.StripList[j].Index].UV.X, mdl.Vertices[mdlmesh.StripList[j].Index].UV.Y);
                 }
 
                 for (int j = 0; j < mdlmesh.StripList.Count - 2; j++)
                 {
-                    if (j % 2 == 0)
+                    if (j % 2 != 0)
                     {
                         meshpart.AddFace(
                             new int[] {
                                 pLookup[mdlmesh.StripList[j + 0].Index],
                                 pLookup[mdlmesh.StripList[j + 1].Index],
                                 pLookup[mdlmesh.StripList[j + 2].Index]
-                            }, 
+                            },
                             new int[]{
                                 nLookup[mdlmesh.StripList[j + 0].Index],
                                 nLookup[mdlmesh.StripList[j + 1].Index],
                                 nLookup[mdlmesh.StripList[j + 2].Index]
-                            }, 
+                            },
                             new int[]{
                                 tLookup[mdlmesh.StripList[j + 0].Index],
                                 tLookup[mdlmesh.StripList[j + 1].Index],
@@ -82,7 +85,7 @@ namespace Flummery.ContentPipeline.Stainless
                 // Process patch list
                 for (int j = 0; j < mdlmesh.PatchList.Count; j++)
                 {
-                    pLookup[mdlmesh.PatchList[j].Index] = meshpart.CreatePosition(mdl.Vertices[mdlmesh.PatchList[j].Index].Position.X, mdl.Vertices[mdlmesh.PatchList[j].Index].Position.Y, mdl.Vertices[mdlmesh.PatchList[j].Index].Position.Z);
+                    pLookup[mdlmesh.PatchList[j].Index] = meshpart.CreatePosition(mdl.Vertices[mdlmesh.PatchList[j].Index].Position.X, mdl.Vertices[mdlmesh.PatchList[j].Index].Position.Y, -mdl.Vertices[mdlmesh.PatchList[j].Index].Position.Z);
                     nLookup[mdlmesh.PatchList[j].Index] = meshpart.CreateNormal(mdl.Vertices[mdlmesh.PatchList[j].Index].Normal.X, mdl.Vertices[mdlmesh.PatchList[j].Index].Normal.Y, mdl.Vertices[mdlmesh.PatchList[j].Index].Normal.Z);
                     tLookup[mdlmesh.PatchList[j].Index] = meshpart.CreateUV(mdl.Vertices[mdlmesh.PatchList[j].Index].UV.X, mdl.Vertices[mdlmesh.PatchList[j].Index].UV.Y);
                 }
@@ -92,18 +95,18 @@ namespace Flummery.ContentPipeline.Stainless
                     meshpart.AddFace(
                         new int[] {
                                 pLookup[mdlmesh.PatchList[j + 0].Index],
-                                pLookup[mdlmesh.PatchList[j + 1].Index],
-                                pLookup[mdlmesh.PatchList[j + 2].Index]
+                                pLookup[mdlmesh.PatchList[j + 2].Index],
+                                pLookup[mdlmesh.PatchList[j + 1].Index]
                             },
                         new int[]{
                                 nLookup[mdlmesh.PatchList[j + 0].Index],
-                                nLookup[mdlmesh.PatchList[j + 1].Index],
-                                nLookup[mdlmesh.PatchList[j + 2].Index]
+                                nLookup[mdlmesh.PatchList[j + 2].Index],
+                                nLookup[mdlmesh.PatchList[j + 1].Index]
                             },
                         new int[]{
                                 tLookup[mdlmesh.PatchList[j + 0].Index],
-                                tLookup[mdlmesh.PatchList[j + 1].Index],
-                                tLookup[mdlmesh.PatchList[j + 2].Index]
+                                tLookup[mdlmesh.PatchList[j + 2].Index],
+                                tLookup[mdlmesh.PatchList[j + 1].Index]
                             }
                     );
                 }
@@ -111,7 +114,7 @@ namespace Flummery.ContentPipeline.Stainless
                 mesh.AddModelMeshPart(meshpart);
             }
 
-            model.AddMesh(mesh);
+            model.SetName(mdl.Name, model.AddMesh(mesh));
 
             return model;
         }

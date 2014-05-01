@@ -8,7 +8,7 @@ namespace Flummery
     public class ContentManager
     {
         Dictionary<string, Asset> assets = new Dictionary<string, Asset>();
-        public static string Hints = (Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
+        public static string Hints = "";//(Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
 
         public static bool LoadOrDefaultFile(string Filename, string FileExtension, out string FilePath)
         {
@@ -22,7 +22,7 @@ namespace Flummery
                 {
                     foreach (string hint in hints)
                     {
-                        FilePath = hint + "\\" + file + "." + extension;
+                        FilePath = hint + (hint.EndsWith("\\") ? "" : "\\") + file + "." + extension;
 
                         if (File.Exists(FilePath)) { return true; }
                     }
@@ -44,31 +44,33 @@ namespace Flummery
             Hints = string.Join(";", list.ToArray());
         }
 
-        public T Load<T, T2>(string assetName, bool bAddToScene = false) where T : Asset 
-                                               where T2 : ContentImporter, new()
+        public T Load<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T : Asset 
+                                                                                                  where T2 : ContentImporter, new()
         {
             string key = typeof(T).ToString() + assetName;
 
             if (assets.ContainsKey(key)) { return (T)assets[key]; }
 
             var importer = new T2();
-            var path = importer.Find(assetName);
-            var content = importer.Import(path);
+            var path = importer.Find(assetName, assetPath);
 
-            Properties.Settings.Default.FolderHints = Hints;
-            Properties.Settings.Default.Save();
-
-            if (content != null)
+            if (path != null)
             {
-                assets.Add(key, content);
-                if (bAddToScene) { SceneManager.Scene.Add(content); }
+                var content = importer.Import(path);
 
-                return (T)content;
+                Properties.Settings.Default.FolderHints = Hints;
+                Properties.Settings.Default.Save();
+
+                if (content != null)
+                {
+                    assets[key] = content;
+                    if (bAddToScene) { SceneManager.Scene.Add(content); }
+
+                    return (T)content;
+                }
             }
-            else
-            {
-                return default(T);
-            }
+
+            return default(T);
         }
     }
 }

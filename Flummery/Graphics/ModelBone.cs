@@ -11,6 +11,7 @@ namespace Flummery
         string name;
         ModelBone parent;
         Matrix4 transform;
+        object tag;
 
         public int Index
         {
@@ -40,6 +41,12 @@ namespace Flummery
         {
             get { return transform; }
             set { transform = value; }
+        }
+
+        public object Tag
+        {
+            get { return tag; }
+            set { tag = value; }
         }
 
         public ModelBone()

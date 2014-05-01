@@ -70,11 +70,11 @@ namespace Flummery
 
             if (state[Key.A])
             {
-                MoveCamera(GetForward(cameraRotation) * dt);
+                MoveCamera(cameraRotation.Forward() * dt);
             }
             if (state[Key.Z])
             {
-                MoveCamera(-GetForward(cameraRotation) * dt);
+                MoveCamera(-cameraRotation.Forward() * dt);
             }
             if (state[Key.Keypad1])
             {
@@ -110,28 +110,21 @@ namespace Flummery
             return v;
         }
 
-        private Vector3 GetForward(Matrix4 m, bool normalise = false)
-        {
-            var v = new Vector3(m.M31, m.M32, m.M33);
-            if (normalise) { v.Normalize(); }
-            return -v;
-        }
-
         private void UpdateViewMatrix()
         {
-            var f = GetForward(cameraRotation, true);
+            cameraRotation.NormaliseForward();
             var u = GetUp(cameraRotation, true);
             var r = GetRight(cameraRotation, true);
 
             cameraRotation *= Matrix4.CreateFromAxisAngle(r, pitch);
             cameraRotation *= Matrix4.CreateFromAxisAngle(u, yaw);
-            cameraRotation *= Matrix4.CreateFromAxisAngle(f, roll);
+            cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Forward(), roll);
 
             yaw = 0.0f;
             pitch = 0.0f;
             roll = 0.0f;
 
-            target = position + f;
+            target = position + cameraRotation.Forward();
 
             viewMatrix = Matrix4.LookAt(position, target, u);
         }
@@ -139,6 +132,11 @@ namespace Flummery
         public void MoveCamera(Vector3 addedVector)
         {
             position += speed * addedVector;
+        }
+
+        public void SetPosition(Vector3 pos)
+        {
+            position = pos;
         }
     }
 }

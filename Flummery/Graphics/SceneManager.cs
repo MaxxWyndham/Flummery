@@ -20,6 +20,9 @@ namespace Flummery
         public Camera Camera { get { return camera; } }
         public ContentManager Content { get { return content; } }
 
+        public List<Model> Models { get { return models; } }
+        public List<Texture> Textures { get { return textures; } }
+
         public delegate void AddHandler(object sender, AddEventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
         public event AddHandler OnAdd;
@@ -60,8 +63,6 @@ namespace Flummery
             Matrix4 lookat = camera.viewMatrix;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
-
-            GL.Scale(1.0f, 1.0f, -1.0f);
 
             foreach (var model in models)
             {

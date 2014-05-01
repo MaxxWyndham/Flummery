@@ -5,6 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
+using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using ToxicRagers.Carmageddon2.Formats;
 using Flummery.ContentPipeline.Stainless;
@@ -19,7 +21,7 @@ namespace Flummery
         }
 
         SceneManager scene;
-
+        GLControl control;
         Stopwatch sw = new Stopwatch();
         double accumulator = 0;
 
@@ -40,8 +42,21 @@ namespace Flummery
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default);
+            control.Name = "glcViewport";
+            control.VSync = true;
+            control.Width = 716;
+            control.Height = 512;
+            control.Top = 3;
+            control.Left = 3;
+            control.BackColor = Color.Black;
+            control.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            control.Resize += glcViewport_Resize;
+            control.Paint += glcViewport_Paint;
+            scTreeView.Panel2.Controls.Add(control);
+
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.1.7";
+            this.Text += " v0.0.2.0";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -67,19 +82,13 @@ namespace Flummery
             {
                 TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
 
-                //OpenTK.Matrix4[] bones = new OpenTK.Matrix4[m.Bones.Count];
-                //m.CopyAbsoluteBoneTransformsTo(bones);
+                if (m.Root.Children.Count > 0)
+                {
+                    TravelTree(m.Root.Children[0], ref ParentNode);
 
-                //for (int i = 0; i < bones.Length; i++)
-                //{
-                //    Console.WriteLine("{0}) {1}", i, m.Bones[i].Name);
-                //    Console.WriteLine("{0}", bones[i]);
-                //}
-
-                TravelTree(m.Root.Children[0], ref ParentNode);
-
-                tvNodes.Nodes[0].Expand();
-                tvNodes.Nodes[0].Nodes[0].Expand();
+                    tvNodes.Nodes[0].Expand();
+                    tvNodes.Nodes[0].Nodes[0].Expand();
+                }
             }
             else
             {
@@ -87,7 +96,14 @@ namespace Flummery
 
                 var mi = new MaterialItem();
                 mi.MaterialName = t.Name;
-                mi.SetThumbnail(((ToxicRagers.CarmageddonReincarnation.Formats.TDX)t.Tag).Decompress());
+
+                var b = (t.Tag as Bitmap);
+                if (b == null)
+                {
+                    var tdx = (ToxicRagers.CarmageddonReincarnation.Formats.TDX)t.Tag;
+                    b = tdx.Decompress(tdx.GetMipLevelForSize(128));
+                }
+                mi.SetThumbnail(b);
 
                 flpMaterials.Controls.Add(mi);
             }
@@ -95,9 +111,6 @@ namespace Flummery
 
         public static void TravelTree(ModelBone bone, ref TreeNode node)
         {
-            //Console.WriteLine("{0}", bone.Name);
-            //Console.WriteLine("{0}", bone.Transform);
-
             node = node.Nodes.Add(bone.Name);
             node.Tag = bone.Index;
 
@@ -113,9 +126,10 @@ namespace Flummery
         {
             tsslProgress.Text = e.Status;
             tsslProgress.Owner.Refresh();
+            Application.DoEvents();
         }
 
-        void frmMain_KeyPress(object sender, KeyPressEventArgs e)
+        void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             switch (e.KeyChar)
             {
@@ -133,18 +147,18 @@ namespace Flummery
                 //    Console.WriteLine((byte)e.KeyChar);
                     break;
             }
+
+            e.Handled = true;
         }
 
         private void GLControlInit()
         {
-            glcViewport.VSync = true;
-
             GL.ClearColor(Color.Gray);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             GL.ShadeModel(ShadingModel.Smooth);
             GL.PointSize(3.0f);
             GL.Enable(EnableCap.CullFace);
-            GL.FrontFace(FrontFaceDirection.Cw);
+            //GL.FrontFace(FrontFaceDirection.Cw);
             GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, 2.0f, 0.0f });
             GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
@@ -169,7 +183,7 @@ namespace Flummery
 
         private void Animate(double milliseconds)
         {
-            glcViewport.Invalidate();
+            control.Invalidate();
         }
 
         private void Accumulate(double milliseconds)
@@ -201,20 +215,15 @@ namespace Flummery
             //}
         }
 
-        private void glcViewport_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void glcViewport_Resize(object sender, EventArgs e)
         {
-            int w = glcViewport.Width;
-            int h = glcViewport.Height;
+            int w = control.Width;
+            int h = control.Height;
             GL.Viewport(0, 0, w, h);
 
             float aspect_ratio = w / (float)h;
 
-            OpenTK.Matrix4 perpective = OpenTK.Matrix4.CreatePerspectiveFieldOfView(OpenTK.MathHelper.PiOver4, aspect_ratio, 0.0001f, 640);
+            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.0001f, 640);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perpective);
         }
@@ -231,7 +240,7 @@ namespace Flummery
 
             scene.Draw();
 
-            glcViewport.SwapBuffers();
+            control.SwapBuffers();
         }
 
         private void BuildMenu()
@@ -240,21 +249,31 @@ namespace Flummery
             menu.MenuItems.Add("&File");
             menu.MenuItems[0].MenuItems.Add("&Open...", menuClick);
             menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlO;
+            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon 2");
+            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Actor", menuCarmageddon2Click);
+
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
+
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Novadrome");
-            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Vehicle", menuNovadromeClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Vehicle", menuNovadromeClick);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
             //menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender DAT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless CNT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless MDL File...", menuClick);
+
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("Save", menuClick);
+
+            menu.MenuItems[0].MenuItems.Add("Save As...");
+            menu.MenuItems[0].MenuItems[4].MenuItems.Add("Carmageddon Reincarnation");
+            menu.MenuItems[0].MenuItems[4].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
+
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
 
@@ -289,65 +308,14 @@ namespace Flummery
 
                 case "BRender DAT File...":
                     ofdBrowse.Filter = "BRender DAT files (*.dat)|*.dat";
-                    ofdBrowse.ShowDialog();
 
-                    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
                     {
-                        var dat = ToxicRagers.Carmageddon2.Formats.DAT.Load(ofdBrowse.FileName);
-                        if (dat == null) { return; }
+                        string path = ofdBrowse.FileName;
+                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
+                        path = path.Replace(fileName, "");
 
-                        foreach (DatMesh datmesh in dat.DatMeshes)
-                        {
-                            ToxicRagers.Helpers.Vector3[] vl = datmesh.Mesh.GetVertexList();
-                            ToxicRagers.Helpers.Vector2[] uvl = datmesh.Mesh.GetUVList();
-
-                            Vertex[] v = new Vertex[vl.Length];
-
-                            for (int i = 0; i < v.Length; i++)
-                            {
-                                v[i].Position = new OpenTK.Vector3(vl[i].X, vl[i].Y, vl[i].Z);
-                                //v[i].UV = new OpenTK.Vector2(uvl[i].X, uvl[i].Y);
-                            }
-
-                            //for (int i = 0; i < v.Length; i += 3)
-                            //{
-                            //    OpenTK.Vector3 v0 = v[i].Position;
-                            //    OpenTK.Vector3 v1 = v[i + 1].Position;
-                            //    OpenTK.Vector3 v2 = v[i + 2].Position;
-
-                            //    OpenTK.Vector3 normal = OpenTK.Vector3.Normalize(OpenTK.Vector3.Cross(v2 - v0, v1 - v0));
-
-                            //    v[i].Normal += normal;
-                            //    v[i + 1].Normal += normal;
-                            //    v[i + 2].Normal += normal;
-                            //}
-
-                            //for (int i = 0; i < v.Length; i++)
-                            //{
-                            //    v[i].Normal = OpenTK.Vector3.Normalize(v[i].Normal);
-                            //}
-
-
-                            //ToxicRagers.Stainless.Formats.MDL mdlxx = new ToxicRagers.Stainless.Formats.MDL();
-                            //mdlxx.Materials.Add(new ToxicRagers.Stainless.Formats.MDLMaterial("BBlocks"));
-
-                            //for (int i = 0; i < v.Length; i+=3)
-                            //{
-                            //    mdlxx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(0, i + 0, i + 1, i + 2));
-
-                            //    mdlxx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex(v[i + 0].Position.X, v[i + 0].Position.Y, v[i + 0].Position.Z, v[i + 0].Normal.X, v[i + 0].Normal.Y, v[i + 0].Normal.Z, v[i + 0].UV.X, v[i + 0].UV.Y, 0, 0, 0, 0, 0, 0));
-                            //    mdlxx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex(v[i + 1].Position.X, v[i + 1].Position.Y, v[i + 1].Position.Z, v[i + 1].Normal.X, v[i + 1].Normal.Y, v[i + 1].Normal.Z, v[i + 1].UV.X, v[i + 1].UV.Y, 0, 0, 0, 0, 0, 0));
-                            //    mdlxx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex(v[i + 2].Position.X, v[i + 2].Position.Y, v[i + 2].Position.Z, v[i + 2].Normal.X, v[i + 2].Normal.Y, v[i + 2].Normal.Z, v[i + 2].UV.X, v[i + 2].UV.Y, 0, 0, 0, 0, 0, 0));
-                            //}
-
-                            //mdlxx.Save(@"D:\FuckYeah.mdl");
-
-                            //VertexBuffer vbo = new VertexBuffer(datmesh.Name);
-                            //vbo.SetData(v, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
-
-                            //Node n = new Node(datmesh.Name, vbo);
-                            //nodes.Add(n);
-                        }
+                        scene.Add(scene.Content.Load<Model, DATImporter>(fileName, path));
                     }
                     break;
 
@@ -357,71 +325,45 @@ namespace Flummery
 
                     if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Add(Flummery.ContentPipeline.Stainless.MDLImporter.Import(ofdBrowse.FileName));
+                        string path = ofdBrowse.FileName;
+                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
+                        path = path.Replace(fileName, "");
+
+                        scene.Content.Load<Model, MDLImporter>(fileName, path, true);
                     }
                     break;
 
                 case "Save":
-                    MessageBox.Show("[code goes here]");
-
-                    //Bitmap bitmap = new Bitmap(@"F:\websites\toxic-ragers.co.uk\images\misc\novadrome_xt2_CONTROLLER360003.png");
-                    //byte[] data = new byte[bitmap.Width*bitmap.Height*4];
-                    //byte[] dest = new byte[Squish.Squish.GetStorageRequirements(bitmap.Width, bitmap.Height, Squish.SquishFlags.kDxt3 | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha)];
-
-                    //int ii = 0;
-                    //for (int y = 0; y < bitmap.Height; y++)
-                    //{
-                    //    for (int x = 0; x < bitmap.Width; x++)
-                    //    {
-                    //        var p = bitmap.GetPixel(x, y);
-                    //        data[ii + 0] = p.R;
-                    //        data[ii + 1] = p.G;
-                    //        data[ii + 2] = p.B;
-                    //        data[ii + 3] = p.A;
-
-                    //        ii+=4;
-                    //    }
-                    //}
-
-                    //Squish.Squish.CompressImage(data, bitmap.Width, bitmap.Height, ref dest, Squish.SquishFlags.kDxt3 | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha);
-                    
-                    //using (BinaryWriter bw = new BinaryWriter(new FileStream(@"D:\FuckYeah.dds", FileMode.Create)))
-                    //{
-                    //    bw.Write(dest);
-                    //}
-
-                    //MessageBox.Show("Done!");
-
-                    //ToxicRagers.Stainless.Formats.MDL mdlx = new ToxicRagers.Stainless.Formats.MDL();
-                    //mdlx.Materials.Add(new ToxicRagers.Stainless.Formats.MDLMaterial("AP_cardboardBox"));
-
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex(-5.0f, -5.0f, -5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex( 5.0f, -5.0f, -5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex( 5.0f, -5.0f,  5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex(-5.0f, -5.0f,  5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex(-5.0f,  5.0f, -5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex( 5.0f,  5.0f, -5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex( 5.0f,  5.0f,  5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-                    //mdlx.Vertices.Add(new ToxicRagers.Stainless.Formats.MDLVertex(-5.0f,  5.0f,  5.0f, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 0, 1, 4));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 1, 5, 4));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 1, 5, 2));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 2, 5, 6));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 2, 6, 7));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 2, 7, 3));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 3, 7, 0));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 0, 3, 4));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 0, 1, 2));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 0, 2, 3));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 4, 5, 6));
-                    //mdlx.Faces.Add(new ToxicRagers.Stainless.Formats.MDLFace(1, 4, 6, 7));
-
-                    //mdlx.Save(@"D:\FuckYeah.mdl");
+                    foreach (var model in scene.Models)
+                    {
+                        var x = new MDLExporter();
+                        x.Export(model, "D:\\&04747\\");
+                    }
                     break;
 
                 case "E&xit":
                     Application.Exit();
+                    break;
+            }
+        }
+
+        private void menuCarmageddon2Click(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Actor":
+                    ofdBrowse.Filter = "Carmageddon 2 ACTOR (*.act)|*.act";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        string path = ofdBrowse.FileName;
+                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
+                        path = path.Replace(fileName, "");
+
+                        scene.Add(scene.Content.Load<Model, ACTImporter>(fileName, path));
+                    }
                     break;
             }
         }
@@ -432,7 +374,11 @@ namespace Flummery
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK)
             {
-                scene.Add(scene.Content.Load<Model, CNTImporter>(ofdBrowse.FileName));
+                string path = ofdBrowse.FileName;
+                string fileName = path.Substring(path.LastIndexOf("\\") + 1);
+                path = path.Replace(fileName, "");
+
+                scene.Add(scene.Content.Load<Model, CNTImporter>(fileName, path));
             }
         }
 
@@ -518,17 +464,7 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "Vehicle":
-                    ofdBrowse.Filter = "Novadrome Vehicles (carbody.cnt)|carbody.cnt";
-
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
-                    {
-                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
-                    }
-                    break;
-
-                case "XT2 file":
-                    ToxicRagers.Novadrome.Formats.XT2.Load(@"F:\Novadrome_Demo\Novadrome_Demo\WADs\data\DATA\TEXTURES\LEVEL1_BRONZE.XT2");
-                    ToxicRagers.Novadrome.Formats.XT2.Load(@"F:\Novadrome_Demo\Novadrome_Demo\WADs\data\DATA\FRONTEND\CONTROLLER360.XT2");
+                    openContent("Novadrome Vehicles (carbody.cnt)|carbody.cnt");
                     break;
 
                 case "XT2 files":
@@ -555,9 +491,80 @@ namespace Flummery
             }
         }
 
+        private void menuSaveAsClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Environment":
+                    if (fbdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        var d = new DirectoryInfo(fbdBrowse.SelectedPath);
+
+                        if (!Directory.Exists(fbdBrowse.SelectedPath + "\\levels\\Airport\\")) { Directory.CreateDirectory(fbdBrowse.SelectedPath + "\\levels\\Airport\\"); }
+
+                        using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\environment.lol"))
+                        {
+                            w.WriteLine("module((...), environment_config, package.seeall)");
+                            w.WriteLine("name = txt.fe_environment_" + d.Name.ToLower() + "_ucase");
+                        }
+
+                        using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\environment.txt"))
+                        {
+                            w.WriteLine("[LUMP]");
+                            w.WriteLine("environment");
+                        }
+
+                        using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\levels\\Airport\\level.txt"))
+                        {
+                            w.WriteLine("[LUMP]");
+                            w.WriteLine("level");
+                            w.WriteLine();
+                            w.WriteLine("[RACE_NAMES]");
+                            w.WriteLine("txt.fe_level_airport_race_1_ucase");
+                            w.WriteLine();
+                            w.WriteLine("[RACE_WRITEUP]");
+                            w.WriteLine("txt.fe_level_airport_race_1_writeup");
+                            w.WriteLine();
+                            w.WriteLine("[RACE_IMAGES]");
+                            w.WriteLine("race\\" + d.Name + "_Airport_race_01");
+                            w.WriteLine();
+                            w.WriteLine("[RACE_BACKGROUNDS]");
+                            w.WriteLine("background_list\\" + d.Name + "_Airport_race_01");
+                            w.WriteLine();
+                            w.WriteLine("[VERSION]");
+                            w.WriteLine("2.500000");
+                            w.WriteLine();
+                            w.WriteLine("[RACE_LAYERS]");
+                            w.WriteLine("race01");
+                            w.WriteLine();
+                            w.WriteLine("[LUA_SCRIPTS]");
+                            w.WriteLine("setup.lua");
+                            w.WriteLine();
+                        }
+
+                        var cx = new CNTExporter();
+                        cx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\level.cnt");
+
+                        var mx = new MDLExporter();
+                        mx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\");
+
+                        //foreach (var material in scene.Textures)
+                        //{
+                        //    var tx = new TDXExporter();
+                        //    tx.Export(material, fbdBrowse.SelectedPath + "\\levels\\Airport\\");
+                        //}
+
+                        MessageBox.Show("Done!");
+                    }
+                    break;
+            }
+        }
+
         private void tvNodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            MessageBox.Show(e.Node.Tag.ToString());
+            scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].Transform.Position());
         }
     }
 }

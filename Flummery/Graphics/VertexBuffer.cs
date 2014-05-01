@@ -21,6 +21,7 @@ namespace Flummery
         int vbo;
 
         public int Length { get { return (data != null ? data.Count : 0); } }
+        public List<Vertex> Data { get { return data; } }
 
         public void AddVertex(Vertex vert)
         {
