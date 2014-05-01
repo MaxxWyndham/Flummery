@@ -101,9 +101,10 @@ namespace Flummery
                 if (b == null)
                 {
                     var tdx = (ToxicRagers.CarmageddonReincarnation.Formats.TDX)t.Tag;
-                    b = tdx.Decompress(tdx.GetMipLevelForSize(128));
+                    if (tdx != null) { b = tdx.Decompress(tdx.GetMipLevelForSize(128)); }
                 }
-                mi.SetThumbnail(b);
+
+                if (b != null) { mi.SetThumbnail(b); }
 
                 flpMaterials.Controls.Add(mi);
             }

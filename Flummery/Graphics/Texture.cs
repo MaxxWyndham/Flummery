@@ -9,7 +9,6 @@ namespace Flummery
     public class Texture : Asset
     {
         int texture;
-        string name;
         string format;
         int width;
         int height;
@@ -17,12 +16,6 @@ namespace Flummery
         object tag;
 
         public int ID { get { return texture; } }
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
 
         public object Tag
         {
@@ -37,6 +30,8 @@ namespace Flummery
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+            CreateFromBitmap((Bitmap)Bitmap.FromFile("data\\test.bmp"), null);
         }
 
         public static Texture CreateFromMaterial(string name, string path)

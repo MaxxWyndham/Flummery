@@ -19,7 +19,6 @@ namespace Flummery.ContentPipeline.Stainless
 
                 ModelMesh mesh = new ModelMesh();
 
-
                 mesh.Name = (datmesh.Name.Contains(".") ? datmesh.Name.Substring(0, datmesh.Name.IndexOf(".")) : datmesh.Name);
 
                 var pLookup = new Dictionary<int, Dictionary<int, int>>();
@@ -50,7 +49,7 @@ namespace Flummery.ContentPipeline.Stainless
 
                     if (mesh.MeshParts[face.MaterialID].Texture == null)
                     {
-                        mesh.MeshParts[face.MaterialID].Texture = SceneManager.Scene.Content.Load<Texture, TIFImporter>(datmesh.Mesh.Materials[face.MaterialID], path.Substring(0, path.LastIndexOf("\\") + 1), true);
+                        mesh.MeshParts[face.MaterialID].Texture = SceneManager.Scene.Content.Load<Texture, TIFImporter>(datmesh.Mesh.Materials[face.MaterialID].Replace("\\", ""), path.Substring(0, path.LastIndexOf("\\") + 1), true);
                     }
 
                     mesh.MeshParts[face.MaterialID].AddFace(

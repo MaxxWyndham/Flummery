@@ -8,7 +8,7 @@ namespace Flummery
     public class ContentManager
     {
         Dictionary<string, Asset> assets = new Dictionary<string, Asset>();
-        public static string Hints = "";//(Properties.Settings.Default.FolderHints != null ? Properties.Settings.Default.FolderHints : "");
+        public static string Hints = "";
 
         public static bool LoadOrDefaultFile(string Filename, string FileExtension, out string FilePath)
         {
@@ -44,7 +44,7 @@ namespace Flummery
             Hints = string.Join(";", list.ToArray());
         }
 
-        public T Load<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T : Asset 
+        public T Load<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T : Asset, new()
                                                                                                   where T2 : ContentImporter, new()
         {
             string key = typeof(T).ToString() + assetName;
@@ -53,21 +53,24 @@ namespace Flummery
 
             var importer = new T2();
             var path = importer.Find(assetName, assetPath);
+            Asset content = null;
 
             if (path != null)
             {
-                var content = importer.Import(path);
+                content = importer.Import(path);
+            }
+            else
+            {
+                content = new T();
+                content.Name = assetName;
+            }
 
-                Properties.Settings.Default.FolderHints = Hints;
-                Properties.Settings.Default.Save();
+            if (content != null)
+            {
+                assets[key] = content;
+                if (bAddToScene) { SceneManager.Scene.Add(content); }
 
-                if (content != null)
-                {
-                    assets[key] = content;
-                    if (bAddToScene) { SceneManager.Scene.Add(content); }
-
-                    return (T)content;
-                }
+                return (T)content;
             }
 
             return default(T);
