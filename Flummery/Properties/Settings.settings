@@ -5,7 +5,10 @@
     <Setting Name="LastBrowsedFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FolderHints" Type="System.String" Scope="User">
+    <Setting Name="PathCarmageddonReincarnation" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PathCarmageddon2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

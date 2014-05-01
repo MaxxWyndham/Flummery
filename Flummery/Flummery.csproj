@@ -85,6 +85,12 @@
     <Compile Include="ContentPipeline\Stainless\TDXImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\TIFImporter.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="frmPreferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPreferences.Designer.cs">
+      <DependentUpon>frmPreferences.cs</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Asset.cs" />
     <Compile Include="Graphics\BoundingSphere.cs" />
     <Compile Include="Graphics\Camera.cs" />
@@ -113,6 +119,9 @@
     <Compile Include="Graphics\VertexBuffer.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPreferences.resx">
+      <DependentUpon>frmPreferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MaterialItem.resx">
       <DependentUpon>MaterialItem.cs</DependentUpon>

@@ -289,6 +289,12 @@ namespace Flummery
             menu.MenuItems[1].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
             menu.MenuItems[1].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
 
+            menu.MenuItems.Add("View");
+            menu.MenuItems[2].MenuItems.Add("Preferences", menuViewClick);
+
+            menu.MenuItems.Add("About");
+            menu.MenuItems[3].MenuItems.Add("I LIKE CAKE");
+
             this.Menu = menu;
         }
 
@@ -551,14 +557,27 @@ namespace Flummery
                         var mx = new MDLExporter();
                         mx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\");
 
-                        //foreach (var material in scene.Textures)
-                        //{
-                        //    var tx = new TDXExporter();
-                        //    tx.Export(material, fbdBrowse.SelectedPath + "\\levels\\Airport\\");
-                        //}
+                        foreach (var material in scene.Textures)
+                        {
+                            var tx = new TDXExporter();
+                            tx.Export(material, fbdBrowse.SelectedPath + "\\levels\\Airport\\");
+                        }
 
                         MessageBox.Show("Done!");
                     }
+                    break;
+            }
+        }
+
+        private void menuViewClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Preferences":
+                    var prefs = new frmPreferences();
+                    prefs.Show();
                     break;
             }
         }

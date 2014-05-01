@@ -38,12 +38,24 @@ namespace Flummery.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string FolderHints {
+        public string PathCarmageddonReincarnation {
             get {
-                return ((string)(this["FolderHints"]));
+                return ((string)(this["PathCarmageddonReincarnation"]));
             }
             set {
-                this["FolderHints"] = value;
+                this["PathCarmageddonReincarnation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PathCarmageddon2 {
+            get {
+                return ((string)(this["PathCarmageddon2"]));
+            }
+            set {
+                this["PathCarmageddon2"] = value;
             }
         }
     }
