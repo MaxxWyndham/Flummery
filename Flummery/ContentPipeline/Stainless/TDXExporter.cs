@@ -14,15 +14,31 @@ namespace Flummery.ContentPipeline.Stainless
             var tdx = new TDX();
             var b = (texture.Tag as Bitmap);
 
+            SceneManager.Scene.UpdateProgress(string.Format("Saving {0}", texture.Name));
+
+            var flags = Squish.SquishFlags.kDxt1;
+
             tdx.Name = texture.Name;
-            tdx.Format = D3DFormat.DXT5;
+
+            switch ((D3DFormat)settings.Format)
+            {
+                case D3DFormat.DXT1:
+                    flags = Squish.SquishFlags.kDxt1;
+                    break;
+
+                case D3DFormat.DXT5:
+                    flags = Squish.SquishFlags.kDxt5;
+                    break;
+            }
+
+            tdx.Format = (D3DFormat)settings.Format;
 
             var mip = new MipMap();
             mip.Width = b.Width;
             mip.Height = b.Height;
 
             byte[] data = new byte[b.Width * b.Height * 4];
-            byte[] dest = new byte[Squish.Squish.GetStorageRequirements(b.Width, b.Height, Squish.SquishFlags.kDxt5 | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha)];
+            byte[] dest = new byte[Squish.Squish.GetStorageRequirements(b.Width, b.Height, flags | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha)];
 
             int ii = 0;
             for (int y = 0; y < b.Height; y++)
@@ -39,7 +55,7 @@ namespace Flummery.ContentPipeline.Stainless
                 }
             }
 
-            Squish.Squish.CompressImage(data, b.Width, b.Height, ref dest, Squish.SquishFlags.kDxt3 | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha);
+            Squish.Squish.CompressImage(data, b.Width, b.Height, ref dest, flags | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha);
             mip.Data = dest;
 
             tdx.MipMaps.Add(mip);
@@ -49,10 +65,11 @@ namespace Flummery.ContentPipeline.Stainless
             {
                 w.WriteLine("<?xml version=\"1.0\"?>");
                 w.WriteLine("<Material>");
-                w.WriteLine("<BasedOffOf Name=\"simple_base\"/>");
-                w.WriteLine("<Pass Number=\"0\">");
-                w.WriteLine("<Texture Alias=\"DiffuseColour\" FileName=\"" + texture.Name + "\"/>");
-                w.WriteLine("</Pass>");
+                w.WriteLine("\t<BasedOffOf Name=\"simple_1bit_base\"/>");
+                w.WriteLine("\t<Walkable Value=\"TRUE\" />");
+                w.WriteLine("\t<Pass Number=\"0\">");
+                w.WriteLine("\t\t<Texture Alias=\"DiffuseColour\" FileName=\"" + texture.Name + "\"/>");
+                w.WriteLine("\t</Pass>");
                 w.WriteLine("</Material>");
             }
         }

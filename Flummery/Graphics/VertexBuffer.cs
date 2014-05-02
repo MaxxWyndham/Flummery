@@ -37,7 +37,7 @@ namespace Flummery
             GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(this.data.Count * Vertex.Stride), this.data.ToArray(), BufferUsageHint.DynamicDraw);
         }
 
-        public void Draw(int count, int TextureID = 0)
+        public void Draw(int count)
         {
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 

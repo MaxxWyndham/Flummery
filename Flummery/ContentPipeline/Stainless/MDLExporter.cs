@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ToxicRagers.Stainless.Formats;
+using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {
@@ -8,6 +9,8 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string Path)
         {
+            var exportTransform = (settings.Transform != null ? (Matrix4)settings.Tranform : Matrix4.Identity);
+
             var model = (asset as Model);
 
             int meshno = 0;
@@ -51,9 +54,11 @@ namespace Flummery.ContentPipeline.Stainless
                     {
                         var v = meshpart.VertexBuffer.Data[i];
 
+                        var vt = Vector3.TransformVector(v.Position, exportTransform);
+
                         mdl.Vertices.Add(
                             new MDLVertex(
-                                v.Position.X, v.Position.Y, -v.Position.Z,
+                                vt.X, vt.Y, vt.Z,
                                 v.Normal.X, v.Normal.Y, v.Normal.Z,
                                 v.UV.X, v.UV.Y,
                                 0, 0, 0, 0, 0, 0

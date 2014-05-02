@@ -20,6 +20,8 @@ namespace Flummery
             InitializeComponent();
         }
 
+        static bool bPublicRelease = false;
+
         SceneManager scene;
         GLControl control;
         Stopwatch sw = new Stopwatch();
@@ -56,7 +58,7 @@ namespace Flummery
             scTreeView.Panel2.Controls.Add(control);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.0";
+            this.Text += " v0.0.2.1";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -64,6 +66,8 @@ namespace Flummery
             GLControlInit();
 
             sw.Start();
+
+            ToxicRagers.Helpers.Logger.ResetLog();
 
             Application.Idle += new EventHandler(Application_Idle);
 
@@ -134,10 +138,6 @@ namespace Flummery
         {
             switch (e.KeyChar)
             {
-                case ',':
-                    toggleNodesRender();
-                    break;
-
                 case '.':
                     renderMode++;
                     if (renderMode == renderModes.Length) { renderMode = 0; }
@@ -193,29 +193,6 @@ namespace Flummery
             if (accumulator > 1000) { accumulator -= 1000; }
         }
 
-        private void toggleNodesRender()
-        {
-            //if (nodes.Count == 0) { return; }
-
-            //bool bAllVisibile = (nodes.Where(n => n.CanRender).Count() == nodes.Count);
-            //int firstVisible = nodes.FindIndex(n => n.CanRender == true);
-
-            //for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = false; }
-
-            //if (bAllVisibile)
-            //{
-            //    nodes[0].CanRender = true;
-            //}
-            //else if (firstVisible + 1 < nodes.Count)
-            //{
-            //    nodes[firstVisible + 1].CanRender = true;
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < nodes.Count; i++) { nodes[i].CanRender = true; }
-            //}
-        }
-
         private void glcViewport_Resize(object sender, EventArgs e)
         {
             int w = control.Width;
@@ -268,26 +245,32 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless CNT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless MDL File...", menuClick);
 
-            menu.MenuItems[0].MenuItems.Add("-");
-            menu.MenuItems[0].MenuItems.Add("Save", menuClick);
+            if (!bPublicRelease)
+            {
+                menu.MenuItems[0].MenuItems.Add("-");
+                menu.MenuItems[0].MenuItems.Add("Save", menuClick);
 
-            menu.MenuItems[0].MenuItems.Add("Save As...");
-            menu.MenuItems[0].MenuItems[4].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[4].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
+                menu.MenuItems[0].MenuItems.Add("Save As...");
+                menu.MenuItems[0].MenuItems[4].MenuItems.Add("Carmageddon Reincarnation");
+                menu.MenuItems[0].MenuItems[4].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
+            }
 
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
 
             menu.MenuItems.Add("&Debug");
-            menu.MenuItems[1].MenuItems.Add("Process...");
-            menu.MenuItems[1].MenuItems[0].MenuItems.Add("XT2 file", menuNovadromeClick);
-            menu.MenuItems[1].MenuItems.Add("Process all...");
-            menu.MenuItems[1].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[1].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[1].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[1].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[1].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[1].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
+            if (!bPublicRelease)
+            {
+                menu.MenuItems[1].MenuItems.Add("Process...");
+                menu.MenuItems[1].MenuItems[0].MenuItems.Add("XT2 file", menuNovadromeClick);
+                menu.MenuItems[1].MenuItems.Add("Process all...");
+                menu.MenuItems[1].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
+                menu.MenuItems[1].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
+                menu.MenuItems[1].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
+                menu.MenuItems[1].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
+                menu.MenuItems[1].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
+                menu.MenuItems[1].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
+            }
 
             menu.MenuItems.Add("View");
             menu.MenuItems[2].MenuItems.Add("Preferences", menuViewClick);
@@ -304,15 +287,6 @@ namespace Flummery
 
             switch (mi.Text)
             {
-                case "Stainless CNT File...":
-                    ofdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
-
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
-                    {
-                        //Games.Loader.LoadContent(ofdBrowse.FileName, this, ref hints, ref nodes);
-                    }
-                    break;
-
                 case "BRender DAT File...":
                     ofdBrowse.Filter = "BRender DAT files (*.dat)|*.dat";
 
@@ -323,6 +297,19 @@ namespace Flummery
                         path = path.Replace(fileName, "");
 
                         scene.Add(scene.Content.Load<Model, DATImporter>(fileName, path));
+                    }
+                    break;
+
+                case "Stainless CNT File...":
+                    ofdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        string path = ofdBrowse.FileName;
+                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
+                        path = path.Replace(fileName, "");
+
+                        scene.Add(scene.Content.Load<Model, CNTImporter>(fileName, path));
                     }
                     break;
 
@@ -341,11 +328,7 @@ namespace Flummery
                     break;
 
                 case "Save":
-                    foreach (var model in scene.Models)
-                    {
-                        var x = new MDLExporter();
-                        x.Export(model, "D:\\&04747\\");
-                    }
+                    MessageBox.Show("[code goes here]");
                     break;
 
                 case "E&xit":
@@ -552,16 +535,19 @@ namespace Flummery
                         }
 
                         var cx = new CNTExporter();
+                        cx.SetExportOptions(new { Scale = new Vector3(2.5f, 2.5f, -2.5f) });
                         cx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\level.cnt");
 
                         var mx = new MDLExporter();
+                        mx.SetExportOptions(new { Transform = Matrix4.CreateScale(2.5f, 2.5f, -2.5f) });
                         mx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\");
 
-                        foreach (var material in scene.Textures)
-                        {
-                            var tx = new TDXExporter();
-                            tx.Export(material, fbdBrowse.SelectedPath + "\\levels\\Airport\\");
-                        }
+                        //foreach (var material in scene.Textures)
+                        //{
+                        //    var tx = new TDXExporter();
+                        //    tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT5 });
+                        //    tx.Export(material, fbdBrowse.SelectedPath + "\\levels\\Airport\\");
+                        //}
 
                         MessageBox.Show("Done!");
                     }
@@ -586,7 +572,7 @@ namespace Flummery
         {
             if (e.Node.Tag != null)
             {
-                scene.Camera.SetRotation(0, 0, 0);
+                scene.Camera.ResetCamera();
                 scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].CombinedTransform.Position());
             }
         }

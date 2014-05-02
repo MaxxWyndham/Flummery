@@ -10,6 +10,7 @@ namespace Flummery.ContentPipeline.Stainless
         public override Asset Import(string path)
         {
             DAT dat = DAT.Load(path);
+            MAT mat = MAT.Load(path.Replace(".dat", ".mat"));
             Model model = new Model();
 
             foreach (var datmesh in dat.DatMeshes)
@@ -49,7 +50,8 @@ namespace Flummery.ContentPipeline.Stainless
 
                     if (mesh.MeshParts[face.MaterialID].Texture == null)
                     {
-                        mesh.MeshParts[face.MaterialID].Texture = SceneManager.Scene.Content.Load<Texture, TIFImporter>(datmesh.Mesh.Materials[face.MaterialID].Replace("\\", ""), path.Substring(0, path.LastIndexOf("\\") + 1), true);
+                        var textureName = mat.Materials.Find(m => m.Name == datmesh.Mesh.Materials[face.MaterialID]).Texture;
+                        mesh.MeshParts[face.MaterialID].Texture = SceneManager.Scene.Content.Load<Texture, TIFImporter>(textureName, path.Substring(0, path.LastIndexOf("\\") + 1), true);
                     }
 
                     mesh.MeshParts[face.MaterialID].AddFace(
