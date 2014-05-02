@@ -30,6 +30,9 @@ namespace Flummery
         int renderMode = 0;
         int[] renderModes = new int[] { 6914, 6913, 6912 };
 
+        int actionScaling = 3;
+        float[] actionScales = new float[] { 0.01f, 0.1f, 0.5f, 1.0f, 5.0f, 10.0f };
+
         private double dt
         {
             get
@@ -58,7 +61,7 @@ namespace Flummery
             scTreeView.Panel2.Controls.Add(control);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.1";
+            this.Text += " v0.0.2.2";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -68,6 +71,8 @@ namespace Flummery
             sw.Start();
 
             ToxicRagers.Helpers.Logger.ResetLog();
+
+            tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
 
             Application.Idle += new EventHandler(Application_Idle);
 
@@ -142,6 +147,24 @@ namespace Flummery
                     renderMode++;
                     if (renderMode == renderModes.Length) { renderMode = 0; }
                     GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
+                    break;
+
+                case '*':
+                    if (actionScaling + 1 < actionScales.Length)
+                    {
+                        actionScaling++;
+                        scene.Camera.SetActionScale(actionScales[actionScaling]);
+                        tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
+                    }
+                    break;
+
+                case '/':
+                    if (actionScaling - 1 > -1)
+                    {
+                        actionScaling--;
+                        scene.Camera.SetActionScale(actionScales[actionScaling]);
+                        tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
+                    }
                     break;
 
                 default:

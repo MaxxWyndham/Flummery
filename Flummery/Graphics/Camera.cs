@@ -11,7 +11,7 @@ namespace Flummery
         public Matrix4 viewMatrix, projectionMatrix;
 
         private float yaw, pitch, roll;
-        private float speed;
+        private float speed, rotationSpeed;
         private Matrix4 cameraRotation;
 
         public Camera() { ResetCamera(); }
@@ -22,7 +22,8 @@ namespace Flummery
             pitch = 0.0f;
             roll = 0.0f;
 
-            speed = 3.0f;
+            speed = 1.0f;
+            rotationSpeed = 0.4f;
 
             cameraRotation = Matrix4.Identity;
 
@@ -41,29 +42,29 @@ namespace Flummery
 
             if (state[Key.Keypad4])
             {
-                yaw += .2f * dt;
+                yaw += rotationSpeed * dt;
             }
             if (state[Key.Keypad6])
             {
-                yaw += -.2f * dt;
+                yaw += -rotationSpeed * dt;
             }
 
             if (state[Key.Keypad2])
             {
-                pitch += -.2f * dt;
+                pitch += -rotationSpeed * dt;
             }
             if (state[Key.Keypad8])
             {
-                pitch += .2f * dt;
+                pitch += rotationSpeed * dt;
             }
 
             if (state[Key.Keypad7])
             {
-                roll += -.2f * dt;
+                roll += -rotationSpeed * dt;
             }
             if (state[Key.Keypad9])
             {
-                roll += .2f * dt;
+                roll += rotationSpeed * dt;
             }
 
             //  A/Z zoom in/out, numpad 7/9 barrel roll right/left, numpad 2/8 look up/down, numpad 4/6 look left/right, numpad 1/3 strafe left/right
@@ -78,11 +79,11 @@ namespace Flummery
             }
             if (state[Key.Keypad1])
             {
-                MoveCamera(-GetRight(cameraRotation) * dt);
+                MoveCamera(-cameraRotation.Right() * dt);
             }
             if (state[Key.Keypad3])
             {
-                MoveCamera(GetRight(cameraRotation) * dt);
+                MoveCamera(cameraRotation.Right() * dt);
             }
 
             //if (state[Key.E])
@@ -95,29 +96,14 @@ namespace Flummery
             //}
         }
 
-        private Vector3 GetRight(Matrix4 m, bool normalise = false)
-        {
-            var v = new Vector3(m.M11, m.M12, m.M13);
-            if (normalise) { v.Normalize(); }
-            return v;
-        }
-
-
-        private Vector3 GetUp(Matrix4 m, bool normalise = false)
-        {
-            var v = new Vector3(m.M21, m.M22, m.M23);
-            if (normalise) { v.Normalize(); }
-            return v;
-        }
-
         private void UpdateViewMatrix()
         {
             cameraRotation.NormaliseForward();
-            var u = GetUp(cameraRotation, true);
-            var r = GetRight(cameraRotation, true);
+            cameraRotation.NormaliseUp();
+            cameraRotation.NormaliseRight();
 
-            cameraRotation *= Matrix4.CreateFromAxisAngle(r, pitch);
-            cameraRotation *= Matrix4.CreateFromAxisAngle(u, yaw);
+            cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Right(), pitch);
+            cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Up(), yaw);
             cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Forward(), roll);
 
             yaw = 0.0f;
@@ -126,7 +112,7 @@ namespace Flummery
 
             target = position + cameraRotation.Forward();
 
-            viewMatrix = Matrix4.LookAt(position, target, u);
+            viewMatrix = Matrix4.LookAt(position, target, cameraRotation.Up());
         }
 
         public void MoveCamera(Vector3 addedVector)
@@ -144,6 +130,11 @@ namespace Flummery
             this.yaw = yaw;
             this.pitch = pitch;
             this.roll = roll;
+        }
+
+        public void SetActionScale(float speed)
+        {
+            this.speed = speed;
         }
     }
 }
