@@ -1,4 +1,5 @@
 ﻿using System;
+using ToxicRagers.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
 using OpenTK;
 
@@ -17,7 +18,7 @@ namespace Flummery.ContentPipeline.Stainless
             string fileName = path.Substring(path.LastIndexOf("\\") + 1);
             path = path.Replace(fileName, "");
 
-            Model dat = SceneManager.Scene.Content.Load<Model, DATImporter>(fileName.Replace(".act", ".dat"), path);
+            Model dat = SceneManager.Scene.Content.Load<Model, DATImporter>(fileName.Replace(".act", ".dat", StringComparison.OrdinalIgnoreCase), path);
 
             foreach (var section in act.Sections)
             {
