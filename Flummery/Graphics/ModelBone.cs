@@ -43,6 +43,23 @@ namespace Flummery
             set { transform = value; }
         }
 
+        public Matrix4 CombinedTransform
+        {
+            get
+            {
+                var b = this;
+                var m = transform;
+
+                while (b.parent != null)
+                {
+                    b = b.parent;
+                    m *= b.transform;
+                }
+
+                return m;
+            }
+        }
+
         public object Tag
         {
             get { return tag; }

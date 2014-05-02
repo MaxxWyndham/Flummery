@@ -224,7 +224,7 @@ namespace Flummery
 
             float aspect_ratio = w / (float)h;
 
-            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.0001f, 640);
+            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 640);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perpective);
         }
@@ -584,7 +584,11 @@ namespace Flummery
 
         private void tvNodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].Transform.Position());
+            if (e.Node.Tag != null)
+            {
+                scene.Camera.SetRotation(0, 0, 0);
+                scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].CombinedTransform.Position());
+            }
         }
     }
 }

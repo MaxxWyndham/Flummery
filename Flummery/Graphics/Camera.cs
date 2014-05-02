@@ -22,7 +22,7 @@ namespace Flummery
             pitch = 0.0f;
             roll = 0.0f;
 
-            speed = .3f;
+            speed = 3.0f;
 
             cameraRotation = Matrix4.Identity;
 
@@ -137,6 +137,13 @@ namespace Flummery
         public void SetPosition(Vector3 pos)
         {
             position = pos;
+        }
+
+        public void SetRotation(float yaw, float pitch, float roll)
+        {
+            this.yaw = yaw;
+            this.pitch = pitch;
+            this.roll = roll;
         }
     }
 }
