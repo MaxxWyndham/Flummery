@@ -83,7 +83,7 @@ namespace Flummery
 
             if (mesh != null)
             {
-                //b.Tag = mesh;
+                b.Tag = mesh;
                 mesh.Parent = bones[b.Index];
                 meshes.Add(mesh);
             }
@@ -117,7 +117,7 @@ namespace Flummery
 
         public void SetMesh(ModelMesh mesh, int BoneIndex = 0)
         {
-            //bones[BoneIndex].Tag = mesh;
+            bones[BoneIndex].Tag = mesh;
             mesh.Parent = bones[BoneIndex];
             meshes.Add(mesh);
         }
