@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Forms;
 using Flummery.ContentPipeline.Stainless;
 using OpenTK.Graphics.OpenGL;
 
@@ -31,7 +33,7 @@ namespace Flummery
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-            CreateFromBitmap((Bitmap)Bitmap.FromFile("data\\test.bmp"), null);
+            CreateFromBitmap((Bitmap)Bitmap.FromFile(Path.GetDirectoryName(Application.ExecutablePath) + "\\data\\test.bmp"), null);
         }
 
         public static Texture CreateFromMaterial(string name, string path)
