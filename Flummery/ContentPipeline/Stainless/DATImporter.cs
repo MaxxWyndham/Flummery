@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ToxicRagers.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
 using OpenTK;
@@ -25,31 +24,12 @@ namespace Flummery.ContentPipeline.Stainless
 
                 SceneManager.Scene.UpdateProgress(string.Format("Processing {0}", mesh.Name));
 
-                var pLookup = new Dictionary<int, Dictionary<int, int>>();
-                var nLookup = new Dictionary<int, Dictionary<int, int>>();
-                var tLookup = new Dictionary<int, Dictionary<int, int>>();
-
-                // Always create at least one mesh
-                for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++)
-                {
-                    mesh.AddModelMeshPart(new ModelMeshPart(), false);
-
-                    pLookup[i] = new Dictionary<int, int>();
-                    nLookup[i] = new Dictionary<int, int>();
-                    tLookup[i] = new Dictionary<int, int>();
-                }
+                for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++) { mesh.AddModelMeshPart(new ModelMeshPart(), false); }
 
                 for (int i = 0; i < datmesh.Mesh.Faces.Count; i++)
                 {
                     var face = datmesh.Mesh.Faces[i];
                     var materialID = face.MaterialID + 1;
-
-                    for (int j = 0; j < face.Verts.Length; j++)
-                    {
-                        pLookup[materialID][face.Verts[j]] = mesh.MeshParts[materialID].CreatePosition(datmesh.Mesh.Verts[face.Verts[j]].X, datmesh.Mesh.Verts[face.Verts[j]].Y, datmesh.Mesh.Verts[face.Verts[j]].Z);
-                        nLookup[materialID][face.Verts[j]] = mesh.MeshParts[materialID].CreateNormal(datmesh.Mesh.Normals[face.Verts[j]].X, datmesh.Mesh.Normals[face.Verts[j]].Y, datmesh.Mesh.Normals[face.Verts[j]].Z);
-                        tLookup[materialID][face.UVs[j]] = mesh.MeshParts[materialID].CreateUV(datmesh.Mesh.UVs[face.UVs[j]].X, datmesh.Mesh.UVs[face.UVs[j]].Y);
-                    }
 
                     if (mat != null && face.MaterialID > -1 && mesh.MeshParts[materialID].Texture == null)
                     {
@@ -58,22 +38,22 @@ namespace Flummery.ContentPipeline.Stainless
                     }
 
                     mesh.MeshParts[materialID].AddFace(
-                            new int[] {
-                                pLookup[materialID][face.V1],
-                                pLookup[materialID][face.V2],
-                                pLookup[materialID][face.V3]
-                            },
-                            new int[] {
-                                nLookup[materialID][face.V1],
-                                nLookup[materialID][face.V2],
-                                nLookup[materialID][face.V3]
-                            },
-                            new int[] {
-                                tLookup[materialID][face.UV1],
-                                tLookup[materialID][face.UV2],
-                                tLookup[materialID][face.UV3]
-                            }
-                        );
+                        new OpenTK.Vector3[] {
+                            new OpenTK.Vector3(datmesh.Mesh.Verts[face.V1].X, datmesh.Mesh.Verts[face.V1].Y, datmesh.Mesh.Verts[face.V1].Z),
+                            new OpenTK.Vector3(datmesh.Mesh.Verts[face.V2].X, datmesh.Mesh.Verts[face.V2].Y, datmesh.Mesh.Verts[face.V2].Z),
+                            new OpenTK.Vector3(datmesh.Mesh.Verts[face.V3].X, datmesh.Mesh.Verts[face.V3].Y, datmesh.Mesh.Verts[face.V3].Z)
+                        },
+                        new OpenTK.Vector3[] {
+                            new OpenTK.Vector3(datmesh.Mesh.Normals[face.V1].X, datmesh.Mesh.Normals[face.V1].Y, datmesh.Mesh.Normals[face.V1].Z),
+                            new OpenTK.Vector3(datmesh.Mesh.Normals[face.V2].X, datmesh.Mesh.Normals[face.V2].Y, datmesh.Mesh.Normals[face.V2].Z),
+                            new OpenTK.Vector3(datmesh.Mesh.Normals[face.V3].X, datmesh.Mesh.Normals[face.V3].Y, datmesh.Mesh.Normals[face.V3].Z)
+                        },
+                        new OpenTK.Vector2[] {
+                            new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV1].X, datmesh.Mesh.UVs[face.UV1].Y),
+                            new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV2].X, datmesh.Mesh.UVs[face.UV2].Y),
+                            new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV3].X, datmesh.Mesh.UVs[face.UV3].Y)
+                        }
+                    );
                 }
 
                 for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++) { mesh.MeshParts[i].Finalise(); }
