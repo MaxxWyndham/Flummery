@@ -124,11 +124,11 @@ namespace Flummery
             uvs.Add(uv);
         }
 
-        public void AddFace(int[] positions, int[] normals, int[] uvs)
+        public void AddFace(int[] positions, int[] normals, int[] texcoords)
         {
             for (int i = 0; i < 3; i++)
             {
-                string key = string.Format("{0}.{1}.{2}", positions[i], normals[i], uvs[i]);
+                string key = string.Format("{0}.{1}.{2}", positions[i], normals[i], texcoords[i]);
                 int index = faces.IndexOf(key);
 
                 if (index == -1)
@@ -138,7 +138,7 @@ namespace Flummery
                     var v = new Vertex();
                     v.Position = verts[positions[i]];
                     if (normals[i] > -1) { v.Normal = norms[normals[i]]; }
-                    v.UV = this.uvs[uvs[i]];
+                    v.UV = uvs[texcoords[i]];
 
                     vertexBuffer.AddVertex(v);
                     indexBuffer.AddIndex(faces.Count - 1);
@@ -226,24 +226,16 @@ namespace Flummery
             else
             {
                 GL.Begin(PrimitiveType.Triangles);
-                for (int i = 0; i < data.Length; i += 3)
+
+                foreach (int i in indexBuffer.Data)
                 {
-                    var v1 = faces[data[i + 0]].Split('.').Select(int.Parse).ToList();
-                    var v2 = faces[data[i + 1]].Split('.').Select(int.Parse).ToList();
-                    var v3 = faces[data[i + 2]].Split('.').Select(int.Parse).ToList();
+                    var v = vertexBuffer.Data[i];
 
-                    GL.Vertex3(verts[v1[0]]);
-                    GL.Vertex3(verts[v2[0]]);
-                    GL.Vertex3(verts[v3[0]]);
-
-                    GL.Normal3(norms[v1[1]]);
-                    GL.Normal3(norms[v2[1]]);
-                    GL.Normal3(norms[v3[1]]);
-
-                    GL.TexCoord2(uvs[v1[2]]);
-                    GL.TexCoord2(uvs[v2[2]]);
-                    GL.TexCoord2(uvs[v3[2]]);
+                    GL.TexCoord2(v.UV);
+                    GL.Normal3(v.Normal);
+                    GL.Vertex3(v.Position);
                 }
+
                 GL.End();
             }
         }
