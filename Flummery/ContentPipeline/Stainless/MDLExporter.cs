@@ -9,7 +9,7 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string Path)
         {
-            var exportTransform = (settings.Transform != null ? (Matrix4)settings.Tranform : Matrix4.Identity);
+            var exportTransform = (settings.Transform != null ? (Matrix4)(settings.Transform) : Matrix4.Identity);
 
             var model = (asset as Model);
 
