@@ -49,7 +49,7 @@ namespace Flummery
         {
             string key = typeof(T).ToString() + assetName;
 
-            if (assets.ContainsKey(key)) { return (T)assets[key]; }
+            if (assets.ContainsKey(key)) { return (T)assets[key].Clone(); }
 
             var importer = new T2();
             var path = importer.Find(assetName, assetPath);

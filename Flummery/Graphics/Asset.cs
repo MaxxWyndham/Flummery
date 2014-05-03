@@ -11,5 +11,10 @@ namespace Flummery
             get { return name; }
             set { name = value; }
         }
+
+        public virtual Asset Clone()
+        {
+            return this;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Flummery.ContentPipeline.Stainless
                         break;
 
                     case Section.Model:
-                        model.SetMesh(dat.FindMesh((section.Model.Contains(".") ? section.Model.Substring(0, section.Model.IndexOf(".")) : section.Model)), boneIndex);
+                        model.SetMesh(new ModelMesh(dat.FindMesh((section.Model.Contains(".") ? section.Model.Substring(0, section.Model.IndexOf(".")) : section.Model))), boneIndex);
                         break;
 
                     case Section.Matrix:

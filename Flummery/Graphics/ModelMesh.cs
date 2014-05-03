@@ -33,6 +33,13 @@ namespace Flummery
             meshParts = new List<ModelMeshPart>();
         }
 
+        public ModelMesh(ModelMesh from)
+        {
+            this.meshParts = new List<ModelMeshPart>(from.meshParts);
+            this.name = from.name;
+            this.parent = new ModelBone();
+        }
+
         public void AddModelMeshPart(ModelMeshPart meshpart, bool bFinalise = true)
         {
             if (bFinalise) { meshpart.Finalise(); }

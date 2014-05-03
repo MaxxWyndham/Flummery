@@ -61,7 +61,7 @@ namespace Flummery
             scTreeView.Panel2.Controls.Add(control);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.2";
+            this.Text += " v0.0.2.3";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 

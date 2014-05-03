@@ -41,6 +41,18 @@ namespace Flummery
             bones.Add(new ModelBone() { Name = "ROOT" });
         }
 
+        public override Asset Clone()
+        {
+            var m = new Model();
+
+            m.bones = new List<ModelBone>(this.bones);
+            m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));  //new List<ModelMesh>(this.meshes);
+            m.tag = this.tag;
+            m.coords = this.coords;
+
+            return m;
+        }
+
         public void CopyAbsoluteBoneTransformsTo(Matrix4[] destinationBoneTransforms) 
         {
             for (int i = 0; i < bones.Count; i++)
