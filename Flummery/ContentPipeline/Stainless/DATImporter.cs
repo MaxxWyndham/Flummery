@@ -16,7 +16,6 @@ namespace Flummery.ContentPipeline.Stainless
             foreach (var datmesh in dat.DatMeshes)
             {
                 datmesh.Mesh.GenerateNormals();
-                datmesh.Mesh.AssignUVs();
 
                 ModelMesh mesh = new ModelMesh();
 
@@ -49,9 +48,9 @@ namespace Flummery.ContentPipeline.Stainless
                             new OpenTK.Vector3(datmesh.Mesh.Normals[face.V3].X, datmesh.Mesh.Normals[face.V3].Y, datmesh.Mesh.Normals[face.V3].Z)
                         },
                         new OpenTK.Vector2[] {
-                            new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV1].X, datmesh.Mesh.UVs[face.UV1].Y),
-                            new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV2].X, datmesh.Mesh.UVs[face.UV2].Y),
-                            new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV3].X, datmesh.Mesh.UVs[face.UV3].Y)
+                            (face.HasUVs ? new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV1].X, datmesh.Mesh.UVs[face.UV1].Y) : OpenTK.Vector2.Zero),
+                            (face.HasUVs ? new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV2].X, datmesh.Mesh.UVs[face.UV2].Y) : OpenTK.Vector2.Zero),
+                            (face.HasUVs ? new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV3].X, datmesh.Mesh.UVs[face.UV3].Y) : OpenTK.Vector2.Zero)
                         }
                     );
                 }
