@@ -13,19 +13,18 @@ namespace Flummery.ContentPipeline.Stainless
 
             var model = (asset as Model);
 
-            int meshno = 0;
-            int meshpartno = 0;
+            int materialIndex = 1;
             bool bLeftHanded = (model.Handedness == Model.CoordinateSystem.LeftHanded);
 
             foreach (var mesh in model.Meshes)
             {
                 var mdl = new MDL();
 
-                meshpartno = 0;
+                materialIndex = 0;
 
                 foreach (var meshpart in mesh.MeshParts)
                 {
-                    var mdlmesh = new MDLMesh((meshpart.Texture != null ? meshpart.Texture.Name : meshno + "." + meshpartno));
+                    var mdlmesh = new MDLMesh((meshpart.Texture != null ? meshpart.Texture.Name : "DEFAULT"));
 
                     var data = meshpart.IndexBuffer.Data;
                     mdlmesh.PatchOffset = mdl.Vertices.Count;
@@ -34,7 +33,7 @@ namespace Flummery.ContentPipeline.Stainless
                     {
                         if (bLeftHanded)
                         {
-                            mdl.Faces.Add(new MDLFace(0, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 2], mdlmesh.PatchOffset + data[i + 1]));
+                            mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 2], mdlmesh.PatchOffset + data[i + 1]));
 
                             mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
                             mdlmesh.PatchList.Add(new MDLPoint(data[i + 2]));
@@ -42,7 +41,7 @@ namespace Flummery.ContentPipeline.Stainless
                         }
                         else
                         {
-                            mdl.Faces.Add(new MDLFace(0, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 1], mdlmesh.PatchOffset + data[i + 2]));
+                            mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 1], mdlmesh.PatchOffset + data[i + 2]));
 
                             mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
                             mdlmesh.PatchList.Add(new MDLPoint(data[i + 1]));
@@ -54,23 +53,23 @@ namespace Flummery.ContentPipeline.Stainless
                     {
                         var v = meshpart.VertexBuffer.Data[i];
 
-                        var vt = Vector3.TransformVector(v.Position, exportTransform);
+                        var vp = Vector3.TransformVector(v.Position, exportTransform);
+                        var vn = Vector3.TransformVector(v.Normal, exportTransform).Normalized();
 
                         mdl.Vertices.Add(
                             new MDLVertex(
-                                vt.X, vt.Y, vt.Z,
-                                v.Normal.X, v.Normal.Y, v.Normal.Z,
+                                vp.X, vp.Y, vp.Z,
+                                v.Normal.X, -v.Normal.Y, v.Normal.Z,
                                 v.UV.X, v.UV.Y,
-                                0, 0, 0, 0, 0, 0
+                                0, 0, 
+                                0, 0, 0, 0
                             )
                         );
                     }
 
                     mdl.Meshes.Add(mdlmesh);
-                    meshpartno++;
+                    materialIndex++;
                 }
-
-                meshno++;
 
                 mdl.Save(Path + mesh.Name + ".mdl");
             }
