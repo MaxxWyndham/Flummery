@@ -24,16 +24,14 @@ namespace Flummery.ContentPipeline.Stainless
 
         public static void TravelTree(ModelBone bone, ref CNT parent, bool root = false)
         {
-            
-
             var cnt = new CNT();
             if (root) { cnt = parent; }
 
             cnt.Name = bone.Name;
             cnt.Transform = new Matrix3D(
-                                bone.Transform.M11, bone.Transform.M12,  bone.Transform.M13,
-                                bone.Transform.M21, bone.Transform.M22,  bone.Transform.M23,
-                                bone.Transform.M31, bone.Transform.M32,  bone.Transform.M33,
+                                bone.Transform.M11, bone.Transform.M21, bone.Transform.M31,
+                                bone.Transform.M12, bone.Transform.M22, bone.Transform.M32,
+                                bone.Transform.M13, bone.Transform.M23, bone.Transform.M33,
                                 bone.Transform.M41 * exportScale.X, 
                                 bone.Transform.M42 * exportScale.Y, 
                                 bone.Transform.M43 * exportScale.Z
