@@ -55,7 +55,17 @@ namespace Flummery.ContentPipeline.Stainless
                     );
                 }
 
-                for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++) { mesh.MeshParts[i].Finalise(); }
+                for (int i = mesh.MeshParts.Count - 1; i >= 0; i--)
+                {
+                    if (mesh.MeshParts[i].VertexCount == 0)
+                    {
+                        mesh.MeshParts.RemoveAt(i);
+                    }
+                    else
+                    {
+                        mesh.MeshParts[i].Finalise();
+                    }
+                }
 
                 model.SetName(mesh.Name, model.AddMesh(mesh));
             }
