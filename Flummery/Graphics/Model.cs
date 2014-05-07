@@ -95,6 +95,14 @@ namespace Flummery
             return b.Index;
         }
 
+        public void RemoveBone(int BoneIndex)
+        {
+            for (int i = BoneIndex + 1; i < bones.Count; i++) { bones[i].Index--; }
+            bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]);
+            meshes.Remove((ModelMesh)bones[BoneIndex].Tag);
+            bones.RemoveAt(BoneIndex);
+        }
+
         public ModelMesh FindMesh(string name)
         {
             foreach (var mesh in meshes)
