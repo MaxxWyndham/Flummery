@@ -9,6 +9,7 @@ namespace Flummery
     {
         public static SceneManager Scene;
 
+        List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
         List<Texture> textures = new List<Texture>();
 
@@ -20,6 +21,7 @@ namespace Flummery
         public Camera Camera { get { return camera; } }
         public ContentManager Content { get { return content; } }
 
+        public List<Entity> Entities { get { return entities; } }
         public List<Model> Models { get { return models; } }
         public List<Texture> Textures { get { return textures; } }
 
