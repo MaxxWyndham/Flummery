@@ -15,7 +15,7 @@ namespace Flummery.ContentPipeline.Stainless
             Model model = new Model();
 
             model.Handedness = Model.CoordinateSystem.RightHanded;
-            //model.Tag = mdl;
+            model.Tag = mdl;
 
             ModelMesh mesh = new ModelMesh();
 
@@ -95,6 +95,7 @@ namespace Flummery.ContentPipeline.Stainless
                 mesh.AddModelMeshPart(meshpart);
             }
 
+            mesh.Name = mdl.Name;
             model.SetName(mdl.Name, model.AddMesh(mesh));
 
             return model;

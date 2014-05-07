@@ -31,22 +31,11 @@ namespace Flummery.ContentPipeline.Stainless
 
                     for (int i = 0; i < data.Length; i += 3)
                     {
-                        if (bLeftHanded)
-                        {
-                            mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 2], mdlmesh.PatchOffset + data[i + 1]));
+                        mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 2], mdlmesh.PatchOffset + data[i + 1]));
 
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 2]));
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 1]));
-                        }
-                        else
-                        {
-                            mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 1], mdlmesh.PatchOffset + data[i + 2]));
-
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 1]));
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 2]));
-                        }
+                        mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
+                        mdlmesh.PatchList.Add(new MDLPoint(data[i + 2]));
+                        mdlmesh.PatchList.Add(new MDLPoint(data[i + 1]));
                     }
 
                     for (int i = 0; i < meshpart.VertexBuffer.Data.Count; i++)
@@ -54,12 +43,11 @@ namespace Flummery.ContentPipeline.Stainless
                         var v = meshpart.VertexBuffer.Data[i];
 
                         var vp = Vector3.TransformVector(v.Position, exportTransform);
-                        var vn = Vector3.TransformVector(v.Normal, exportTransform).Normalized();
 
                         mdl.Vertices.Add(
                             new MDLVertex(
                                 vp.X, vp.Y, vp.Z,
-                                v.Normal.X, -v.Normal.Y, v.Normal.Z,
+                                v.Normal.X, v.Normal.Y, v.Normal.Z,
                                 v.UV.X, v.UV.Y,
                                 0, 0, 
                                 0, 0, 0, 0
