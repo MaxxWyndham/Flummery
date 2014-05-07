@@ -15,7 +15,12 @@ namespace Flummery
         public string MaterialName
         {
             get { return lblName.Text; }
-            set { lblName.Text = value; }
+            set
+            {
+                ttInfo.SetToolTip(pbThumb, value);
+                ttInfo.SetToolTip(lblName, value);
+                lblName.Text = value;
+            }
         }
 
         public event EventHandler DblClick;

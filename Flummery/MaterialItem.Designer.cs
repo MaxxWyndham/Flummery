@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pbThumb = new System.Windows.Forms.PictureBox();
             this.lblName = new System.Windows.Forms.Label();
+            this.ttInfo = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbThumb)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,5 +69,6 @@
 
         private System.Windows.Forms.PictureBox pbThumb;
         private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.ToolTip ttInfo;
     }
 }
