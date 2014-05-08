@@ -91,6 +91,18 @@
     <Compile Include="frmPreferences.Designer.cs">
       <DependentUpon>frmPreferences.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRename.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRename.Designer.cs">
+      <DependentUpon>frmRename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaveAsEnvironment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaveAsEnvironment.Designer.cs">
+      <DependentUpon>frmSaveAsEnvironment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Asset.cs" />
     <Compile Include="Graphics\BoundingSphere.cs" />
     <Compile Include="Graphics\Camera.cs" />
@@ -123,6 +135,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPreferences.resx">
       <DependentUpon>frmPreferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRename.resx">
+      <DependentUpon>frmRename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSaveAsEnvironment.resx">
+      <DependentUpon>frmSaveAsEnvironment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MaterialItem.resx">
       <DependentUpon>MaterialItem.cs</DependentUpon>

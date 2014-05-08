@@ -58,10 +58,11 @@ namespace Flummery
             control.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             control.Resize += glcViewport_Resize;
             control.Paint += glcViewport_Paint;
+            control.Click += glcViewport_Click;
             scTreeView.Panel2.Controls.Add(control);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.5";
+            this.Text += " v0.0.2.6a";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -89,15 +90,7 @@ namespace Flummery
 
             if (m != null)
             {
-                TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
-
-                if (m.Root.Children.Count > 0)
-                {
-                    TravelTree(m.Root.Children[0], ref ParentNode);
-
-                    tvNodes.Nodes[0].Expand();
-                    tvNodes.Nodes[0].Nodes[0].Expand();
-                }
+                ProcessTree(m);
             }
             else
             {
@@ -110,12 +103,27 @@ namespace Flummery
                 if (b == null)
                 {
                     var tdx = (ToxicRagers.CarmageddonReincarnation.Formats.TDX)t.Tag;
-                    if (tdx != null) { b = tdx.Decompress(tdx.GetMipLevelForSize(128)); }
+                    if (tdx != null) { b = tdx.Decompress(tdx.GetMipLevelForSize(128), true); }
                 }
 
                 if (b != null) { mi.SetThumbnail(b); }
 
                 flpMaterials.Controls.Add(mi);
+            }
+        }
+
+        public void ProcessTree(Model m, bool bReset = false)
+        {
+            if (bReset) { tvNodes.Nodes.Clear(); }
+
+            TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
+
+            if (m.Root.Children.Count > 0)
+            {
+                TravelTree(m.Root.Children[0], ref ParentNode);
+
+                tvNodes.Nodes[0].Expand();
+                tvNodes.Nodes[0].Nodes[0].Expand();
             }
         }
 
@@ -235,6 +243,10 @@ namespace Flummery
             Draw(); 
         }
 
+        private void glcViewport_Click(object sender, EventArgs e)
+        {
+        }
+
         private void Draw()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -281,25 +293,27 @@ namespace Flummery
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
 
-            menu.MenuItems.Add("&Debug");
-            if (!bPublicRelease)
-            {
-                menu.MenuItems[1].MenuItems.Add("Process...");
-                menu.MenuItems[1].MenuItems[0].MenuItems.Add("XT2 file", menuNovadromeClick);
-                menu.MenuItems[1].MenuItems.Add("Process all...");
-                menu.MenuItems[1].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
-                menu.MenuItems[1].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
-                menu.MenuItems[1].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
-                menu.MenuItems[1].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
-                menu.MenuItems[1].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
-                menu.MenuItems[1].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
-            }
+            menu.MenuItems.Add("&View");
+            menu.MenuItems[1].MenuItems.Add("Preferences", menuViewClick);
 
-            menu.MenuItems.Add("View");
-            menu.MenuItems[2].MenuItems.Add("Preferences", menuViewClick);
+            menu.MenuItems.Add("&Object");
+            menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
 
-            menu.MenuItems.Add("About");
-            menu.MenuItems[3].MenuItems.Add("I LIKE CAKE");
+            menu.MenuItems.Add("&Tools");
+            menu.MenuItems[3].MenuItems.Add("Carma 2");
+            menu.MenuItems[3].MenuItems[0].MenuItems.Add("Convert Powerups to Entities", menuCarmageddon2Click);
+            menu.MenuItems[3].MenuItems.Add("Process all...");
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Accessory.txt files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
+
+
+            menu.MenuItems.Add("&Help");
+            menu.MenuItems[4].MenuItems.Add("About Flummery");
 
             this.Menu = menu;
         }
@@ -351,7 +365,17 @@ namespace Flummery
                     break;
 
                 case "Save":
-                    MessageBox.Show("[code goes here]");
+                    sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
+                    if (sfdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        var cx = new CNTExporter();
+                        cx.SetExportOptions(new { Scale = new Vector3(1.0f, 1.0f, -1.0f) });
+                        cx.Export(scene.Models[0], sfdBrowse.FileName);
+
+                        var mx = new MDLExporter();
+                        mx.SetExportOptions(new { Transform = Matrix4.CreateScale(1.0f, 1.0f, -1.0f) });
+                        mx.Export(scene.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\" );
+                    }
                     break;
 
                 case "E&xit":
@@ -377,6 +401,42 @@ namespace Flummery
 
                         scene.Add(scene.Content.Load<Model, ACTImporter>(fileName, path));
                     }
+                    break;
+
+                case "Convert Powerups to Entities":
+                    for (int i = scene.Models[0].Bones.Count - 1; i >= 0; i--)
+                    {
+                        var bone = scene.Models[0].Bones[i];
+
+                        if (bone.Name.StartsWith("&"))
+                        {
+                            var entity = new Entity();
+
+                            if (bone.Name.StartsWith("&£"))
+                            {
+                                string key = bone.Name.Substring(2, 2);
+
+                                entity.UniqueIdentifier = "errol_B00BIE" + key + "_" + i.ToString("000");
+                                entity.EntityType = EntityType.Powerup;
+                                entity.Name = "pup_Pinball"; // "pup_C2_" + ToxicRagers.Carmageddon2.Powerups[key].Name;
+                                entity.Tag = "drum"; // ToxicRagers.Carmageddon2.Powerups[key].Model;
+                            }
+                            else
+                            {
+                                // accessory
+                                entity.UniqueIdentifier = "errol_HEAD00" + bone.Name.Substring(1, 2) + "_" + i.ToString("000");
+                                entity.EntityType = EntityType.Accessory;
+                                entity.Name = "C2_" + ((ModelMesh)bone.Tag).Name.Substring(3);
+                            }
+
+                            entity.Transform = bone.CombinedTransform;
+                            scene.Entities.Add(entity);
+
+                            scene.Models[0].RemoveBone(bone.Index);
+                        }
+                    }
+
+                    ProcessTree(scene.Models[0], true);
                     break;
             }
         }
@@ -422,6 +482,7 @@ namespace Flummery
                 case "MTL files":
                 case "TDX files":
                 case "LIGHT files":
+                case "Accessory.txt files":
                     string extension = mi.Text.Substring(0, mi.Text.IndexOf(' ')).ToLower();
                     fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
                     fbdBrowse.ShowDialog();
@@ -433,7 +494,7 @@ namespace Flummery
 
                         ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
                         {
-                            foreach (FileInfo fi in d.GetFiles("*." + extension))
+                            foreach (FileInfo fi in d.GetFiles((extension.Contains(".") ? extension : "*." + extension)))
                             {
                                 switch (extension)
                                 {
@@ -455,6 +516,10 @@ namespace Flummery
 
                                     case "light":
                                         ToxicRagers.CarmageddonReincarnation.Formats.LIGHT.Load(fi.FullName);
+                                        break;
+
+                                    case "accessory.txt":
+                                        ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(fi.FullName);
                                         break;
                                 }
 
@@ -513,66 +578,51 @@ namespace Flummery
                 case "Environment":
                     if (fbdBrowse.ShowDialog() == DialogResult.OK)
                     {
-                        var d = new DirectoryInfo(fbdBrowse.SelectedPath);
-
-                        if (!Directory.Exists(fbdBrowse.SelectedPath + "\\levels\\Airport\\")) { Directory.CreateDirectory(fbdBrowse.SelectedPath + "\\levels\\Airport\\"); }
-
-                        using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\environment.lol"))
-                        {
-                            w.WriteLine("module((...), environment_config, package.seeall)");
-                            w.WriteLine("name = txt.fe_environment_" + d.Name.ToLower() + "_ucase");
-                        }
-
-                        using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\environment.txt"))
-                        {
-                            w.WriteLine("[LUMP]");
-                            w.WriteLine("environment");
-                        }
-
-                        using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\levels\\Airport\\level.txt"))
-                        {
-                            w.WriteLine("[LUMP]");
-                            w.WriteLine("level");
-                            w.WriteLine();
-                            w.WriteLine("[RACE_NAMES]");
-                            w.WriteLine("txt.fe_level_airport_race_1_ucase");
-                            w.WriteLine();
-                            w.WriteLine("[RACE_WRITEUP]");
-                            w.WriteLine("txt.fe_level_airport_race_1_writeup");
-                            w.WriteLine();
-                            w.WriteLine("[RACE_IMAGES]");
-                            w.WriteLine("race\\" + d.Name + "_Airport_race_01");
-                            w.WriteLine();
-                            w.WriteLine("[RACE_BACKGROUNDS]");
-                            w.WriteLine("background_list\\" + d.Name + "_Airport_race_01");
-                            w.WriteLine();
-                            w.WriteLine("[VERSION]");
-                            w.WriteLine("2.500000");
-                            w.WriteLine();
-                            w.WriteLine("[RACE_LAYERS]");
-                            w.WriteLine("race01");
-                            w.WriteLine();
-                            w.WriteLine("[LUA_SCRIPTS]");
-                            w.WriteLine("setup.lua");
-                            w.WriteLine();
-                        }
+                        //var fmSaveAsEnvironment = new frmSaveAsEnvironment();
+                        //fmSaveAsEnvironment.Show();
 
                         var cx = new CNTExporter();
-                        cx.SetExportOptions(new { Scale = new Vector3(2.5f, 2.5f, -2.5f) });
+                        cx.SetExportOptions(new { Scale = new Vector3(6.9f, 6.9f, -6.9f) });
                         cx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\level.cnt");
 
                         var mx = new MDLExporter();
-                        mx.SetExportOptions(new { Transform = Matrix4.CreateScale(2.5f, 2.5f, -2.5f) });
+                        mx.SetExportOptions(new { Transform = Matrix4.CreateScale(6.9f, 6.9f, -6.9f) });
                         mx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\");
 
-                        //foreach (var material in scene.Textures)
-                        //{
-                        //    var tx = new TDXExporter();
-                        //    tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT5 });
-                        //    tx.Export(material, fbdBrowse.SelectedPath + "\\levels\\Airport\\");
-                        //}
+                        using (StreamWriter wpup = File.CreateText(fbdBrowse.SelectedPath + "\\levels\\Airport\\powerups.lol"))
+                        {
+                            using (StreamWriter wacc = File.CreateText(fbdBrowse.SelectedPath + "\\levels\\Airport\\level.lol"))
+                            {
+                                wpup.WriteLine("module((...), level_powerup_setup)");
+                                wpup.WriteLine("accessories = {");
 
-                        MessageBox.Show("Done!");
+                                wacc.WriteLine("module((...), level_accessory_setup)");
+                                wacc.WriteLine("accessories = {");
+
+                                for (int i = 0; i < scene.Entities.Count; i++)
+                                {
+                                    var entity = scene.Entities[i];
+                                    var w = (entity.EntityType == EntityType.Accessory ? wacc : wpup);
+
+                                    w.WriteLine("\t" + entity.UniqueIdentifier + " = {");
+                                    w.WriteLine("\t\ttype = \"" + entity.Name + "\",");
+                                    if (entity.EntityType == EntityType.Powerup) { w.WriteLine("\t\tname = \"" + entity.Tag + "\","); }
+                                    w.WriteLine("\t\tlayer = \"race01\",");
+                                    w.WriteLine("\t\ttransform = {");
+                                    w.WriteLine("\t\t\t{" + entity.Transform.M11 + "," + entity.Transform.M21 + "," + entity.Transform.M31 + "},");
+                                    w.WriteLine("\t\t\t{" + entity.Transform.M12 + "," + entity.Transform.M22 + "," + entity.Transform.M32 + "},");
+                                    w.WriteLine("\t\t\t{" + entity.Transform.M13 + "," + entity.Transform.M23 + "," + entity.Transform.M33 + "},");
+                                    w.WriteLine("\t\t\t{" + entity.Transform.M41 * 6.9f + "," + entity.Transform.M42 * 6.9f + "," + entity.Transform.M43 * -6.9f + "}");
+                                    w.WriteLine("\t\t},");
+                                    w.WriteLine("\t\tcolour = { 255, 255, 255 }");
+                                    w.Write("\t}");
+                                    w.WriteLine((i + 1 < scene.Entities.Count ? "," : ""));
+                                }
+
+                                wacc.WriteLine("}");
+                                wpup.WriteLine("}");
+                            }
+                        }
                     }
                     break;
             }
@@ -587,6 +637,19 @@ namespace Flummery
                 case "Preferences":
                     var prefs = new frmPreferences();
                     prefs.Show();
+                    break;
+            }
+        }
+
+        private void menuObjectClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Rename":
+                    var rename = new frmRename();
+                    rename.Show();
                     break;
             }
         }

@@ -39,6 +39,7 @@
             this.ssStatus = new System.Windows.Forms.StatusStrip();
             this.tsslProgress = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslActionScaling = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sfdBrowse = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.scViewMaterial)).BeginInit();
             this.scViewMaterial.Panel1.SuspendLayout();
             this.scViewMaterial.Panel2.SuspendLayout();
@@ -127,7 +128,7 @@
             // tsslProgress
             // 
             this.tsslProgress.Name = "tsslProgress";
-            this.tsslProgress.Size = new System.Drawing.Size(839, 19);
+            this.tsslProgress.Size = new System.Drawing.Size(843, 19);
             this.tsslProgress.Spring = true;
             this.tsslProgress.Text = "[progress]";
             this.tsslProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -182,6 +183,7 @@
         private System.Windows.Forms.ToolStripStatusLabel tsslProgress;
         private System.Windows.Forms.FlowLayoutPanel flpMaterials;
         private System.Windows.Forms.ToolStripStatusLabel tsslActionScaling;
+        private System.Windows.Forms.SaveFileDialog sfdBrowse;
 
     }
 }
