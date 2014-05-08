@@ -14,18 +14,11 @@ namespace Flummery
 
         List<ModelBone> bones;
         List<ModelMesh> meshes;
-        object tag;
         CoordinateSystem coords = CoordinateSystem.LeftHanded;
 
         public List<ModelBone> Bones { get { return bones; } }
         public List<ModelMesh> Meshes { get { return meshes; } }
         public ModelBone Root { get { return bones[0]; } }
-
-        public object Tag
-        {
-            get { return tag; }
-            set { tag = value; }
-        }
 
         public CoordinateSystem Handedness
         {

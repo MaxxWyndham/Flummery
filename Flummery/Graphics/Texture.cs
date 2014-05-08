@@ -15,15 +15,8 @@ namespace Flummery
         int width;
         int height;
         byte[] data;
-        object tag;
 
         public int ID { get { return texture; } }
-
-        public object Tag
-        {
-            get { return tag; }
-            set { tag = value; }
-        }
 
         public Texture()
         {
