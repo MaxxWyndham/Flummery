@@ -62,11 +62,27 @@ namespace Flummery
             camera.Update(dt);
         }
 
+        public void Lights()
+        {
+            GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, 2.0f, 0.0f });
+            GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
+            GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+            GL.Light(LightName.Light0, LightParameter.Specular, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+            GL.Light(LightName.Light0, LightParameter.SpotExponent, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 0.7f, 0.7f, 0.7f, 1.0f });
+            GL.LightModel(LightModelParameter.LightModelTwoSide, 0);
+            GL.LightModel(LightModelParameter.LightModelLocalViewer, 1);
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Light0);
+        }
+
         public void Draw()
         {
             Matrix4 lookat = camera.viewMatrix;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
+
+            Lights();
 
             foreach (var model in models)
             {
