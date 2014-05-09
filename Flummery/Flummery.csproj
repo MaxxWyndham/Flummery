@@ -85,6 +85,7 @@
     <Compile Include="ContentPipeline\Stainless\TDXImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\TIFImporter.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FlumpFile.cs" />
     <Compile Include="frmPreferences.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +110,7 @@
     <Compile Include="Graphics\ContentManager.cs" />
     <Compile Include="Graphics\Entity.cs" />
     <Compile Include="Graphics\IndexBuffer.cs" />
+    <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\ModelBone.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
@@ -119,6 +121,8 @@
     <Compile Include="Graphics\Model.cs" />
     <Compile Include="Graphics\ModelMesh.cs" />
     <Compile Include="Graphics\ModelMeshPart.cs" />
+    <Compile Include="Graphics\Primitive.cs" />
+    <Compile Include="Graphics\Primitives\Capsule.cs" />
     <Compile Include="Graphics\SceneManager.cs" />
     <Compile Include="MaterialItem.cs">
       <SubType>UserControl</SubType>

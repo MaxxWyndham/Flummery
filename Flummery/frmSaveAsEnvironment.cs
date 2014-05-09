@@ -1,78 +1,167 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Windows.Forms;
+using Flummery.ContentPipeline.Stainless;
+using OpenTK;
 
 namespace Flummery
 {
     public partial class frmSaveAsEnvironment : Form
     {
+        FlumpFile flump;
+        string environment;
+
         public frmSaveAsEnvironment()
         {
             InitializeComponent();
+        }
 
-            //var d = new DirectoryInfo(fbdBrowse.SelectedPath);
+        private void btnPath_Click(object sender, EventArgs e)
+        {
+            if (fbdBrowse.ShowDialog() == DialogResult.OK)
+            {
+                if (!Directory.Exists(fbdBrowse.SelectedPath)) { Directory.CreateDirectory(fbdBrowse.SelectedPath); }
+                txtPath.Text = fbdBrowse.SelectedPath + "\\";
 
-            //if (!Directory.Exists(fbdBrowse.SelectedPath + "\\levels\\Airport\\")) { Directory.CreateDirectory(fbdBrowse.SelectedPath + "\\levels\\Airport\\"); }
+                environment = Path.GetFileName(Path.GetDirectoryName(txtPath.Text));
+                lblEnvironment.Text = lblEnvironment.Tag.ToString().Replace("%%environment%%", environment.ToLower());
 
-            //using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\environment.lol"))
-            //{
-            //    w.WriteLine("module((...), environment_config, package.seeall)");
-            //    w.WriteLine("name = txt.fe_environment_" + d.Name.ToLower() + "_ucase");
-            //}
+                flump = FlumpFile.Load(txtPath.Text + "environment.flump");
 
-            //using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\environment.txt"))
-            //{
-            //    w.WriteLine("[LUMP]");
-            //    w.WriteLine("environment");
-            //}
+                if (flump.Settings.ContainsKey("environment.level"))
+                {
+                    txtLevel.Text = flump.Settings["environment.level"];
+                    updateLabels(txtLevel.Text);
+                }
 
-            //using (StreamWriter w = File.CreateText(fbdBrowse.SelectedPath + "\\levels\\Airport\\level.txt"))
-            //{
-            //    w.WriteLine("[LUMP]");
-            //    w.WriteLine("level");
-            //    w.WriteLine();
-            //    w.WriteLine("[RACE_NAMES]");
-            //    w.WriteLine("txt.fe_level_airport_race_1_ucase");
-            //    w.WriteLine();
-            //    w.WriteLine("[RACE_WRITEUP]");
-            //    w.WriteLine("txt.fe_level_airport_race_1_writeup");
-            //    w.WriteLine();
-            //    w.WriteLine("[RACE_IMAGES]");
-            //    w.WriteLine("race\\" + d.Name + "_Airport_race_01");
-            //    w.WriteLine();
-            //    w.WriteLine("[RACE_BACKGROUNDS]");
-            //    w.WriteLine("background_list\\" + d.Name + "_Airport_race_01");
-            //    w.WriteLine();
-            //    w.WriteLine("[VERSION]");
-            //    w.WriteLine("2.500000");
-            //    w.WriteLine();
-            //    w.WriteLine("[RACE_LAYERS]");
-            //    w.WriteLine("race01");
-            //    w.WriteLine();
-            //    w.WriteLine("[LUA_SCRIPTS]");
-            //    w.WriteLine("setup.lua");
-            //    w.WriteLine();
-            //}
+                if (flump.Settings.ContainsKey("environment.name")) { txtEnvironment.Text = flump.Settings["environment.name"]; }
+                if (flump.Settings.ContainsKey("environment.level.name")) { txtRace1Name.Text = flump.Settings["environment.level.name"]; }
+                if (flump.Settings.ContainsKey("environment.level.description")) { txtRace1Writeup.Text = flump.Settings["environment.level.description"]; }
+            }
+        }
 
-            //var cx = new CNTExporter();
-            //cx.SetExportOptions(new { Scale = new Vector3(3.0f, 3.0f, -3.0f) });
-            //cx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\level.cnt");
+        private void txtLevel_TextChanged(object sender, EventArgs e)
+        {
+            updateLabels(txtLevel.Text);
+        }
 
-            //var mx = new MDLExporter();
-            //mx.SetExportOptions(new { Transform = Matrix4.CreateScale(3.0f, 3.0f, -3.0f) });
-            //mx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\");
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-            //foreach (var material in scene.Textures)
-            //{
-            //    var tx = new TDXExporter();
-            //    tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT5 });
-            //    tx.Export(material, fbdBrowse.SelectedPath + "\\levels\\Airport\\");
-            //}
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            string racePath = txtPath.Text + "levels\\" + txtLevel.Text + "\\";
+            if (!Directory.Exists(racePath)) { Directory.CreateDirectory(racePath); }
+
+            flump.Settings["environment"] = environment;
+            flump.Settings["environment.name"] = txtEnvironment.Text;
+            flump.Settings["environment.level"] = txtLevel.Text;
+            flump.Settings["environment.level.name"] = txtRace1Name.Text;
+            flump.Settings["environment.level.description"] = txtRace1Writeup.Text;
+
+            using (StreamWriter w = File.CreateText(txtPath.Text + "\\environment.lol"))
+            {
+                w.WriteLine("module((...), environment_config, package.seeall)");
+                w.WriteLine("txt[\"" + lblEnvironment.Text + "\"] = \"" + txtLevel.Text + "\"");
+                w.WriteLine("txt[\"" + lblRace1Name.Text + "\"] = \"" + txtRace1Name.Text + "\"");
+                w.WriteLine("txt[\"" + lblRace1Writeup.Text + "\"] = \"" + txtRace1Writeup.Text + "\"");
+                w.WriteLine("name = txt." + lblEnvironment.Text);
+            }
+
+            using (StreamWriter w = File.CreateText(racePath + "level.txt"))
+            {
+                w.WriteLine("[LUMP]");
+                w.WriteLine("level");
+                w.WriteLine();
+                w.WriteLine("[RACE_NAMES]");
+                w.WriteLine("txt." + lblRace1Name.Text);
+                w.WriteLine();
+                w.WriteLine("[RACE_WRITEUP]");
+                w.WriteLine("txt." + lblRace1Writeup.Text);
+                w.WriteLine();
+                w.WriteLine("[RACE_IMAGES]");
+                w.WriteLine("race\\" + environment + "_" + txtLevel.Text + "_race_01");
+                w.WriteLine();
+                w.WriteLine("[RACE_BACKGROUNDS]");
+                w.WriteLine("background_list\\" + environment + "_" + txtLevel.Text + "_race_01");
+                w.WriteLine();
+                w.WriteLine("[VERSION]");
+                w.WriteLine("2.500000");
+                w.WriteLine();
+                w.WriteLine("[RACE_LAYERS]");
+                w.WriteLine("race01");
+                w.WriteLine();
+                w.WriteLine("[LUA_SCRIPTS]");
+                w.WriteLine("setup.lua");
+                w.WriteLine();
+            }
+
+            if (chkMaterials.Checked)
+            {
+                foreach (var material in SceneManager.Scene.Textures)
+                {
+                    var tx = new TDXExporter();
+                    tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT5 });
+                    tx.Export(material, racePath);
+                }
+            }
+
+            var cx = new CNTExporter();
+            cx.SetExportOptions(new { Scale = new Vector3(6.9f, 6.9f, -6.9f) });
+            cx.Export(SceneManager.Scene.Models[0], racePath + "level.cnt");
+
+            var mx = new MDLExporter();
+            mx.SetExportOptions(new { Transform = Matrix4.CreateScale(6.9f, 6.9f, -6.9f) });
+            mx.Export(SceneManager.Scene.Models[0], racePath);
+
+            if (SceneManager.Scene.Entities.Count > 0)
+            {
+                using (StreamWriter wpup = File.CreateText(racePath + "powerups.lol"))
+                {
+                    using (StreamWriter wacc = File.CreateText(racePath + "level.lol"))
+                    {
+                        wpup.WriteLine("module((...), level_powerup_setup)");
+                        wpup.WriteLine("accessories = {");
+
+                        wacc.WriteLine("module((...), level_accessory_setup)");
+                        wacc.WriteLine("accessories = {");
+
+                        for (int i = 0; i < SceneManager.Scene.Entities.Count; i++)
+                        {
+                            var entity = SceneManager.Scene.Entities[i];
+                            var w = (entity.EntityType == EntityType.Accessory ? wacc : wpup);
+
+                            w.WriteLine("\t" + entity.UniqueIdentifier + " = {");
+                            w.WriteLine("\t\ttype = \"" + entity.Name + "\",");
+                            if (entity.EntityType == EntityType.Powerup) { w.WriteLine("\t\tname = \"" + entity.Tag + "\","); }
+                            w.WriteLine("\t\tlayer = \"race01\",");
+                            w.WriteLine("\t\ttransform = {");
+                            w.WriteLine("\t\t\t{" + entity.Transform.M11 + "," + entity.Transform.M21 + "," + entity.Transform.M31 + "},");
+                            w.WriteLine("\t\t\t{" + entity.Transform.M12 + "," + entity.Transform.M22 + "," + entity.Transform.M32 + "},");
+                            w.WriteLine("\t\t\t{" + entity.Transform.M13 + "," + entity.Transform.M23 + "," + entity.Transform.M33 + "},");
+                            w.WriteLine("\t\t\t{" + entity.Transform.M41 * 6.9f + "," + entity.Transform.M42 * 6.9f + "," + entity.Transform.M43 * -6.9f + "}");
+                            w.WriteLine("\t\t},");
+                            w.WriteLine("\t\tcolour = { 255, 255, 255 }");
+                            w.Write("\t}");
+                            w.WriteLine((i + 1 < SceneManager.Scene.Entities.Count ? "," : ""));
+                        }
+
+                        wacc.WriteLine("}");
+                        wpup.WriteLine("}");
+                    }
+                }
+            }
+
+            flump.Save(txtPath.Text + "environment.flump");
+            this.Close();
+        }
+
+        void updateLabels(string level)
+        {
+            lblRace1Name.Text = lblRace1Name.Tag.ToString().Replace("%%level%%", level).ToLower();
+            lblRace1Writeup.Text = lblRace1Writeup.Tag.ToString().Replace("%%level%%", level).ToLower();
         }
     }
 }

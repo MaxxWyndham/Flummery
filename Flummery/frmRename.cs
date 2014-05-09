@@ -24,15 +24,35 @@ namespace Flummery
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            var t = Matrix4.CreateScale(3.6f, 3.6f, -3.6f);
+            var t = Matrix4.CreateScale(6.9f, 6.9f, -6.9f);
             var sout = "";
 
             foreach (string s in textBox1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
             {
-                var p = s.Replace(" ", "").Split(',');
-                var v = new Vector3(Convert.ToSingle(p[0]), Convert.ToSingle(p[1]), Convert.ToSingle(p[2]));
-                var tv = Vector3.TransformVector(v, t);
-                sout += tv.X + ", " + tv.Y + ", " + tv.Z + "\r\n";
+                string[] p;
+
+                switch (s.Substring(0, 1))
+                {
+                    case "m":
+                        float f;
+                        if (float.TryParse(s.Substring(1), out f))
+                        {
+                            sout += (f * 500) + "\r\n";
+                        }
+                        break;
+
+                    case "i":
+                        p = s.Substring(1).Replace(" ", "").Split(',');
+                        sout += (Convert.ToSingle(p[0]) * 500 * 6.9f * 6.9f) + ", " + (Convert.ToSingle(p[1]) * 500 * 6.9f * 6.9f) + ", " + (Convert.ToSingle(p[2]) * 500 * 6.9f * 6.9f) + "\r\n";
+                        break;
+
+                    default:
+                        p = s.Replace(" ", "").Split(',');
+                        var v = new Vector3(Convert.ToSingle(p[0]), Convert.ToSingle(p[1]), Convert.ToSingle(p[2]));
+                        var tv = Vector3.TransformVector(v, t);
+                        sout += tv.X + ", " + tv.Y + ", " + tv.Z + "\r\n";
+                        break;
+                }
             }
 
             textBox1.Text = sout.Substring(0, sout.Length - 2);

@@ -62,7 +62,7 @@ namespace Flummery
             scTreeView.Panel2.Controls.Add(control);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.6a";
+            this.Text += " v0.0.2.6b";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -418,8 +418,17 @@ namespace Flummery
 
                                 entity.UniqueIdentifier = "errol_B00BIE" + key + "_" + i.ToString("000");
                                 entity.EntityType = EntityType.Powerup;
-                                entity.Name = "pup_Pinball"; // "pup_C2_" + ToxicRagers.Carmageddon2.Powerups[key].Name;
-                                entity.Tag = "drum"; // ToxicRagers.Carmageddon2.Powerups[key].Model;
+
+                                if (key == "14")
+                                {
+                                    entity.Name = "pup_Mine"; // "pup_C2_" + ToxicRagers.Carmageddon2.Powerups[key].Name;
+                                    entity.Tag = "drum"; // ToxicRagers.Carmageddon2.Powerups[key].Model;
+                                }
+                                else
+                                {
+                                    entity.Name = "pup_Pinball"; // "pup_C2_" + ToxicRagers.Carmageddon2.Powerups[key].Name;
+                                    entity.Tag = "drum"; // ToxicRagers.Carmageddon2.Powerups[key].Model;
+                                }
                             }
                             else
                             {
@@ -462,7 +471,19 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "Accessory":
-                    openContent("Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt");
+                    ofdBrowse.Filter = "Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        var accessory = scene.Add(scene.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
+
+                        string accessorytxt = ofdBrowse.FileName.Replace(".cnt", ".txt", StringComparison.OrdinalIgnoreCase);
+
+                        if (File.Exists(accessorytxt))
+                        {
+                            accessory.Tag = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(accessorytxt);
+                        }
+                    }
                     break;
 
                 case "Environment":
@@ -523,7 +544,7 @@ namespace Flummery
                                         break;
                                 }
 
-                                tsslProgress.Text = fi.Name;
+                                tsslProgress.Text = fi.FullName.Replace(fbdBrowse.SelectedPath, "");
                                 Application.DoEvents();
                             }
                         }
@@ -576,54 +597,8 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "Environment":
-                    if (fbdBrowse.ShowDialog() == DialogResult.OK)
-                    {
-                        //var fmSaveAsEnvironment = new frmSaveAsEnvironment();
-                        //fmSaveAsEnvironment.Show();
-
-                        var cx = new CNTExporter();
-                        cx.SetExportOptions(new { Scale = new Vector3(6.9f, 6.9f, -6.9f) });
-                        cx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\level.cnt");
-
-                        var mx = new MDLExporter();
-                        mx.SetExportOptions(new { Transform = Matrix4.CreateScale(6.9f, 6.9f, -6.9f) });
-                        mx.Export(scene.Models[0], fbdBrowse.SelectedPath + "\\levels\\Airport\\");
-
-                        using (StreamWriter wpup = File.CreateText(fbdBrowse.SelectedPath + "\\levels\\Airport\\powerups.lol"))
-                        {
-                            using (StreamWriter wacc = File.CreateText(fbdBrowse.SelectedPath + "\\levels\\Airport\\level.lol"))
-                            {
-                                wpup.WriteLine("module((...), level_powerup_setup)");
-                                wpup.WriteLine("accessories = {");
-
-                                wacc.WriteLine("module((...), level_accessory_setup)");
-                                wacc.WriteLine("accessories = {");
-
-                                for (int i = 0; i < scene.Entities.Count; i++)
-                                {
-                                    var entity = scene.Entities[i];
-                                    var w = (entity.EntityType == EntityType.Accessory ? wacc : wpup);
-
-                                    w.WriteLine("\t" + entity.UniqueIdentifier + " = {");
-                                    w.WriteLine("\t\ttype = \"" + entity.Name + "\",");
-                                    if (entity.EntityType == EntityType.Powerup) { w.WriteLine("\t\tname = \"" + entity.Tag + "\","); }
-                                    w.WriteLine("\t\tlayer = \"race01\",");
-                                    w.WriteLine("\t\ttransform = {");
-                                    w.WriteLine("\t\t\t{" + entity.Transform.M11 + "," + entity.Transform.M21 + "," + entity.Transform.M31 + "},");
-                                    w.WriteLine("\t\t\t{" + entity.Transform.M12 + "," + entity.Transform.M22 + "," + entity.Transform.M32 + "},");
-                                    w.WriteLine("\t\t\t{" + entity.Transform.M13 + "," + entity.Transform.M23 + "," + entity.Transform.M33 + "},");
-                                    w.WriteLine("\t\t\t{" + entity.Transform.M41 * 6.9f + "," + entity.Transform.M42 * 6.9f + "," + entity.Transform.M43 * -6.9f + "}");
-                                    w.WriteLine("\t\t},");
-                                    w.WriteLine("\t\tcolour = { 255, 255, 255 }");
-                                    w.Write("\t}");
-                                    w.WriteLine((i + 1 < scene.Entities.Count ? "," : ""));
-                                }
-
-                                wacc.WriteLine("}");
-                                wpup.WriteLine("}");
-                            }
-                        }
-                    }
+                    var fmSaveAsEnvironment = new frmSaveAsEnvironment();
+                    fmSaveAsEnvironment.Show();
                     break;
             }
         }

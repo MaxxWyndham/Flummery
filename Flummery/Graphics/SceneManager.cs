@@ -39,7 +39,7 @@ namespace Flummery
             Scene = this;
         }
 
-        public void Add(Asset asset)
+        public Asset Add(Asset asset)
         {
             var m = (asset as Model);
 
@@ -53,6 +53,8 @@ namespace Flummery
             }
 
             if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset)); }
+
+            return asset;
         }
 
         public void Update(float dt)

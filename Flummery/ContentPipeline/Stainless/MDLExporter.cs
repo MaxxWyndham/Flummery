@@ -55,6 +55,7 @@ namespace Flummery.ContentPipeline.Stainless
                         );
                     }
 
+                    mdlmesh.CalculateExtents(mdl.Vertices);
                     mdl.Meshes.Add(mdlmesh);
                     materialIndex++;
                 }
