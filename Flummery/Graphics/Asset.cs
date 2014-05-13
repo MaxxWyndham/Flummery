@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Flummery
 {
@@ -22,6 +23,21 @@ namespace Flummery
         public virtual Asset Clone()
         {
             return this;
+        }
+    }
+
+    public abstract class AssetList
+    {
+        List<Asset> assets;
+
+        public List<Asset> Entries
+        {
+            get { return assets; }
+        }
+
+        public AssetList()
+        {
+            assets = new List<Asset>();
         }
     }
 }

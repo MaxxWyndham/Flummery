@@ -18,7 +18,7 @@ namespace Flummery.ContentPipeline.Stainless
             string fileName = path.Substring(path.LastIndexOf("\\") + 1);
             path = path.Replace(fileName, "");
 
-            Model dat = SceneManager.Scene.Content.Load<Model, DATImporter>(fileName.Replace(".act", ".dat", StringComparison.OrdinalIgnoreCase), path);
+            Model dat = SceneManager.Current.Content.Load<Model, DATImporter>(fileName.Replace(".act", ".dat", StringComparison.OrdinalIgnoreCase), path);
 
             foreach (var section in act.Sections)
             {
@@ -53,7 +53,7 @@ namespace Flummery.ContentPipeline.Stainless
                 }
             }
 
-            SceneManager.Scene.UpdateProgress(string.Format("Loaded {0}", fileName));
+            SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", fileName));
 
             return model;
         }

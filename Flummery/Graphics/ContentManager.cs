@@ -68,12 +68,38 @@ namespace Flummery
             if (content != null)
             {
                 assets[key] = content;
-                if (bAddToScene) { SceneManager.Scene.Add(content); }
+                if (bAddToScene) { SceneManager.Current.Add(content); }
 
                 return (T)content;
             }
 
             return default(T);
+        }
+
+        public void LoadMany<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T: AssetList, new()
+                                                                                                         where T2: ContentImporter, new()
+        {
+            var importer = new T2();
+            var path = importer.Find(assetName, assetPath);
+
+            if (path != null)
+            {
+                var content = importer.ImportMany(path);
+
+                if (content != null)
+                {
+                    foreach (var asset in content.Entries)
+                    {
+                        string key = asset.GetType().ToString() + asset.Name;
+
+                        if (!assets.ContainsKey(key))
+                        { 
+                            assets[key] = asset;
+                            if (bAddToScene) { SceneManager.Current.Add(asset); }
+                        }
+                    }
+                }
+            }
         }
     }
 }

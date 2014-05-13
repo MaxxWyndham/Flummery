@@ -34,5 +34,10 @@ namespace Flummery.ContentPipeline
         {
             return default(Asset);
         }
+
+        public virtual AssetList ImportMany(string Path)
+        {
+            return default(AssetList);
+        }
     }
 }

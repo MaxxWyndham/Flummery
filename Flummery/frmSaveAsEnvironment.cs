@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Flummery.ContentPipeline.Stainless;
@@ -14,29 +15,23 @@ namespace Flummery
         public frmSaveAsEnvironment()
         {
             InitializeComponent();
+
+            txtPath.Text = Properties.Settings.Default.SaveAsEnvironmentPath;
+            setEnvironment();
         }
 
         private void btnPath_Click(object sender, EventArgs e)
         {
+            fbdBrowse.SelectedPath = txtPath.Text;
+
             if (fbdBrowse.ShowDialog() == DialogResult.OK)
             {
                 if (!Directory.Exists(fbdBrowse.SelectedPath)) { Directory.CreateDirectory(fbdBrowse.SelectedPath); }
                 txtPath.Text = fbdBrowse.SelectedPath + "\\";
+                setEnvironment();
 
-                environment = Path.GetFileName(Path.GetDirectoryName(txtPath.Text));
-                lblEnvironment.Text = lblEnvironment.Tag.ToString().Replace("%%environment%%", environment.ToLower());
-
-                flump = FlumpFile.Load(txtPath.Text + "environment.flump");
-
-                if (flump.Settings.ContainsKey("environment.level"))
-                {
-                    txtLevel.Text = flump.Settings["environment.level"];
-                    updateLabels(txtLevel.Text);
-                }
-
-                if (flump.Settings.ContainsKey("environment.name")) { txtEnvironment.Text = flump.Settings["environment.name"]; }
-                if (flump.Settings.ContainsKey("environment.level.name")) { txtRace1Name.Text = flump.Settings["environment.level.name"]; }
-                if (flump.Settings.ContainsKey("environment.level.description")) { txtRace1Writeup.Text = flump.Settings["environment.level.description"]; }
+                Properties.Settings.Default.SaveAsEnvironmentPath = txtPath.Text;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -87,6 +82,14 @@ namespace Flummery
                 w.WriteLine("[RACE_BACKGROUNDS]");
                 w.WriteLine("background_list\\" + environment + "_" + txtLevel.Text + "_race_01");
                 w.WriteLine();
+                w.WriteLine("[INTROS]");
+                w.WriteLine("<race01>");
+                w.WriteLine("race01.rba");
+                w.WriteLine();
+                w.WriteLine("[PED_FILES]");
+                w.WriteLine("<race01>");
+                w.WriteLine("pedfile_global.xml");
+                w.WriteLine();
                 w.WriteLine("[VERSION]");
                 w.WriteLine("2.500000");
                 w.WriteLine();
@@ -100,23 +103,42 @@ namespace Flummery
 
             if (chkMaterials.Checked)
             {
-                foreach (var material in SceneManager.Scene.Textures)
+                var textures = new List<string>();
+
+                foreach (var material in SceneManager.Current.Materials)
                 {
-                    var tx = new TDXExporter();
-                    tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT5 });
-                    tx.Export(material, racePath);
+                    using (StreamWriter w = File.CreateText(racePath + "\\" + material.Name + ".mt2"))
+                    {
+                        w.WriteLine("<?xml version=\"1.0\"?>");
+                        w.WriteLine("<Material>");
+                        w.WriteLine("\t<BasedOffOf Name=\"simple_base\"/>");
+                        w.WriteLine("\t<Walkable Value=\"TRUE\" />");
+                        w.WriteLine("\t<Pass Number=\"0\">");
+                        w.WriteLine("\t\t<Texture Alias=\"DiffuseColour\" FileName=\"" + material.Texture.Name + "\"/>");
+                        w.WriteLine("\t</Pass>");
+                        w.WriteLine("</Material>");
+                    }
+
+                    if (!textures.Contains(material.Texture.Name))
+                    {
+                        var tx = new TDXExporter();
+                        tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT5 });
+                        tx.Export(material.Texture, racePath);
+
+                        textures.Add(material.Texture.Name);
+                    }
                 }
             }
 
             var cx = new CNTExporter();
             cx.SetExportOptions(new { Scale = new Vector3(6.9f, 6.9f, -6.9f) });
-            cx.Export(SceneManager.Scene.Models[0], racePath + "level.cnt");
+            cx.Export(SceneManager.Current.Models[0], racePath + "level.cnt");
 
             var mx = new MDLExporter();
             mx.SetExportOptions(new { Transform = Matrix4.CreateScale(6.9f, 6.9f, -6.9f) });
-            mx.Export(SceneManager.Scene.Models[0], racePath);
+            mx.Export(SceneManager.Current.Models[0], racePath);
 
-            if (SceneManager.Scene.Entities.Count > 0)
+            if (SceneManager.Current.Entities.Count > 0)
             {
                 using (StreamWriter wpup = File.CreateText(racePath + "powerups.lol"))
                 {
@@ -128,9 +150,9 @@ namespace Flummery
                         wacc.WriteLine("module((...), level_accessory_setup)");
                         wacc.WriteLine("accessories = {");
 
-                        for (int i = 0; i < SceneManager.Scene.Entities.Count; i++)
+                        for (int i = 0; i < SceneManager.Current.Entities.Count; i++)
                         {
-                            var entity = SceneManager.Scene.Entities[i];
+                            var entity = SceneManager.Current.Entities[i];
                             var w = (entity.EntityType == EntityType.Accessory ? wacc : wpup);
 
                             w.WriteLine("\t" + entity.UniqueIdentifier + " = {");
@@ -145,7 +167,7 @@ namespace Flummery
                             w.WriteLine("\t\t},");
                             w.WriteLine("\t\tcolour = { 255, 255, 255 }");
                             w.Write("\t}");
-                            w.WriteLine((i + 1 < SceneManager.Scene.Entities.Count ? "," : ""));
+                            w.WriteLine((i + 1 < SceneManager.Current.Entities.Count ? "," : ""));
                         }
 
                         wacc.WriteLine("}");
@@ -156,6 +178,26 @@ namespace Flummery
 
             flump.Save(txtPath.Text + "environment.flump");
             this.Close();
+        }
+
+        void setEnvironment()
+        {
+            if (txtPath.Text.Length == 0) { return; }
+
+            environment = Path.GetFileName(Path.GetDirectoryName(txtPath.Text));
+            lblEnvironment.Text = lblEnvironment.Tag.ToString().Replace("%%environment%%", environment.ToLower());
+
+            flump = FlumpFile.Load(txtPath.Text + "environment.flump");
+
+            if (flump.Settings.ContainsKey("environment.level"))
+            {
+                txtLevel.Text = flump.Settings["environment.level"];
+                updateLabels(txtLevel.Text);
+            }
+
+            if (flump.Settings.ContainsKey("environment.name")) { txtEnvironment.Text = flump.Settings["environment.name"]; }
+            if (flump.Settings.ContainsKey("environment.level.name")) { txtRace1Name.Text = flump.Settings["environment.level.name"]; }
+            if (flump.Settings.ContainsKey("environment.level.description")) { txtRace1Writeup.Text = flump.Settings["environment.level.description"]; }
         }
 
         void updateLabels(string level)

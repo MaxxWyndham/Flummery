@@ -12,6 +12,8 @@ namespace Flummery
 {
     public partial class MaterialItem : UserControl
     {
+        Material m;
+
         public string MaterialName
         {
             get { return lblName.Text; }
@@ -21,6 +23,12 @@ namespace Flummery
                 ttInfo.SetToolTip(lblName, value);
                 lblName.Text = value;
             }
+        }
+
+        public Material Material
+        {
+            get { return m; }
+            set { m = value; }
         }
 
         public event EventHandler DblClick;
@@ -42,6 +50,9 @@ namespace Flummery
 
         void MaterialItem_Click(object sender, EventArgs e)
         {
+            var editor = new frmMaterialEditor(this, m);
+            editor.Show(this.ParentForm);
+
             if (SngClick != null) { SngClick(this, e); }
         }
 

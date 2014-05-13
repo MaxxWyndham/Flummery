@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using ToxicRagers.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
 using OpenTK;
@@ -10,7 +11,7 @@ namespace Flummery.ContentPipeline.Stainless
         public override Asset Import(string path)
         {
             DAT dat = DAT.Load(path);
-            MAT mat = MAT.Load(path.Replace(".dat", ".mat", StringComparison.OrdinalIgnoreCase));
+            SceneManager.Current.Content.LoadMany<MaterialList, MaterialImporter>(Path.GetFileName(path).Replace(".dat", ".mat", StringComparison.OrdinalIgnoreCase), Path.GetDirectoryName(path) + "\\", true);
             Model model = new Model();
 
             foreach (var datmesh in dat.DatMeshes)
@@ -21,7 +22,7 @@ namespace Flummery.ContentPipeline.Stainless
 
                 mesh.Name = (datmesh.Name.Contains(".") ? datmesh.Name.Substring(0, datmesh.Name.IndexOf(".")) : datmesh.Name);
 
-                SceneManager.Scene.UpdateProgress(string.Format("Processing {0}", mesh.Name));
+                SceneManager.Current.UpdateProgress(string.Format("Processing {0}", mesh.Name));
 
                 for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++) { mesh.AddModelMeshPart(new ModelMeshPart(), false); }
 
@@ -30,10 +31,10 @@ namespace Flummery.ContentPipeline.Stainless
                     var face = datmesh.Mesh.Faces[i];
                     var materialID = face.MaterialID + 1;
 
-                    if (mat != null && face.MaterialID > -1 && mesh.MeshParts[materialID].Texture == null)
+                    if (face.MaterialID > -1 && mesh.MeshParts[materialID].Material == null)
                     {
-                        var textureName = mat.Materials.Find(m => m.Name == datmesh.Mesh.Materials[face.MaterialID]).Texture;
-                        mesh.MeshParts[materialID].Texture = SceneManager.Scene.Content.Load<Texture, TIFImporter>(textureName, path.Substring(0, path.LastIndexOf("\\") + 1), true);
+                        var material = SceneManager.Current.Materials.Find(m => m.Name == datmesh.Mesh.Materials[face.MaterialID]);
+                        if (material != null) { mesh.MeshParts[materialID].Material = material; }
                     }
 
                     mesh.MeshParts[materialID].AddFace(

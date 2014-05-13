@@ -7,11 +7,11 @@ namespace Flummery
 {
     public class SceneManager
     {
-        public static SceneManager Scene;
+        public static SceneManager Current;
 
         List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
-        List<Texture> textures = new List<Texture>();
+        List<Material> materials = new List<Material>();
 
         bool bVertexBuffer;
         Camera camera;
@@ -23,7 +23,7 @@ namespace Flummery
 
         public List<Entity> Entities { get { return entities; } }
         public List<Model> Models { get { return models; } }
-        public List<Texture> Textures { get { return textures; } }
+        public List<Material> Materials { get { return materials; } }
 
         public delegate void AddHandler(object sender, AddEventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
@@ -36,7 +36,7 @@ namespace Flummery
             camera = new Camera();
 
             bVertexBuffer = bUseVertexBuffer;
-            Scene = this;
+            Current = this;
         }
 
         public Asset Add(Asset asset)
@@ -49,7 +49,7 @@ namespace Flummery
             }
             else
             {
-                textures.Add(asset as Texture);
+                materials.Add(asset as Material);
             }
 
             if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset)); }

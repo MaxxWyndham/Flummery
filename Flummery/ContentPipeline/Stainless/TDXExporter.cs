@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using ToxicRagers.CarmageddonReincarnation.Formats;
@@ -10,11 +11,12 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string Path)
         {
+            Stopwatch sw = new Stopwatch();
             var texture = (asset as Texture);
             var tdx = new TDX();
             var b = (texture.Tag as Bitmap);
 
-            SceneManager.Scene.UpdateProgress(string.Format("Saving {0}", texture.Name));
+            SceneManager.Current.UpdateProgress(string.Format("Saving {0}", texture.Name));
 
             var flags = Squish.SquishFlags.kDxt1;
 
@@ -40,6 +42,9 @@ namespace Flummery.ContentPipeline.Stainless
             byte[] data = new byte[b.Width * b.Height * 4];
             byte[] dest = new byte[Squish.Squish.GetStorageRequirements(b.Width, b.Height, flags | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha)];
 
+            sw.Start();
+            Console.WriteLine("{0}", texture.Name);
+
             int ii = 0;
             for (int y = 0; y < b.Height; y++)
             {
@@ -55,23 +60,17 @@ namespace Flummery.ContentPipeline.Stainless
                 }
             }
 
-            Squish.Squish.CompressImage(data, b.Width, b.Height, ref dest, flags | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha);
+            Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
+
+            Squish.Squish.CompressImage(data, b.Width, b.Height, ref dest, flags | Squish.SquishFlags.kColourClusterFit);
             mip.Data = dest;
+
+            Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
 
             tdx.MipMaps.Add(mip);
             tdx.Save(Path + "\\" + texture.Name + ".tdx");
 
-            using (StreamWriter w = File.CreateText(Path + "\\" + texture.Name + ".mt2"))
-            {
-                w.WriteLine("<?xml version=\"1.0\"?>");
-                w.WriteLine("<Material>");
-                w.WriteLine("\t<BasedOffOf Name=\"simple_1bit_base\"/>");
-                w.WriteLine("\t<Walkable Value=\"TRUE\" />");
-                w.WriteLine("\t<Pass Number=\"0\">");
-                w.WriteLine("\t\t<Texture Alias=\"DiffuseColour\" FileName=\"" + texture.Name + "\"/>");
-                w.WriteLine("\t</Pass>");
-                w.WriteLine("</Material>");
-            }
+            Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
         }
     }
 }

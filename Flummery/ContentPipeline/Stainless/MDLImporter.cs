@@ -25,11 +25,13 @@ namespace Flummery.ContentPipeline.Stainless
 
                 var mdlmesh = mdl.GetMesh(i);
 
-                meshpart.Texture = Texture.CreateFromMaterial(mdlmesh.Name, path.Substring(0, path.LastIndexOf("\\") + 1));
+                meshpart.Material = SceneManager.Current.Content.Load<Material, MaterialImporter>(mdlmesh.Name, path.Substring(0, path.LastIndexOf("\\") + 1), true);
 
                 // Process triangle strip
                 for (int j = 0; j < mdlmesh.StripList.Count - 2; j++)
                 {
+                    if (mdlmesh.StripList[j + 2].Degenerate) { continue; }
+
                     MDLVertex v0, v1, v2;
 
                     v0 = mdl.Vertices[mdlmesh.StripList[j + 0].Index];
@@ -52,9 +54,9 @@ namespace Flummery.ContentPipeline.Stainless
                             new Vector3(v2.Position.X, v2.Position.Y, -v2.Position.Z)
                         },
                         new Vector3[] {
-                            new Vector3(v0.Normal.X, v0.Normal.Y, v0.Normal.Z),
-                            new Vector3(v1.Normal.X, v1.Normal.Y, v1.Normal.Z),
-                            new Vector3(v2.Normal.X, v2.Normal.Y, v2.Normal.Z)
+                            new Vector3(v0.Normal.X, v0.Normal.Y, -v0.Normal.Z),
+                            new Vector3(v1.Normal.X, v1.Normal.Y, -v1.Normal.Z),
+                            new Vector3(v2.Normal.X, v2.Normal.Y, -v2.Normal.Z)
                         },
                         new Vector2[] {
                             new Vector2(v0.UV.X, v0.UV.Y),
@@ -93,6 +95,8 @@ namespace Flummery.ContentPipeline.Stainless
                 }
 
                 mesh.AddModelMeshPart(meshpart);
+
+                Console.WriteLine(meshpart.VertexCount / 3);
             }
 
             mesh.Name = mdl.Name;

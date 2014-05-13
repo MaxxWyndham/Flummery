@@ -20,7 +20,7 @@ namespace Flummery.ContentPipeline.Stainless
 
             ProcessCNT(cnt, model);
 
-            SceneManager.Scene.UpdateProgress(string.Format("Loaded {0}", cnt.Name));
+            SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", cnt.Name));
 
             return model;
         }
@@ -29,11 +29,11 @@ namespace Flummery.ContentPipeline.Stainless
         {
             int boneIndex;
 
-            SceneManager.Scene.UpdateProgress(string.Format("Processing {0}", cnt.Name));
+            SceneManager.Current.UpdateProgress(string.Format("Processing {0}", cnt.Name));
 
             if (cnt.Model != null)
             {
-                var m = SceneManager.Scene.Content.Load<Model, MDLImporter>(cnt.Model, rootPath);
+                var m = SceneManager.Current.Content.Load<Model, MDLImporter>(cnt.Model, rootPath);
                 boneIndex = model.AddMesh(m.Meshes[0], ParentBoneIndex);
             }
             else

@@ -15,35 +15,23 @@ namespace Flummery
         object Tag;
         VertexBuffer vertexBuffer;
         int VertexOffset;
-        Texture texture;
+        Material material;
 
         public IndexBuffer IndexBuffer { get { return indexBuffer; } }
         public VertexBuffer VertexBuffer { get { return vertexBuffer; } }
 
         public int VertexCount { get { return vertexBuffer.Length; } }
 
-        public Texture Texture
+        public Material Material
         {
-            get { return texture; }
-            set { texture = value; }
+            get { return material; }
+            set { material = value; }
         }
 
         public ModelMeshPart()
         {
             vertexBuffer = new VertexBuffer();
             indexBuffer = new IndexBuffer();
-        }
-
-        static int GetIndex(IList<Vertex> list, Vertex value)
-        {
-            for (int index = 0; index < list.Count; index++)
-            {
-                if (list[index].Position == value.Position && list[index].Normal == value.Normal && list[index].UV == value.UV)
-                {
-                    return index;
-                }
-            }
-            return -1;
         }
 
         public void AddFace(Vector3[] positions, Vector3[] normals, Vector2[] texcoords)
@@ -55,23 +43,26 @@ namespace Flummery
                 v.Normal = normals[i];
                 v.UV = texcoords[i];
 
-                //int index = vertexBuffer.Data.FindIndex(vert => vert.Position == v.Position);
+                int index = vertexBuffer.Data.FindIndex(vert => 
+                    vert.Position == v.Position && 
+                    vert.Normal == v.Normal && 
+                    vert.UV == v.UV);
 
-                //if (index == -1)
-                //{
-                vertexBuffer.AddVertex(v);
-                indexBuffer.AddIndex(vertexBuffer.Length - 1);
-                //}
-                //else
-                //{
-                //    indexBuffer.AddIndex(index);
-                //}
+                if (index == -1)
+                {
+                    vertexBuffer.AddVertex(v);
+                    indexBuffer.AddIndex(vertexBuffer.Length - 1);
+                }
+                else
+                {
+                    indexBuffer.AddIndex(index);
+                }
             }
         }
 
         public void Finalise()
         {
-            if (SceneManager.Scene.CanUseVertexBuffer)
+            if (SceneManager.Current.CanUseVertexBuffer)
             {
                 indexBuffer.Initialise();
                 vertexBuffer.Initialise();
@@ -84,15 +75,14 @@ namespace Flummery
 
             GL.Enable(EnableCap.DepthTest);
 
-            GL.BindTexture(TextureTarget.Texture2D, (texture != null ? texture.ID : 0));
+            GL.BindTexture(TextureTarget.Texture2D, (material != null && material.Texture != null ? material.Texture.ID : 0));
 
-            GL.Disable(EnableCap.Blend);
+            //GL.Disable(EnableCap.Blend);
 
             GL.DepthFunc(DepthFunction.Lequal);
             GL.Color3(Color.White);
-            GL.Enable(EnableCap.Lighting);
 
-            if (SceneManager.Scene.CanUseVertexBuffer)
+            if (SceneManager.Current.CanUseVertexBuffer)
             {
                 indexBuffer.Draw();
                 vertexBuffer.Draw(indexBuffer.Length);
@@ -112,6 +102,22 @@ namespace Flummery
 
                 GL.End();
             }
+
+            // Visualise normals
+            //GL.Begin(BeginMode.Lines);
+
+            //foreach (int i in indexBuffer.Data)
+            //{
+            //    var v = vertexBuffer.Data[i];
+
+            //    GL.LineWidth(2f);
+            //    GL.Color3(Color.White);
+
+            //    GL.Vertex3(v.Position);
+            //    GL.Vertex3(v.Position + (v.Normal * 0.01f));
+            //}
+
+            //GL.End();
         }
     }
 }

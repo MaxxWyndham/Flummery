@@ -58,5 +58,17 @@ namespace Flummery.Properties {
                 this["PathCarmageddon2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SaveAsEnvironmentPath {
+            get {
+                return ((string)(this["SaveAsEnvironmentPath"]));
+            }
+            set {
+                this["SaveAsEnvironmentPath"] = value;
+            }
+        }
     }
 }

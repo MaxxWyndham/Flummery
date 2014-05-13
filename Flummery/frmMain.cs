@@ -62,7 +62,7 @@ namespace Flummery
             scTreeView.Panel2.Controls.Add(control);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.6b";
+            this.Text += " v0.0.2.6c";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -94,19 +94,12 @@ namespace Flummery
             }
             else
             {
-                var t = (e.Item as Texture);
-
+                var t = (e.Item as Material);
                 var mi = new MaterialItem();
+
                 mi.MaterialName = t.Name;
-
-                var b = (t.Tag as Bitmap);
-                if (b == null)
-                {
-                    var tdx = (ToxicRagers.CarmageddonReincarnation.Formats.TDX)t.Tag;
-                    if (tdx != null) { b = tdx.Decompress(tdx.GetMipLevelForSize(128), true); }
-                }
-
-                if (b != null) { mi.SetThumbnail(b); }
+                mi.Material = t;
+                if (t.Texture != null) { mi.SetThumbnail(t.Texture.GetThumbnail()); }
 
                 flpMaterials.Controls.Add(mi);
             }
@@ -297,8 +290,10 @@ namespace Flummery
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("Accessory.txt files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Routes.txt files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
-
+            menu.MenuItems[3].MenuItems.Add("General");
+            menu.MenuItems[3].MenuItems[2].MenuItems.Add("TDX Convertor", menuToolsClick);
 
             menu.MenuItems.Add("&Help");
             menu.MenuItems[4].MenuItems.Add("About Flummery");
@@ -492,6 +487,7 @@ namespace Flummery
                 case "TDX files":
                 case "LIGHT files":
                 case "Accessory.txt files":
+                case "Routes.txt files":
                     string extension = mi.Text.Substring(0, mi.Text.IndexOf(' ')).ToLower();
                     fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
                     fbdBrowse.ShowDialog();
@@ -529,6 +525,10 @@ namespace Flummery
 
                                     case "accessory.txt":
                                         ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(fi.FullName);
+                                        break;
+
+                                    case "routes.txt":
+                                        ToxicRagers.CarmageddonReincarnation.Formats.Routes.Load(fi.FullName);
                                         break;
                                 }
 
@@ -613,6 +613,24 @@ namespace Flummery
                 case "Rename":
                     var rename = new frmRename();
                     rename.Show();
+                    break;
+            }
+        }
+
+        private void menuToolsClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "TDX Convertor":
+                    //var tdx = new frmTDXConvert();
+                    //tdx.Show(this);
+                    var t = SceneManager.Current.Content.Load<Texture, TIFImporter>("airpmap", @"D:\");
+
+                    var tx = new TDXExporter();
+                    tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT1 });
+                    tx.Export(t, @"D:\");
                     break;
             }
         }

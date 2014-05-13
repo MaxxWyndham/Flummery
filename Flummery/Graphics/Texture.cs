@@ -29,11 +29,6 @@ namespace Flummery
             CreateFromBitmap((Bitmap)Bitmap.FromFile(Path.GetDirectoryName(Application.ExecutablePath) + "\\data\\test.bmp"), null);
         }
 
-        public static Texture CreateFromMaterial(string name, string path)
-        {
-            return SceneManager.Scene.Content.Load<Texture, MaterialImporter>(name, path, true);
-        }
-
         public void CreateFromBitmap(Bitmap bitmap, string name)
         {
             this.name = name;
@@ -80,6 +75,17 @@ namespace Flummery
                 default:
                     throw new NotImplementedException(string.Format("Unknown texture format: {0}", format));
             }
+        }
+
+        public Bitmap GetThumbnail()
+        {
+            var bmp = tag as Bitmap;
+            if (bmp != null) { return bmp; }
+
+            var tdx = tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX;
+            if (tdx != null) { return tdx.Decompress(tdx.GetMipLevelForSize(128), true); }
+
+            return new Bitmap(64, 64);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
 using ToxicRagers.Stainless.Formats;
@@ -10,33 +11,62 @@ namespace Flummery.ContentPipeline.Stainless
 {
     class MaterialImporter : ContentImporter
     {
-        public override string GetExtension() { return "mt2;mtl"; }
+        public override string GetExtension() { return "mt2;mtl;mat"; }
 
         public override Asset Import(string path)
         {
-            Material material;
+            string name = Path.GetFileNameWithoutExtension(path);
+            ToxicRagers.Helpers.Material m = null;
 
-            if (path.EndsWith("mt2", StringComparison.OrdinalIgnoreCase))
+            switch (Path.GetExtension(path).ToLower())
             {
-                material = MT2.Load(path);
+                case ".mt2":
+                    m = MT2.Load(path);
+                    break;
+
+                case ".mtl":
+                    m = MTL.Load(path);
+                    break;
+            }
+
+            if (m != null)
+            {
+                var mat = (m as MT2);
+                string fileName = (mat != null ? mat.DiffuseColour : (m as MTL).Textures[0]);
+
+                if (fileName == null || fileName == "")
+                {
+                    return new Material() { Name = name, Texture = new Texture() { Name = fileName } };
+                }
+                else
+                {
+                    path = path.Substring(0, path.LastIndexOf("\\") + 1);
+                    return new Material() { Name = name, Texture = SceneManager.Current.Content.Load<Texture, TDXImporter>(fileName, path) };
+                }
             }
             else
             {
-                material = MTL.Load(path);
+                return new Material();
+            }
+        }
+
+        public override AssetList ImportMany(string path)
+        {
+            MaterialList materials = new MaterialList();
+            MAT mat = MAT.Load(path);
+
+            foreach (var material in mat.Materials)
+            {
+                materials.Entries.Add(
+                    new Material
+                    {
+                        Name = material.Name,
+                        Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(material.Texture, Path.GetDirectoryName(path))
+                    }
+                );
             }
 
-            var mat = (material as MT2);
-            string fileName = (mat != null ? mat.DiffuseColour : (material as MTL).Textures[0]);
-
-            if (fileName == null || fileName == "")
-            {
-                return new Texture() { Name = fileName };
-            }
-            else
-            {
-                path = path.Substring(0, path.LastIndexOf("\\") + 1);
-                return SceneManager.Scene.Content.Load<Texture, TDXImporter>(fileName, path);
-            }
+            return materials;
         }
     }
 }
