@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.IO;
 
-namespace Flummery.ContentPipeline.Stainless
+namespace Flummery.ContentPipeline.Core
 {
     class TIFImporter : ContentImporter
     {

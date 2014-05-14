@@ -7,7 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Flummery.ContentPipeline.Stainless;
+
+using Flummery.ContentPipeline.Core;
 
 namespace Flummery
 {

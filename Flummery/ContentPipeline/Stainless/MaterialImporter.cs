@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
+using Flummery.ContentPipeline.Core;
 using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
