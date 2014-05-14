@@ -17,8 +17,23 @@ namespace Flummery
         int VertexOffset;
         Material material;
 
+        PrimitiveType primitiveType = PrimitiveType.TriangleStrip;
+        FrontFaceDirection windingOrder = FrontFaceDirection.Ccw;
+
         public IndexBuffer IndexBuffer { get { return indexBuffer; } }
         public VertexBuffer VertexBuffer { get { return vertexBuffer; } }
+
+        public PrimitiveType PrimitiveType
+        {
+            get { return primitiveType; }
+            set { primitiveType = value; }
+        }
+
+        public FrontFaceDirection WindingOrder
+        {
+            get { return windingOrder; }
+            set { windingOrder = value; }
+        }
 
         public int VertexCount { get { return vertexBuffer.Length; } }
 
@@ -34,6 +49,30 @@ namespace Flummery
             indexBuffer = new IndexBuffer();
         }
 
+        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords)
+        {
+            var v = new Vertex();
+            v.Position = position;
+            v.Normal = normal;
+            v.UV = texcoords;
+
+            int index = vertexBuffer.Data.FindIndex(vert =>
+                vert.Position == v.Position &&
+                vert.Normal == v.Normal && 
+                vert.UV == v.UV
+            );
+
+            if (index == -1)
+            {
+                vertexBuffer.AddVertex(v);
+                indexBuffer.AddIndex(vertexBuffer.Length - 1);
+            }
+            else
+            {
+                indexBuffer.AddIndex(index);
+            }
+        }
+
         public void AddFace(Vector3[] positions, Vector3[] normals, Vector2[] texcoords)
         {
             for (int i = 0; i < 3; i++)
@@ -46,7 +85,8 @@ namespace Flummery
                 int index = vertexBuffer.Data.FindIndex(vert => 
                     vert.Position == v.Position && 
                     vert.Normal == v.Normal && 
-                    vert.UV == v.UV);
+                    vert.UV == v.UV
+                );
 
                 if (index == -1)
                 {
@@ -78,14 +118,14 @@ namespace Flummery
             GL.BindTexture(TextureTarget.Texture2D, (material != null && material.Texture != null ? material.Texture.ID : 0));
 
             //GL.Disable(EnableCap.Blend);
+            GL.FrontFace(windingOrder);
 
             GL.DepthFunc(DepthFunction.Lequal);
             GL.Color3(Color.White);
 
             if (SceneManager.Current.CanUseVertexBuffer)
             {
-                indexBuffer.Draw();
-                vertexBuffer.Draw(indexBuffer.Length);
+                vertexBuffer.Draw(indexBuffer, primitiveType);
             }
             else
             {

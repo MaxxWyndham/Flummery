@@ -24,7 +24,13 @@ namespace Flummery.ContentPipeline.Stainless
 
                 SceneManager.Current.UpdateProgress(string.Format("Processing {0}", mesh.Name));
 
-                for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++) { mesh.AddModelMeshPart(new ModelMeshPart(), false); }
+                for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++) 
+                { 
+                    var meshpart = new ModelMeshPart();
+                    meshpart.PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles;
+
+                    mesh.AddModelMeshPart(meshpart, false); 
+                }
 
                 for (int i = 0; i < datmesh.Mesh.Faces.Count; i++)
                 {

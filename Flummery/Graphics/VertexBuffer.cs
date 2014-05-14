@@ -37,8 +37,10 @@ namespace Flummery
             GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(this.data.Count * Vertex.Stride), this.data.ToArray(), BufferUsageHint.DynamicDraw);
         }
 
-        public void Draw(int count)
+        public void Draw(IndexBuffer ibo, PrimitiveType primitiveType)
         {
+            ibo.Draw();
+
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
             GL.EnableClientState(ArrayCap.VertexArray);
@@ -49,7 +51,7 @@ namespace Flummery
             GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
             GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
 
-            GL.DrawElements(PrimitiveType.Triangles, count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+            GL.DrawElements(primitiveType, ibo.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
             GL.DisableClientState(ArrayCap.VertexArray);
             GL.DisableClientState(ArrayCap.NormalArray);
