@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 using OpenTK;
@@ -82,6 +83,8 @@ namespace Flummery
 
             scene.OnAdd += scene_OnAdd;
             scene.OnProgress += scene_OnProgress;
+
+            flpMaterials.Tag = new SortedList<string, string>();
         }
 
         void scene_OnAdd(object sender, AddEventArgs e)
@@ -101,7 +104,13 @@ namespace Flummery
                 mi.Material = t;
                 if (t.Texture != null) { mi.SetThumbnail(t.Texture.GetThumbnail()); }
 
+                //var matList = (flpMaterials.Tag as SortedList<string, string>);
+                //matList[t.Name] = t.Name;
+
                 flpMaterials.Controls.Add(mi);
+                //flpMaterials.Controls.SetChildIndex(mi, matList.IndexOfKey(t.Name));
+
+                //flpMaterials.Tag = matList;
             }
         }
 
@@ -213,7 +222,7 @@ namespace Flummery
 
             float aspect_ratio = w / (float)h;
 
-            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 640);
+            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 1000);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perpective);
         }
@@ -253,7 +262,11 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
 
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Novadrome");
+            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Environment", menuNovadromeClick);
             menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Vehicle", menuNovadromeClick);
+
+            menu.MenuItems[0].MenuItems[0].MenuItems.Add("TDR2000");
+            menu.MenuItems[0].MenuItems[0].MenuItems[3].MenuItems.Add("Hierarchy", menuTDR2000Click);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
             //menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
@@ -550,6 +563,10 @@ namespace Flummery
 
             switch (mi.Text)
             {
+                case "Environment":
+                    openContent("Novadrome Environments (level-*.cnt)|level-*.cnt");
+                    break;
+
                 case "Vehicle":
                     openContent("Novadrome Vehicles (carbody.cnt)|carbody.cnt");
                     break;
@@ -578,6 +595,23 @@ namespace Flummery
             }
         }
 
+        private void menuTDR2000Click(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Hierarchy":
+                    ofdBrowse.Filter = "TDR2000 Hierarchy (*.hie)|*.hie";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        scene.Add(scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
+                    }
+                    break;
+            }
+        }
+
         private void menuSaveAsClick(object sender, EventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
@@ -586,7 +620,7 @@ namespace Flummery
             {
                 case "Environment":
                     var fmSaveAsEnvironment = new frmSaveAsEnvironment();
-                    fmSaveAsEnvironment.Show();
+                    fmSaveAsEnvironment.Show(this);
                     break;
             }
         }
