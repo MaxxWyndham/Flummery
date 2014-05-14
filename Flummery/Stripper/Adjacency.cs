@@ -70,18 +70,16 @@ namespace Flummery.Stripper
         {
             var sorted = edges.OrderBy(e => e.Ref1).ThenBy(e => e.Ref0).ThenBy(e => e.Face).ToArray();
 
-            int lastRef0 = sorted[0].Ref0;// v0Refs[sorted[0].Ref0];
-            int lastRef1 = sorted[0].Ref1;// v1Refs[sorted[0].Ref1];
+            int lastRef0 = sorted[0].Ref0;
+            int lastRef1 = sorted[0].Ref1;
             int count = 0;
             int[] tmp = new int[3];
 
             for (int i = 0; i < edgecount; i++)
             {
-                int face = sorted[i].Face;// faceRefs[sorted[i].Face];
-                int ref0 = sorted[i].Ref0;// v0Refs[sorted[i].Ref0];
-                int ref1 = sorted[i].Ref1;// v1Refs[sorted[i].Ref1];
-
-                Console.WriteLine("{0} {1} {2}", face, ref0, ref1);
+                int face = sorted[i].Face;
+                int ref0 = sorted[i].Ref0;
+                int ref1 = sorted[i].Ref1;
 
                 if (ref0 == lastRef0 && ref1 == lastRef1)
                 {

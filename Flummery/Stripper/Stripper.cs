@@ -6,6 +6,7 @@ namespace Flummery.Stripper
     public class Stripper
     {
         Adjacency adjacency;
+        bool oneSided;
         int faces;
         int[] data;
         bool[] tags;
@@ -13,6 +14,7 @@ namespace Flummery.Stripper
         List<List<int>> strips;
 
         public List<List<int>> Strips { get { return strips; } }
+        public bool OneSided { get { return oneSided; } set { oneSided = value; } }
 
         public Stripper(int Faces, int[] Data)
         {
@@ -105,9 +107,31 @@ namespace Flummery.Stripper
 
             for (int j = 0; j < bestLength - 2; j++) { tags[faces[best][j]] = true; }
 
-            //
+            if (oneSided && (firstLength[best] & 1) == 1)
+            {
+                if (bestLength == 3 || bestLength == 4)
+                {
+                    strip[best][1] ^= strip[best][2];
+                    strip[best][2] ^= strip[best][1];
+                    strip[best][1] ^= strip[best][2];
+                }
+                else
+                {
+                    for (int i = 0; i < bestLength / 2; i++)
+                    {
+                        int t = strip[best][i];
+                        strip[best][i] = strip[best][bestLength - i - 1];
+                        strip[best][length[best] - i - 1] = t;
+                    }
 
-            //strip[best].Reverse();
+                    if (((bestLength - firstLength[best]) & 1) == 1)
+                    {
+                        strips[best].Insert(0, strips[best][0]);
+                        bestLength++;
+                    }
+                }
+            }
+
             strips.Add(new List<int>(strip[best]));
 
             return nFaces;
