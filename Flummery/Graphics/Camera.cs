@@ -6,6 +6,16 @@ namespace Flummery
 {
     public class Camera
     {
+        public enum Direction
+        {
+            Forward,
+            Backward,
+            Left,
+            Right,
+            Up,
+            Down
+        }
+
         private Vector3 position;
         private Vector3 target;
         public Matrix4 viewMatrix, projectionMatrix;
@@ -13,6 +23,8 @@ namespace Flummery
         private float yaw, pitch, roll;
         private float speed, rotationSpeed;
         private Matrix4 cameraRotation;
+
+        public Vector3 Position { get { return position; } }
 
         public Camera() { ResetCamera(); }
 
@@ -32,68 +44,7 @@ namespace Flummery
 
         public void Update(float dt)
         {
-            HandleInput(dt);
             UpdateViewMatrix();
-        }
-
-        private void HandleInput(float dt)
-        {
-            var state = Keyboard.GetState();
-
-            if (state[Key.Keypad4])
-            {
-                yaw += rotationSpeed * dt;
-            }
-            if (state[Key.Keypad6])
-            {
-                yaw += -rotationSpeed * dt;
-            }
-
-            if (state[Key.Keypad2])
-            {
-                pitch += -rotationSpeed * dt;
-            }
-            if (state[Key.Keypad8])
-            {
-                pitch += rotationSpeed * dt;
-            }
-
-            if (state[Key.Keypad7])
-            {
-                roll += -rotationSpeed * dt;
-            }
-            if (state[Key.Keypad9])
-            {
-                roll += rotationSpeed * dt;
-            }
-
-            //  A/Z zoom in/out, numpad 7/9 barrel roll right/left, numpad 2/8 look up/down, numpad 4/6 look left/right, numpad 1/3 strafe left/right
-
-            if (state[Key.A])
-            {
-                MoveCamera(cameraRotation.Forward() * dt);
-            }
-            if (state[Key.Z])
-            {
-                MoveCamera(-cameraRotation.Forward() * dt);
-            }
-            if (state[Key.Keypad1])
-            {
-                MoveCamera(-cameraRotation.Right() * dt);
-            }
-            if (state[Key.Keypad3])
-            {
-                MoveCamera(cameraRotation.Right() * dt);
-            }
-
-            //if (state[Key.E])
-            //{
-            //    MoveCamera(GetUp(cameraRotation) * dt);
-            //}
-            //if (state[Key.Q])
-            //{
-            //    MoveCamera(-GetUp(cameraRotation) * dt);
-            //}
         }
 
         private void UpdateViewMatrix()
@@ -115,9 +66,45 @@ namespace Flummery
             viewMatrix = Matrix4.LookAt(position, target, cameraRotation.Up());
         }
 
-        public void MoveCamera(Vector3 addedVector)
+        public void MoveCamera(Direction direction, float dt)
         {
-            position += speed * addedVector;
+            var v = Vector3.Zero;
+
+            switch (direction)
+            {
+                case Direction.Forward:
+                    v = cameraRotation.Forward() * dt;
+                    break;
+
+                case Direction.Backward:
+                    v = -cameraRotation.Forward() * dt;
+                    break;
+
+                case Direction.Left:
+                    v = -cameraRotation.Right() * dt;
+                    break;
+
+                case Direction.Right:
+                    v = cameraRotation.Right() * dt;
+                    break;
+
+                case Direction.Up:
+                    v = cameraRotation.Up() * dt;
+                    break;
+
+                case Direction.Down:
+                    v = -cameraRotation.Up() * dt;
+                    break;
+            }
+
+            position += speed * v;
+        }
+
+        public void SetPosition(float X = 0, float Y = 0, float Z = 0)
+        {
+            position.X = X;
+            position.Y = Y;
+            position.Z = Z;
         }
 
         public void SetPosition(Vector3 pos)
@@ -130,6 +117,13 @@ namespace Flummery
             this.yaw = yaw;
             this.pitch = pitch;
             this.roll = roll;
+        }
+
+        public void Rotate(float yaw = 0, float pitch = 0, float roll = 0)
+        {
+            this.yaw += yaw * rotationSpeed;
+            this.pitch += pitch * rotationSpeed;
+            this.roll += roll * rotationSpeed;
         }
 
         public void SetActionScale(float speed)

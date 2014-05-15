@@ -44,6 +44,11 @@ namespace Flummery
             Hints = string.Join(";", list.ToArray());
         }
 
+        public void Reset()
+        {
+            assets.Clear();
+        }
+
         public T Load<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T : Asset, new()
                                                                                                   where T2 : ContentImporter, new()
         {

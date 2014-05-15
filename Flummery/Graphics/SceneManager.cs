@@ -14,26 +14,26 @@ namespace Flummery
         List<Material> materials = new List<Material>();
 
         bool bVertexBuffer;
-        Camera camera;
         ContentManager content;
 
         public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
-        public Camera Camera { get { return camera; } }
         public ContentManager Content { get { return content; } }
 
         public List<Entity> Entities { get { return entities; } }
         public List<Model> Models { get { return models; } }
         public List<Material> Materials { get { return materials; } }
 
+        public delegate void ResetHandler(object sender, ResetEventArgs e);
         public delegate void AddHandler(object sender, AddEventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
+
+        public event ResetHandler OnReset;
         public event AddHandler OnAdd;
         public event ProgressHandler OnProgress;
 
         public SceneManager(bool bUseVertexBuffer = true)
         {
             content = new ContentManager();
-            camera = new Camera();
 
             bVertexBuffer = bUseVertexBuffer;
             Current = this;
@@ -57,9 +57,14 @@ namespace Flummery
             return asset;
         }
 
-        public void Update(float dt)
+        public void Reset()
         {
-            camera.Update(dt);
+            content.Reset();
+            entities.Clear();
+            models.Clear();
+            materials.Clear();
+
+            if (OnReset != null) { OnReset(this, new ResetEventArgs()); }
         }
 
         public void Lights()
@@ -76,7 +81,7 @@ namespace Flummery
             GL.Enable(EnableCap.Light0);
         }
 
-        public void Draw()
+        public void Draw(Camera camera)
         {
             Matrix4 lookat = camera.viewMatrix;
             GL.MatrixMode(MatrixMode.Modelview);
@@ -108,6 +113,13 @@ namespace Flummery
         }
     }
 
+    public class ResetEventArgs : EventArgs
+    {
+        public ResetEventArgs()
+        {
+        }
+    }
+
     public class AddEventArgs : EventArgs
     {
         public Asset Item { get; private set; }
@@ -117,6 +129,7 @@ namespace Flummery
             Item = item;
         }
     }
+
 
     public class ProgressEventArgs : EventArgs
     {

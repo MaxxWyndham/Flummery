@@ -23,8 +23,9 @@ namespace Flummery
 
         static bool bPublicRelease = false;
 
+        public static GLControl Control;
         SceneManager scene;
-        GLControl control;
+        ViewportManager viewman;
         Stopwatch sw = new Stopwatch();
         double accumulator = 0;
 
@@ -48,22 +49,25 @@ namespace Flummery
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default);
-            control.Name = "glcViewport";
-            control.VSync = true;
-            control.Width = 716;
-            control.Height = 498;
-            control.Top = 3;
-            control.Left = 3;
-            control.BackColor = Color.Black;
-            control.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            control.Resize += glcViewport_Resize;
-            control.Paint += glcViewport_Paint;
-            control.Click += glcViewport_Click;
-            scTreeView.Panel2.Controls.Add(control);
+            viewman = new ViewportManager();
+
+            Control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default);
+            Control.Name = "glcViewport";
+            Control.VSync = true;
+            Control.Width = 716;
+            Control.Height = 498;
+            Control.Top = 3;
+            Control.Left = 3;
+            Control.BackColor = Color.Black;
+            Control.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Control.Paint += glcViewport_Paint;
+            Control.Resize += glcViewport_Resize;
+            Control.MouseMove += glcViewport_MouseMove;
+            Control.Click += glcViewport_Click;
+            scTreeView.Panel2.Controls.Add(Control);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.6c";
+            this.Text += " v0.0.2.6d";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -82,9 +86,18 @@ namespace Flummery
             this.KeyPress += new KeyPressEventHandler(frmMain_KeyPress);
 
             scene.OnAdd += scene_OnAdd;
+            scene.OnReset += scene_OnReset;
             scene.OnProgress += scene_OnProgress;
 
             flpMaterials.Tag = new SortedList<string, string>();
+
+            viewman.Initialise();
+        }
+
+        void scene_OnReset(object sender, ResetEventArgs e)
+        {
+            ProcessTree(new Model(), true);
+            flpMaterials.Controls.Clear();
         }
 
         void scene_OnAdd(object sender, AddEventArgs e)
@@ -163,7 +176,7 @@ namespace Flummery
                     if (actionScaling + 1 < actionScales.Length)
                     {
                         actionScaling++;
-                        scene.Camera.SetActionScale(actionScales[actionScaling]);
+                        viewman.SetActionScale(actionScales[actionScaling]);
                         tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
                     }
                     break;
@@ -172,7 +185,7 @@ namespace Flummery
                     if (actionScaling - 1 > -1)
                     {
                         actionScaling--;
-                        scene.Camera.SetActionScale(actionScales[actionScaling]);
+                        viewman.SetActionScale(actionScales[actionScaling]);
                         tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
                     }
                     break;
@@ -187,14 +200,10 @@ namespace Flummery
 
         private void GLControlInit()
         {
-            GL.ClearColor(Color.Gray);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             GL.ShadeModel(ShadingModel.Smooth);
             GL.PointSize(3.0f);
             GL.Enable(EnableCap.CullFace);
-            GL.Enable(EnableCap.ScissorTest);
-
-            GL.Enable(EnableCap.Texture2D);
         }
 
         void Application_Idle(object sender, EventArgs e)
@@ -206,7 +215,7 @@ namespace Flummery
 
         private void Animate(double milliseconds)
         {
-            control.Invalidate();
+            Control.Invalidate();
         }
 
         private void Accumulate(double milliseconds)
@@ -215,16 +224,9 @@ namespace Flummery
             if (accumulator > 1000) { accumulator -= 1000; }
         }
 
-        private void glcViewport_Resize(object sender, EventArgs e)
-        {
-            int w = control.Width;
-            int h = control.Height;
-            //GL.Viewport(0, 0, w, h);
-        }
-
         private void glcViewport_Paint(object sender, PaintEventArgs e) 
         {
-            scene.Update((float)dt);
+            viewman.Update((float)dt);
             Draw(); 
         }
 
@@ -232,74 +234,27 @@ namespace Flummery
         {
         }
 
+        void glcViewport_MouseMove(object sender, MouseEventArgs e)
+        {
+            viewman.MouseMove(e.X, e.Y);
+        }
+
+        private void glcViewport_Resize(object sender, EventArgs e)
+        {
+            viewman.Initialise();
+        }
+
         private void Draw()
         {
-            int w = control.Width;
-            int h = control.Height;
-            float aspect_ratio = w / (float)h;
-
-            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 1000);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadMatrix(ref perpective);
-
+            GL.Disable(EnableCap.ScissorTest);
+            GL.ClearColor(Color.Blue);
+            GL.Viewport(0, 0, Control.Width, Control.Height);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.Enable(EnableCap.ScissorTest);
 
-            GL.ClearColor(Color.Gray);
-            int hw = control.Width / 2;
-            int hh = control.Height / 2;
+            viewman.Draw();
 
-            var right = new Rectangle(0, hh, hw, hh);
-            var top = new Rectangle(hw, hh, hw, hh);
-            var front = new Rectangle(0, 0, hw, hh);
-            var threed = new Rectangle(hw, 0, hw, hh);
-
-            // Right
-            GL.Viewport(right);
-            GL.Scissor(right.X, right.Y, right.Width, right.Height);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            scene.Draw();
-
-            //// Top
-            //GL.Viewport(top);
-            //GL.Scissor(top.X, top.Y, top.Width, top.Height);
-            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            //scene.Draw();
-
-            //// Front
-            //GL.Viewport(front);
-            //GL.Scissor(front.X, front.Y, front.Width, front.Height);
-            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            //scene.Draw();
-
-            //// 3D
-            //GL.Viewport(threed);
-            //GL.Scissor(threed.X, threed.Y, threed.Width, threed.Height);
-            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            //scene.Draw();
-
-            GL.Disable(EnableCap.DepthTest);
-            GL.Disable(EnableCap.Lighting);
-
-            GL.Viewport(0, 0, control.Width, control.Height);
-            GL.Scissor(0, 0, control.Width, control.Height);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            GL.Ortho(0, 1, 0, 1, -1, 1);
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadIdentity();
-
-            GL.Begin(PrimitiveType.LineStrip);
-            GL.Color3(Color.Blue);
-            GL.LineWidth(2f);
-                
-            GL.Vertex2(0.0f, 0.0f);
-            GL.Vertex2(0.5f, 0.0f);
-
-            GL.Vertex2(0.5f, 0.5f);
-            GL.Vertex2(0.0f, 0.5f);
-            GL.End();
-
-            control.SwapBuffers();
+            Control.SwapBuffers();
         }
 
         private void BuildMenu()
@@ -311,18 +266,21 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon 2");
             menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Actor", menuCarmageddon2Click);
 
+            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Mobile");
+            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Vehicle", menuCarmageddonMobileClick);
+
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
 
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("Novadrome");
-            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Environment", menuNovadromeClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Vehicle", menuNovadromeClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[3].MenuItems.Add("Environment", menuNovadromeClick);
+            menu.MenuItems[0].MenuItems[0].MenuItems[3].MenuItems.Add("Vehicle", menuNovadromeClick);
 
             menu.MenuItems[0].MenuItems[0].MenuItems.Add("TDR2000");
-            menu.MenuItems[0].MenuItems[0].MenuItems[3].MenuItems.Add("Hierarchy", menuTDR2000Click);
+            menu.MenuItems[0].MenuItems[0].MenuItems[4].MenuItems.Add("Hierarchy", menuTDR2000Click);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
             //menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
@@ -379,26 +337,18 @@ namespace Flummery
                 case "BRender DAT File...":
                     ofdBrowse.Filter = "BRender DAT files (*.dat)|*.dat";
 
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        string path = ofdBrowse.FileName;
-                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
-                        path = path.Replace(fileName, "");
-
-                        scene.Add(scene.Content.Load<Model, DATImporter>(fileName, path));
+                        scene.Content.Load<Model, DATImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
                 case "Stainless CNT File...":
                     ofdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
 
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        string path = ofdBrowse.FileName;
-                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
-                        path = path.Replace(fileName, "");
-
-                        scene.Add(scene.Content.Load<Model, CNTImporter>(fileName, path));
+                        scene.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
@@ -406,13 +356,9 @@ namespace Flummery
                     ofdBrowse.Filter = "Stainless MDL files (*.mdl)|*.mdl";
                     ofdBrowse.ShowDialog();
 
-                    if (ofdBrowse.FileName.Length > 0 && File.Exists(ofdBrowse.FileName))
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        string path = ofdBrowse.FileName;
-                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
-                        path = path.Replace(fileName, "");
-
-                        scene.Content.Load<Model, MDLImporter>(fileName, path, true);
+                        scene.Content.Load<Model, MDLImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
@@ -445,13 +391,9 @@ namespace Flummery
                 case "Actor":
                     ofdBrowse.Filter = "Carmageddon 2 ACTOR (*.act)|*.act";
 
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        string path = ofdBrowse.FileName;
-                        string fileName = path.Substring(path.LastIndexOf("\\") + 1);
-                        path = path.Replace(fileName, "");
-
-                        scene.Add(scene.Content.Load<Model, ACTImporter>(fileName, path));
+                        scene.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
@@ -504,17 +446,27 @@ namespace Flummery
             }
         }
 
+        private void menuCarmageddonMobileClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Vehicle":
+                    openContent("Carmageddon Mobile Vehicles (carbody.cnt)|carbody.cnt");
+                    break;
+            }
+        }
+        
+
         private void openContent(string filter)
         {
             ofdBrowse.Filter = filter;
 
-            if (ofdBrowse.ShowDialog() == DialogResult.OK)
+            if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
-                string path = ofdBrowse.FileName;
-                string fileName = path.Substring(path.LastIndexOf("\\") + 1);
-                path = path.Replace(fileName, "");
-
-                scene.Add(scene.Content.Load<Model, CNTImporter>(fileName, path));
+                scene.Reset();
+                scene.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
             }
         }
 
@@ -718,11 +670,18 @@ namespace Flummery
                 case "TDX Convertor":
                     //var tdx = new frmTDXConvert();
                     //tdx.Show(this);
-                    var t = SceneManager.Current.Content.Load<Texture, TIFImporter>("airpmap", @"D:\");
 
-                    var tx = new TDXExporter();
-                    tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT1 });
-                    tx.Export(t, @"D:\");
+                    //var mshs = ToxicRagers.TDR2000.Formats.MSHS.Load(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\DocksMD\Base Consoft\Docksmesh\DockSmesh.mshs");
+
+                    scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>("NECROmesh", @"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\Necropolis\Level Convsoft\NecroMesh\", true);
+
+                    //var hie = ToxicRagers.TDR2000.Formats.HIE.Load(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\DocksMD\Base Consoft\Docksmesh\DockSmesh.hie");
+
+                    //var t = SceneManager.Current.Content.Load<Texture, TIFImporter>("airpmap", @"D:\");
+
+                    //var tx = new TDXExporter();
+                    //tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT1 });
+                    //tx.Export(t, @"D:\");
                     break;
             }
         }
@@ -731,8 +690,8 @@ namespace Flummery
         {
             if (e.Node.Tag != null)
             {
-                scene.Camera.ResetCamera();
-                scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].CombinedTransform.Position());
+                //scene.Camera.ResetCamera();
+                //scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].CombinedTransform.Position());
             }
         }
     }
