@@ -52,7 +52,7 @@ namespace Flummery
             control.Name = "glcViewport";
             control.VSync = true;
             control.Width = 716;
-            control.Height = 512;
+            control.Height = 498;
             control.Top = 3;
             control.Left = 3;
             control.BackColor = Color.Black;
@@ -192,6 +192,7 @@ namespace Flummery
             GL.ShadeModel(ShadingModel.Smooth);
             GL.PointSize(3.0f);
             GL.Enable(EnableCap.CullFace);
+            GL.Enable(EnableCap.ScissorTest);
 
             GL.Enable(EnableCap.Texture2D);
         }
@@ -218,13 +219,7 @@ namespace Flummery
         {
             int w = control.Width;
             int h = control.Height;
-            GL.Viewport(0, 0, w, h);
-
-            float aspect_ratio = w / (float)h;
-
-            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 1000);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadMatrix(ref perpective);
+            //GL.Viewport(0, 0, w, h);
         }
 
         private void glcViewport_Paint(object sender, PaintEventArgs e) 
@@ -239,9 +234,70 @@ namespace Flummery
 
         private void Draw()
         {
+            int w = control.Width;
+            int h = control.Height;
+            float aspect_ratio = w / (float)h;
+
+            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 1000);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref perpective);
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            GL.ClearColor(Color.Gray);
+            int hw = control.Width / 2;
+            int hh = control.Height / 2;
+
+            var right = new Rectangle(0, hh, hw, hh);
+            var top = new Rectangle(hw, hh, hw, hh);
+            var front = new Rectangle(0, 0, hw, hh);
+            var threed = new Rectangle(hw, 0, hw, hh);
+
+            // Right
+            GL.Viewport(right);
+            GL.Scissor(right.X, right.Y, right.Width, right.Height);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             scene.Draw();
+
+            //// Top
+            //GL.Viewport(top);
+            //GL.Scissor(top.X, top.Y, top.Width, top.Height);
+            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            //scene.Draw();
+
+            //// Front
+            //GL.Viewport(front);
+            //GL.Scissor(front.X, front.Y, front.Width, front.Height);
+            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            //scene.Draw();
+
+            //// 3D
+            //GL.Viewport(threed);
+            //GL.Scissor(threed.X, threed.Y, threed.Width, threed.Height);
+            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            //scene.Draw();
+
+            GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.Lighting);
+
+            GL.Viewport(0, 0, control.Width, control.Height);
+            GL.Scissor(0, 0, control.Width, control.Height);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.Ortho(0, 1, 0, 1, -1, 1);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+
+            GL.Begin(PrimitiveType.LineStrip);
+            GL.Color3(Color.Blue);
+            GL.LineWidth(2f);
+                
+            GL.Vertex2(0.0f, 0.0f);
+            GL.Vertex2(0.5f, 0.0f);
+
+            GL.Vertex2(0.5f, 0.5f);
+            GL.Vertex2(0.0f, 0.5f);
+            GL.End();
 
             control.SwapBuffers();
         }
@@ -415,15 +471,17 @@ namespace Flummery
                                 entity.UniqueIdentifier = "errol_B00BIE" + key + "_" + i.ToString("000");
                                 entity.EntityType = EntityType.Powerup;
 
-                                if (key == "14")
+                                var pup = ToxicRagers.Carmageddon2.Powerups.LookupID(int.Parse(key));
+
+                                if (pup.InCR)
                                 {
-                                    entity.Name = "pup_Mine"; // "pup_C2_" + ToxicRagers.Carmageddon2.Powerups[key].Name;
-                                    entity.Tag = "drum"; // ToxicRagers.Carmageddon2.Powerups[key].Model;
+                                    entity.Name = "pup_" + pup.Name;
+                                    entity.Tag = pup.Model;
                                 }
                                 else
                                 {
-                                    entity.Name = "pup_Pinball"; // "pup_C2_" + ToxicRagers.Carmageddon2.Powerups[key].Name;
-                                    entity.Tag = "drum"; // ToxicRagers.Carmageddon2.Powerups[key].Model;
+                                    entity.Name = "pup_Pinball";
+                                    entity.Tag = pup.Model;
                                 }
                             }
                             else
