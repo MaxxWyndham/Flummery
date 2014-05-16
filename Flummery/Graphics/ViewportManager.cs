@@ -31,7 +31,11 @@ namespace Flummery
             viewports.Add(right);
             viewports.Add(front);
             viewports.Add(threedee);
+
+            active = threedee;
         }
+
+        public Viewport Active { get { return active; } }
 
         public void Initialise()
         {
@@ -43,6 +47,23 @@ namespace Flummery
             viewports.Add(viewport);
         }
 
+        public void Maximise(Viewport chosen)
+        {
+            foreach (var viewport in viewports) { viewport.Enabled = false; }
+
+            chosen.Enabled = true;
+            chosen.SetWidthHeightPosition(Viewport.Size.Full, Viewport.Size.Full, Viewport.Quadrant.BottomLeft);
+
+            foreach (var viewport in viewports) { viewport.Resize(); }
+        }
+
+        public void Minimise(Viewport chosen)
+        {
+            foreach (var viewport in viewports) { viewport.Enabled = true; }
+            chosen.ResetWidthHeightPosition();
+            foreach (var viewport in viewports) { viewport.Resize(); }
+        }
+
         public void SetActionScale(float scale)
         {
             foreach (var viewport in viewports) { viewport.Camera.SetActionScale(scale); }
@@ -52,6 +73,8 @@ namespace Flummery
         {
             foreach (var viewport in viewports)
             {
+                if (!viewport.Enabled) { continue; }
+
                 if (viewport.IsActive(X, Y))
                 {
                     viewport.Active = true;
@@ -103,6 +126,8 @@ namespace Flummery
 
             foreach (var viewport in viewports)
             {
+                if (!viewport.Enabled) { continue; }
+
                 viewport.Update(dt);
             }
         }
@@ -111,6 +136,8 @@ namespace Flummery
         {
             foreach (var viewport in viewports)
             {
+                if (!viewport.Enabled) { continue; }
+
                 viewport.Draw(SceneManager.Current);
                 viewport.DrawOverlay();
             }

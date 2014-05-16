@@ -29,9 +29,6 @@ namespace Flummery
         Stopwatch sw = new Stopwatch();
         double accumulator = 0;
 
-        int renderMode = 0;
-        int[] renderModes = new int[] { 6914, 6913, 6912 };
-
         int actionScaling = 3;
         float[] actionScales = new float[] { 0.01f, 0.1f, 0.5f, 1.0f, 5.0f, 10.0f };
 
@@ -223,6 +220,23 @@ namespace Flummery
 
         private void glcViewport_Click(object sender, EventArgs e)
         {
+            var mouse = (MouseEventArgs)e;
+
+            if (viewman.Active.RightClickLabel(mouse))
+            {
+                foreach (ToolStripItem item in cmsViewport.Items)
+                {
+                    var entry = (item as ToolStripMenuItem);
+                    if (entry == null) { continue; }
+
+                    entry.Checked = (entry.Text == viewman.Active.Name);
+
+                    if (entry.Text == "Maximise") { entry.Enabled = !viewman.Active.Maximised; }
+                    if (entry.Text == "Minimise") { entry.Enabled = viewman.Active.Maximised; }
+                }
+
+                cmsViewport.Show(Cursor.Position);
+            }
         }
 
         void glcViewport_MouseMove(object sender, MouseEventArgs e)
@@ -686,6 +700,21 @@ namespace Flummery
                 //scene.Camera.ResetCamera();
                 //scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].CombinedTransform.Position());
             }
+        }
+
+        private void tsmiViewportMaximise_Click(object sender, EventArgs e)
+        {
+            viewman.Maximise(viewman.Active);
+        }
+
+        private void tsmiViewportMinimise_Click(object sender, EventArgs e)
+        {
+            viewman.Minimise(viewman.Active);
+        }
+
+        private void tsmiViewportPreset_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

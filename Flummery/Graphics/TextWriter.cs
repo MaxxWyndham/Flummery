@@ -107,7 +107,7 @@ namespace Flummery
             GL.BindTexture(TextureTarget.Texture2D, textureID);
 
             GL.FrontFace(FrontFaceDirection.Ccw);
-
+            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.Replace);
 
             GL.Begin(PrimitiveType.Quads);

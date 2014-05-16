@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -27,12 +28,19 @@ namespace Flummery
             Perspective
         }
 
+        bool bDisabled = false;
         string name;
         bool bActive;
         Camera camera;
+
         Size width = Size.Half;
         Size height = Size.Half;
-        Quadrant position;
+        Quadrant position = Quadrant.BottomLeft;
+
+        Size oldwidth;
+        Size oldheight;
+        Quadrant oldposition;
+        
         Mode mode = Mode.Perspective;
         Vector3 axis = Vector3.UnitY;
         TextWriter tw;
@@ -47,6 +55,12 @@ namespace Flummery
         Matrix4 perspective = Matrix4.Identity;
 
         public Camera Camera { get { return camera; } }
+
+        public bool Enabled
+        {
+            get { return !bDisabled; }
+            set { bDisabled = !value; }
+        }
 
         public string Name
         {
@@ -65,6 +79,8 @@ namespace Flummery
             get { return position; }
             set { position = value; }
         }
+
+        public bool Maximised { get { return (width == Size.Full && height == Size.Full); } }
 
         public bool Active
         {
@@ -93,6 +109,17 @@ namespace Flummery
             );
         }
 
+        public bool RightClickLabel(MouseEventArgs e)
+        {
+            return (
+                e.Button == MouseButtons.Right &&
+                e.X > x &&
+                e.X < x + 43 &&
+                e.Y > (h - (y + vh)) &&
+                e.Y < (h - (y + vh)) + 25
+            );
+        }
+
         public void Resize()
         {
             w = frmMain.Control.Width;
@@ -112,6 +139,24 @@ namespace Flummery
 
             x = (xo * 2) + 1 + (vw * xo);
             y = (yo * 2) + 1 + (vh * yo);
+        }
+
+        public void SetWidthHeightPosition(Size width = Size.Half, Size height = Size.Half, Quadrant position = Quadrant.BottomLeft)
+        {
+            oldwidth = this.width;
+            oldheight = this.height;
+            oldposition = this.position;
+
+            this.width = width;
+            this.height = height;
+            this.position = position;
+        }
+
+        public void ResetWidthHeightPosition()
+        {
+            this.width = oldwidth;
+            this.height = oldheight;
+            this.position = oldposition;
         }
 
         public void Update(float dt)
