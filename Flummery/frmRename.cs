@@ -27,6 +27,8 @@ namespace Flummery
             var t = Matrix4.CreateScale(6.9f, 6.9f, -6.9f);
             var sout = "";
 
+            if (textBox1.Text.Length == 0) { return; }
+
             foreach (string s in textBox1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
             {
                 string[] p;

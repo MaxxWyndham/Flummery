@@ -406,6 +406,8 @@ namespace Flummery
                     break;
 
                 case "Convert &&Actors to Entities":
+                    if (scene.Models.Count == 0) { return; }
+
                     for (int i = scene.Models[0].Bones.Count - 1; i >= 0; i--)
                     {
                         var bone = scene.Models[0].Bones[i];
@@ -489,6 +491,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
+                        scene.Reset();
                         var accessory = scene.Add(scene.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
 
                         string accessorytxt = ofdBrowse.FileName.Replace(".cnt", ".txt", StringComparison.OrdinalIgnoreCase);
@@ -519,58 +522,7 @@ namespace Flummery
                 case "LIGHT files":
                 case "Accessory.txt files":
                 case "Routes.txt files":
-                    string extension = mi.Text.Substring(0, mi.Text.IndexOf(' ')).ToLower();
-                    fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
-                    fbdBrowse.ShowDialog();
-
-                    if (fbdBrowse.SelectedPath.Length > 0)
-                    {
-                        Properties.Settings.Default.LastBrowsedFolder = fbdBrowse.SelectedPath;
-                        Properties.Settings.Default.Save();
-
-                        ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
-                        {
-                            foreach (FileInfo fi in d.GetFiles((extension.Contains(".") ? extension : "*." + extension)))
-                            {
-                                switch (extension)
-                                {
-                                    case "cnt":
-                                        ToxicRagers.Stainless.Formats.CNT.Load(fi.FullName);
-                                        break;
-
-                                    case "mdl":
-                                        ToxicRagers.Stainless.Formats.MDL.Load(fi.FullName);
-                                        break;
-
-                                    case "mtl":
-                                        ToxicRagers.Stainless.Formats.MTL.Load(fi.FullName);
-                                        break;
-
-                                    case "tdx":
-                                        ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.FullName);
-                                        break;
-
-                                    case "light":
-                                        ToxicRagers.CarmageddonReincarnation.Formats.LIGHT.Load(fi.FullName);
-                                        break;
-
-                                    case "accessory.txt":
-                                        ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(fi.FullName);
-                                        break;
-
-                                    case "routes.txt":
-                                        ToxicRagers.CarmageddonReincarnation.Formats.Routes.Load(fi.FullName);
-                                        break;
-                                }
-
-                                tsslProgress.Text = fi.FullName.Replace(fbdBrowse.SelectedPath, "");
-                                Application.DoEvents();
-                            }
-                        }
-                        );
-
-                        MessageBox.Show("Done!");
-                    }
+                    processAll(mi.Text);
                     break;
             }
         }
@@ -590,26 +542,74 @@ namespace Flummery
                     break;
 
                 case "XT2 files":
-                    fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
-                    fbdBrowse.ShowDialog();
-
-                    if (fbdBrowse.SelectedPath.Length > 0)
-                    {
-                        Properties.Settings.Default.LastBrowsedFolder = fbdBrowse.SelectedPath;
-                        Properties.Settings.Default.Save();
-
-                        ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
-                        {
-                            foreach (FileInfo fi in d.GetFiles("*.xt2"))
-                            {
-                                ToxicRagers.Novadrome.Formats.XT2.Load(fi.FullName);
-                            }
-                        }
-                        );
-
-                        MessageBox.Show("Done!");
-                    }
+                    processAll(mi.Text);
                     break;
+            }
+        }
+
+        private void processAll(string fileType)
+        {
+            string extension = fileType.Substring(0, fileType.IndexOf(' ')).ToLower();
+            fbdBrowse.SelectedPath = (Properties.Settings.Default.LastBrowsedFolder != null ? Properties.Settings.Default.LastBrowsedFolder : Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
+
+            int success = 0;
+            int fail = 0;
+
+            if (fbdBrowse.ShowDialog() == DialogResult.OK && Directory.Exists(fbdBrowse.SelectedPath))
+            {
+                Properties.Settings.Default.LastBrowsedFolder = fbdBrowse.SelectedPath;
+                Properties.Settings.Default.Save();
+
+                ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowse.SelectedPath, (d) =>
+                {
+                    foreach (FileInfo fi in d.GetFiles((extension.Contains(".") ? extension : "*." + extension)))
+                    {
+                        object result = null;
+
+                        switch (extension)
+                        {
+                            case "cnt":
+                                result = ToxicRagers.Stainless.Formats.CNT.Load(fi.FullName);
+                                break;
+
+                            case "mdl":
+                                result = ToxicRagers.Stainless.Formats.MDL.Load(fi.FullName);
+                                break;
+
+                            case "mtl":
+                                result = ToxicRagers.Stainless.Formats.MTL.Load(fi.FullName);
+                                break;
+
+                            case "tdx":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.FullName);
+                                break;
+
+                            case "light":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.LIGHT.Load(fi.FullName);
+                                break;
+
+                            case "xt2":
+                                result = ToxicRagers.Novadrome.Formats.XT2.Load(fi.FullName);
+                                break;
+
+                            case "accessory.txt":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(fi.FullName);
+                                break;
+
+                            case "routes.txt":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.Routes.Load(fi.FullName);
+                                break;
+                        }
+
+                        if (result != null) { success++; } else { fail++; }
+
+                        tsslProgress.Text = string.Format("[{0}/{1}] {2}", success, fail, fi.FullName.Replace(fbdBrowse.SelectedPath, ""));
+                        Application.DoEvents();
+                    }
+                }
+                );
+
+                tsslProgress.Text = string.Format("{0} processing complete. {1} success {2} fail", extension, success, fail);
             }
         }
 
@@ -624,6 +624,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
+                        scene.Reset();
                         scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
