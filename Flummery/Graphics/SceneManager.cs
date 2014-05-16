@@ -1,23 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK;
+using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
     public class SceneManager
     {
+        public enum RenderMeshMode
+        {
+            Solid,
+            SolidWireframe,
+            Wireframe,
+            Count
+        }
+
         public static SceneManager Current;
 
+        RenderMeshMode renderMode = RenderMeshMode.Solid;
         List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
         List<Material> materials = new List<Material>();
 
         bool bVertexBuffer;
         ContentManager content;
+        KeyboardState lastState;
 
         public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
         public ContentManager Content { get { return content; } }
+        public RenderMeshMode RenderMode { get { return renderMode; } }
 
         public List<Entity> Entities { get { return entities; } }
         public List<Model> Models { get { return models; } }
@@ -67,8 +79,28 @@ namespace Flummery
             if (OnReset != null) { OnReset(this, new ResetEventArgs()); }
         }
 
+        private void HandleInput(float dt)
+        {
+            var state = Keyboard.GetState();
+
+            if (state[Key.W] && !lastState[Key.W])
+            {
+                renderMode = (RenderMeshMode)((int)renderMode + 1);
+                if (renderMode == RenderMeshMode.Count) { renderMode = RenderMeshMode.Solid; }
+            }
+
+            lastState = state;
+        }
+
+        public void Update(float dt)
+        {
+            HandleInput(dt);
+        }
+
         public void Lights()
         {
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Light0);
             GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, 2.0f, 0.0f });
             GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
@@ -77,8 +109,6 @@ namespace Flummery
             GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 0.7f, 0.7f, 0.7f, 1.0f });
             GL.LightModel(LightModelParameter.LightModelTwoSide, 0);
             GL.LightModel(LightModelParameter.LightModelLocalViewer, 1);
-            GL.Enable(EnableCap.Lighting);
-            GL.Enable(EnableCap.Light0);
         }
 
         public void Draw(Camera camera)

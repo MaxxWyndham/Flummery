@@ -166,12 +166,6 @@ namespace Flummery
         {
             switch (e.KeyChar)
             {
-                case '.':
-                    renderMode++;
-                    if (renderMode == renderModes.Length) { renderMode = 0; }
-                    GL.PolygonMode(MaterialFace.FrontAndBack, (PolygonMode)renderModes[renderMode]);
-                    break;
-
                 case '*':
                     if (actionScaling + 1 < actionScales.Length)
                     {
@@ -188,10 +182,6 @@ namespace Flummery
                         viewman.SetActionScale(actionScales[actionScaling]);
                         tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
                     }
-                    break;
-
-                default:
-                //    Console.WriteLine((byte)e.KeyChar);
                     break;
             }
 
@@ -226,6 +216,7 @@ namespace Flummery
 
         private void glcViewport_Paint(object sender, PaintEventArgs e) 
         {
+            scene.Update((float)dt);
             viewman.Update((float)dt);
             Draw(); 
         }

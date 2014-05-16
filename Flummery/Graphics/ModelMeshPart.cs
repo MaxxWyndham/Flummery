@@ -114,15 +114,37 @@ namespace Flummery
             var data = indexBuffer.Data;
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, (material != null && material.Texture != null ? material.Texture.ID : 0));
 
             GL.FrontFace(windingOrder);
 
             GL.DepthFunc(DepthFunction.Lequal);
-            GL.Color3(Color.White);
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Light0);
 
             if (SceneManager.Current.CanUseVertexBuffer)
             {
+                switch (SceneManager.Current.RenderMode)
+                {
+                    case SceneManager.RenderMeshMode.Solid:
+                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+                        break;
+
+                    case SceneManager.RenderMeshMode.Wireframe:
+                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+                        break;
+
+                    case SceneManager.RenderMeshMode.SolidWireframe:
+                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+                        vertexBuffer.Draw(indexBuffer, primitiveType);
+                        GL.PolygonOffset(1.0f, 2);
+                        GL.Disable(EnableCap.Texture2D);
+                        GL.Color4(Color.White);
+                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+                        break;
+                }
+
                 vertexBuffer.Draw(indexBuffer, primitiveType);
             }
             else

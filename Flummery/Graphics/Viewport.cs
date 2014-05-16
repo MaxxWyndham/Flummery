@@ -133,6 +133,7 @@ namespace Flummery
             GL.Viewport(x, y, vw, vh);
             GL.Scissor(x, y, vw, vh);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
             scene.Draw(camera);
         }
 
