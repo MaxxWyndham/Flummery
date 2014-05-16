@@ -40,7 +40,7 @@ namespace Flummery
         private int CreateTexture()
         {
             int textureID;
-            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.Replace);//Important, or wrong color on some computers
+
             Bitmap bitmap = textBitmap;
             GL.GenTextures(1, out textureID);
             GL.BindTexture(TextureTarget.Texture2D, textureID);
@@ -53,6 +53,7 @@ namespace Flummery
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Nearest);
             GL.Finish();
             bitmap.UnlockBits(data);
+
             return textureID;
         }
 
@@ -107,12 +108,16 @@ namespace Flummery
 
             GL.FrontFace(FrontFaceDirection.Ccw);
 
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.Replace);
+
             GL.Begin(PrimitiveType.Quads);
             GL.TexCoord2(0, 1); GL.Vertex2(0, 0);
             GL.TexCoord2(1, 1); GL.Vertex2(textBitmap.Width, 0);
             GL.TexCoord2(1, 0); GL.Vertex2(textBitmap.Width, textBitmap.Height);
             GL.TexCoord2(0, 0); GL.Vertex2(0, textBitmap.Height);
             GL.End();
+
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.Modulate);
 
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.Texture2D);
