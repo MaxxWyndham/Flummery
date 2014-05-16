@@ -96,13 +96,39 @@ namespace Flummery
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            ofdBrowse.Filter = "TIF (*.tif)|*.tif";
+            ofdBrowse.Filter = "PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga";
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
-                m.Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(Path.GetFileName(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName));
-                SetTexture(m.Texture);
+                loadTexture(ofdBrowse.FileName);
             }
+        }
+
+        private void btnReload_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(m.Texture.FileName)) { loadTexture(m.Texture.FileName); }
+        }
+
+        private void loadTexture(string path)
+        {
+            var fi = new FileInfo(path);
+
+            switch (fi.Extension)
+            {
+                case ".png":
+                    m.Texture = SceneManager.Current.Content.Load<Texture, PNGImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
+                    break;
+
+                case ".tif":
+                    m.Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
+                    break;
+
+                case ".tga":
+                    m.Texture = SceneManager.Current.Content.Load<Texture, TGAImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
+                    break;
+            }
+
+            SetTexture(m.Texture);
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -115,6 +141,12 @@ namespace Flummery
             m.Name = txtName.Text;
             mi.MaterialName = txtName.Text;
             mi.SetThumbnail((Bitmap)pbPreview.Image);
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            ApplySettings();
+            this.Close();
         }
     }
 }

@@ -28,6 +28,8 @@ namespace Flummery.ContentPipeline.Core
         {
             Texture texture = new Texture();
 
+            texture.FileName = path;
+
             var fi = new FileInfo(path);
             using (var bitmap = new Bitmap(path)) { texture.CreateFromBitmap(bitmap, fi.Name.Replace(fi.Extension, "")); }
 

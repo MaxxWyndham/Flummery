@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="ContentPipeline\ContentExporter.cs" />
     <Compile Include="ContentPipeline\ContentImporter.cs" />
+    <Compile Include="ContentPipeline\Core\PNGImporter.cs" />
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\ACTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTExporter.cs" />

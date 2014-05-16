@@ -82,6 +82,7 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.ofdBrowse = new System.Windows.Forms.OpenFileDialog();
+            this.btnReload = new System.Windows.Forms.Button();
             this.gbPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.gbGeneral.SuspendLayout();
@@ -113,6 +114,7 @@
             // 
             // gbGeneral
             // 
+            this.gbGeneral.Controls.Add(this.btnReload);
             this.gbGeneral.Controls.Add(this.btnLoad);
             this.gbGeneral.Controls.Add(this.lblTexture);
             this.gbGeneral.Controls.Add(this.lblName);
@@ -649,6 +651,7 @@
             this.btnOK.TabIndex = 1;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnApply
             // 
@@ -670,9 +673,15 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // ofdBrowse
+            // btnReload
             // 
-            this.ofdBrowse.FileName = "openFileDialog1";
+            this.btnReload.Location = new System.Drawing.Point(6, 71);
+            this.btnReload.Name = "btnReload";
+            this.btnReload.Size = new System.Drawing.Size(75, 23);
+            this.btnReload.TabIndex = 11;
+            this.btnReload.Text = "Reload";
+            this.btnReload.UseVisualStyleBackColor = true;
+            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
             // 
             // frmMaterialEditor
             // 
@@ -767,5 +776,6 @@
         private System.Windows.Forms.PictureBox pbPreview;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.OpenFileDialog ofdBrowse;
+        private System.Windows.Forms.Button btnReload;
     }
 }

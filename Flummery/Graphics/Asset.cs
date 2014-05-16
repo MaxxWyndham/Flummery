@@ -5,8 +5,15 @@ namespace Flummery
 {
     public abstract class Asset 
     {
+        protected string filename;
         protected string name;
         protected object tag;
+
+        public string FileName
+        {
+            get { return filename; }
+            set { filename = value; }
+        }
 
         public string Name
         {

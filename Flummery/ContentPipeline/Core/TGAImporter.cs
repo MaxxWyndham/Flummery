@@ -13,6 +13,8 @@ namespace Flummery.ContentPipeline.Core
         {
             Texture texture = new Texture();
 
+            texture.FileName = path;
+
             var fi = new FileInfo(path);
 
             using (var br = new BinaryReader(fi.OpenRead()))
