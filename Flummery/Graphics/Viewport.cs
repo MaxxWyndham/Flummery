@@ -27,6 +27,7 @@ namespace Flummery
             Perspective
         }
 
+        string name;
         bool bActive;
         Camera camera;
         Size width = Size.Half;
@@ -34,6 +35,7 @@ namespace Flummery
         Quadrant position;
         Mode mode = Mode.Perspective;
         Vector3 axis = Vector3.UnitY;
+        TextWriter tw;
 
         int x = 0;
         int y = 0;
@@ -45,6 +47,12 @@ namespace Flummery
         Matrix4 perspective = Matrix4.Identity;
 
         public Camera Camera { get { return camera; } }
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
         public Mode ProjectionMode
         {
@@ -70,6 +78,7 @@ namespace Flummery
         public Viewport()
         {
             camera = new Camera();
+            tw = new TextWriter(vw, vh, 50, 20);
         }
 
         public bool IsActive(int x, int y)
@@ -98,8 +107,17 @@ namespace Flummery
             vw = (w / (int)width) - 2;
             vh = (h / (int)height) - 2;
 
+            tw = new TextWriter(vw, vh, vw, vh);
+            tw.AddLine(name, new PointF(5, 5), Brushes.Blue);
+
             x = (xo * 2) + 1 + (vw * xo);
             y = (yo * 2) + 1 + (vh * yo);
+        }
+
+        public void Update(float dt)
+        {
+            tw.UpdateText();
+            camera.Update(dt);
         }
 
         public void Draw(SceneManager scene)
@@ -116,31 +134,36 @@ namespace Flummery
             GL.Scissor(x, y, vw, vh);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             scene.Draw(camera);
-
-            //GL.Disable(EnableCap.DepthTest);
-            //GL.Disable(EnableCap.Lighting);
-            //GL.Disable(EnableCap.Texture2D);
-
-            //GL.Viewport(0, 0, control.Width, control.Height);
-            //GL.Scissor(0, 0, control.Width, control.Height);
-            //GL.MatrixMode(MatrixMode.Projection);
-            //GL.LoadIdentity();
-            //GL.Ortho(0, 1, 0, 1, -1, 1);
-            //GL.MatrixMode(MatrixMode.Modelview);
-            //GL.LoadIdentity();
-
-            //GL.Begin(PrimitiveType.LineStrip);
-            //GL.Color3(Color.Blue);
-            //GL.LineWidth(2.0f);
-
-            //GL.Vertex2(0.0f, 1.0f); GL.Vertex2(0.5f, 1.0f);
-            //GL.Vertex2(0.5f, 0.5f); GL.Vertex2(0.0f, 0.5f);
-            //GL.Vertex2(0.0f, 1.0f);
-            //GL.End();
         }
 
         public void DrawOverlay()
         {
+            GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.Lighting);
+            GL.Disable(EnableCap.Texture2D);
+
+            GL.Viewport(x, y, vw, vh);
+            GL.Scissor(x, y, vw, vh);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.Ortho(0, vw, 0, vh, -1, 1);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+
+            tw.Draw();
+
+            GL.Begin(PrimitiveType.LineStrip);
+            GL.Color4(Color.Blue);
+            GL.LineWidth(1);
+
+            GL.Vertex2(4, vh - 4); GL.Vertex2(42, vh - 4);
+            GL.Vertex2(42, vh - 20); GL.Vertex2(4, vh - 20);
+            GL.Vertex2(4, vh - 4);
+            GL.End();
+
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Texture2D);
         }
     }
 }

@@ -140,6 +140,7 @@
     <Compile Include="Graphics\Primitive.cs" />
     <Compile Include="Graphics\Primitives\Capsule.cs" />
     <Compile Include="Graphics\SceneManager.cs" />
+    <Compile Include="Graphics\TextWriter.cs" />
     <Compile Include="Graphics\Viewport.cs" />
     <Compile Include="Graphics\ViewportManager.cs" />
     <Compile Include="MaterialItem.cs">

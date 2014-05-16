@@ -49,8 +49,6 @@ namespace Flummery
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            viewman = new ViewportManager();
-
             Control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default);
             Control.Name = "glcViewport";
             Control.VSync = true;
@@ -66,8 +64,10 @@ namespace Flummery
             Control.Click += glcViewport_Click;
             scTreeView.Panel2.Controls.Add(Control);
 
+            viewman = new ViewportManager();
+
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.6d";
+            this.Text += " v0.0.2.7";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
@@ -241,7 +241,7 @@ namespace Flummery
 
         private void glcViewport_Resize(object sender, EventArgs e)
         {
-            viewman.Initialise();
+            if (viewman != null) { viewman.Initialise(); }
         }
 
         private void Draw()
@@ -283,7 +283,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[0].MenuItems[4].MenuItems.Add("Hierarchy", menuTDR2000Click);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
-            //menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender DAT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless CNT File...", menuClick);
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless MDL File...", menuClick);
@@ -309,7 +309,7 @@ namespace Flummery
 
             menu.MenuItems.Add("&Tools");
             menu.MenuItems[3].MenuItems.Add("Carma 2");
-            menu.MenuItems[3].MenuItems[0].MenuItems.Add("Convert Powerups to Entities", menuCarmageddon2Click);
+            menu.MenuItems[3].MenuItems[0].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
             menu.MenuItems[3].MenuItems.Add("Process all...");
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
@@ -334,6 +334,15 @@ namespace Flummery
 
             switch (mi.Text)
             {
+                case "BRender ACT File...":
+                    ofdBrowse.Filter = "BRender ACT files (*.act)|*.act";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                    }
+                    break;
+
                 case "BRender DAT File...":
                     ofdBrowse.Filter = "BRender DAT files (*.dat)|*.dat";
 
@@ -354,7 +363,6 @@ namespace Flummery
 
                 case "Stainless MDL File...":
                     ofdBrowse.Filter = "Stainless MDL files (*.mdl)|*.mdl";
-                    ofdBrowse.ShowDialog();
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
@@ -397,7 +405,7 @@ namespace Flummery
                     }
                     break;
 
-                case "Convert Powerups to Entities":
+                case "Convert &&Actors to Entities":
                     for (int i = scene.Models[0].Bones.Count - 1; i >= 0; i--)
                     {
                         var bone = scene.Models[0].Bones[i];
@@ -479,7 +487,7 @@ namespace Flummery
                 case "Accessory":
                     ofdBrowse.Filter = "Carmageddon ReinCARnation Accessory files (accessory.cnt)|accessory.cnt";
 
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
                         var accessory = scene.Add(scene.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
 
@@ -614,9 +622,9 @@ namespace Flummery
                 case "Hierarchy":
                     ofdBrowse.Filter = "TDR2000 Hierarchy (*.hie)|*.hie";
 
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK)
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Add(scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
+                        scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
             }
@@ -668,20 +676,8 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "TDX Convertor":
-                    //var tdx = new frmTDXConvert();
-                    //tdx.Show(this);
-
-                    //var mshs = ToxicRagers.TDR2000.Formats.MSHS.Load(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\DocksMD\Base Consoft\Docksmesh\DockSmesh.mshs");
-
-                    scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>("NECROmesh", @"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\Necropolis\Level Convsoft\NecroMesh\", true);
-
-                    //var hie = ToxicRagers.TDR2000.Formats.HIE.Load(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\DocksMD\Base Consoft\Docksmesh\DockSmesh.hie");
-
-                    //var t = SceneManager.Current.Content.Load<Texture, TIFImporter>("airpmap", @"D:\");
-
-                    //var tx = new TDXExporter();
-                    //tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT1 });
-                    //tx.Export(t, @"D:\");
+                    var tdx = new frmTDXConvert();
+                    tdx.Show(this);
                     break;
             }
         }

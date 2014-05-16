@@ -114,10 +114,8 @@ namespace Flummery
             var data = indexBuffer.Data;
 
             GL.Enable(EnableCap.DepthTest);
-
             GL.BindTexture(TextureTarget.Texture2D, (material != null && material.Texture != null ? material.Texture.ID : 0));
 
-            //GL.Disable(EnableCap.Blend);
             GL.FrontFace(windingOrder);
 
             GL.DepthFunc(DepthFunction.Lequal);
@@ -142,6 +140,8 @@ namespace Flummery
 
                 GL.End();
             }
+
+            GL.Disable(EnableCap.DepthTest);
 
             // Visualise normals
             //GL.Begin(BeginMode.Lines);

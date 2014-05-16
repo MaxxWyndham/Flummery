@@ -31,7 +31,7 @@ namespace Flummery.ContentPipeline.Stainless
                     meshpart = new ModelMeshPart();
                     meshpart.Material = SceneManager.Current.Content.Load<Material, MaterialImporter>(mdlmesh.Name, path.Substring(0, path.LastIndexOf("\\") + 1), true);
                     meshpart.WindingOrder = OpenTK.Graphics.OpenGL.FrontFaceDirection.Cw;
-                    
+
                     for (int j = 0; j < mdlmesh.StripList.Count; j++)
                     {
                         var v = mdl.Vertices[mdlmesh.StripList[j].Index];
