@@ -252,32 +252,33 @@ namespace Flummery
         {
             MainMenu menu = new MainMenu();
             menu.MenuItems.Add("&File");
-            menu.MenuItems[0].MenuItems.Add("&Open...", menuClick);
-            menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlO;
-            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon 2");
-            menu.MenuItems[0].MenuItems[0].MenuItems[0].MenuItems.Add("Actor", menuCarmageddon2Click);
+            menu.MenuItems[0].MenuItems.Add("&New", menuClick);
+            menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlN;
+            menu.MenuItems[0].MenuItems.Add("&Open...");
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon 2");
+            menu.MenuItems[0].MenuItems[1].MenuItems[0].MenuItems.Add("Actor", menuCarmageddon2Click);
 
-            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Mobile");
-            menu.MenuItems[0].MenuItems[0].MenuItems[1].MenuItems.Add("Vehicle", menuCarmageddonMobileClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon Mobile");
+            menu.MenuItems[0].MenuItems[1].MenuItems[1].MenuItems.Add("Vehicle", menuCarmageddonMobileClick);
 
-            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[2].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon Reincarnation");
+            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
 
-            menu.MenuItems[0].MenuItems[0].MenuItems.Add("Novadrome");
-            menu.MenuItems[0].MenuItems[0].MenuItems[3].MenuItems.Add("Environment", menuNovadromeClick);
-            menu.MenuItems[0].MenuItems[0].MenuItems[3].MenuItems.Add("Vehicle", menuNovadromeClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Novadrome");
+            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Environment", menuNovadromeClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Vehicle", menuNovadromeClick);
 
-            menu.MenuItems[0].MenuItems[0].MenuItems.Add("TDR2000");
-            menu.MenuItems[0].MenuItems[0].MenuItems[4].MenuItems.Add("Hierarchy", menuTDR2000Click);
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("TDR2000");
+            menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Hierarchy", menuTDR2000Click);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender ACT File...", menuClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("BRender DAT File...", menuClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless CNT File...", menuClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Stainless MDL File...", menuClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender ACT File...", menuClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender DAT File...", menuClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless CNT File...", menuClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless MDL File...", menuClick);
 
             if (!bPublicRelease)
             {
@@ -285,8 +286,8 @@ namespace Flummery
                 menu.MenuItems[0].MenuItems.Add("Save", menuClick);
 
                 menu.MenuItems[0].MenuItems.Add("Save As...");
-                menu.MenuItems[0].MenuItems[4].MenuItems.Add("Carmageddon Reincarnation");
-                menu.MenuItems[0].MenuItems[4].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
+                menu.MenuItems[0].MenuItems[5].MenuItems.Add("Carmageddon Reincarnation");
+                menu.MenuItems[0].MenuItems[5].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
             }
 
             menu.MenuItems[0].MenuItems.Add("-");
@@ -325,6 +326,10 @@ namespace Flummery
 
             switch (mi.Text)
             {
+                case "&New":
+                    scene.Reset();
+                    break;
+
                 case "BRender ACT File...":
                     ofdBrowse.Filter = "BRender ACT files (*.act)|*.act";
 
