@@ -64,7 +64,7 @@ namespace Flummery
             viewman = new ViewportManager();
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.7";
+            this.Text += " v0.0.2.8";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
