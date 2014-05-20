@@ -291,6 +291,8 @@
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Flummery";
+            this.Activated += new System.EventHandler(this.frmMain_Activated);
+            this.Deactivate += new System.EventHandler(this.frmMain_Deactivate);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.scViewMaterial.Panel1.ResumeLayout(false);
             this.scViewMaterial.Panel2.ResumeLayout(false);
