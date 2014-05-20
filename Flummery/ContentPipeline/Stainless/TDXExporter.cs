@@ -21,8 +21,9 @@ namespace Flummery.ContentPipeline.Stainless
             var flags = Squish.SquishFlags.kDxt1;
 
             tdx.Name = texture.Name;
+            tdx.Format = settings.GetSetting<D3DFormat>("Format");
 
-            switch ((D3DFormat)settings.Format)
+            switch (tdx.Format)
             {
                 case D3DFormat.DXT1:
                     flags = Squish.SquishFlags.kDxt1;
@@ -32,8 +33,6 @@ namespace Flummery.ContentPipeline.Stainless
                     flags = Squish.SquishFlags.kDxt5;
                     break;
             }
-
-            tdx.Format = (D3DFormat)settings.Format;
 
             var mip = new MipMap();
             mip.Width = b.Width;

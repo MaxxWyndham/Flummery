@@ -10,8 +10,8 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string Path)
         {
-            var exportTransform = (settings.HasProperty("Transform") ? (Matrix4)(settings.Transform) : Matrix4.Identity);
-            var exportHandedness = (settings.HasProperty("Handed") ? (Model.CoordinateSystem)(settings.Handed) : Model.CoordinateSystem.LeftHanded);
+            var exportTransform = (settings.HasSetting("Transform") ? settings.GetSetting<Matrix4>("Transform") : Matrix4.Identity);
+            var exportHandedness = (settings.HasSetting("Handed") ? settings.GetSetting<Model.CoordinateSystem>("Handed") : Model.CoordinateSystem.LeftHanded);
 
             var model = (asset as Model);
             model.Handedness = exportHandedness;

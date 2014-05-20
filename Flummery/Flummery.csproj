@@ -76,6 +76,7 @@
     <Compile Include="ContentPipeline\ContentImporter.cs" />
     <Compile Include="ContentPipeline\Core\PNGImporter.cs" />
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
+    <Compile Include="ContentPipeline\ExportSettings.cs" />
     <Compile Include="ContentPipeline\Stainless\ACTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
@@ -97,11 +98,23 @@
     <Compile Include="frmMaterialEditor.Designer.cs">
       <DependentUpon>frmMaterialEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmNewObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewObject.Designer.cs">
+      <DependentUpon>frmNewObject.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPreferences.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmPreferences.Designer.cs">
       <DependentUpon>frmPreferences.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRemoveObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRemoveObject.Designer.cs">
+      <DependentUpon>frmRemoveObject.cs</DependentUpon>
     </Compile>
     <Compile Include="frmRename.cs">
       <SubType>Form</SubType>
@@ -115,11 +128,23 @@
     <Compile Include="frmSaveAsEnvironment.Designer.cs">
       <DependentUpon>frmSaveAsEnvironment.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSaveAsVehicle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaveAsVehicle.Designer.cs">
+      <DependentUpon>frmSaveAsVehicle.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTDXConvert.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmTDXConvert.Designer.cs">
       <DependentUpon>frmTDXConvert.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTransformEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTransformEditor.Designer.cs">
+      <DependentUpon>frmTransformEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Asset.cs" />
     <Compile Include="Graphics\BoundingBox.cs" />
@@ -163,8 +188,14 @@
     <EmbeddedResource Include="frmMaterialEditor.resx">
       <DependentUpon>frmMaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmNewObject.resx">
+      <DependentUpon>frmNewObject.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPreferences.resx">
       <DependentUpon>frmPreferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRemoveObject.resx">
+      <DependentUpon>frmRemoveObject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRename.resx">
       <DependentUpon>frmRename.cs</DependentUpon>
@@ -172,8 +203,14 @@
     <EmbeddedResource Include="frmSaveAsEnvironment.resx">
       <DependentUpon>frmSaveAsEnvironment.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmSaveAsVehicle.resx">
+      <DependentUpon>frmSaveAsVehicle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmTDXConvert.resx">
       <DependentUpon>frmTDXConvert.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTransformEditor.resx">
+      <DependentUpon>frmTransformEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MaterialItem.resx">
       <DependentUpon>MaterialItem.cs</DependentUpon>

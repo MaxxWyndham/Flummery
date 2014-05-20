@@ -125,7 +125,7 @@ namespace Flummery
                     if (!textures.Contains(material.Texture.Name))
                     {
                         var tx = new TDXExporter();
-                        tx.SetExportOptions(new { Format = ToxicRagers.Helpers.D3DFormat.DXT5 });
+                        tx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
                         tx.Export(material.Texture, racePath);
 
                         textures.Add(material.Texture.Name);
@@ -134,11 +134,11 @@ namespace Flummery
             }
 
             var cx = new CNTExporter();
-            cx.SetExportOptions(new { Scale = new Vector3(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)) });
+            cx.ExportSettings.AddSetting("Scale", new Vector3(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
             cx.Export(SceneManager.Current.Models[0], racePath + "level.cnt");
 
             var mx = new MDLExporter();
-            mx.SetExportOptions(new { Transform = Matrix4.CreateScale(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)) });
+            mx.ExportSettings.AddSetting("Transform", Matrix4.CreateScale(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
             mx.Export(SceneManager.Current.Models[0], racePath);
 
             if (SceneManager.Current.Entities.Count > 0)

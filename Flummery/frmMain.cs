@@ -131,13 +131,13 @@ namespace Flummery
 
             TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
 
-            if (m.Root.Children.Count > 0)
+            foreach (var child in m.Root.Children)
             {
-                TravelTree(m.Root.Children[0], ref ParentNode);
-
-                tvNodes.Nodes[0].Expand();
-                tvNodes.Nodes[0].Nodes[0].Expand();
+                TravelTree(child, ref ParentNode);
             }
+
+            tvNodes.Nodes[0].Expand();
+            if (tvNodes.Nodes[0].Nodes.Count > 0) { tvNodes.Nodes[0].Nodes[0].Expand(); }
         }
 
         public static void TravelTree(ModelBone bone, ref TreeNode node)
@@ -298,20 +298,22 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Hierarchy", menuTDR2000Click);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender ACT File...", menuClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender DAT File...", menuClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless CNT File...", menuClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless MDL File...", menuClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender ACT File...", menuImportClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender DAT File...", menuImportClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless CNT File...", menuImportClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless MDL File...", menuImportClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Torus MSHS File...", menuImportClick);
 
-            if (!bPublicRelease)
-            {
-                menu.MenuItems[0].MenuItems.Add("-");
-                menu.MenuItems[0].MenuItems.Add("Save", menuClick);
+            menu.MenuItems[0].MenuItems.Add("-");
+            menu.MenuItems[0].MenuItems.Add("Save", menuClick);
 
-                menu.MenuItems[0].MenuItems.Add("Save As...");
-                menu.MenuItems[0].MenuItems[5].MenuItems.Add("Carmageddon Reincarnation");
-                menu.MenuItems[0].MenuItems[5].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
-            }
+            menu.MenuItems[0].MenuItems.Add("Save As...");
+            menu.MenuItems[0].MenuItems[5].MenuItems.Add("Carmageddon Reincarnation");
+            menu.MenuItems[0].MenuItems[5].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
+            menu.MenuItems[0].MenuItems[5].MenuItems[0].MenuItems.Add("Vehicle", menuSaveAsClick);
+
+            menu.MenuItems[0].MenuItems.Add("&Export");
+            menu.MenuItems[0].MenuItems[6].MenuItems.Add("Stainless CNT File...", menuExportClick);
 
             menu.MenuItems[0].MenuItems.Add("-");
             menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
@@ -320,6 +322,11 @@ namespace Flummery
             menu.MenuItems[1].MenuItems.Add("Preferences", menuViewClick);
 
             menu.MenuItems.Add("&Object");
+            menu.MenuItems[2].MenuItems.Add("New...", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("Remove...", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("-");
+            menu.MenuItems[2].MenuItems.Add("Modify model...", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("-");
             menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
 
             menu.MenuItems.Add("&Tools");
@@ -353,6 +360,35 @@ namespace Flummery
                     scene.Reset();
                     break;
 
+                case "Save":
+                    if (bPublicRelease) { MessageBox.Show("Coming Soon!"); return; }
+
+                    sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
+                    if (sfdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        var cx = new CNTExporter();
+                        cx.ExportSettings.AddSetting("Scale", new Vector3(1.0f, 1.0f, -1.0f));
+                        cx.Export(scene.Models[0], sfdBrowse.FileName);
+
+                        var mx = new MDLExporter();
+                        mx.ExportSettings.AddSetting("Transform", Matrix4.CreateScale(1.0f, 1.0f, -1.0f));
+                        mx.ExportSettings.AddSetting("Handed", Model.CoordinateSystem.RightHanded);
+                        mx.Export(scene.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\");
+                    }
+                    break;
+
+                case "E&xit":
+                    Application.Exit();
+                    break;
+            }
+        }
+
+        private void menuImportClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
                 case "BRender ACT File...":
                     ofdBrowse.Filter = "BRender ACT files (*.act)|*.act";
 
@@ -389,22 +425,31 @@ namespace Flummery
                     }
                     break;
 
-                case "Save":
+                case "Torus MSHS File...":
+                    ofdBrowse.Filter = "Torus MSHS files (*.mshs)|*.mshs";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Content.Load<Model, ContentPipeline.TDR2000.MSHSImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                    }
+                    break;
+            }
+        }
+
+        private void menuExportClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Stainless CNT File...":
                     sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         var cx = new CNTExporter();
-                        cx.SetExportOptions(new { Scale = new Vector3(1.0f, 1.0f, -1.0f) });
+                        cx.ExportSettings.AddSetting("Scale", new Vector3(1.0f, 1.0f, -1.0f));
                         cx.Export(scene.Models[0], sfdBrowse.FileName);
-
-                        var mx = new MDLExporter();
-                        mx.SetExportOptions(new { Transform = Matrix4.CreateScale(1.0f, 1.0f, -1.0f) });
-                        mx.Export(scene.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\" );
                     }
-                    break;
-
-                case "E&xit":
-                    Application.Exit();
                     break;
             }
         }
@@ -654,11 +699,18 @@ namespace Flummery
         {
             MenuItem mi = (MenuItem)sender;
 
+            if (bPublicRelease) { MessageBox.Show("Coming Soon!"); return; }
+
             switch (mi.Text)
             {
                 case "Environment":
                     var fmSaveAsEnvironment = new frmSaveAsEnvironment();
                     fmSaveAsEnvironment.Show(this);
+                    break;
+
+                case "Vehicle":
+                    var fmSaveAsVehicle = new frmSaveAsVehicle();
+                    fmSaveAsVehicle.Show(this);
                     break;
             }
         }
@@ -682,9 +734,44 @@ namespace Flummery
 
             switch (mi.Text)
             {
+                case "New...":
+                    var addNew = new frmNewObject();
+                    addNew.SetParentNode((int)tvNodes.SelectedNode.Tag);
+
+                    if (addNew.ShowDialog(this) == DialogResult.OK)
+                    {
+                        ProcessTree(scene.Models[0], true);
+                    }
+                    break;
+
+                case "Remove...":
+                    var removeObject = new frmRemoveObject();
+                    removeObject.SetParentNode((int)tvNodes.SelectedNode.Tag);
+
+                    if (removeObject.ShowDialog(this) == DialogResult.OK)
+                    {
+                        ProcessTree(scene.Models[0], true);
+                    }
+                    break;
+
                 case "Rename":
                     var rename = new frmRename();
-                    rename.Show();
+                    rename.SetParentNode((int)tvNodes.SelectedNode.Tag);
+
+                    if (rename.ShowDialog(this) == DialogResult.OK)
+                    {
+                        ProcessTree(scene.Models[0], true);
+                    }
+                    break;
+
+                case "Modify model...":
+                    var transform = new frmTransformEditor();
+                    transform.SetParentNode((int)tvNodes.SelectedNode.Tag);
+
+                    if (transform.ShowDialog(this) == DialogResult.OK)
+                    {
+                        ProcessTree(scene.Models[0], true);
+                    }
                     break;
             }
         }

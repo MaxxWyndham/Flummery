@@ -181,7 +181,7 @@
             this.toolStripSeparator3,
             this.tsmiViewportCancel});
             this.cmsViewport.Name = "cmsViewport";
-            this.cmsViewport.Size = new System.Drawing.Size(153, 286);
+            this.cmsViewport.Size = new System.Drawing.Size(125, 264);
             // 
             // tsmiViewportMaximise
             // 
@@ -207,7 +207,7 @@
             // 
             this.tsmiViewport3D.Enabled = false;
             this.tsmiViewport3D.Name = "tsmiViewport3D";
-            this.tsmiViewport3D.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewport3D.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewport3D.Text = "3D";
             this.tsmiViewport3D.Click += new System.EventHandler(this.tsmiViewportPreset_Click);
             // 
@@ -215,7 +215,7 @@
             // 
             this.tsmiViewportTop.Enabled = false;
             this.tsmiViewportTop.Name = "tsmiViewportTop";
-            this.tsmiViewportTop.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewportTop.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportTop.Text = "Top";
             this.tsmiViewportTop.Click += new System.EventHandler(this.tsmiViewportPreset_Click);
             // 
@@ -223,7 +223,7 @@
             // 
             this.tsmiViewportFront.Enabled = false;
             this.tsmiViewportFront.Name = "tsmiViewportFront";
-            this.tsmiViewportFront.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewportFront.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportFront.Text = "Front";
             this.tsmiViewportFront.Click += new System.EventHandler(this.tsmiViewportPreset_Click);
             // 
@@ -231,7 +231,7 @@
             // 
             this.tsmiViewportRight.Enabled = false;
             this.tsmiViewportRight.Name = "tsmiViewportRight";
-            this.tsmiViewportRight.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewportRight.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportRight.Text = "Right";
             this.tsmiViewportRight.Click += new System.EventHandler(this.tsmiViewportPreset_Click);
             // 
@@ -239,7 +239,7 @@
             // 
             this.tsmiViewportBottom.Enabled = false;
             this.tsmiViewportBottom.Name = "tsmiViewportBottom";
-            this.tsmiViewportBottom.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewportBottom.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportBottom.Text = "Bottom";
             this.tsmiViewportBottom.Click += new System.EventHandler(this.tsmiViewportPreset_Click);
             // 
@@ -247,7 +247,7 @@
             // 
             this.tsmiViewportBack.Enabled = false;
             this.tsmiViewportBack.Name = "tsmiViewportBack";
-            this.tsmiViewportBack.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewportBack.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportBack.Text = "Back";
             this.tsmiViewportBack.Click += new System.EventHandler(this.tsmiViewportPreset_Click);
             // 
@@ -255,7 +255,7 @@
             // 
             this.tsmiViewportLeft.Enabled = false;
             this.tsmiViewportLeft.Name = "tsmiViewportLeft";
-            this.tsmiViewportLeft.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewportLeft.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportLeft.Text = "Left";
             this.tsmiViewportLeft.Click += new System.EventHandler(this.tsmiViewportPreset_Click);
             // 
@@ -268,7 +268,7 @@
             // 
             this.tsmiViewportSetup.Enabled = false;
             this.tsmiViewportSetup.Name = "tsmiViewportSetup";
-            this.tsmiViewportSetup.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewportSetup.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportSetup.Text = "Setup...";
             // 
             // toolStripSeparator3

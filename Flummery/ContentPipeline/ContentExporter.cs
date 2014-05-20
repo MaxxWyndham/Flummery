@@ -4,12 +4,9 @@ namespace Flummery.ContentPipeline
 {
     public abstract class ContentExporter
     {
-        protected dynamic settings;
+        protected ExportSettings settings = new ExportSettings();
 
-        public void SetExportOptions(dynamic settings)
-        {
-            this.settings = settings;
-        }
+        public ExportSettings ExportSettings { get { return settings; } }
 
         public virtual void Export(Asset asset, string Path)
         {

@@ -12,7 +12,7 @@ namespace Flummery.ContentPipeline.Stainless
 
         public override void Export(Asset asset, string Path)
         {
-            exportScale = (settings.Scale != null ? (OpenTK.Vector3)settings.Scale : OpenTK.Vector3.One);
+            exportScale = (settings.HasSetting("Scale") ? settings.GetSetting<OpenTK.Vector3>("Scale") : OpenTK.Vector3.One);
 
             var model = (asset as Model);
             var cnt = new CNT();

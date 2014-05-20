@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Flummery
 {
-    public partial class frmRename : Form
+    public partial class frmNewObject : Form
     {
         int parentBoneIndex;
 
-        public frmRename()
+        public frmNewObject()
         {
             InitializeComponent();
         }
@@ -20,7 +26,7 @@ namespace Flummery
         private void btnOK_Click(object sender, EventArgs e)
         {
             var model = SceneManager.Current.Models[0];
-            model.SetName(txtName.Text, parentBoneIndex);
+            model.SetName(txtName.Text, model.AddMesh(null, parentBoneIndex));
             this.Close();
         }
 

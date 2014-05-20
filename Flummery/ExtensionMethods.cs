@@ -74,10 +74,5 @@ namespace Flummery
 
             return originalString;
         }
-
-        public static bool HasProperty(this dynamic o, string property)
-        {
-            return o.GetType().GetProperty(property) != null;
-        }
     }
 }

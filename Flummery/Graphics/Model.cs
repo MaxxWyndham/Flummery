@@ -39,7 +39,7 @@ namespace Flummery
             var m = new Model();
 
             m.bones = new List<ModelBone>(this.bones);
-            m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));  //new List<ModelMesh>(this.meshes);
+            m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));
             m.tag = this.tag;
             m.coords = this.coords;
 
@@ -121,6 +121,12 @@ namespace Flummery
             bones[BoneIndex].Tag = mesh;
             mesh.Parent = bones[BoneIndex];
             meshes.Add(mesh);
+        }
+
+        public void ClearMesh(int BoneIndex)
+        {
+            meshes.Remove((ModelMesh)bones[BoneIndex].Tag);
+            bones[BoneIndex].Tag = null;
         }
 
         public void Draw(Matrix4 world, Matrix4 view, Matrix4 projection) 
