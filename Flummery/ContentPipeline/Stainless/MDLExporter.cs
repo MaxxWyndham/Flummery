@@ -10,9 +10,11 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string Path)
         {
-            var exportTransform = (settings.Transform != null ? (Matrix4)(settings.Transform) : Matrix4.Identity);
+            var exportTransform = (settings.HasProperty("Transform") ? (Matrix4)(settings.Transform) : Matrix4.Identity);
+            var exportHandedness = (settings.HasProperty("Handed") ? (Model.CoordinateSystem)(settings.Handed) : Model.CoordinateSystem.LeftHanded);
 
             var model = (asset as Model);
+            model.Handedness = exportHandedness;
 
             int materialIndex = 1;
             bool bLeftHanded = (model.Handedness == Model.CoordinateSystem.LeftHanded);
@@ -121,9 +123,18 @@ namespace Flummery.ContentPipeline.Stainless
                         {
                             mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 2], mdlmesh.PatchOffset + data[i + 1]));
 
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 2]));
-                            mdlmesh.PatchList.Add(new MDLPoint(data[i + 1]));
+                            if (bLeftHanded)
+                            {
+                                mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
+                                mdlmesh.PatchList.Add(new MDLPoint(data[i + 2]));
+                                mdlmesh.PatchList.Add(new MDLPoint(data[i + 1]));
+                            }
+                            else
+                            {
+                                mdlmesh.PatchList.Add(new MDLPoint(data[i + 0]));
+                                mdlmesh.PatchList.Add(new MDLPoint(data[i + 1]));
+                                mdlmesh.PatchList.Add(new MDLPoint(data[i + 2]));
+                            }
                         }
 
                         for (int i = 0; i < meshpart.VertexBuffer.Data.Count; i++)
