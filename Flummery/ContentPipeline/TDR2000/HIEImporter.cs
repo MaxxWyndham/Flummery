@@ -19,7 +19,7 @@ namespace Flummery.ContentPipeline.TDR2000
             foreach (string mesh in hie.Meshes)
             {
                 var mshs = SceneManager.Current.Content.Load<Model, MSHSImporter>(Path.GetFileNameWithoutExtension(mesh), Path.GetDirectoryName(path) + "\\");
-                //foreach (var part in mshs.Meshes) { mshses.AddMesh(part); }
+                foreach (var part in mshs.Meshes) { mshses.AddMesh(part); }
             }
 
             foreach (string texture in hie.Textures)
@@ -95,11 +95,11 @@ namespace Flummery.ContentPipeline.TDR2000
                     break;
 
                 case TDRNode.NodeType.Mesh:
-                    //int index = node.Index;
-                    //mshses.Meshes[index].MeshParts[0].Material = material;
-                    //model.AddMesh(mshses.Meshes[index], ParentBoneIndex);
+                    int index = node.Index;
+                    mshses.Meshes[index].MeshParts[0].Material = material;
+                    model.AddMesh(mshses.Meshes[index], ParentBoneIndex);
                     //model.SetName(mshses.Meshes[index].Name, ParentBoneIndex);
-                    //Console.WriteLine("Adding mesh {0} to bone {1}", mshses.Meshes[index].Name, ParentBoneIndex);
+                    Console.WriteLine("Adding mesh #{0} \"{1}\" to bone {2}", index, mshses.Meshes[index].Name, ParentBoneIndex);
                     break;
 
                 case TDRNode.NodeType.Texture:
