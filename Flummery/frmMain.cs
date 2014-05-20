@@ -22,6 +22,7 @@ namespace Flummery
         }
 
         static bool bPublicRelease = false;
+        bool bActive = true;
 
         public static GLControl Control;
         SceneManager scene;
@@ -161,6 +162,8 @@ namespace Flummery
 
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
+            if (!bActive) { return; }
+
             switch (e.KeyChar)
             {
                 case '*':
@@ -195,6 +198,8 @@ namespace Flummery
 
         void Application_Idle(object sender, EventArgs e)
         {
+            if (!bActive) { return; }
+
             double milliseconds = dt;
             Accumulate(milliseconds);
             Animate(milliseconds);
@@ -715,6 +720,16 @@ namespace Flummery
         private void tsmiViewportPreset_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void frmMain_Activated(object sender, EventArgs e)
+        {
+            bActive = true;
+        }
+
+        private void frmMain_Deactivate(object sender, EventArgs e)
+        {
+            bActive = false;
         }
     }
 }
