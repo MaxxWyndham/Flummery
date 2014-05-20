@@ -8,6 +8,8 @@ namespace Flummery.ContentPipeline.Stainless
 {
     class DATImporter : ContentImporter
     {
+        public override string GetExtension() { return "dat"; }
+
         public override Asset Import(string path)
         {
             DAT dat = DAT.Load(path);
