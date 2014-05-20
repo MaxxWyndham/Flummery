@@ -183,6 +183,10 @@ namespace Flummery
                         tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
                     }
                     break;
+
+                case 'd':
+                    SceneManager.Current.SetBoundingBox(null);
+                    break;
             }
 
             e.Handled = true;
@@ -695,6 +699,15 @@ namespace Flummery
                     var tdx = new frmTDXConvert();
                     tdx.Show(this);
                     break;
+            }
+        }
+
+        private void tvNodes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Tag != null && SceneManager.Current.Models.Count > 0)
+            {
+                var mesh = (SceneManager.Current.Models[0].Bones[(int)e.Node.Tag].Tag as ModelMesh);
+                if (mesh != null) { SceneManager.Current.SetBoundingBox(mesh.BoundingBox); }
             }
         }
 

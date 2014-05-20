@@ -5,6 +5,7 @@ namespace Flummery
 {
     public class ModelMesh
     {
+        BoundingBox boundingBox;
         BoundingSphere BoundingSphere;
         List<ModelMeshPart> meshParts;
         string name;
@@ -26,6 +27,15 @@ namespace Flummery
         public List<ModelMeshPart> MeshParts
         {
             get { return meshParts; }
+        }
+
+        public BoundingBox BoundingBox
+        {
+            get
+            {
+                if (boundingBox == null) { boundingBox = new BoundingBox(this); }
+                return boundingBox;
+            }
         }
 
         public ModelMesh()

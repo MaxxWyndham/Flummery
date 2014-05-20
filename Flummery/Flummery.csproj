@@ -122,6 +122,7 @@
       <DependentUpon>frmTDXConvert.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Asset.cs" />
+    <Compile Include="Graphics\BoundingBox.cs" />
     <Compile Include="Graphics\BoundingSphere.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\ContentManager.cs" />

@@ -117,6 +117,7 @@
             this.tvNodes.Name = "tvNodes";
             this.tvNodes.Size = new System.Drawing.Size(242, 498);
             this.tvNodes.TabIndex = 0;
+            this.tvNodes.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvNodes_NodeMouseClick);
             this.tvNodes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvNodes_NodeMouseDoubleClick);
             // 
             // flpMaterials

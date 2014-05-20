@@ -18,6 +18,8 @@ namespace Flummery
 
         public static SceneManager Current;
 
+        BoundingBox bb = null;
+
         RenderMeshMode renderMode = RenderMeshMode.Solid;
         List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
@@ -67,6 +69,11 @@ namespace Flummery
             if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset)); }
 
             return asset;
+        }
+
+        public void SetBoundingBox(BoundingBox bb)
+        {
+            this.bb = bb;
         }
 
         public void Reset()
@@ -134,6 +141,46 @@ namespace Flummery
 
                     GL.PopMatrix();
                 }
+            }
+
+            if (bb != null)
+            {
+                GL.Disable(EnableCap.CullFace);
+                GL.Disable(EnableCap.Texture2D);
+                GL.Disable(EnableCap.Lighting);
+                GL.Disable(EnableCap.Light0);
+
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+
+                GL.Begin(PrimitiveType.Quads);
+                GL.Color4(0f, 1.0f, 0f, 1.0f);
+
+                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Min.Z);
+                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Max.Z);
+                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Max.Z);
+                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Min.Z);
+
+                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Min.Z);
+                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Max.Z);
+                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Max.Z);
+                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Min.Z);
+
+                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Min.Z);
+                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Min.Z);
+                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Min.Z);
+                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Min.Z);
+
+                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Max.Z);
+                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Max.Z);
+                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Max.Z);
+                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Max.Z);
+
+                GL.End();
+
+                GL.Enable(EnableCap.CullFace);
+                GL.Enable(EnableCap.Texture2D);
+                GL.Enable(EnableCap.Lighting);
+                GL.Enable(EnableCap.Light0);
             }
         }
 
