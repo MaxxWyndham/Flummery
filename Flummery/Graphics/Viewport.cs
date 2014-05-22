@@ -167,7 +167,7 @@ namespace Flummery
 
         public void Draw(SceneManager scene)
         {
-            if (bActive) { GL.ClearColor(Color.LightGray); } else { GL.ClearColor(Color.Gray); }
+            GL.ClearColor(Color.Gray);
 
             if (mode == Mode.Orthographic) { perspective = Matrix4.CreateOrthographic((w * 0.001f) * Zoom, (h * 0.001f) * Zoom, 0.001f, 100); }
 
@@ -175,8 +175,13 @@ namespace Flummery
             GL.LoadMatrix(ref perspective);
             GL.Enable(EnableCap.Texture2D);
 
+            var offsetX = (bActive ? x + 1 : x);
+            var offsetY = (bActive ? y + 1 : y);
+            var scissorWidth = (bActive ? vw - 2 : vw);
+            var scissorHeight = (bActive ? vh - 2 : vh);
+
             GL.Viewport(x, y, vw, vh);
-            GL.Scissor(x, y, vw, vh);
+            GL.Scissor(offsetX, offsetY, scissorWidth, scissorHeight);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             scene.Draw(camera);
