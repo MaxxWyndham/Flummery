@@ -28,8 +28,8 @@ namespace Flummery.Stripper
             {
                 AddTriangle(
                     indexBuffer[i * 3 + 0], 
-                    indexBuffer[i * 3 + 1], 
-                    indexBuffer[i * 3 + 2]
+                    indexBuffer[i * 3 + 2], // + 1
+                    indexBuffer[i * 3 + 1]  // + 2 to reverse winding order of strips
                 );
             }
         }

@@ -25,18 +25,16 @@ namespace Flummery.ContentPipeline.Stainless
 
                 materialIndex = 0;
 
-                foreach (var meshpart in mesh.MeshParts)
+
+
+                foreach (var meshpart in mesh.MeshParts.OrderByDescending(m => m.VertexCount).ToList())
                 {
                     var mdlmesh = new MDLMesh((meshpart.Material != null ? meshpart.Material.Name : "DEFAULT"));
                     bool bUseTrianglestrips = false;
 
                     if (bUseTrianglestrips)
                     {
-                        var masterStrip = new List<int>();
-                        var masterPatch = new List<int>();
-
                         int masterVertOffset = mdl.Vertices.Count;
-                        int masterPatchOffset = int.MaxValue;
 
                         foreach (var v in meshpart.VertexBuffer.Data)
                         {
@@ -53,65 +51,57 @@ namespace Flummery.ContentPipeline.Stainless
                             );
                         }
 
-                        var stripper = new Stripper.Stripper(meshpart.IndexBuffer.Data.Length / 3, meshpart.IndexBuffer.Data);
-                        stripper.OneSided = true;
-                        stripper.ShakeItBaby();
-
-                        for (int i = 0; i < stripper.Strips.Count; i++)
+                        // Normalise input triangles
+                        for (int i = 0; i < meshpart.IndexBuffer.Data.Length; i += 3)
                         {
-                            var strip = stripper.Strips[i];
+                            var n = Vector3.Cross(
+                                meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 1]].Position - meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 0]].Position,
+                                meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 2]].Position - meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 0]].Position
+                            ).Normalized();
 
-                            if (strip.Count == 3)
+                            if (n.X < 0 || n.Y < 0 || n.Z < 0)
                             {
-                                foreach (var point in strip)
-                                {
-                                    masterPatchOffset = Math.Min(masterPatchOffset, point);
-                                    masterPatch.Add(point);
-                                }
-                            }
-                            else
-                            {
-                                if (i > 0)
-                                {
-                                    if (stripper.Strips[i - 1].Count % 2 != 0) { masterStrip.Add(strip[0]); }
-                                    masterStrip.Add(strip[0]);
-                                }
-
-                                foreach (var point in strip) { masterStrip.Add(point); }
-
-                                if (i + 1 != stripper.Strips.Count) { masterStrip.Add(strip[strip.Count - 1]); }
+                                int t = meshpart.IndexBuffer.Data[i + 1];
+                                meshpart.IndexBuffer.Data[i + 1] = meshpart.IndexBuffer.Data[i + 2];
+                                meshpart.IndexBuffer.Data[i + 2] = t;
                             }
                         }
 
-                        if (masterStrip.Count > 0)
+                        var stripper = new Stripper.Stripper(meshpart.IndexBuffer.Data.Length / 3, meshpart.IndexBuffer.Data);
+                        stripper.OneSided = true;
+                        stripper.ConnectAllStrips = true;
+                        stripper.ShakeItBaby();
+
+                        if (stripper.Strips[0].Count > 3)
                         {
+                            var strip = stripper.Strips[0];
+
                             mdlmesh.StripOffset = masterVertOffset;
-                            mdlmesh.StripList.Add(new MDLPoint(masterStrip[0], false));
-                            mdlmesh.StripList.Add(new MDLPoint(masterStrip[1], false));
-                            for (int i = 2; i < masterStrip.Count; i++)
+                            mdlmesh.StripList.Add(new MDLPoint(strip[0], false));
+                            mdlmesh.StripList.Add(new MDLPoint(strip[1], false));
+                            for (int i = 2; i < strip.Count; i++)
                             {
-                                var point = new MDLPoint(masterStrip[i], (masterStrip.GetRange(i - 2, 3).Distinct().Count() != 3));
+                                var point = new MDLPoint(strip[i], (strip.GetRange(i - 2, 3).Distinct().Count() != 3));
 
                                 mdlmesh.StripList.Add(point);
 
-                                if (!point.Degenerate) { mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.StripOffset + masterStrip[i - 2], mdlmesh.StripOffset + masterStrip[i - 1], mdlmesh.StripOffset + masterStrip[i - 0])); }
+                                if (!point.Degenerate) { mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.StripOffset + strip[i - 2], mdlmesh.StripOffset + strip[i - 1], mdlmesh.StripOffset + strip[i - 0])); }
                             }
 
-                            mdlmesh.StripVertCount = masterVertOffset;
+                            mdlmesh.StripVertCount = 0;
                         }
 
-                        if (masterPatch.Count > 0)
+                        for (int i = 1; i < stripper.Strips.Count; i++)
                         {
-                            mdlmesh.PatchOffset = masterVertOffset + masterPatchOffset;
-                            for (int i = 0; i < masterPatch.Count; i++)
-                            {
-                                mdlmesh.PatchList.Add(new MDLPoint(masterPatch[i] - masterPatchOffset));
-                                if ((i & 3) == 3) { mdl.Faces.Add(new MDLFace(materialIndex, masterPatch[i - 2], masterPatch[i - 1], masterPatch[i - 0])); }
-                            }
+                            var patchOffset = 0;
+                            var patch = stripper.Strips[i];
 
-                            mdlmesh.PatchVertCount = masterPatchOffset + masterPatchOffset;
+                            if (i == 1) { patchOffset = Math.Min(patch[0], Math.Min(patch[1], patch[2])); }
+
+                            mdlmesh.PatchOffset = masterVertOffset + patchOffset;
+                            for (int j = 0; j < 3; j++) { mdlmesh.PatchList.Add(new MDLPoint(patch[j] - patchOffset)); }
+                            mdl.Faces.Add(new MDLFace(materialIndex, patch[0], patch[1], patch[2]));
                         }
-
                     }
                     else
                     {

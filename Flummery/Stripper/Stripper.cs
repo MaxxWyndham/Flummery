@@ -7,6 +7,7 @@ namespace Flummery.Stripper
     {
         Adjacency adjacency;
         bool oneSided;
+        bool connectAll;
         int faces;
         int[] data;
         bool[] tags;
@@ -15,6 +16,7 @@ namespace Flummery.Stripper
 
         public List<List<int>> Strips { get { return strips; } }
         public bool OneSided { get { return oneSided; } set { oneSided = value; } }
+        public bool ConnectAllStrips { get { return connectAll; } set { connectAll = value; } }
 
         public Stripper(int Faces, int[] Data)
         {
@@ -47,6 +49,8 @@ namespace Flummery.Stripper
 
                 nStrips++;
             }
+
+            if (connectAll) { MergeStrips(); }
         }
 
         public int ComputeBestStrip(int face)
@@ -126,7 +130,7 @@ namespace Flummery.Stripper
 
                     if (((bestLength - firstLength[best]) & 1) == 1)
                     {
-                        strips[best].Insert(0, strips[best][0]);
+                        strip[best].Insert(0, strip[best][0]);
                         bestLength++;
                     }
                 }
@@ -175,6 +179,63 @@ namespace Flummery.Stripper
             }
 
             return length;
+        }
+
+        public void MergeStrips()
+        {
+            bool bFirst = true;
+            int previousStrip = 0;
+            List<int> mergedStrip = new List<int>();
+            List<bool> removeOldStrip = new List<bool>();
+
+            for (int k = 0; k < strips.Count; k++)
+            {
+                if (strips[k].Count == 3)
+                {
+                    // We don't want to add single triangles into our tristrips
+                    removeOldStrip.Add(false);
+                    continue;
+                }
+
+                if (!bFirst)
+                {
+                    int lastRef = strips[previousStrip][strips[previousStrip].Count - 1];
+                    int firstRef = strips[k][0];
+
+                    mergedStrip.Add(lastRef);
+                    mergedStrip.Add(firstRef);
+
+                    if (oneSided)
+                    {
+                        if ((mergedStrip.Count & 1) == 1)
+                        {
+                            int secondRef = strips[k][1];
+
+                            if (firstRef != secondRef)
+                            {
+                                mergedStrip.Add(firstRef);
+                            }
+                            else
+                            {
+                                strips[k].RemoveAt(0);
+                            }
+                        }
+                    }
+                }
+
+                mergedStrip.AddRange(strips[k]);
+
+                bFirst = false;
+                previousStrip = k;
+                removeOldStrip.Add(true);
+            }
+
+            for (int i = strips.Count - 1; i >= 0; i--)
+            {
+                if (removeOldStrip[i]) { strips.RemoveAt(i); }
+            }
+
+            strips.Insert(0, mergedStrip);
         }
     }
 }
