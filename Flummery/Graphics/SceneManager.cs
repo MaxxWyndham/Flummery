@@ -124,34 +124,39 @@ namespace Flummery
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
-            Lights();
+            GL.Disable(EnableCap.CullFace);
+            GL.Disable(EnableCap.Texture2D);
+            GL.Disable(EnableCap.Lighting);
+            GL.Disable(EnableCap.Light0);
 
-            foreach (var model in models)
-            {
-                Matrix4[] transforms = new Matrix4[model.Bones.Count];
-                model.CopyAbsoluteBoneTransformsTo(transforms);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 
-                foreach (var mesh in model.Meshes)
-                {
-                    GL.PushMatrix();
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color4(0f, 1.0f, 0f, 1.0f);
 
-                    GL.MultMatrix(ref transforms[mesh.Parent.Index]);
+            GL.Vertex3(-1.0f, 0, -1.0f);
+            GL.Vertex3( 0,    0, -1.0f);
+            GL.Vertex3( 0,    0,  0);
+            GL.Vertex3(-1.0f, 0,  0);
 
-                    mesh.Draw();
+            GL.Vertex3(0, 0, -1.0f);
+            GL.Vertex3(1.0f, 0, -1.0f);
+            GL.Vertex3(1.0f, 0, 0);
+            GL.Vertex3(0, 0, 0);
 
-                    GL.PopMatrix();
-                }
-            }
+            GL.Vertex3(-1.0f, 0, 0);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(0, 0, 1.0f);
+            GL.Vertex3(-1.0f, 0, 1.0f);
+
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(1.0f, 0, 0);
+            GL.Vertex3(1.0f, 0, 1.0f);
+            GL.Vertex3(0, 0, 1.0f);
+            GL.End();
 
             if (bb != null)
             {
-                GL.Disable(EnableCap.CullFace);
-                GL.Disable(EnableCap.Texture2D);
-                GL.Disable(EnableCap.Lighting);
-                GL.Disable(EnableCap.Light0);
-
-                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-
                 GL.Begin(PrimitiveType.Quads);
                 GL.Color4(0f, 1.0f, 0f, 1.0f);
 
@@ -176,11 +181,23 @@ namespace Flummery
                 GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Max.Z);
 
                 GL.End();
+            }
 
-                GL.Enable(EnableCap.CullFace);
-                GL.Enable(EnableCap.Texture2D);
-                GL.Enable(EnableCap.Lighting);
-                GL.Enable(EnableCap.Light0);
+            GL.Enable(EnableCap.CullFace);
+            GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Light0);
+
+            Lights();
+
+            foreach (var model in models)
+            {
+                model.Draw();
+            }
+
+            foreach (var entity in entities)
+            {
+                entity.Draw();
             }
         }
 

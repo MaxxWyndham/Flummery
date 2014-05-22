@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
@@ -129,11 +130,20 @@ namespace Flummery
             bones[BoneIndex].Tag = null;
         }
 
-        public void Draw(Matrix4 world, Matrix4 view, Matrix4 projection) 
+        public void Draw() 
         {
+            Matrix4[] transforms = new Matrix4[bones.Count];
+            CopyAbsoluteBoneTransformsTo(transforms);
+
             foreach (var mesh in meshes)
             {
+                GL.PushMatrix();
+
+                GL.MultMatrix(ref transforms[mesh.Parent.Index]);
+
                 mesh.Draw();
+
+                GL.PopMatrix();
             }
         }
     }

@@ -510,6 +510,7 @@ namespace Flummery
                             }
 
                             entity.Transform = bone.CombinedTransform;
+                            entity.AssetType = AssetType.Sprite;
                             scene.Entities.Add(entity);
 
                             scene.Models[0].RemoveBone(bone.Index);
@@ -577,7 +578,30 @@ namespace Flummery
                     break;
 
                 case "Vehicle":
-                    openContent("Carmageddon ReinCARnation Vehicles (car.cnt)|car.cnt");
+                    ofdBrowse.Filter = "Carmageddon ReinCARnation Vehicles (car.cnt)|car.cnt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Reset();
+                        var vehicle = (Model)scene.Add(scene.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
+
+                        foreach (var bone in vehicle.Bones)
+                        {
+                            string boneName = bone.Name.ToLower();
+
+                            if (boneName.StartsWith("wheel_") || bone.Name.StartsWith("driver"))
+                            {
+                                var entity = new Entity { 
+                                    Name = bone.Name, 
+                                    EntityType = (boneName.StartsWith("driver") ? EntityType.Driver : EntityType.Wheel), 
+                                    AssetType = AssetType.Sprite 
+                                };
+                                entity.LinkWith(bone);
+
+                                scene.Entities.Add(entity);
+                            }
+                        }
+                    }
                     break;
 
                 case "CNT files":

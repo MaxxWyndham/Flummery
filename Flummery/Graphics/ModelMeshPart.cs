@@ -149,7 +149,7 @@ namespace Flummery
             }
             else
             {
-                GL.Begin(PrimitiveType.Triangles);
+                GL.Begin(primitiveType);
 
                 foreach (int i in indexBuffer.Data)
                 {
@@ -163,6 +163,7 @@ namespace Flummery
                 GL.End();
             }
 
+            GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.DepthTest);
 
             // Visualise normals

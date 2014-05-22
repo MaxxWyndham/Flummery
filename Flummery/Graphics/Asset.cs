@@ -9,6 +9,8 @@ namespace Flummery
         protected string name;
         protected object tag;
 
+        protected object link;
+
         public string FileName
         {
             get { return filename; }
@@ -27,9 +29,16 @@ namespace Flummery
             set { tag = value; }
         }
 
+        public bool Linked { get { return link != null; } }
+
         public virtual Asset Clone()
         {
             return this;
+        }
+
+        public void LinkWith(object item)
+        {
+            link = item;
         }
     }
 
