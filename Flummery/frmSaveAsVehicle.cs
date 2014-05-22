@@ -12,6 +12,22 @@ namespace Flummery
         public frmSaveAsVehicle()
         {
             InitializeComponent();
+
+            txtPath.Text = Properties.Settings.Default.SaveAsVehiclePath;
+        }
+
+        private void btnPath_Click(object sender, EventArgs e)
+        {
+            fbdBrowse.SelectedPath = txtPath.Text;
+
+            if (fbdBrowse.ShowDialog() == DialogResult.OK)
+            {
+                if (!Directory.Exists(fbdBrowse.SelectedPath)) { Directory.CreateDirectory(fbdBrowse.SelectedPath); }
+                txtPath.Text = fbdBrowse.SelectedPath + "\\";
+
+                Properties.Settings.Default.SaveAsVehiclePath = txtPath.Text;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -46,26 +62,12 @@ namespace Flummery
 
             var cx = new CNTExporter();
             cx.ExportSettings.AddSetting("Scale", new Vector3(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
-            cx.Export(SceneManager.Current.Models[0], txtPath.Text + "vehicle.cnt");
+            cx.Export(SceneManager.Current.Models[0], txtPath.Text + "car.cnt");
 
             var mx = new MDLExporter();
             mx.ExportSettings.AddSetting("Transform", Matrix4.CreateScale(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
             mx.Export(SceneManager.Current.Models[0], txtPath.Text);
             this.Close();
-        }
-
-        private void btnPath_Click(object sender, EventArgs e)
-        {
-            fbdBrowse.SelectedPath = txtPath.Text;
-
-            if (fbdBrowse.ShowDialog() == DialogResult.OK)
-            {
-                if (!Directory.Exists(fbdBrowse.SelectedPath)) { Directory.CreateDirectory(fbdBrowse.SelectedPath); }
-                txtPath.Text = fbdBrowse.SelectedPath + "\\";
-
-                //Properties.Settings.Default.SaveAsVehiclePath = txtPath.Text;
-                //Properties.Settings.Default.Save();
-            }
         }
     }
 }

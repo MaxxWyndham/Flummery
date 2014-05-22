@@ -70,5 +70,17 @@ namespace Flummery.Properties {
                 this["SaveAsEnvironmentPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SaveAsVehiclePath {
+            get {
+                return ((string)(this["SaveAsVehiclePath"]));
+            }
+            set {
+                this["SaveAsVehiclePath"] = value;
+            }
+        }
     }
 }
