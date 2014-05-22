@@ -74,15 +74,18 @@ namespace Flummery.ContentPipeline.TDR2000
 
         protected static Material material;
         protected static string texture;
+        protected static bool exit = false;
 
         static void ProcessNode(TDRNode node, Model model, Model mshses, HIE hie, int ParentBoneIndex = 0)
         {
-            int boneIndex = -1;
+            int boneIndex = ParentBoneIndex;
+
+            if (exit) { return; }
 
             switch (node.Type)
             {
                 case TDRNode.NodeType.Matrix:
-                    boneIndex = model.AddMesh(null, ParentBoneIndex);
+                    boneIndex = model.AddMesh(null, boneIndex);
 
                     model.SetName(node.Name, boneIndex);
                     model.SetTransform(
@@ -97,9 +100,21 @@ namespace Flummery.ContentPipeline.TDR2000
                 case TDRNode.NodeType.Mesh:
                     int index = node.Index;
                     mshses.Meshes[index].MeshParts[0].Material = material;
-                    model.AddMesh(mshses.Meshes[index], ParentBoneIndex);
-                    //model.SetName(mshses.Meshes[index].Name, ParentBoneIndex);
-                    Console.WriteLine("Adding mesh #{0} \"{1}\" to bone {2}", index, mshses.Meshes[index].Name, ParentBoneIndex);
+
+                    if (model.Bones[ParentBoneIndex].Tag == null)
+                    {
+                        model.SetMesh(mshses.Meshes[index], boneIndex);
+                        //exit = true;
+                        //Console.WriteLine("Adding mesh #{0} \"{1}\" to bone #{2} \"{3}\"", index, mshses.Meshes[index].Name, boneIndex, model.Bones[boneIndex].Name);
+                    }
+                    else
+                    {
+                        boneIndex = model.AddMesh(mshses.Meshes[index], ParentBoneIndex);
+                        model.SetName(mshses.Meshes[index].Name, boneIndex);
+
+                        //model.SetName(mshses.Meshes[index].Name, model.AddMesh(mshses.Meshes[index], ParentBoneIndex));
+                        //Console.WriteLine("Adding mesh #{0} \"{1}\" to brand new bone", index, mshses.Meshes[index].Name);
+                    }
                     break;
 
                 case TDRNode.NodeType.Texture:
@@ -116,7 +131,7 @@ namespace Flummery.ContentPipeline.TDR2000
 
             foreach (var child in node.Children)
             {
-                ProcessNode(child, model, mshses, hie, (boneIndex > -1 ? boneIndex : ParentBoneIndex));
+                ProcessNode(child, model, mshses, hie, boneIndex);
             }
         }
     }
