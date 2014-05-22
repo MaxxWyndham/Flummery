@@ -331,19 +331,21 @@ namespace Flummery
             menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
 
             menu.MenuItems.Add("&Tools");
-            menu.MenuItems[3].MenuItems.Add("Carma 2");
-            menu.MenuItems[3].MenuItems[0].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
-            menu.MenuItems[3].MenuItems.Add("Process all...");
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Accessory.txt files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Routes.txt files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
             menu.MenuItems[3].MenuItems.Add("General");
-            menu.MenuItems[3].MenuItems[2].MenuItems.Add("TDX Convertor", menuToolsClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems.Add("TDX Convertor", menuToolsClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems.Add("Process all...");
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Accessory.txt files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Routes.txt files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
+            menu.MenuItems[3].MenuItems.Add("Carma 2");
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
+            menu.MenuItems[3].MenuItems.Add("Reincarnation");
+            menu.MenuItems[3].MenuItems[2].MenuItems.Add("Wheel Preview", menuCarmageddonReincarnationClick);
 
             menu.MenuItems.Add("&Help");
             menu.MenuItems[4].MenuItems.Add("About Flummery");
@@ -612,6 +614,27 @@ namespace Flummery
                 case "Accessory.txt files":
                 case "Routes.txt files":
                     processAll(mi.Text);
+                    break;
+
+                case "Wheel Preview":
+                    var preview = new frmReincarnationWheelPreview();
+
+                    var result = preview.ShowDialog();
+
+                    switch (result)
+                    {
+                        case DialogResult.OK:
+                        case DialogResult.Abort:
+                            foreach (var entity in SceneManager.Current.Entities)
+                            {
+                                if (entity.EntityType == EntityType.Wheel)
+                                {
+                                    entity.Asset = (result == DialogResult.OK ? preview.Wheel : null);
+                                    entity.AssetType = (result == DialogResult.OK ? AssetType.Model : AssetType.Sprite);
+                                }
+                            }
+                            break;
+                    }
                     break;
             }
         }
