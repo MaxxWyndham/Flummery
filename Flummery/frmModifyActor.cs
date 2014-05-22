@@ -5,11 +5,11 @@ using OpenTK;
 
 namespace Flummery
 {
-    public partial class frmTransformEditor : Form
+    public partial class frmModifyActor : Form
     {
         int parentBoneIndex;
 
-        public frmTransformEditor()
+        public frmModifyActor()
         {
             InitializeComponent();
         }

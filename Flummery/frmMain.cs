@@ -326,6 +326,7 @@ namespace Flummery
             menu.MenuItems[2].MenuItems.Add("Remove...", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("-");
             menu.MenuItems[2].MenuItems.Add("Modify model...", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("Modify actor...", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("-");
             menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
 
@@ -764,8 +765,8 @@ namespace Flummery
                     }
                     break;
 
-                case "Modify model...":
-                    var transform = new frmTransformEditor();
+                case "Modify actor...":
+                    var transform = new frmModifyActor();
                     transform.SetParentNode((int)tvNodes.SelectedNode.Tag);
 
                     if (transform.ShowDialog(this) == DialogResult.OK)

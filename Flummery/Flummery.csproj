@@ -140,11 +140,11 @@
     <Compile Include="frmTDXConvert.Designer.cs">
       <DependentUpon>frmTDXConvert.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmTransformEditor.cs">
+    <Compile Include="frmModifyActor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTransformEditor.Designer.cs">
-      <DependentUpon>frmTransformEditor.cs</DependentUpon>
+    <Compile Include="frmModifyActor.Designer.cs">
+      <DependentUpon>frmModifyActor.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Asset.cs" />
     <Compile Include="Graphics\BoundingBox.cs" />
@@ -209,8 +209,8 @@
     <EmbeddedResource Include="frmTDXConvert.resx">
       <DependentUpon>frmTDXConvert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTransformEditor.resx">
-      <DependentUpon>frmTransformEditor.cs</DependentUpon>
+    <EmbeddedResource Include="frmModifyActor.resx">
+      <DependentUpon>frmModifyActor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MaterialItem.resx">
       <DependentUpon>MaterialItem.cs</DependentUpon>

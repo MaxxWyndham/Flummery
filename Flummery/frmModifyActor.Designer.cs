@@ -1,6 +1,6 @@
 ﻿namespace Flummery
 {
-    partial class frmTransformEditor
+    partial class frmModifyActor
     {
         /// <summary>
         /// Required designer variable.
