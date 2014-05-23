@@ -7,6 +7,10 @@ namespace Flummery
 {
     public class ViewportManager
     {
+        public static ViewportManager Current;
+
+        int actionScaling = 3;
+        float[] actionScales = new float[] { 0.01f, 0.1f, 0.5f, 1.0f, 5.0f, 10.0f };
         List<Viewport> viewports = new List<Viewport>();
         Viewport active;
 
@@ -33,6 +37,8 @@ namespace Flummery
             viewports.Add(threedee);
 
             active = threedee;
+
+            Current = this;
         }
 
         public Viewport Active { get { return active; } }
@@ -85,6 +91,38 @@ namespace Flummery
                     viewport.Active = false;
                 }
             }
+        }
+
+        public void KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (!Flummery.Active) { return; }
+
+            switch (e.KeyChar)
+            {
+                case '*':
+                    if (actionScaling + 1 < actionScales.Length)
+                    {
+                        actionScaling++;
+                        SetActionScale(actionScales[actionScaling]);
+                        Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                    }
+                    break;
+
+                case '/':
+                    if (actionScaling - 1 > -1)
+                    {
+                        actionScaling--;
+                        SetActionScale(actionScales[actionScaling]);
+                        Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                    }
+                    break;
+
+                case 'd':
+                    SceneManager.Current.SetBoundingBox(null);
+                    break;
+            }
+
+            e.Handled = true;
         }
 
         private void HandleInput(float dt)

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using WeifenLuo.WinFormsUI.Docking;
 using ToxicRagers.Carmageddon2.Formats;
 using Flummery.ContentPipeline.Stainless;
 
@@ -22,135 +23,40 @@ namespace Flummery
         }
 
         static bool bPublicRelease = false;
-        bool bActive = true;
 
-        public static GLControl Control;
         SceneManager scene;
-        ViewportManager viewman;
-        Stopwatch sw = new Stopwatch();
-        double accumulator = 0;
-
-        int actionScaling = 3;
-        float[] actionScales = new float[] { 0.01f, 0.1f, 0.5f, 1.0f, 5.0f, 10.0f };
-
-        private double dt
-        {
-            get
-            {
-                sw.Stop();
-                double timeslice = sw.Elapsed.TotalMilliseconds;
-                sw.Reset();
-                sw.Start();
-                return timeslice;
-            }
-        }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default);
-            Control.Name = "glcViewport";
-            Control.VSync = true;
-            Control.Width = 716;
-            Control.Height = 498;
-            Control.Top = 3;
-            Control.Left = 3;
-            Control.BackColor = Color.Black;
-            Control.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            Control.Paint += glcViewport_Paint;
-            Control.Resize += glcViewport_Resize;
-            Control.MouseMove += glcViewport_MouseMove;
-            Control.Click += glcViewport_Click;
-            scTreeView.Panel2.Controls.Add(Control);
+            var overview = new pnlOverview();
+            var viewport = new pnlViewport();
+            var materials = new pnlMaterialList();
 
-            viewman = new ViewportManager();
+            overview.Show(dockPanel, DockState.DockLeft);
+            materials.Show(dockPanel, DockState.DockBottom);
+            viewport.Show(dockPanel, DockState.Document);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
             this.Text += " v0.0.2.8";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
+            overview.RegisterEventHandlers();
+            materials.RegisterEventHandlers();
 
             BuildMenu();
-            GLControlInit();
-
-            sw.Start();
 
             ToxicRagers.Helpers.Logger.ResetLog();
 
-            tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
-
-            Application.Idle += new EventHandler(Application_Idle);
+            SetActionScalingText("Action Scaling: 1.000");
 
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(frmMain_KeyPress);
 
-            scene.OnAdd += scene_OnAdd;
-            scene.OnReset += scene_OnReset;
-            scene.OnProgress += scene_OnProgress;
+            SceneManager.Current.OnProgress += scene_OnProgress;
 
-            flpMaterials.Tag = new SortedList<string, string>();
+            //flpMaterials.Tag = new SortedList<string, string>();
 
-            viewman.Initialise();
-        }
-
-        void scene_OnReset(object sender, ResetEventArgs e)
-        {
-            ProcessTree(new Model(), true);
-            flpMaterials.Controls.Clear();
-        }
-
-        void scene_OnAdd(object sender, AddEventArgs e)
-        {
-            var m = (e.Item as Model);
-
-            if (m != null)
-            {
-                ProcessTree(m);
-            }
-            else
-            {
-                var t = (e.Item as Material);
-                var mi = new MaterialItem();
-
-                mi.MaterialName = t.Name;
-                mi.Material = t;
-                if (t.Texture != null) { mi.SetThumbnail(t.Texture.GetThumbnail()); }
-
-                //var matList = (flpMaterials.Tag as SortedList<string, string>);
-                //matList[t.Name] = t.Name;
-
-                flpMaterials.Controls.Add(mi);
-                //flpMaterials.Controls.SetChildIndex(mi, matList.IndexOfKey(t.Name));
-
-                //flpMaterials.Tag = matList;
-            }
-        }
-
-        public void ProcessTree(Model m, bool bReset = false)
-        {
-            if (bReset) { tvNodes.Nodes.Clear(); }
-
-            TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
-
-            foreach (var child in m.Root.Children)
-            {
-                TravelTree(child, ref ParentNode);
-            }
-
-            tvNodes.Nodes[0].Expand();
-            if (tvNodes.Nodes[0].Nodes.Count > 0) { tvNodes.Nodes[0].Nodes[0].Expand(); }
-        }
-
-        public static void TravelTree(ModelBone bone, ref TreeNode node)
-        {
-            node = node.Nodes.Add(bone.Name);
-            node.Tag = bone.Index;
-
-            foreach (var b in bone.Children)
-            {
-                TravelTree(b, ref node);
-            }
-
-            node = node.Parent;
+            Flummery.UI = this;
         }
 
         void scene_OnProgress(object sender, ProgressEventArgs e)
@@ -162,113 +68,9 @@ namespace Flummery
 
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            if (!bActive) { return; }
-
-            switch (e.KeyChar)
-            {
-                case '*':
-                    if (actionScaling + 1 < actionScales.Length)
-                    {
-                        actionScaling++;
-                        viewman.SetActionScale(actionScales[actionScaling]);
-                        tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
-                    }
-                    break;
-
-                case '/':
-                    if (actionScaling - 1 > -1)
-                    {
-                        actionScaling--;
-                        viewman.SetActionScale(actionScales[actionScaling]);
-                        tsslActionScaling.Text = "Action Scaling: " + actionScales[actionScaling].ToString("0.000");
-                    }
-                    break;
-
-                case 'd':
-                    SceneManager.Current.SetBoundingBox(null);
-                    break;
-            }
+            ViewportManager.Current.KeyPress(sender, e);
 
             e.Handled = true;
-        }
-
-        private void GLControlInit()
-        {
-            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
-            GL.ShadeModel(ShadingModel.Smooth);
-            GL.PointSize(3.0f);
-            GL.Enable(EnableCap.CullFace);
-        }
-
-        void Application_Idle(object sender, EventArgs e)
-        {
-            if (!bActive) { return; }
-
-            double milliseconds = dt;
-            Accumulate(milliseconds);
-            Animate(milliseconds);
-        }
-
-        private void Animate(double milliseconds)
-        {
-            Control.Invalidate();
-        }
-
-        private void Accumulate(double milliseconds)
-        {
-            accumulator += milliseconds;
-            if (accumulator > 1000) { accumulator -= 1000; }
-        }
-
-        private void glcViewport_Paint(object sender, PaintEventArgs e) 
-        {
-            scene.Update((float)dt);
-            viewman.Update((float)dt);
-            Draw(); 
-        }
-
-        private void glcViewport_Click(object sender, EventArgs e)
-        {
-            var mouse = (MouseEventArgs)e;
-
-            if (viewman.Active.RightClickLabel(mouse))
-            {
-                foreach (ToolStripItem item in cmsViewport.Items)
-                {
-                    var entry = (item as ToolStripMenuItem);
-                    if (entry == null) { continue; }
-
-                    entry.Checked = (entry.Text == viewman.Active.Name);
-
-                    if (entry.Text == "Maximise") { entry.Enabled = !viewman.Active.Maximised; }
-                    if (entry.Text == "Minimise") { entry.Enabled = viewman.Active.Maximised; }
-                }
-
-                cmsViewport.Show(Cursor.Position);
-            }
-        }
-
-        void glcViewport_MouseMove(object sender, MouseEventArgs e)
-        {
-            viewman.MouseMove(e.X, e.Y);
-        }
-
-        private void glcViewport_Resize(object sender, EventArgs e)
-        {
-            if (viewman != null) { viewman.Initialise(); }
-        }
-
-        private void Draw()
-        {
-            GL.Disable(EnableCap.ScissorTest);
-            GL.ClearColor(Color.Blue);
-            GL.Viewport(0, 0, Control.Width, Control.Height);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.Enable(EnableCap.ScissorTest);
-
-            viewman.Draw();
-
-            Control.SwapBuffers();
         }
 
         private void BuildMenu()
@@ -519,7 +321,7 @@ namespace Flummery
                         }
                     }
 
-                    ProcessTree(scene.Models[0], true);
+                    SceneManager.Current.Change();
                     break;
             }
         }
@@ -784,41 +586,41 @@ namespace Flummery
             {
                 case "New...":
                     var addNew = new frmNewObject();
-                    addNew.SetParentNode((int)tvNodes.SelectedNode.Tag);
+                    addNew.SetParentNode(SceneManager.Current.SelectedBoneIndex);
 
                     if (addNew.ShowDialog(this) == DialogResult.OK)
                     {
-                        ProcessTree(scene.Models[0], true);
+                        SceneManager.Current.Change();
                     }
                     break;
 
                 case "Remove...":
                     var removeObject = new frmRemoveObject();
-                    removeObject.SetParentNode((int)tvNodes.SelectedNode.Tag);
+                    removeObject.SetParentNode(SceneManager.Current.SelectedBoneIndex);
 
                     if (removeObject.ShowDialog(this) == DialogResult.OK)
                     {
-                        ProcessTree(scene.Models[0], true);
+                        SceneManager.Current.Change();
                     }
                     break;
 
                 case "Rename":
                     var rename = new frmRename();
-                    rename.SetParentNode((int)tvNodes.SelectedNode.Tag);
+                    rename.SetParentNode(SceneManager.Current.SelectedBoneIndex);
 
                     if (rename.ShowDialog(this) == DialogResult.OK)
                     {
-                        ProcessTree(scene.Models[0], true);
+                        SceneManager.Current.Change();
                     }
                     break;
 
                 case "Modify actor...":
                     var transform = new frmModifyActor();
-                    transform.SetParentNode((int)tvNodes.SelectedNode.Tag);
+                    transform.SetParentNode(SceneManager.Current.SelectedBoneIndex);
 
                     if (transform.ShowDialog(this) == DialogResult.OK)
                     {
-                        ProcessTree(scene.Models[0], true);
+                        SceneManager.Current.Change();
                     }
                     break;
             }
@@ -837,48 +639,26 @@ namespace Flummery
             }
         }
 
-        private void tvNodes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        public void SetActionScalingText(string scale)
         {
-            if (e.Node.Tag != null && SceneManager.Current.Models.Count > 0)
-            {
-                var mesh = (SceneManager.Current.Models[0].Bones[(int)e.Node.Tag].Tag as ModelMesh);
-                if (mesh != null) { SceneManager.Current.SetBoundingBox(mesh.BoundingBox); }
-            }
-        }
-
-        private void tvNodes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Node.Tag != null)
-            {
-                //scene.Camera.ResetCamera();
-                //scene.Camera.SetPosition(scene.Models[0].Bones[(int)e.Node.Tag].CombinedTransform.Position());
-            }
-        }
-
-        private void tsmiViewportMaximise_Click(object sender, EventArgs e)
-        {
-            viewman.Maximise(viewman.Active);
-        }
-
-        private void tsmiViewportMinimise_Click(object sender, EventArgs e)
-        {
-            viewman.Minimise(viewman.Active);
-        }
-
-        private void tsmiViewportPreset_Click(object sender, EventArgs e)
-        {
-
+            tsslActionScaling.Text = scale;
         }
 
         private void frmMain_Activated(object sender, EventArgs e)
         {
-            bActive = true;
+            Flummery.Active = true;
         }
 
         private void frmMain_Deactivate(object sender, EventArgs e)
         {
-            bActive = false;
+            Flummery.Active = false;
         }
+    }
+
+    public static class Flummery
+    {
+        public static frmMain UI;
+        public static bool Active;
     }
 }
  

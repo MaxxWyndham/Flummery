@@ -99,7 +99,7 @@ namespace Flummery
 
         public bool IsActive(int x, int y)
         {
-            y = frmMain.Control.Height - y;
+            y = pnlViewport.Control.Height - y;
 
             return (
                 x > this.x &&
@@ -122,8 +122,8 @@ namespace Flummery
 
         public void Resize()
         {
-            w = frmMain.Control.Width;
-            h = frmMain.Control.Height;
+            w = pnlViewport.Control.Width;
+            h = pnlViewport.Control.Height;
             aspect_ratio = w / (float)h;
 
             perspective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 1000);

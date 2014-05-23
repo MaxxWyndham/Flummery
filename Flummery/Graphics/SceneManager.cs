@@ -18,6 +18,7 @@ namespace Flummery
 
         public static SceneManager Current;
 
+        int selectedBoneIndex = 0;
         BoundingBox bb = null;
 
         RenderMeshMode renderMode = RenderMeshMode.Solid;
@@ -37,12 +38,16 @@ namespace Flummery
         public List<Model> Models { get { return models; } }
         public List<Material> Materials { get { return materials; } }
 
+        public int SelectedBoneIndex { get { return selectedBoneIndex; } }
+
         public delegate void ResetHandler(object sender, ResetEventArgs e);
         public delegate void AddHandler(object sender, AddEventArgs e);
+        public delegate void ChangeHandler(object sender, EventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
 
         public event ResetHandler OnReset;
         public event AddHandler OnAdd;
+        public event ChangeHandler OnChange;
         public event ProgressHandler OnProgress;
 
         public SceneManager(bool bUseVertexBuffer = true)
@@ -70,6 +75,8 @@ namespace Flummery
 
             return asset;
         }
+
+        public void Change() { if (OnChange != null) { OnChange(this, new EventArgs()); } }
 
         public void SetBoundingBox(BoundingBox bb)
         {
@@ -204,6 +211,11 @@ namespace Flummery
         public void UpdateProgress(string message)
         {
             if (OnProgress != null) { OnProgress(this, new ProgressEventArgs(message)); }
+        }
+
+        public void SetSelectedBone(int index)
+        {
+            selectedBoneIndex = index;
         }
     }
 
