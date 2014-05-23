@@ -37,7 +37,7 @@ namespace Flummery
             viewport.Show(dockPanel, DockState.Document);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.2.8";
+            this.Text += " v0.0.3.0";
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
             overview.RegisterEventHandlers();
