@@ -35,18 +35,9 @@ namespace Flummery.ContentPipeline.Core
 
                 using (var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb))
                 {
-                    for (int y = 0; y < height; y++)
-                    {
-                        for (int x = 0; x < width; x++)
-                        {
-                            byte b = br.ReadByte();
-                            byte g = br.ReadByte();
-                            byte r = br.ReadByte();
-                            byte a = br.ReadByte();
-
-                            bmp.SetPixel(x, y, Color.FromArgb(a, r, g, b));
-                        }
-                    }
+                    var bmpdata = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                    System.Runtime.InteropServices.Marshal.Copy(br.ReadBytes(width * height * 4), 0, bmpdata.Scan0, width * height * 4);
+                    bmp.UnlockBits(bmpdata);
 
                     texture.CreateFromBitmap(bmp, Path.GetFileNameWithoutExtension(path));
                 }
