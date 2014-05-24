@@ -19,6 +19,7 @@ namespace Flummery.ContentPipeline.Stainless
             path = path.Replace(fileName, "");
 
             Model dat = SceneManager.Current.Content.Load<Model, DATImporter>(fileName.Replace(".act", ".dat", StringComparison.OrdinalIgnoreCase), path);
+            Material material = null;
 
             foreach (var section in act.Sections)
             {
@@ -27,10 +28,30 @@ namespace Flummery.ContentPipeline.Stainless
                     case Section.Name:
                         boneIndex = model.AddMesh(null, boneIndex);
                         model.SetName(section.Identifier, boneIndex);
+                        material = null;
+                        break;
+
+                    case Section.Material:
+                        material = SceneManager.Current.Materials.Find(m => m.Name == section.Material);
+                        if (material == null)
+                        {
+                            material = new Material() { Name = section.Material };
+                            SceneManager.Current.Add(material);
+                        }
                         break;
 
                     case Section.Model:
                         model.SetMesh(new ModelMesh(dat.FindMesh((section.Model.Contains(".") ? section.Model.Substring(0, section.Model.IndexOf(".")) : section.Model))), boneIndex);
+                        if (material != null)
+                        {
+                            foreach (var modelmesh in model.Meshes)
+                            {
+                                foreach (var meshpart in modelmesh.MeshParts)
+                                {
+                                    if (meshpart.Material == null) { meshpart.Material = material; }
+                                }
+                            }
+                        }
                         break;
 
                     case Section.Matrix:
