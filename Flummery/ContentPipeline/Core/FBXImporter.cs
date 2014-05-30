@@ -93,7 +93,7 @@ namespace Flummery.ContentPipeline.Core
                     }
                     else
                     {
-                        
+                        for (int i = 0; i < uvParts.Length; i += 2) { uvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], -(float)uvParts[i + 1])); }
                     }
                 }
                 else
@@ -122,7 +122,7 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var element in objects.Children.Where(e => e.ID == "Model"))
             {
-                components.Add((int)element.Properties[0].Value, new ModelMesh { Name = element.Properties[1].Value.ToString() });
+                components.Add((int)element.Properties[0].Value, new ModelMesh { Name = element.Properties[1].Value.ToString(), Tag = (int)element.Properties[0].Value });
             }
 
             var connections = fbx.Elements.Find(e => e.ID == "Connections");
@@ -137,7 +137,29 @@ namespace Flummery.ContentPipeline.Core
                     switch (components[keyA].GetType().ToString())
                     {
                         case "Flummery.ModelMesh":
-                            model.SetName(((ModelMesh)components[keyA]).Name, model.AddMesh((ModelMesh)components[keyA]));
+                            if (keyB == 0)
+                            {
+                                model.SetName(((ModelMesh)components[keyA]).Name, model.AddMesh((ModelMesh)components[keyA]));
+                            }
+                            else
+                            {
+                                var parent = model.FindMesh(keyB);
+                                if (parent != null)
+                                {
+                                    model.SetName(((ModelMesh)components[keyA]).Name, model.AddMesh((ModelMesh)components[keyA], parent.Parent.Index));
+                                }
+                                else
+                                {
+                                    if (!components.ContainsKey(keyB))
+                                    {
+                                        Console.WriteLine("Components doesn't contain {0}", keyB);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Couldn't find {0}", ((ModelMesh)components[keyB]).Name);
+                                    }
+                                }
+                            }
                             break;
 
                         case "Flummery.Texture":

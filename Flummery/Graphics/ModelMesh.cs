@@ -10,12 +10,18 @@ namespace Flummery
         List<ModelMeshPart> meshParts;
         string name;
         ModelBone parent;
-        object Tag;
+        object tag;
 
         public string Name
         {
             get { return name; }
             set { name = value; }
+        }
+
+        public object Tag
+        {
+            get { return tag; }
+            set { tag = value; }
         }
 
         public ModelBone Parent

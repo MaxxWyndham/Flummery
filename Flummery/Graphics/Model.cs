@@ -71,21 +71,17 @@ namespace Flummery
         {
             bool bAddBone = true;
             ModelBone b = new ModelBone();
+            b.Index = -1;
             b.Parent = bones[ParentBoneIndex];
             bones[ParentBoneIndex].Children.Add(b);
 
-            if (bones[ParentBoneIndex].Parent != null && bones[ParentBoneIndex].Parent.Children.Count > 1)
+            if (ParentBoneIndex + bones[ParentBoneIndex].Children.Count < bones.Count)
             {
-                int index = bones[ParentBoneIndex].Parent.Children.FindIndex(bx => bx.Index == ParentBoneIndex);
+                int index = ParentBoneIndex + countChildrenOf(ParentBoneIndex);
 
-                if (index + 1 < bones[ParentBoneIndex].Parent.Children.Count)
-                {
-                    int boneIndex = bones[ParentBoneIndex].Parent.Children[index + 1].Index;
-
-                    bAddBone = false;
-                    bones.Insert(boneIndex, b);
-                    b.Index = boneIndex;
-                }
+                bAddBone = false;
+                bones.Insert(index, b);
+                b.Index = index;
             }
 
             if (bAddBone)
@@ -112,6 +108,17 @@ namespace Flummery
             return b.Index;
         }
 
+        protected int countChildrenOf(int parentIndex, int childCount = 0)
+        {
+            foreach (var child in bones[parentIndex].Children)
+            {
+                childCount++;
+                if (child.Index > -1) { countChildrenOf(child.Index, childCount); }
+            }
+
+            return childCount;
+        }
+
         public void MoveBone(int BoneIndex, int NewParentBoneIndex)
         {
             bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]);
@@ -135,11 +142,13 @@ namespace Flummery
 
         public ModelMesh FindMesh(string name)
         {
-            foreach (var mesh in meshes)
-            {
-                if (mesh.Name == name) { return mesh; }
-            }
+            foreach (var mesh in meshes) { if (mesh.Name == name) { return mesh; } }
+            return null;
+        }
 
+        public ModelMesh FindMesh(object tag)
+        {
+            foreach (var mesh in meshes) { if (mesh.Tag.Equals(tag)) { return mesh; } }
             return null;
         }
 
