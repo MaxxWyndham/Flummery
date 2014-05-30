@@ -75,9 +75,10 @@ namespace Flummery
             b.Parent = bones[ParentBoneIndex];
             bones[ParentBoneIndex].Children.Add(b);
 
-            if (ParentBoneIndex + bones[ParentBoneIndex].Children.Count < bones.Count)
+            int childBoneCount = countChildrenOf(ParentBoneIndex);
+            if (ParentBoneIndex + childBoneCount < bones.Count)
             {
-                int index = ParentBoneIndex + countChildrenOf(ParentBoneIndex);
+                int index = ParentBoneIndex + childBoneCount;
 
                 bAddBone = false;
                 bones.Insert(index, b);
@@ -113,7 +114,7 @@ namespace Flummery
             foreach (var child in bones[parentIndex].Children)
             {
                 childCount++;
-                if (child.Index > -1) { countChildrenOf(child.Index, childCount); }
+                if (child.Index > -1) { childCount = countChildrenOf(child.Index, childCount); }
             }
 
             return childCount;

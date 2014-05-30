@@ -125,16 +125,17 @@ namespace Flummery.ContentPipeline.Core
                 components.Add((int)element.Properties[0].Value, new ModelMesh { Name = element.Properties[1].Value.ToString(), Tag = (int)element.Properties[0].Value });
             }
 
+            string[] connectionOrder = new string[] { "Flummery.ModelMeshPart", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
             var connections = fbx.Elements.Find(e => e.ID == "Connections");
 
-            foreach (var connection in connections.Children)
+            foreach (var connectionType in connectionOrder)
             {
-                int keyA = (int)connection.Properties[1].Value;
-                int keyB = (int)connection.Properties[2].Value;
-
-                if (components.ContainsKey(keyA))
+                foreach (var connection in connections.Children.Where(c => components.ContainsKey((int)c.Properties[1].Value) && components[(int)c.Properties[1].Value].GetType().ToString() == connectionType))
                 {
-                    switch (components[keyA].GetType().ToString())
+                    int keyA = (int)connection.Properties[1].Value;
+                    int keyB = (int)connection.Properties[2].Value;
+
+                    switch (connectionType)
                     {
                         case "Flummery.ModelMesh":
                             if (keyB == 0)
