@@ -179,8 +179,6 @@ namespace Flummery
                 vec.Z /= vec.W;
             }
 
-            vec *= zoom;
-
             return new Vector3(vec.X, vec.Y, vec.Z);
         }
 

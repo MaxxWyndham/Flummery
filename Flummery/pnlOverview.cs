@@ -26,7 +26,7 @@ namespace Flummery
         {
             TreeNode ParentNode;
 
-            if (bReset) 
+            if (bReset || tvNodes.Nodes.Count == 0) 
             { 
                 tvNodes.Nodes.Clear();
                 ParentNode = tvNodes.Nodes.Add("ROOT");
