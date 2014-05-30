@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -26,22 +27,27 @@ namespace Flummery
 
         SceneManager scene;
 
+        public DockPanel DockPanel { get { return dockPanel; } }
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             var overview = new pnlOverview();
             var viewport = new pnlViewport();
             var materials = new pnlMaterialList();
+            var settings = new widgetTransform();
 
             overview.Show(dockPanel, DockState.DockLeft);
+            settings.Show(dockPanel, DockState.DockRight);
             materials.Show(dockPanel, DockState.DockBottom);
             viewport.Show(dockPanel, DockState.Document);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v0.0.3.0";
+            this.Text += " v" + Flummery.Version;
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
             overview.RegisterEventHandlers();
             materials.RegisterEventHandlers();
+            settings.RegisterEventHandlers();
 
             BuildMenu();
 
@@ -56,6 +62,13 @@ namespace Flummery
 
             //flpMaterials.Tag = new SortedList<string, string>();
 
+            //var bundle = ToxicRagers.BurnoutParadise.Formats.BUNDLE.Load(@"D:\Steam\steamapps\common\Burnout(TM) Paradise The Ultimate Box\VEHICLES\VEH_PUSMBG13_GR.BIN");
+            //foreach (var entry in bundle.Contents)
+            //{
+            //    //Console.WriteLine("{0} @ {1}: {2} {3}", entry.Name, entry.Offset, entry.Size, entry.Unknown);
+            //    bundle.Extract(entry, @"D:\Unbundle\VEH_PUSMBG13_GR\");
+            //}
+
             Flummery.UI = this;
         }
 
@@ -68,9 +81,7 @@ namespace Flummery
 
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            ViewportManager.Current.KeyPress(sender, e);
-
-            e.Handled = true;
+            e.Handled = ViewportManager.Current.KeyPress(sender, e);
         }
 
         private void BuildMenu()
@@ -100,6 +111,8 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Hierarchy", menuTDR2000Click);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Autodesk FBX File...", menuImportClick);
+            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Blender OBJ File...", menuImportClick);
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender ACT File...", menuImportClick);
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender DAT File...", menuImportClick);
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless CNT File...", menuImportClick);
@@ -131,6 +144,8 @@ namespace Flummery
             menu.MenuItems[2].MenuItems.Add("Modify actor...", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("-");
             menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("-");
+            menu.MenuItems[2].MenuItems.Add("Munge Mesh with Bone", menuObjectClick);
 
             menu.MenuItems.Add("&Tools");
             menu.MenuItems[3].MenuItems.Add("General");
@@ -194,6 +209,24 @@ namespace Flummery
 
             switch (mi.Text)
             {
+                case "Autodesk FBX File...":
+                    ofdBrowse.Filter = "Autodesk FBX files (*.fbx)|*.fbx";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                    }
+                    break;
+
+                case "Blender OBJ File...":
+                    ofdBrowse.Filter = "Blender OBJ files (*.obj)|*.obj";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Content.Load<Model, ContentPipeline.Core.OBJImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                    }
+                    break;
+
                 case "BRender ACT File...":
                     ofdBrowse.Filter = "BRender ACT files (*.act)|*.act";
 
@@ -614,6 +647,29 @@ namespace Flummery
                     }
                     break;
 
+                case "Munge Mesh with Bone":
+                    if (SceneManager.Current.SelectedBoneIndex > -1 && SceneManager.Current.Models[0].Bones[SceneManager.Current.SelectedBoneIndex].Tag != null)
+                    {
+                        var bone = SceneManager.Current.Models[0].Bones[SceneManager.Current.SelectedBoneIndex];
+                        var mesh = (ModelMesh)bone.Tag;
+                        var offset = mesh.BoundingBox.Centre;
+
+                        foreach (var meshpart in mesh.MeshParts) { 
+                            for (int i = 0; i < meshpart.VertexCount; i++) { meshpart.VertexBuffer.ModifyVertexPosition(i, meshpart.VertexBuffer.Data[i].Position - offset); }
+                            meshpart.VertexBuffer.Initialise();
+                        }
+                        mesh.BoundingBox.Calculate(mesh);
+
+                        var m = bone.Transform;
+                        m.M41 += offset.X;
+                        m.M42 += offset.Y;
+                        m.M43 += offset.Z;
+                        bone.Transform = m;
+
+                        SceneManager.Current.Change();
+                    }
+                    break;
+
                 case "Modify actor...":
                     var transform = new frmModifyActor();
                     transform.SetParentNode(SceneManager.Current.SelectedBoneIndex);
@@ -653,12 +709,6 @@ namespace Flummery
         {
             Flummery.Active = false;
         }
-    }
-
-    public static class Flummery
-    {
-        public static frmMain UI;
-        public static bool Active;
     }
 }
  

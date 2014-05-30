@@ -31,6 +31,7 @@
             this.gbPreview = new System.Windows.Forms.GroupBox();
             this.pbPreview = new System.Windows.Forms.PictureBox();
             this.gbGeneral = new System.Windows.Forms.GroupBox();
+            this.btnReload = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.lblTexture = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
@@ -82,7 +83,6 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.ofdBrowse = new System.Windows.Forms.OpenFileDialog();
-            this.btnReload = new System.Windows.Forms.Button();
             this.gbPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.gbGeneral.SuspendLayout();
@@ -111,6 +111,7 @@
             this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbPreview.TabIndex = 0;
             this.pbPreview.TabStop = false;
+            this.pbPreview.Click += new System.EventHandler(this.pbPreview_Click);
             // 
             // gbGeneral
             // 
@@ -126,6 +127,16 @@
             this.gbGeneral.TabIndex = 0;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General";
+            // 
+            // btnReload
+            // 
+            this.btnReload.Location = new System.Drawing.Point(6, 71);
+            this.btnReload.Name = "btnReload";
+            this.btnReload.Size = new System.Drawing.Size(75, 23);
+            this.btnReload.TabIndex = 11;
+            this.btnReload.Text = "Reload";
+            this.btnReload.UseVisualStyleBackColor = true;
+            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
             // 
             // btnLoad
             // 
@@ -672,16 +683,6 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnReload
-            // 
-            this.btnReload.Location = new System.Drawing.Point(6, 71);
-            this.btnReload.Name = "btnReload";
-            this.btnReload.Size = new System.Drawing.Size(75, 23);
-            this.btnReload.TabIndex = 11;
-            this.btnReload.Text = "Reload";
-            this.btnReload.UseVisualStyleBackColor = true;
-            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
             // 
             // frmMaterialEditor
             // 

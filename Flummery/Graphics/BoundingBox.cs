@@ -11,7 +11,24 @@ namespace Flummery
         public Vector3 Min { get { return min; } }
         public Vector3 Max { get { return max; } }
 
+        public Vector3 Centre 
+        { 
+            get 
+            {
+                return new Vector3(
+                    (min.X + max.X) / 2.0f,
+                    (min.Y + max.Y) / 2.0f,
+                    (min.Z + max.Z) / 2.0f
+                );
+            } 
+        }
+
         public BoundingBox(ModelMesh mesh)
+        {
+            Calculate(mesh);
+        }
+
+        public void Calculate(ModelMesh mesh)
         {
             min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             max = new Vector3(float.MinValue, float.MinValue, float.MinValue);

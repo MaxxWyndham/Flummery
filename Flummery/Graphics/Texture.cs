@@ -77,6 +77,17 @@ namespace Flummery
             }
         }
 
+        public Bitmap GetBitmap()
+        {
+            var bmp = tag as Bitmap;
+            if (bmp != null) { return bmp; }
+
+            var tdx = tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX;
+            if (tdx != null) { return tdx.Decompress(0, true); }
+
+            return new Bitmap(64, 64);
+        }
+
         public Bitmap GetThumbnail()
         {
             var bmp = tag as Bitmap;

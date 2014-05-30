@@ -10,11 +10,8 @@ namespace Flummery
     public class ModelMeshPart
     {
         IndexBuffer indexBuffer;
-        int PrimitiveCount;
-        int StartIndex;
-        object Tag;
+        object key;
         VertexBuffer vertexBuffer;
-        int VertexOffset;
         Material material;
 
         PrimitiveType primitiveType = PrimitiveType.TriangleStrip;
@@ -22,6 +19,12 @@ namespace Flummery
 
         public IndexBuffer IndexBuffer { get { return indexBuffer; } }
         public VertexBuffer VertexBuffer { get { return vertexBuffer; } }
+
+        public object Key
+        {
+            get { return key; }
+            set { key = value; }
+        }
 
         public PrimitiveType PrimitiveType
         {
@@ -56,16 +59,18 @@ namespace Flummery
             v.Normal = normal;
             v.UV = texcoords;
 
-            int index = vertexBuffer.Data.FindIndex(vert =>
-                vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
-                vert.Position.Y.GetHashCode() == v.Position.Y.GetHashCode() &&
-                vert.Position.Z.GetHashCode() == v.Position.Z.GetHashCode() &&
-                vert.Normal.X.GetHashCode() == v.Normal.X.GetHashCode() &&
-                vert.Normal.Y.GetHashCode() == v.Normal.Y.GetHashCode() &&
-                vert.Normal.Z.GetHashCode() == v.Normal.Z.GetHashCode() &&
-                vert.UV.X.GetHashCode() == v.UV.X.GetHashCode() &&
-                vert.UV.Y.GetHashCode() == v.UV.Y.GetHashCode()
-            );
+            int index = -1;
+
+            //int index = vertexBuffer.Data.FindIndex(vert =>
+            //    vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
+            //    vert.Position.Y.GetHashCode() == v.Position.Y.GetHashCode() &&
+            //    vert.Position.Z.GetHashCode() == v.Position.Z.GetHashCode() &&
+            //    vert.Normal.X.GetHashCode() == v.Normal.X.GetHashCode() &&
+            //    vert.Normal.Y.GetHashCode() == v.Normal.Y.GetHashCode() &&
+            //    vert.Normal.Z.GetHashCode() == v.Normal.Z.GetHashCode() &&
+            //    vert.UV.X.GetHashCode() == v.UV.X.GetHashCode() &&
+            //    vert.UV.Y.GetHashCode() == v.UV.Y.GetHashCode()
+            //);
 
             if (index == -1)
             {

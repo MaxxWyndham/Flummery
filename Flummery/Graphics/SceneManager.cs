@@ -42,11 +42,13 @@ namespace Flummery
 
         public delegate void ResetHandler(object sender, ResetEventArgs e);
         public delegate void AddHandler(object sender, AddEventArgs e);
+        public delegate void SelectHandler(object sender, SelectEventArgs e);
         public delegate void ChangeHandler(object sender, EventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
 
         public event ResetHandler OnReset;
         public event AddHandler OnAdd;
+        public event SelectHandler OnSelect;
         public event ChangeHandler OnChange;
         public event ProgressHandler OnProgress;
 
@@ -113,13 +115,14 @@ namespace Flummery
 
         public void Lights()
         {
+            GL.Enable(EnableCap.PolygonSmooth);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
-            GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, 2.0f, 0.0f });
-            GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.6f, 0.6f, 0.6f, 1.0f });
+            GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0.0f, 1.0f, 0.0f });
+            GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.5f, 0.5f, 0.5f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
             GL.Light(LightName.Light0, LightParameter.Specular, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-            GL.Light(LightName.Light0, LightParameter.SpotExponent, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+            //GL.Light(LightName.Light0, LightParameter.SpotExponent, new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
             GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 0.7f, 0.7f, 0.7f, 1.0f });
             GL.LightModel(LightModelParameter.LightModelTwoSide, 0);
             GL.LightModel(LightModelParameter.LightModelLocalViewer, 1);
@@ -216,6 +219,8 @@ namespace Flummery
         public void SetSelectedBone(int index)
         {
             selectedBoneIndex = index;
+
+            if (OnSelect != null) { OnSelect(this, new SelectEventArgs(models[0].Bones[index])); }
         }
     }
 
@@ -236,6 +241,15 @@ namespace Flummery
         }
     }
 
+    public class SelectEventArgs : EventArgs
+    {
+        public ModelBone Item { get; private set; }
+
+        public SelectEventArgs(ModelBone item)
+        {
+            Item = item;
+        }
+    }
 
     public class ProgressEventArgs : EventArgs
     {

@@ -44,6 +44,7 @@
             this.tsmiViewportSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiViewportCancel = new System.Windows.Forms.ToolStripMenuItem();
+            this.paneViewport = new System.Windows.Forms.Panel();
             this.cmsViewport.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -166,11 +167,20 @@
             this.tsmiViewportCancel.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportCancel.Text = "Cancel";
             // 
+            // paneViewport
+            // 
+            this.paneViewport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.paneViewport.Location = new System.Drawing.Point(0, 0);
+            this.paneViewport.Name = "paneViewport";
+            this.paneViewport.Size = new System.Drawing.Size(284, 261);
+            this.paneViewport.TabIndex = 1;
+            // 
             // pnlViewport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.paneViewport);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "pnlViewport";
             this.Text = "pnlViewport";
@@ -197,5 +207,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiViewportSetup;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem tsmiViewportCancel;
+        private System.Windows.Forms.Panel paneViewport;
     }
 }

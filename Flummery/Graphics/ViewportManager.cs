@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Input;
+using System.Drawing;
+using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
@@ -9,22 +11,30 @@ namespace Flummery
     {
         public static ViewportManager Current;
 
+        bool bHasFocus = false;
+
+        public bool HasFocus { get { return bHasFocus; } set { bHasFocus = value; } }
+
         int actionScaling = 3;
         float[] actionScales = new float[] { 0.01f, 0.1f, 0.5f, 1.0f, 5.0f, 10.0f };
         List<Viewport> viewports = new List<Viewport>();
         Viewport active;
 
+        public delegate void MouseMoveHandler(object sender, ViewportMouseMoveEventArgs e);
+
+        public event MouseMoveHandler OnMouseMove;
+
         public ViewportManager()
         {
-            var top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = Viewport.Mode.Orthographic, ZoomAxis = Vector3.UnitY };
+            var top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = Viewport.Mode.Orthographic };
             top.Camera.SetPosition(0, 15, 0);
             top.Camera.SetRotation(0, MathHelper.DegreesToRadians(-90), 0);
 
-            var right = new Viewport { Name = "Right", Position = Viewport.Quadrant.TopRight, ProjectionMode = Viewport.Mode.Orthographic, ZoomAxis = Vector3.UnitX };
+            var right = new Viewport { Name = "Right", Position = Viewport.Quadrant.TopRight, ProjectionMode = Viewport.Mode.Orthographic };
             right.Camera.SetPosition(15, 0, 0);
             right.Camera.SetRotation(MathHelper.DegreesToRadians(90), 0, 0);
 
-            var front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = Viewport.Mode.Orthographic, ZoomAxis = Vector3.UnitZ };
+            var front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = Viewport.Mode.Orthographic };
             front.Camera.SetPosition(0, 0, 15);
 
             var threedee = new Viewport { Name = "3D", Position = Viewport.Quadrant.BottomRight };
@@ -85,6 +95,8 @@ namespace Flummery
                 {
                     viewport.Active = true;
                     active = viewport;
+
+                    if (OnMouseMove != null) { OnMouseMove(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y))); }
                 }
                 else
                 {
@@ -93,59 +105,61 @@ namespace Flummery
             }
         }
 
-        public void KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        public bool KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            if (!Flummery.Active) { return; }
-
-            switch (e.KeyChar)
+            if (Flummery.Active && bHasFocus)
             {
-                case '*':
-                    if (actionScaling + 1 < actionScales.Length)
-                    {
-                        actionScaling++;
-                        SetActionScale(actionScales[actionScaling]);
-                        Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
-                    }
-                    break;
+                switch (e.KeyChar)
+                {
+                    case '*':
+                        if (actionScaling + 1 < actionScales.Length)
+                        {
+                            actionScaling++;
+                            SetActionScale(actionScales[actionScaling]);
+                            Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                        }
+                        return true;
 
-                case '/':
-                    if (actionScaling - 1 > -1)
-                    {
-                        actionScaling--;
-                        SetActionScale(actionScales[actionScaling]);
-                        Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
-                    }
-                    break;
+                    case '/':
+                        if (actionScaling - 1 > -1)
+                        {
+                            actionScaling--;
+                            SetActionScale(actionScales[actionScaling]);
+                            Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                        }
+                        return true;
 
-                case 'd':
-                    SceneManager.Current.SetBoundingBox(null);
-                    break;
+                    case 'd':
+                        SceneManager.Current.SetBoundingBox(null);
+                        return true;
+                }
             }
 
-            e.Handled = true;
+            return false;
         }
 
         private void HandleInput(float dt)
         {
             var state = Keyboard.GetState();
 
-            if (active == null) { return; }
-
-            if (state[Key.A]) { active.Camera.MoveCamera(Camera.Direction.Forward, dt); }
-            if (state[Key.Z]) { active.Camera.MoveCamera(Camera.Direction.Backward, dt); }
             if (state[Key.E]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); }
             if (state[Key.Q]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); }
 
             if (active.ProjectionMode == Viewport.Mode.Orthographic)
             {
-                if (state[Key.Keypad8]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); }
-                if (state[Key.Keypad2]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); }
+                if (state[Key.A]) { active.Zoom -= 0.1f; }
+                if (state[Key.Z]) { active.Zoom += 0.1f; }
+                if (state[Key.Keypad8]) { active.Zoom -= 0.1f; }
+                if (state[Key.Keypad2]) { active.Zoom += 0.1f; }
 
                 if (state[Key.Keypad4]) { active.Camera.MoveCamera(Camera.Direction.Left, dt); }
                 if (state[Key.Keypad6]) { active.Camera.MoveCamera(Camera.Direction.Right, dt); }
             }
             else
             {
+                if (state[Key.A]) { active.Camera.MoveCamera(Camera.Direction.Forward, dt); }
+                if (state[Key.Z]) { active.Camera.MoveCamera(Camera.Direction.Backward, dt); }
+
                 if (state[Key.Keypad4]) { active.Camera.Rotate(dt, 0, 0); }
                 if (state[Key.Keypad6]) { active.Camera.Rotate(-dt, 0, 0); }
                 if (state[Key.Keypad2]) { active.Camera.Rotate(0, dt, 0); }
@@ -160,7 +174,7 @@ namespace Flummery
 
         public void Update(float dt)
         {
-            HandleInput(dt);
+            if (Flummery.Active && bHasFocus && active != null) { HandleInput(dt); }
 
             foreach (var viewport in viewports)
             {
@@ -179,6 +193,16 @@ namespace Flummery
                 viewport.Draw(SceneManager.Current);
                 viewport.DrawOverlay();
             }
+        }
+    }
+
+    public class ViewportMouseMoveEventArgs : EventArgs
+    {
+        public Vector3 Position { get; private set; }
+
+        public ViewportMouseMoveEventArgs(Vector3 position)
+        {
+            Position = position;
         }
     }
 }

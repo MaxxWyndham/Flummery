@@ -97,6 +97,7 @@
     <Compile Include="ContentPipeline\TDR2000\MSHSImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\TXImporter.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Flummery.cs" />
     <Compile Include="FlumpFile.cs" />
     <Compile Include="frmMaterialEditor.cs">
       <SubType>Form</SubType>
@@ -200,6 +201,18 @@
     <Compile Include="pnlOverview.Designer.cs">
       <DependentUpon>pnlOverview.cs</DependentUpon>
     </Compile>
+    <Compile Include="widgetTransform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="widgetTransform.Designer.cs">
+      <DependentUpon>widgetTransform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pnlTexturePreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pnlTexturePreview.Designer.cs">
+      <DependentUpon>pnlTexturePreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="pnlViewport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,6 +266,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="pnlOverview.resx">
       <DependentUpon>pnlOverview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="widgetTransform.resx">
+      <DependentUpon>widgetTransform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pnlTexturePreview.resx">
+      <DependentUpon>pnlTexturePreview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pnlViewport.resx">
       <DependentUpon>pnlViewport.cs</DependentUpon>

@@ -96,7 +96,7 @@ namespace Flummery
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            ofdBrowse.Filter = "PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga";
+            ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga";
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
@@ -115,6 +115,10 @@ namespace Flummery
 
             switch (fi.Extension)
             {
+                case ".jpg":
+                    m.Texture = SceneManager.Current.Content.Load<Texture, JPGImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
+                    break;
+
                 case ".png":
                     m.Texture = SceneManager.Current.Content.Load<Texture, PNGImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
                     break;
@@ -147,6 +151,13 @@ namespace Flummery
         {
             ApplySettings();
             this.Close();
+        }
+
+        private void pbPreview_Click(object sender, EventArgs e)
+        {
+            var preview = new pnlTexturePreview();
+            preview.SetImage(m.Texture.GetBitmap());
+            preview.Show(Flummery.UI.DockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Float);
         }
     }
 }

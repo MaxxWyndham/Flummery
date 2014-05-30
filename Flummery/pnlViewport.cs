@@ -33,7 +33,7 @@ namespace Flummery
             InitializeComponent();
 
             this.AllowEndUserDocking = false;
-            this.TabText = "Viewport";
+            this.TabText = "Untitled";
             this.CloseButton = false;
             this.CloseButtonVisible = false;
         }
@@ -52,8 +52,10 @@ namespace Flummery
             Control.Paint += glcViewport_Paint;
             Control.Resize += glcViewport_Resize;
             Control.MouseMove += glcViewport_MouseMove;
+            Control.MouseEnter += glcViewport_MouseEnter;
+            Control.MouseLeave += glcViewport_MouseLeave;
             Control.Click += glcViewport_Click;
-            this.Controls.Add(Control);
+            this.paneViewport.Controls.Add(Control);
 
             GLControlInit();
             viewman = new ViewportManager();
@@ -66,6 +68,9 @@ namespace Flummery
 
         private void GLControlInit()
         {
+            GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
+            GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+            GL.Hint(HintTarget.PointSmoothHint, HintMode.Nicest);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             GL.ShadeModel(ShadingModel.Smooth);
             GL.PointSize(3.0f);
@@ -148,6 +153,16 @@ namespace Flummery
             viewman.Draw();
 
             Control.SwapBuffers();
+        }
+
+        private void glcViewport_MouseEnter(object sender, EventArgs e)
+        {
+            ViewportManager.Current.HasFocus = true;
+        }
+
+        private void glcViewport_MouseLeave(object sender, EventArgs e)
+        {
+            ViewportManager.Current.HasFocus = false;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Flummery
         protected string filename;
         protected string name;
         protected object tag;
+        protected object key;
 
         protected object link;
 
@@ -27,6 +28,12 @@ namespace Flummery
         {
             get { return tag; }
             set { tag = value; }
+        }
+
+        public object Key
+        {
+            get { return key; }
+            set { key = value; }
         }
 
         public bool Linked { get { return link != null; } }

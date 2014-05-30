@@ -69,11 +69,34 @@ namespace Flummery
 
         public int AddMesh(ModelMesh mesh, int ParentBoneIndex = 0)
         {
+            bool bAddBone = true;
             ModelBone b = new ModelBone();
             b.Parent = bones[ParentBoneIndex];
             bones[ParentBoneIndex].Children.Add(b);
-            bones.Add(b);
-            b.Index = bones.Count - 1;
+
+            if (bones[ParentBoneIndex].Parent != null && bones[ParentBoneIndex].Parent.Children.Count > 1)
+            {
+                int index = bones[ParentBoneIndex].Parent.Children.FindIndex(bx => bx.Index == ParentBoneIndex);
+
+                if (index + 1 < bones[ParentBoneIndex].Parent.Children.Count)
+                {
+                    int boneIndex = bones[ParentBoneIndex].Parent.Children[index + 1].Index;
+
+                    bAddBone = false;
+                    bones.Insert(boneIndex, b);
+                    b.Index = boneIndex;
+                }
+            }
+
+            if (bAddBone)
+            {
+                bones.Add(b);
+                b.Index = bones.Count - 1;
+            }
+            else
+            {
+                for (int i = 0; i < bones.Count; i++) { bones[i].Index = i; }
+            }
 
             if (mesh != null)
             {
@@ -87,6 +110,19 @@ namespace Flummery
             }
 
             return b.Index;
+        }
+
+        public void MoveBone(int BoneIndex, int NewParentBoneIndex)
+        {
+            bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]);
+            bones[BoneIndex].Parent = bones[NewParentBoneIndex];
+            bones[NewParentBoneIndex].Children.Add(bones[BoneIndex]);
+
+            var bone = bones[BoneIndex];
+            bones.RemoveAt(BoneIndex);
+            bones.Insert(NewParentBoneIndex + (BoneIndex < NewParentBoneIndex ? 0 : 1), bone);
+
+            for (int i = 0; i < bones.Count; i++) { bones[i].Index = i; }
         }
 
         public void RemoveBone(int BoneIndex)

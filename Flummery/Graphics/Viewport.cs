@@ -88,7 +88,19 @@ namespace Flummery
             set { bActive = value; }
         }
 
-        public float Zoom { get { return Math.Max(0, Vector3.Multiply(camera.Position, axis).Length); } }
+        float zoom = 1.0f;
+        public float Zoom 
+        { 
+            get 
+            { 
+                return zoom; 
+            }
+            set 
+            { 
+                zoom = value;
+                zoom = Math.Max(0.001f, zoom);
+            } 
+        }
         public Vector3 ZoomAxis { set { axis = value; } }
 
         public Viewport()
@@ -118,6 +130,58 @@ namespace Flummery
                 e.Y > (h - (y + vh)) &&
                 e.Y < (h - (y + vh)) + 25
             );
+        }
+
+        public Vector3 ConvertScreenToWorldCoords(int X, int Y)
+        {
+            if (mode != Mode.Orthographic) { return Vector3.Zero; }
+
+            Matrix4 lookat = camera.viewMatrix;
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadMatrix(ref lookat);
+
+            perspective = Matrix4.CreateOrthographic(4 * Zoom, (4 / aspect_ratio) * Zoom, 0.001f, 100);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref perspective);
+
+            int[] viewport = new int[4];
+            Matrix4 modelViewMatrix, projectionMatrix;
+            GL.GetFloat(GetPName.ModelviewMatrix, out modelViewMatrix);
+            GL.GetFloat(GetPName.ProjectionMatrix, out projectionMatrix);
+            GL.GetInteger(GetPName.Viewport, viewport);
+
+            return UnProject(ref projectionMatrix, modelViewMatrix, viewport, new Vector2(X - this.x + 1, Y));
+        }
+
+        public Vector3 UnProject(ref Matrix4 projection, Matrix4 view, int[] viewport, Vector2 mouse)
+        {
+            Vector4 vec;
+
+            float Y = mouse.Y;
+            Y = h - Y - 1;
+            Y = Y - this.y;
+
+            vec.X = 2.0f * mouse.X / (float)viewport[2] - 1;
+            vec.Y = -(2.0f * Y / (float)viewport[3] - 1);
+            vec.Z = 0;
+            vec.W = 1.0f;
+
+            Matrix4 viewInv = Matrix4.Invert(view);
+            Matrix4 projInv = Matrix4.Invert(projection);
+
+            Vector4.Transform(ref vec, ref projInv, out vec);
+            Vector4.Transform(ref vec, ref viewInv, out vec);
+
+            if (vec.W > float.Epsilon || vec.W < float.Epsilon)
+            {
+                vec.X /= vec.W;
+                vec.Y /= vec.W;
+                vec.Z /= vec.W;
+            }
+
+            vec *= zoom;
+
+            return new Vector3(vec.X, vec.Y, vec.Z);
         }
 
         public void Resize()
@@ -169,7 +233,7 @@ namespace Flummery
         {
             GL.ClearColor(Color.Gray);
 
-            if (mode == Mode.Orthographic) { perspective = Matrix4.CreateOrthographic((w * 0.001f) * Zoom, (h * 0.001f) * Zoom, 0.001f, 100); }
+            if (mode == Mode.Orthographic) { perspective = Matrix4.CreateOrthographic(4 * Zoom, (4 / aspect_ratio) * Zoom, 0.001f, 100); }
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perspective);

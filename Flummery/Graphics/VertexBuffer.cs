@@ -28,6 +28,13 @@ namespace Flummery
             data.Add(vert);
         }
 
+        public void ModifyVertexPosition(int index, Vector3 position)
+        {
+            var v = data[index];
+            v.Position = position;
+            data[index] = v;
+        }
+
         public void Initialise(List<Vertex> data = null)
         {
             if (data != null) { this.data = data; }
