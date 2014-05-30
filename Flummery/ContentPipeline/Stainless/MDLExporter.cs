@@ -25,8 +25,6 @@ namespace Flummery.ContentPipeline.Stainless
 
                 materialIndex = 0;
 
-
-
                 foreach (var meshpart in mesh.MeshParts.OrderByDescending(m => m.VertexCount).ToList())
                 {
                     var mdlmesh = new MDLMesh((meshpart.Material != null ? meshpart.Material.Name : "DEFAULT"));
