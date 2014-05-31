@@ -17,6 +17,7 @@ namespace Flummery.ContentPipeline.Core
             FBX fbx = FBX.Load(path);
             Model model = new Model();
             Dictionary<int, object> components = new Dictionary<int, object>();
+            Dictionary<int, Matrix4> transforms = new Dictionary<int, Matrix4>();
 
             string name = Path.GetFileNameWithoutExtension(path);
 
@@ -123,7 +124,20 @@ namespace Flummery.ContentPipeline.Core
             foreach (var element in objects.Children.Where(e => e.ID == "Model"))
             {
                 components.Add((int)element.Properties[0].Value, new ModelMesh { Name = element.Properties[1].Value.ToString(), Tag = (int)element.Properties[0].Value });
-            }
+
+                var properties = element.Children.Find(c => c.ID == "Properties70");
+                foreach (var property in properties.Children)
+                {
+                    if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Translation"))
+                    {
+                        var m = Matrix4.Identity;
+                        m.M41 = Convert.ToSingle(property.Properties[4].Value);
+                        m.M42 = Convert.ToSingle(property.Properties[5].Value);
+                        m.M43 = Convert.ToSingle(property.Properties[6].Value);
+                        transforms.Add((int)element.Properties[0].Value, m);
+                    }
+                }
+        }
 
             string[] connectionOrder = new string[] { "Flummery.ModelMeshPart", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
             var connections = fbx.Elements.Find(e => e.ID == "Connections");
@@ -138,16 +152,22 @@ namespace Flummery.ContentPipeline.Core
                     switch (connectionType)
                     {
                         case "Flummery.ModelMesh":
+                            int boneID;
+
                             if (keyB == 0)
                             {
-                                model.SetName(((ModelMesh)components[keyA]).Name, model.AddMesh((ModelMesh)components[keyA]));
+                                boneID = model.AddMesh((ModelMesh)components[keyA]);
+                                model.SetName(((ModelMesh)components[keyA]).Name, boneID);
+                                if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }
                             }
                             else
                             {
                                 var parent = model.FindMesh(keyB);
                                 if (parent != null)
                                 {
-                                    model.SetName(((ModelMesh)components[keyA]).Name, model.AddMesh((ModelMesh)components[keyA], parent.Parent.Index));
+                                    boneID = model.AddMesh((ModelMesh)components[keyA], parent.Parent.Index);
+                                    model.SetName(((ModelMesh)components[keyA]).Name, boneID);
+                                    if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }
                                 }
                                 else
                                 {
