@@ -36,6 +36,13 @@ namespace Flummery
             indicies.Add(index);
         }
 
+        public void SwapIndices(int a, int b)
+        {
+            int t = indicies[a];
+            indicies[a] = indicies[b];
+            indicies[b] = t;
+        }
+
         public void AddTriangle(int[] face)
         {
             indicies.Add(face[0]);

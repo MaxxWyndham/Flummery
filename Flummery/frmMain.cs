@@ -140,7 +140,8 @@ namespace Flummery
             menu.MenuItems[2].MenuItems.Add("New...", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("Remove...", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("-");
-            menu.MenuItems[2].MenuItems.Add("Modify model...", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("Modify model...");
+            menu.MenuItems[2].MenuItems[3].MenuItems.Add("Modify geometry...", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("Modify actor...", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("-");
             menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
@@ -637,6 +638,26 @@ namespace Flummery
                     }
                     break;
 
+                case "Modify geometry...":
+                    var geometry = new frmModifyModel();
+                    geometry.SetParentNode(SceneManager.Current.SelectedBoneIndex);
+
+                    if (geometry.ShowDialog(this) == DialogResult.OK)
+                    {
+                        SceneManager.Current.Change();
+                    }
+                    break;
+
+                case "Modify actor...":
+                    var transform = new frmModifyActor();
+                    transform.SetParentNode(SceneManager.Current.SelectedBoneIndex);
+
+                    if (transform.ShowDialog(this) == DialogResult.OK)
+                    {
+                        SceneManager.Current.Change();
+                    }
+                    break;
+
                 case "Rename":
                     var rename = new frmRename();
                     rename.SetParentNode(SceneManager.Current.SelectedBoneIndex);
@@ -666,16 +687,6 @@ namespace Flummery
                         m.M43 += offset.Z;
                         bone.Transform = m;
 
-                        SceneManager.Current.Change();
-                    }
-                    break;
-
-                case "Modify actor...":
-                    var transform = new frmModifyActor();
-                    transform.SetParentNode(SceneManager.Current.SelectedBoneIndex);
-
-                    if (transform.ShowDialog(this) == DialogResult.OK)
-                    {
                         SceneManager.Current.Change();
                     }
                     break;

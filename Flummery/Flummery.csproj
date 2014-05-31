@@ -105,6 +105,12 @@
     <Compile Include="frmMaterialEditor.Designer.cs">
       <DependentUpon>frmMaterialEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmModifyModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmModifyModel.Designer.cs">
+      <DependentUpon>frmModifyModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmNewObject.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMaterialEditor.resx">
       <DependentUpon>frmMaterialEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmModifyModel.resx">
+      <DependentUpon>frmModifyModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewObject.resx">
       <DependentUpon>frmNewObject.cs</DependentUpon>
