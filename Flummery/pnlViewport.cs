@@ -15,6 +15,7 @@ namespace Flummery
         ViewportManager viewman;
         Stopwatch sw = new Stopwatch();
         double accumulator = 0;
+        bool bRendered = false;
 
         private double dt
         {
@@ -100,6 +101,8 @@ namespace Flummery
 
         void glcViewport_MouseMove(object sender, MouseEventArgs e)
         {
+            if (!bRendered) { return; }
+
             viewman.MouseMove(e.X, e.Y);
         }
 
@@ -153,6 +156,8 @@ namespace Flummery
             viewman.Draw();
 
             Control.SwapBuffers();
+
+            bRendered = true;
         }
 
         private void glcViewport_MouseEnter(object sender, EventArgs e)
