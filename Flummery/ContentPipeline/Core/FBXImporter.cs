@@ -16,8 +16,8 @@ namespace Flummery.ContentPipeline.Core
         {
             FBX fbx = FBX.Load(path);
             Model model = new Model();
-            Dictionary<int, object> components = new Dictionary<int, object>();
-            Dictionary<int, Matrix4> transforms = new Dictionary<int, Matrix4>();
+            Dictionary<long, object> components = new Dictionary<long, object>();
+            Dictionary<long, Matrix4> transforms = new Dictionary<long, Matrix4>();
 
             string name = Path.GetFileNameWithoutExtension(path);
 
@@ -26,7 +26,7 @@ namespace Flummery.ContentPipeline.Core
             foreach (var material in objects.Children.Where(e => e.ID == "Material"))
             {
                 var m = new Material { Name = material.Properties[1].Value.ToString() };
-                components.Add((int)material.Properties[0].Value, m);
+                components.Add((long)material.Properties[0].Value, m);
             }
 
             foreach (var texture in objects.Children.Where(e => e.ID == "Texture"))
@@ -118,12 +118,12 @@ namespace Flummery.ContentPipeline.Core
                     meshpart.AddVertex(verts[index], norms[(bUseIndexNorm ? index : i)], (bUVs ? uvs[i] : OpenTK.Vector2.Zero));
                 }
 
-                components.Add((int)element.Properties[0].Value, meshpart);
+                components.Add((long)element.Properties[0].Value, meshpart);
             }
 
             foreach (var element in objects.Children.Where(e => e.ID == "Model"))
             {
-                components.Add((int)element.Properties[0].Value, new ModelMesh { Name = element.Properties[1].Value.ToString(), Tag = (int)element.Properties[0].Value });
+                components.Add((long)element.Properties[0].Value, new ModelMesh { Name = element.Properties[1].Value.ToString(), Tag = (long)element.Properties[0].Value });
 
                 var properties = element.Children.Find(c => c.ID == "Properties70");
                 foreach (var property in properties.Children)
@@ -134,7 +134,7 @@ namespace Flummery.ContentPipeline.Core
                         m.M41 = Convert.ToSingle(property.Properties[4].Value);
                         m.M42 = Convert.ToSingle(property.Properties[5].Value);
                         m.M43 = Convert.ToSingle(property.Properties[6].Value);
-                        transforms.Add((int)element.Properties[0].Value, m);
+                        transforms.Add((long)element.Properties[0].Value, m);
                     }
                 }
         }
@@ -144,10 +144,10 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var connectionType in connectionOrder)
             {
-                foreach (var connection in connections.Children.Where(c => components.ContainsKey((int)c.Properties[1].Value) && components[(int)c.Properties[1].Value].GetType().ToString() == connectionType))
+                foreach (var connection in connections.Children.Where(c => components.ContainsKey((long)c.Properties[1].Value) && components[(long)c.Properties[1].Value].GetType().ToString() == connectionType))
                 {
-                    int keyA = (int)connection.Properties[1].Value;
-                    int keyB = (int)connection.Properties[2].Value;
+                    long keyA = (long)connection.Properties[1].Value;
+                    long keyB = (long)connection.Properties[2].Value;
 
                     switch (connectionType)
                     {
