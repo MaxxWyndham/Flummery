@@ -147,10 +147,10 @@ namespace Flummery
 
             if (active.ProjectionMode == Viewport.Mode.Orthographic)
             {
-                if (state[Key.A]) { active.Zoom -= 0.1f; }
-                if (state[Key.Z]) { active.Zoom += 0.1f; }
-                if (state[Key.Keypad8]) { active.Zoom -= 0.1f; }
-                if (state[Key.Keypad2]) { active.Zoom += 0.1f; }
+                if (state[Key.A]) { active.Zoom -= 1.0f * dt; }
+                if (state[Key.Z]) { active.Zoom += 1.0f * dt; }
+                if (state[Key.Keypad8]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); }
+                if (state[Key.Keypad2]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); }
 
                 if (state[Key.Keypad4]) { active.Camera.MoveCamera(Camera.Direction.Left, dt); }
                 if (state[Key.Keypad6]) { active.Camera.MoveCamera(Camera.Direction.Right, dt); }
