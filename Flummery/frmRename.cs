@@ -20,7 +20,10 @@ namespace Flummery
         private void btnOK_Click(object sender, EventArgs e)
         {
             var model = SceneManager.Current.Models[0];
-            model.SetName(txtName.Text, parentBoneIndex);
+
+            if (chkActors.Checked) { model.SetName(txtName.Text, parentBoneIndex); }
+            if (chkModels.Checked && model.Bones[parentBoneIndex].Tag != null) { ((ModelMesh)model.Bones[parentBoneIndex].Tag).Name = txtName.Text; }
+
             this.Close();
         }
 
