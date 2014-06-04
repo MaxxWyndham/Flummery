@@ -14,7 +14,7 @@ namespace Flummery
         VertexBuffer vertexBuffer;
         Material material;
 
-        PrimitiveType primitiveType = PrimitiveType.TriangleStrip;
+        PrimitiveType primitiveType = PrimitiveType.Triangles;
         FrontFaceDirection windingOrder = FrontFaceDirection.Ccw;
 
         public IndexBuffer IndexBuffer { get { return indexBuffer; } }

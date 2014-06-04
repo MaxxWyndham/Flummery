@@ -2320,13 +2320,11 @@ namespace Flummery.ContentPipeline.Core
 
                     List<int> indexes = new List<int>();
                     var data = part.IndexBuffer.Data.ToList();
-                    for (int i = 2; i < data.Count; i++)
+                    for (int i = 0; i < data.Count; i += 3)
                     {
-                        if (data.GetRange(i - 2, 3).Distinct().Count() != 3) { continue; }
-
-                        indexes.Add(data[i - 2]);
-                        indexes.Add(data[i - 1]);
-                        indexes.Add(-(data[i - 0] + 1));
+                        indexes.Add(data[i + 0]);
+                        indexes.Add(data[i + 1]);
+                        indexes.Add(-(data[i + 2] + 1));
                     }
 
                     for (int i = 0; i < indexes.Count; i++)
@@ -2446,7 +2444,7 @@ namespace Flummery.ContentPipeline.Core
                 {
                     var emodel = new FBXElem
                     {
-                        ID = "model",
+                        ID = "Model",
                         Properties = 
                         { 
                             new FBXProperty { Type = 76, Value = (long)1037079952 }, 
