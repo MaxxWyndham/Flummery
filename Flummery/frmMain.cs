@@ -128,6 +128,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems[5].MenuItems[0].MenuItems.Add("Vehicle", menuSaveAsClick);
 
             menu.MenuItems[0].MenuItems.Add("&Export");
+            menu.MenuItems[0].MenuItems[6].MenuItems.Add("Autodesk FBX File...", menuExportClick);
             menu.MenuItems[0].MenuItems[6].MenuItems.Add("Stainless CNT File...", menuExportClick);
 
             menu.MenuItems[0].MenuItems.Add("-");
@@ -281,6 +282,17 @@ namespace Flummery
 
             switch (mi.Text)
             {
+                case "Autodesk FBX File...":
+                    sfdBrowse.Filter = "Autodesk FBX files (*.fbx)|*.fbx";
+                    if (sfdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        var fx = new ContentPipeline.Core.FBXExporter();
+                        fx.ExportSettings.AddSetting("Scale", new Vector3(1.0f, 1.0f, -1.0f));
+                        fx.Export(scene.Models[0], sfdBrowse.FileName);
+                        SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(sfdBrowse.FileName)));
+                    }
+                    break;
+
                 case "Stainless CNT File...":
                     sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
