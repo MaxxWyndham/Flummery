@@ -8,7 +8,7 @@ namespace Flummery
         protected string filename;
         protected string name;
         protected object tag;
-        protected object key;
+        protected long key = DateTime.Now.Ticks;
 
         protected object link;
 
@@ -30,12 +30,7 @@ namespace Flummery
             set { tag = value; }
         }
 
-        public object Key
-        {
-            get { return key; }
-            set { key = value; }
-        }
-
+        public long Key { get { return key; } }
         public bool Linked { get { return link != null; } }
 
         public virtual Asset Clone()
