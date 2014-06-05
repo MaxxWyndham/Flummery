@@ -176,6 +176,26 @@ namespace Flummery
             bones[BoneIndex].Tag = null;
         }
 
+        public List<Material> GetMaterials()
+        {
+            var l = new List<Material>();
+            var index = new List<long>();
+
+            foreach (var mesh in meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    if (part.Material != null && !index.Contains(part.Material.Key))
+                    {
+                        l.Add(part.Material);
+                        index.Add(part.Material.Key);
+                    }
+                }
+            }
+
+            return l;
+        }
+
         public void Draw() 
         {
             Matrix4[] transforms = new Matrix4[bones.Count];
