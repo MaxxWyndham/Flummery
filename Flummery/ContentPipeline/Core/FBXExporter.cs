@@ -2308,39 +2308,34 @@ namespace Flummery.ContentPipeline.Core
             {
                 foreach (var part in mesh.MeshParts)
                 {
-                    var verticies = new double[part.VertexCount * 3];
-                    List<double> normals = new List<double>();
+                    var ib = new int[part.IndexBuffer.Length];
+                    var verts = new double[part.VertexCount * 3];
+                    var norms = new double[part.VertexCount * 3];
 
                     for (int i = 0; i < part.VertexCount; i++)
                     {
-                        verticies[(i * 3) + 0] = part.VertexBuffer.Data[i].Position.X;
-                        verticies[(i * 3) + 1] = part.VertexBuffer.Data[i].Position.Y;
-                        verticies[(i * 3) + 2] = part.VertexBuffer.Data[i].Position.Z;
+                        verts[(i * 3) + 0] = part.VertexBuffer.Data[i].Position.X;
+                        verts[(i * 3) + 1] = part.VertexBuffer.Data[i].Position.Y;
+                        verts[(i * 3) + 2] = part.VertexBuffer.Data[i].Position.Z;
+
+                        norms[(i * 3) + 0] = part.VertexBuffer.Data[i].Normal.X;
+                        norms[(i * 3) + 1] = part.VertexBuffer.Data[i].Normal.Y;
+                        norms[(i * 3) + 2] = part.VertexBuffer.Data[i].Normal.Z;
                     }
 
-                    List<int> indexes = new List<int>();
-                    var data = part.IndexBuffer.Data.ToList();
-                    for (int i = 0; i < data.Count; i += 3)
+                    for (int i = 0; i < part.IndexBuffer.Data.Length; i += 3)
                     {
-                        indexes.Add(data[i + 0]);
-                        indexes.Add(data[i + 1]);
-                        indexes.Add(-(data[i + 2] + 1));
-                    }
+                        ib[i + 0] = part.IndexBuffer.Data[i + 0];
+                        ib[i + 1] = part.IndexBuffer.Data[i + 1];
+                        ib[i + 2] = part.IndexBuffer.Data[i + 2] + 1;
 
-                    for (int i = 0; i < indexes.Count; i++)
-                    {
-                        int index = indexes[i];
-                        if (index < 0) { index = (index * -1) - 1;}
-
-                        normals.Add(part.VertexBuffer.Data[index].Normal.X);
-                        normals.Add(part.VertexBuffer.Data[index].Normal.Y);
-                        normals.Add(part.VertexBuffer.Data[index].Normal.Z);
+                        ib[i + 2] *= -1;
                     }
 
                     var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = (long)1033522512 }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } }, Children = { new FBXElem { ID = "Properties70", Children = { new FBXElem { ID = "P", Properties = { new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "ColorRGB" }, new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "" }, new FBXProperty { Type = 68, Value = (double)0.694117647058824 }, new FBXProperty { Type = 68, Value = (double)0.345098039215686 }, new FBXProperty { Type = 68, Value = (double)0.105882352941176 } } } } } } };
                     geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
-                    geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = verticies } } });
-                    geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = indexes.ToArray() } } });
+                    geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = verts } } });
+                    geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ib } } });
                     geometry.Children.Add(
                         new FBXElem
                         {
@@ -2355,7 +2350,7 @@ namespace Flummery.ContentPipeline.Core
                                 new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                                 new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
                                 new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
-                                new FBXElem { ID = "Smoothing", Properties = { new FBXProperty { Type = 105, Value = Enumerable.Repeat(0, indexes.Count / 3).ToArray() } } }
+                                new FBXElem { ID = "Smoothing", Properties = { new FBXProperty { Type = 105, Value = Enumerable.Repeat(0, ib.Length / 3).ToArray() } } }
                             }
                         }
                     );
@@ -2371,9 +2366,9 @@ namespace Flummery.ContentPipeline.Core
                             { 
                                 new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                                 new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
-                                new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
+                                new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByVertice" } } },
                                 new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
-                                new FBXElem { ID = "Normals", Properties = { new FBXProperty { Type = 100, Value = normals.ToArray() } } }
+                                new FBXElem { ID = "Normals", Properties = { new FBXProperty { Type = 100, Value = norms } } }
                             }
                         }
                     );

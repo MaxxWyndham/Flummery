@@ -72,8 +72,8 @@ namespace Flummery.ContentPipeline.Stainless
                     MDLVertex v0, v1, v2;
 
                     v0 = mdl.Vertices[mdlmesh.PatchList[j + 0].Index];
-                    v1 = mdl.Vertices[mdlmesh.PatchList[j + 1].Index];
-                    v2 = mdl.Vertices[mdlmesh.PatchList[j + 2].Index];
+                    v1 = mdl.Vertices[mdlmesh.PatchList[j + 2].Index];
+                    v2 = mdl.Vertices[mdlmesh.PatchList[j + 1].Index];
 
                     meshpart.AddFace(
                         new Vector3[] {
