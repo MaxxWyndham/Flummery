@@ -27,16 +27,16 @@ namespace Flummery.ContentPipeline.Core
                             Children = 
                             { 
                                 new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 1000 } } },
-                                new FBXElem { ID = "Year", Properties = { new FBXProperty { Type = 73, Value = 2014 } } },
-                                new FBXElem { ID = "Month", Properties = { new FBXProperty { Type = 73, Value = 5 } } },
-                                new FBXElem { ID = "Day", Properties = { new FBXProperty { Type = 73, Value = 31 } } },
-                                new FBXElem { ID = "Hour", Properties = { new FBXProperty { Type = 73, Value = 17 } } },
-                                new FBXElem { ID = "Minute", Properties = { new FBXProperty { Type = 73, Value = 28 } } },
-                                new FBXElem { ID = "Second", Properties = { new FBXProperty { Type = 73, Value = 14 } } },
-                                new FBXElem { ID = "Millisecond", Properties = { new FBXProperty { Type = 73, Value = 839 } } }
+                                new FBXElem { ID = "Year", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Year } } },
+                                new FBXElem { ID = "Month", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Month } } },
+                                new FBXElem { ID = "Day", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Day } } },
+                                new FBXElem { ID = "Hour", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Hour } } },
+                                new FBXElem { ID = "Minute", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Minute } } },
+                                new FBXElem { ID = "Second", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Second } } },
+                                new FBXElem { ID = "Millisecond", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Millisecond } } }
                             }
                         },
-                        new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "FBX SDK/FBX Plugins version 2014.0.1" } } },
+                        new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "Flummery v" + Flummery.Version } } },
                         new FBXElem { ID = "SceneInfo",                    
                             Properties = 
                             {
@@ -69,7 +69,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "Url" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "C:\\Users\\User\\Documents\\3dsMax\\export\\HoverCountslash3.FBX" }
+                                                new FBXProperty { Type = 83, Value = path }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -79,7 +79,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "Url" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "C:\\Users\\User\\Documents\\3dsMax\\export\\HoverCountslash3.FBX" }
+                                                new FBXProperty { Type = 83, Value = path }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -98,7 +98,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "Autodesk" }
+                                                new FBXProperty { Type = 83, Value = "Toxic Ragers" }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -108,7 +108,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "3ds Max" }
+                                                new FBXProperty { Type = 83, Value = "Flummery" }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -118,7 +118,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "2014" }
+                                                new FBXProperty { Type = 83, Value = Flummery.Version }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -128,7 +128,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "DateTime" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "31/05/2014 16:28:14.839" }
+                                                new FBXProperty { Type = 83, Value = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff") }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -138,7 +138,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "C:\\Users\\User\\Documents\\3dsMax\\export\\HoverCountslash3.FBX" }
+                                                new FBXProperty { Type = 83, Value = path }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -157,7 +157,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "Autodesk" }
+                                                new FBXProperty { Type = 83, Value = "Toxic Ragers" }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -167,7 +167,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "3ds Max" }
+                                                new FBXProperty { Type = 83, Value = "Flummery" }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -177,7 +177,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "KString" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "2014" }
+                                                new FBXProperty { Type = 83, Value = Flummery.Version }
                                             }
                                         },
                                         new FBXElem { ID = "P", 
@@ -187,7 +187,7 @@ namespace Flummery.ContentPipeline.Core
                                                 new FBXProperty { Type = 83, Value = "DateTime" },
                                                 new FBXProperty { Type = 83, Value = "" },
                                                 new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "31/05/2014 16:28:14.839" }
+                                                new FBXProperty { Type = 83, Value = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff") }
                                             }
                                         }
                                     }
@@ -200,7 +200,7 @@ namespace Flummery.ContentPipeline.Core
 
             fbx.Elements.Add(new FBXElem { ID = "FileId", Properties = { new FBXProperty { Type = 82, Value = new byte[] { 0x28, 0xb3, 0x2a, 0xeb, 0xb6, 0x24, 0xcc, 0xc2, 0xbf, 0xc8, 0xb0, 0x2a, 0xa9, 0x2b, 0xfc, 0xf1 } } } });
             fbx.Elements.Add(new FBXElem { ID = "CreationTime", Properties = { new FBXProperty { Type = 83, Value = "1970-01-01 10:00:00:000" } } });
-            fbx.Elements.Add(new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "FBX SDK/FBX Plugins version 2014.0.1 build=20130205" } } });
+            fbx.Elements.Add(new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "Flummery v" + Flummery.Version } } });
 
             fbx.Elements.Add(
                 new FBXElem
@@ -299,7 +299,7 @@ namespace Flummery.ContentPipeline.Core
                                         new FBXProperty { Type = 83, Value = "double" },
                                         new FBXProperty { Type = 83, Value = "Number" },
                                         new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 68, Value = (double)2.54 }
+                                        new FBXProperty { Type = 68, Value = (double)1 }
                                     }
                                 },
                                 new FBXElem { ID = "P", 
@@ -309,7 +309,7 @@ namespace Flummery.ContentPipeline.Core
                                         new FBXProperty { Type = 83, Value = "double" },
                                         new FBXProperty { Type = 83, Value = "Number" },
                                         new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 68, Value = (double)2.54 }
+                                        new FBXProperty { Type = 68, Value = (double)1 }
                                     }
                                 },
                                 new FBXElem { ID = "P", 
@@ -429,7 +429,7 @@ namespace Flummery.ContentPipeline.Core
                         new FBXElem { ID = "Document", 
                             Properties = 
                             {  
-                                new FBXProperty { Type = 76, Value = (long)432026112 },
+                                new FBXProperty { Type = 76, Value = DateTime.Now.Ticks },
                                 new FBXProperty { Type = 83, Value = "" },
                                 new FBXProperty { Type = 83, Value = "Scene" }
                             },
@@ -470,151 +470,306 @@ namespace Flummery.ContentPipeline.Core
 
             var objects = new FBXElem { ID = "Objects" };
 
-            foreach (var mesh in model.Meshes)
+            int materialCount = 0;
+            var materialList = model.GetMaterials();
+            foreach (var material in materialList)
             {
-                foreach (var part in mesh.MeshParts)
-                {
-                    var ib = new int[part.IndexBuffer.Length];
-                    var verts = new double[part.VertexCount * 3];
-                    var norms = new double[part.VertexCount * 3];
-
-                    for (int i = 0; i < part.VertexCount; i++)
+                var fbxMaterial = new FBXElem { ID = "Material", Properties = { new FBXProperty { Type = 76, Value = material.Key }, new FBXProperty { Type = 83, Value = material.Name + "::Material" }, new FBXProperty { Type = 83, Value = "" } } };
+                fbxMaterial.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } });
+                fbxMaterial.Children.Add(new FBXElem { ID = "ShadingModel", Properties = { new FBXProperty { Type = 83, Value = "phong" } } });
+                fbxMaterial.Children.Add(new FBXElem { ID = "MultiLayer", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
+                fbxMaterial.Children.Add(
+                    new FBXElem
                     {
-                        verts[(i * 3) + 0] = part.VertexBuffer.Data[i].Position.X;
-                        verts[(i * 3) + 1] = part.VertexBuffer.Data[i].Position.Y;
-                        verts[(i * 3) + 2] = part.VertexBuffer.Data[i].Position.Z;
-
-                        norms[(i * 3) + 0] = part.VertexBuffer.Data[i].Normal.X;
-                        norms[(i * 3) + 1] = part.VertexBuffer.Data[i].Normal.Y;
-                        norms[(i * 3) + 2] = part.VertexBuffer.Data[i].Normal.Z;
-                    }
-
-                    for (int i = 0; i < part.IndexBuffer.Data.Length; i += 3)
-                    {
-                        ib[i + 0] = part.IndexBuffer.Data[i + 0];
-                        ib[i + 1] = part.IndexBuffer.Data[i + 1];
-                        ib[i + 2] = part.IndexBuffer.Data[i + 2] + 1;
-
-                        ib[i + 2] *= -1;
-                    }
-
-                    var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = (long)1033522512 }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } }, Children = { new FBXElem { ID = "Properties70", Children = { new FBXElem { ID = "P", Properties = { new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "ColorRGB" }, new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "" }, new FBXProperty { Type = 68, Value = (double)0.694117647058824 }, new FBXProperty { Type = 68, Value = (double)0.345098039215686 }, new FBXProperty { Type = 68, Value = (double)0.105882352941176 } } } } } } };
-                    geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
-                    geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = verts } } });
-                    geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ib } } });
-                    geometry.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "LayerElementSmoothing",
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 73, Value = 0 } 
+                        ID = "Properties70",
+                        Children = 
+                        { 
+                            new FBXElem { ID = "P", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "EmissiveColor" }, 
+                                    new FBXProperty { Type = 83, Value = "Color" }, 
+                                    new FBXProperty { Type = 83, Value = "" }, 
+                                    new FBXProperty { Type = 83, Value = "A" }, 
+                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
+                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
+                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
+                                } 
                             },
-                            Children = 
-                            { 
-                                new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
-                                new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
-                                new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
-                                new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
-                                new FBXElem { ID = "Smoothing", Properties = { new FBXProperty { Type = 105, Value = Enumerable.Repeat(0, ib.Length / 3).ToArray() } } }
-                            }
-                        }
-                    );
-                    geometry.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "LayerElementNormal",
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 73, Value = 0 } 
+                            new FBXElem { ID = "P", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "DiffuseColor" }, 
+                                    new FBXProperty { Type = 83, Value = "Color" }, 
+                                    new FBXProperty { Type = 83, Value = "" }, 
+                                    new FBXProperty { Type = 83, Value = "A" }, 
+                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
+                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
+                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
+                                } 
                             },
-                            Children = 
-                            { 
-                                new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
-                                new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
-                                new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByVertice" } } },
-                                new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
-                                new FBXElem { ID = "Normals", Properties = { new FBXProperty { Type = 100, Value = norms } } }
-                            }
-                        }
-                    );
-                    geometry.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "LayerElementMaterial",
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 73, Value = 0 } 
+                            new FBXElem { ID = "P", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "DiffuseFactor" }, 
+                                    new FBXProperty { Type = 83, Value = "Number" }, 
+                                    new FBXProperty { Type = 83, Value = "" }, 
+                                    new FBXProperty { Type = 83, Value = "A" }, 
+                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
+                                } 
                             },
-                            Children = 
-                            { 
-                                new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
-                                new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
-                                new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "AllSame" } } },
-                                new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
-                                new FBXElem { ID = "Materials", Properties = { new FBXProperty { Type = 105, Value = new int[] { 0 } } } }
-                            }
-                        }
-                    );
-                    geometry.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "Layer",
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 73, Value = 0 } 
-                            },
-                            Children = 
-                            { 
-                                new FBXElem { ID = "Version", 
-                                    Properties = 
-                                    {
-                                        new FBXProperty { Type = 73, Value = 100 } 
-                                    } 
-                                },
-                                new FBXElem { ID = "LayerElement", 
-                                    Children = 
-                                    { 
-                                        new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementNormal" } } },
-                                        new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
-                                    }
-                                },
-                                new FBXElem { ID = "LayerElement", 
-                                    Children = 
-                                    { 
-                                        new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementSmoothing" } } },
-                                        new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
-                                    }
-                                },
-                                new FBXElem { ID = "LayerElement", 
-                                    Children = 
-                                    { 
-                                        new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementMaterial" } } },
-                                        new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
-                                    }
+                            new FBXElem { ID = "P", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "DiffuseColor" }, 
+                                    new FBXProperty { Type = 83, Value = "Color" }, 
+                                    new FBXProperty { Type = 83, Value = "" }, 
+                                    new FBXProperty { Type = 83, Value = "A" }, 
+                                    new FBXProperty { Type = 68, Value = (double)1 },
+                                    new FBXProperty { Type = 68, Value = (double)1 },
+                                    new FBXProperty { Type = 68, Value = (double)1 }
                                 } 
                             }
                         }
-                    );
+                    }
+                );
+                materialCount++;
 
-                    objects.Children.Add(geometry);
-                }
+                objects.Children.Add(fbxMaterial);
             }
 
             foreach (var mesh in model.Meshes)
             {
+                var verts = new List<Vector3>();
+                var norms = new List<Vector3>();
+                var uvs = new List<Vector2>();
+
+                var ivt = new List<int>();
+                var inm = new List<int>();
+                var iuv = new List<int>();
+                var materials = new List<int>();
+                var smoothingGroups = new List<int>();
+
+                int materialIndex = 0;
+                int smoothingGroup = 0;
+
                 foreach (var part in mesh.MeshParts)
                 {
-                    var emodel = new FBXElem
+                    int ixvt, ixnm, ixuv;
+                    materialIndex = materialList.FindIndex(m => m.Key == part.Material.Key);
+
+                    for (int i = 0; i < part.IndexBuffer.Data.Length; i ++)
                     {
-                        ID = "Model",
+                        int p = part.IndexBuffer.Data[i];
+                        var v = part.VertexBuffer.Data[p];
+
+                        ixvt = verts.FindIndex(vert => vert.X == v.Position.X &&
+                                                       vert.Y == v.Position.Y &&
+                                                       vert.Z == v.Position.Z);
+
+                        if (ixvt == -1)
+                        {
+                            ixvt = verts.Count;
+                            verts.Add(v.Position);
+                        }
+
+                        ixnm = norms.FindIndex(norm => norm.X == v.Normal.X &&
+                                                       norm.Y == v.Normal.Y &&
+                                                       norm.Z == v.Normal.Z);
+
+                        if (ixnm == -1)
+                        {
+                            ixnm = norms.Count;
+                            norms.Add(v.Normal);
+                        }
+
+                        ixuv = uvs.FindIndex(uv => uv.X == v.UV.X &&
+                                                   uv.Y == v.UV.Y);
+
+                        if (ixuv == -1)
+                        {
+                            ixuv = uvs.Count;
+                            uvs.Add(v.UV);
+                        }
+
+                        if ((i + 1) % 3 == 0)
+                        {
+                            smoothingGroups.Add(smoothingGroup);
+                            materials.Add(materialIndex);
+                            ixvt = (ixvt + 1) * -1;
+                        }
+
+                        ivt.Add(ixvt);
+                        inm.Add(ixnm);
+                        iuv.Add(ixuv);
+                    }
+                }
+
+                smoothingGroup++;
+
+                var vertvalues = new double[verts.Count * 3];
+                for (var i = 0; i < verts.Count; i++)
+                {
+                    vertvalues[(i * 3) + 0] = verts[i].X;
+                    vertvalues[(i * 3) + 1] = verts[i].Y;
+                    vertvalues[(i * 3) + 2] = verts[i].Z;
+                }
+
+                var normvalues = new double[inm.Count * 3];
+                for (var i = 0; i < inm.Count; i++)
+                {
+                    normvalues[(i * 3) + 0] = norms[inm[i]].X;
+                    normvalues[(i * 3) + 1] = norms[inm[i]].Y;
+                    normvalues[(i * 3) + 2] = norms[inm[i]].Z;
+                }
+
+                var uvvalues = new double[uvs.Count * 2];
+                for (var i = 0; i < uvs.Count; i++)
+                {
+                    uvvalues[(i * 2) + 0] =  uvs[i].X;
+                    uvvalues[(i * 2) + 1] = 1 - uvs[i].Y;
+                }
+
+                var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = (long)1033522512 }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } }, Children = { new FBXElem { ID = "Properties70", Children = { new FBXElem { ID = "P", Properties = { new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "ColorRGB" }, new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "" }, new FBXProperty { Type = 68, Value = (double)0.694117647058824 }, new FBXProperty { Type = 68, Value = (double)0.345098039215686 }, new FBXProperty { Type = 68, Value = (double)0.105882352941176 } } } } } } };
+                geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
+                geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues } } });
+                geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ivt.ToArray() } } });
+                geometry.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "LayerElementSmoothing",
                         Properties = 
+                        { 
+                            new FBXProperty { Type = 73, Value = 0 } 
+                        },
+                        Children = 
+                        { 
+                            new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
+                            new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
+                            new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
+                            new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
+                            new FBXElem { ID = "Smoothing", Properties = { new FBXProperty { Type = 105, Value = smoothingGroups.ToArray() } } }
+                        }
+                    }
+                );
+                geometry.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "LayerElementNormal",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 73, Value = 0 } 
+                        },
+                        Children = 
+                        { 
+                            new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
+                            new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
+                            new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
+                            new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
+                            new FBXElem { ID = "Normals", Properties = { new FBXProperty { Type = 100, Value = normvalues } } }
+                        }
+                    }
+                );
+                geometry.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "LayerElementUV",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 73, Value = 0 } 
+                        },
+                        Children = 
+                        { 
+                            new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
+                            new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
+                            new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
+                            new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
+                            new FBXElem { ID = "UV", Properties = { new FBXProperty { Type = 100, Value = uvvalues } } },
+                            new FBXElem { ID = "UVIndex", Properties = { new FBXProperty { Type = 105, Value = iuv.ToArray() } } }
+                        }
+                    }
+                );
+                geometry.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "LayerElementMaterial",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 73, Value = 0 } 
+                        },
+                        Children = 
+                        { 
+                            new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
+                            new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
+                            new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
+                            new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
+                            new FBXElem { ID = "Materials", Properties = { new FBXProperty { Type = 105, Value = materials.ToArray() } } }
+                        }
+                    }
+                );
+                geometry.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "Layer",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 73, Value = 0 } 
+                        },
+                        Children = 
+                        { 
+                            new FBXElem { ID = "Version", 
+                                Properties = 
+                                {
+                                    new FBXProperty { Type = 73, Value = 100 } 
+                                } 
+                            },
+                            new FBXElem { ID = "LayerElement", 
+                                Children = 
+                                { 
+                                    new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementNormal" } } },
+                                    new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
+                                }
+                            },
+                            new FBXElem { ID = "LayerElement", 
+                                Children = 
+                                { 
+                                    new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementMaterial" } } },
+                                    new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
+                                }
+                            },
+                            new FBXElem { ID = "LayerElement", 
+                                Children = 
+                                { 
+                                    new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementSmoothing" } } },
+                                    new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
+                                }
+                            },
+                            new FBXElem { ID = "LayerElement", 
+                                Children = 
+                                { 
+                                    new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementUV" } } },
+                                    new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
+                                }
+                            } 
+                        }
+                    }
+                );
+
+                objects.Children.Add(geometry);
+            }
+
+            foreach (var mesh in model.Meshes)
+            {
+                var emodel = new FBXElem
+                {
+                    ID = "Model",
+                    Properties = 
                         { 
                             new FBXProperty { Type = 76, Value = (long)1037079952 }, 
                             new FBXProperty { Type = 83, Value = mesh.Name + "::Model" }, 
                             new FBXProperty { Type = 83, Value = "Mesh" } 
                         },
-                        Children = 
+                    Children = 
                         { 
                             new FBXElem { ID = "Version", 
                                 Properties = 
@@ -632,7 +787,7 @@ namespace Flummery.ContentPipeline.Core
                                             new FBXProperty { Type = 83, Value = "Vector3D" }, 
                                             new FBXProperty { Type = 83, Value = "Vector" }, 
                                             new FBXProperty { Type = 83, Value = "" }, 
-                                            new FBXProperty { Type = 68, Value = (double)-90 }, 
+                                            new FBXProperty { Type = 68, Value = (double)0 }, 
                                             new FBXProperty { Type = 68, Value = (double)0 }, 
                                             new FBXProperty { Type = 68, Value = (double)0 } 
                                         } 
@@ -694,77 +849,9 @@ namespace Flummery.ContentPipeline.Core
                                 } 
                             }
                         }
-                    };
+                };
 
-                    objects.Children.Add(emodel);
-                }
-            }
-
-            int materialCount = 0;
-            foreach (var material in model.GetMaterials())
-            {
-                var fbxMaterial = new FBXElem { ID = "Material", Properties = { new FBXProperty { Type = 76, Value = material.Key }, new FBXProperty { Type = 83, Value = material.Name + "::Material" }, new FBXProperty { Type = 83, Value = "" } } };
-                fbxMaterial.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } });
-                fbxMaterial.Children.Add(new FBXElem { ID = "ShadingModel", Properties = { new FBXProperty { Type = 83, Value = "Phong" } } });
-                fbxMaterial.Children.Add(new FBXElem { ID = "MultiLayer", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
-                fbxMaterial.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "Properties70",
-                        Children = 
-                        { 
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "EmissiveColor" }, 
-                                    new FBXProperty { Type = 83, Value = "Color" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
-                                } 
-                            },
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "DiffuseColor" }, 
-                                    new FBXProperty { Type = 83, Value = "Color" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
-                                } 
-                            },
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "DiffuseFactor" }, 
-                                    new FBXProperty { Type = 83, Value = "Number" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
-                                } 
-                            },
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "DiffuseColor" }, 
-                                    new FBXProperty { Type = 83, Value = "Color" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)1 },
-                                    new FBXProperty { Type = 68, Value = (double)1 },
-                                    new FBXProperty { Type = 68, Value = (double)1 }
-                                } 
-                            }
-                        }
-                    }
-                );
-                materialCount++;
-
-                objects.Children.Add(fbxMaterial);
+                objects.Children.Add(emodel);
             }
 
             fbx.Elements.Add(
@@ -2645,7 +2732,7 @@ namespace Flummery.ContentPipeline.Core
                             {  
                                 new FBXProperty { Type = 83, Value = "OO" },
                                 new FBXProperty { Type = 76, Value = (long)child.Properties[0].Value },
-                                new FBXProperty { Type = 76, Value = (long)1033522512 }
+                                new FBXProperty { Type = 76, Value = (long)1037079952 }
                             }
                         }
                     );
