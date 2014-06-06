@@ -62,134 +62,19 @@ namespace Flummery.ContentPipeline.Core
                                 new FBXElem { ID = "Properties70", 
                                     Children = 
                                     {
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "DocumentUrl" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "Url" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = path }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "SrcDocumentUrl" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "Url" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = path }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "Original" },
-                                                new FBXProperty { Type = 83, Value = "Compound" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "Original|ApplicationVendor" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "Toxic Ragers" }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "Original|ApplicationName" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "Flummery" }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "Original|ApplicationVersion" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = Flummery.Version }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "Original|DateTime_GMT" },
-                                                new FBXProperty { Type = 83, Value = "DateTime" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff") }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "Original|FileName" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = path }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "LastSaved" },
-                                                new FBXProperty { Type = 83, Value = "Compound" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "LastSaved|ApplicationVendor" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "Toxic Ragers" }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "LastSaved|ApplicationName" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "Flummery" }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "LastSaved|ApplicationVersion" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = Flummery.Version }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "LastSaved|DateTime_GMT" },
-                                                new FBXProperty { Type = 83, Value = "DateTime" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff") }
-                                            }
-                                        }
+                                        FBXPropertyElement(FBXPropertyType.String, "DocumentUrl", "KString", "Url", "", path),
+                                        FBXPropertyElement(FBXPropertyType.String, "SrcDocumentUrl", "KString", "Url", "", path),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original", "Compound", "", ""),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationVendor", "KString", "", "", "Toxic Ragers"),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationName", "KString", "", "", "Flummery"),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationVersion", "KString", "", "", Flummery.Version),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original|DateTime_GMT", "KString", "", "", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff")),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original|FileName", "KString", "", "", path),
+                                        FBXPropertyElement(FBXPropertyType.String, "LastSaved", "Compound", "", ""),
+                                        FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationVendor", "KString", "", "", "Toxic Ragers"),
+                                        FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationName", "KString", "", "", "Flummery"),
+                                        FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationVersion", "KString", "", "", Flummery.Version),
+                                        FBXPropertyElement(FBXPropertyType.String, "LastSaved|DateTime_GMT", "KString", "", "", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff"))
                                     }
                                 }
                             }
@@ -212,207 +97,26 @@ namespace Flummery.ContentPipeline.Core
                         new FBXElem { ID = "Properties70", 
                             Children = 
                             {
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "UpAxis" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 1 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "UpAxisSign" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 1 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "FrontAxis" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 2 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "FrontAxisSign" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 1 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "CoordAxis" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 0 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "CoordAxisSign" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 1 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "OriginalUpAxis" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 2 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "OriginalUpAxisSign" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 1 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "UnitScaleFactor" },
-                                        new FBXProperty { Type = 83, Value = "double" },
-                                        new FBXProperty { Type = 83, Value = "Number" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "OriginalUnitScaleFactor" },
-                                        new FBXProperty { Type = 83, Value = "double" },
-                                        new FBXProperty { Type = 83, Value = "Number" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "AmbientColor" },
-                                        new FBXProperty { Type = 83, Value = "ColorRGB" },
-                                        new FBXProperty { Type = 83, Value = "Color" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 68, Value = (double)0.0 },
-                                        new FBXProperty { Type = 68, Value = (double)0.0 },
-                                        new FBXProperty { Type = 68, Value = (double)0.0 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "DefaultCamera" },
-                                        new FBXProperty { Type = 83, Value = "KString" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 83, Value = "Producer Front" }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "TimeMode" },
-                                        new FBXProperty { Type = 83, Value = "enum" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 6 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "TimeProtocol" },
-                                        new FBXProperty { Type = 83, Value = "enum" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 2 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "SnapOnFrameMode" },
-                                        new FBXProperty { Type = 83, Value = "enum" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = 0 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "TimeSpanStart" },
-                                        new FBXProperty { Type = 83, Value = "KTime" },
-                                        new FBXProperty { Type = 83, Value = "Time" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 76, Value = (long)0 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "TimeSpanStop" },
-                                        new FBXProperty { Type = 83, Value = "KTime" },
-                                        new FBXProperty { Type = 83, Value = "Time" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 76, Value = (long)153953860000 }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "CustomFrameRate" },
-                                        new FBXProperty { Type = 83, Value = "double" },
-                                        new FBXProperty { Type = 83, Value = "Number" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 68, Value = (double)(-1.0) }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "TimeMarker" },
-                                        new FBXProperty { Type = 83, Value = "Compound" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 83, Value = "" }
-                                    }
-                                },
-                                new FBXElem { ID = "P", 
-                                    Properties = 
-                                    {  
-                                        new FBXProperty { Type = 83, Value = "CurrentTimeMarker" },
-                                        new FBXProperty { Type = 83, Value = "int" },
-                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                        new FBXProperty { Type = 83, Value = "" },
-                                        new FBXProperty { Type = 73, Value = -1 }
-                                    }
-                                }
+                                FBXPropertyElement(FBXPropertyType.Integer, "UpAxis", "int", "Integer", "", 1),
+                                FBXPropertyElement(FBXPropertyType.Integer, "UpAxisSign", "int", "Integer", "", 1),
+                                FBXPropertyElement(FBXPropertyType.Integer, "FrontAxis", "int", "Integer", "", 2),
+                                FBXPropertyElement(FBXPropertyType.Integer, "FrontAxisSign", "int", "Integer", "", 0),
+                                FBXPropertyElement(FBXPropertyType.Integer, "CoordAxis", "int", "Integer", "", 0),
+                                FBXPropertyElement(FBXPropertyType.Integer, "CoordAxisSign", "int", "Integer", "", 1),
+                                FBXPropertyElement(FBXPropertyType.Integer, "OriginalUpAxis", "int", "Integer", "", 1),
+                                FBXPropertyElement(FBXPropertyType.Integer, "OriginalUpAxisSign", "int", "Integer", "", 1),
+                                FBXPropertyElement(FBXPropertyType.Double, "UnitScaleFactor", "double", "Number", "", (double)1),
+                                FBXPropertyElement(FBXPropertyType.Double, "OriginalUnitScaleFactor", "double", "Number", "", (double)1),
+                                FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "ColorRGB", "Color", "", (double)0.0, (double)0.0, (double)0.0),
+                                FBXPropertyElement(FBXPropertyType.String, "DefaultCamera", "KString", "", "", "Producer Front"),
+                                FBXPropertyElement(FBXPropertyType.Integer, "TimeMode", "enum", "", "", 6),
+                                FBXPropertyElement(FBXPropertyType.Integer, "TimeProtocol", "enum", "", "", 2),
+                                FBXPropertyElement(FBXPropertyType.Integer, "SnapOnFrameMode", "enum", "", "", 0),
+                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStart", "KTime", "Time", "", (long)0),
+                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStop", "KTime", "Time", "", (long)153953860000),
+                                FBXPropertyElement(FBXPropertyType.Double, "CustomFrameRate", "double", "Number", "", (double)(-1.0)),
+                                FBXPropertyElement(FBXPropertyType.String, "TimeMarker", "Compound", "", ""),
+                                FBXPropertyElement(FBXPropertyType.Integer, "CurrentTimeMarker", "int", "Integer", "", -1)
                             }
                         }
                     }
@@ -438,25 +142,8 @@ namespace Flummery.ContentPipeline.Core
                                 new FBXElem { ID = "Properties70", 
                                     Children = 
                                     {
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "SourceObject" },
-                                                new FBXProperty { Type = 83, Value = "object" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" }
-                                            }
-                                        },
-                                        new FBXElem { ID = "P", 
-                                            Properties = 
-                                            {  
-                                                new FBXProperty { Type = 83, Value = "ActiveAnimStackName" },
-                                                new FBXProperty { Type = 83, Value = "KString" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" },
-                                                new FBXProperty { Type = 83, Value = "" }
-                                            }
-                                        }
+                                        FBXPropertyElement(FBXPropertyType.String, "SourceObject", "object", "", ""),
+                                        FBXPropertyElement(FBXPropertyType.String, "ActiveAnimStackName", "KString", "", "", "")
                                     }
                                 },
                                 new FBXElem { ID = "RootNode", Properties = { new FBXProperty { Type = 76, Value = (long)0 } } }
@@ -468,9 +155,8 @@ namespace Flummery.ContentPipeline.Core
 
             fbx.Elements.Add(new FBXElem { ID = "References" });
 
-            var objects = new FBXElem { ID = "Objects" };
+            var fbxObjects = new FBXElem { ID = "Objects" };
 
-            int materialCount = 0;
             var materialList = model.GetMaterials();
             foreach (var material in materialList)
             {
@@ -484,62 +170,20 @@ namespace Flummery.ContentPipeline.Core
                         ID = "Properties70",
                         Children = 
                         { 
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "EmissiveColor" }, 
-                                    new FBXProperty { Type = 83, Value = "Color" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
-                                } 
-                            },
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "DiffuseColor" }, 
-                                    new FBXProperty { Type = 83, Value = "Color" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
-                                } 
-                            },
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "DiffuseFactor" }, 
-                                    new FBXProperty { Type = 83, Value = "Number" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)0.800000011920929 } 
-                                } 
-                            },
-                            new FBXElem { ID = "P", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "DiffuseColor" }, 
-                                    new FBXProperty { Type = 83, Value = "Color" }, 
-                                    new FBXProperty { Type = 83, Value = "" }, 
-                                    new FBXProperty { Type = 83, Value = "A" }, 
-                                    new FBXProperty { Type = 68, Value = (double)1 },
-                                    new FBXProperty { Type = 68, Value = (double)1 },
-                                    new FBXProperty { Type = 68, Value = (double)1 }
-                                } 
-                            }
+                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)1, (double)1, (double)1)
                         }
                     }
                 );
-                materialCount++;
 
-                objects.Children.Add(fbxMaterial);
+                fbxObjects.Children.Add(fbxMaterial);
             }
 
             foreach (var mesh in model.Meshes)
             {
+                var vects = new List<Vertex>();
                 var verts = new List<Vector3>();
                 var norms = new List<Vector3>();
                 var uvs = new List<Vector2>();
@@ -553,6 +197,8 @@ namespace Flummery.ContentPipeline.Core
                 int materialIndex = 0;
                 int smoothingGroup = 0;
 
+                bool bBlender = false;
+
                 foreach (var part in mesh.MeshParts)
                 {
                     int ixvt, ixnm, ixuv;
@@ -563,28 +209,51 @@ namespace Flummery.ContentPipeline.Core
                         int p = part.IndexBuffer.Data[i];
                         var v = part.VertexBuffer.Data[p];
 
-                        ixvt = verts.FindIndex(vert => vert.X == v.Position.X &&
-                                                       vert.Y == v.Position.Y &&
-                                                       vert.Z == v.Position.Z);
-
-                        if (ixvt == -1)
+                        if (bBlender)
                         {
-                            ixvt = verts.Count;
-                            verts.Add(v.Position);
+                            ixvt = vects.FindIndex(vect => vect.Position.X == v.Position.X &&
+                                                           vect.Position.Y == v.Position.Y &&
+                                                           vect.Position.Z == v.Position.Z &&
+                                                           vect.Normal.X == v.Normal.X &&
+                                                           vect.Normal.Y == v.Normal.Y &&
+                                                           vect.Normal.Z == v.Normal.Z);
+
+                            if (ixvt == -1)
+                            {
+                                ixvt = verts.Count;
+
+                                verts.Add(v.Position);
+                                norms.Add(v.Normal);
+                                vects.Add(v);
+                            }
+
+                            ixnm = ixvt;
                         }
-
-                        ixnm = norms.FindIndex(norm => norm.X == v.Normal.X &&
-                                                       norm.Y == v.Normal.Y &&
-                                                       norm.Z == v.Normal.Z);
-
-                        if (ixnm == -1)
+                        else
                         {
-                            ixnm = norms.Count;
-                            norms.Add(v.Normal);
+                            ixvt = verts.FindIndex(vert => vert.X == v.Position.X &&
+                                                           vert.Y == v.Position.Y &&
+                                                           vert.Z == v.Position.Z);
+
+                            if (ixvt == -1)
+                            {
+                                ixvt = verts.Count;
+                                verts.Add(v.Position);
+                            }
+
+                            ixnm = norms.FindIndex(norm => norm.X == v.Normal.X &&
+                                                           norm.Y == v.Normal.Y &&
+                                                           norm.Z == v.Normal.Z);
+
+                            if (ixnm == -1)
+                            {
+                                ixnm = norms.Count;
+                                norms.Add(v.Normal);
+                            }
                         }
 
                         ixuv = uvs.FindIndex(uv => uv.X == v.UV.X &&
-                                                   uv.Y == v.UV.Y);
+                                                    uv.Y == v.UV.Y);
 
                         if (ixuv == -1)
                         {
@@ -622,6 +291,15 @@ namespace Flummery.ContentPipeline.Core
                     normvalues[(i * 3) + 1] = norms[inm[i]].Y;
                     normvalues[(i * 3) + 2] = norms[inm[i]].Z;
                 }
+                //var vertvalues = new double[inm.Count * 3];
+                //for (var i = 0; i < inm.Count; i++)
+                //{
+                //    int index = ((i + 1) % 3 == 0 ? (ivt[i] + 1) * -1 : ivt[i]);
+
+                //    vertvalues[(i * 3) + 0] = verts[index].X;
+                //    vertvalues[(i * 3) + 1] = verts[index].Y;
+                //    vertvalues[(i * 3) + 2] = verts[index].Z;
+                //}
 
                 var uvvalues = new double[uvs.Count * 2];
                 for (var i = 0; i < uvs.Count; i++)
@@ -630,7 +308,8 @@ namespace Flummery.ContentPipeline.Core
                     uvvalues[(i * 2) + 1] = 1 - uvs[i].Y;
                 }
 
-                var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = (long)1033522512 }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } }, Children = { new FBXElem { ID = "Properties70", Children = { new FBXElem { ID = "P", Properties = { new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "ColorRGB" }, new FBXProperty { Type = 83, Value = "Color" }, new FBXProperty { Type = 83, Value = "" }, new FBXProperty { Type = 68, Value = (double)0.694117647058824 }, new FBXProperty { Type = 68, Value = (double)0.345098039215686 }, new FBXProperty { Type = 68, Value = (double)0.105882352941176 } } } } } } };
+                var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = (long)1033522512 }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
+                geometry.Children.Add(new FBXElem { ID = "Properties70" });
                 geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
                 geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues } } });
                 geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ivt.ToArray() } } });
@@ -755,7 +434,7 @@ namespace Flummery.ContentPipeline.Core
                     }
                 );
 
-                objects.Children.Add(geometry);
+                fbxObjects.Children.Add(geometry);
             }
 
             foreach (var mesh in model.Meshes)
@@ -851,1844 +530,459 @@ namespace Flummery.ContentPipeline.Core
                         }
                 };
 
-                objects.Children.Add(emodel);
+                fbxObjects.Children.Add(emodel);
             }
 
-            fbx.Elements.Add(
-                new FBXElem
-                {
-                    ID = "Definitions",
-                    Children =
+            var fbxDefinitions = new FBXElem { ID = "Definitions" };
+            fbxDefinitions.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 100 } } });
+            fbxDefinitions.Children.Add(new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 + fbxObjects.Children.Count } } });
+            fbxDefinitions.Children.Add(new FBXElem { ID = "ObjectType", Properties = { new FBXProperty { Type = 83, Value = "GlobalSettings" } }, Children = { new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } } } });
+            #region Definitions :: AnimationStack
+            if (fbxObjects.Children.Any(e => e.ID == "AnimationStack"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
                     {
-                        // TOTAL COUNT
-                        new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 100 } } },
-                        new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 3 + materialCount } } },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "GlobalSettings" } 
-                            },
-                            Children = 
-                            {
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } }
-                            }
+                        ID = "ObjectType",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "AnimationStack" } 
                         },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "AnimationStack" } 
-                            },
-                            Children = 
-                            {
-                                // ANIMATION STACK COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 0 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxAnimStack" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Description" },
-                                                        new FBXProperty { Type = 83, Value = "KString" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "LocalStart" },
-                                                        new FBXProperty { Type = 83, Value = "KTime" },
-                                                        new FBXProperty { Type = 83, Value = "Time" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 76, Value = (long)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "LocalStop" },
-                                                        new FBXProperty { Type = 83, Value = "KTime" },
-                                                        new FBXProperty { Type = 83, Value = "Time" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 76, Value = (long)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ReferenceStart" },
-                                                        new FBXProperty { Type = 83, Value = "KTime" },
-                                                        new FBXProperty { Type = 83, Value = "Time" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 76, Value = (long)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ReferenceStop" },
-                                                        new FBXProperty { Type = 83, Value = "KTime" },
-                                                        new FBXProperty { Type = 83, Value = "Time" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 76, Value = (long)0 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "AnimationLayer" } 
-                            },
-                            Children = 
-                            {
-                                // ANIMATION LAYER COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 0 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxAnimLayer" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Weight" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)100 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Mute" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Solo" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Lock" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "ColorRGB" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "BlendMode" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationAccumulationMode" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScaleAccumulationMode" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "BlendModeBypass" },
-                                                        new FBXProperty { Type = 83, Value = "ULongLong" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 76, Value = (long)0 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "Model" } 
-                            },
-                            Children = 
-                            {
-                                // MODEL COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxNode" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "QuaternionInterpolate" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationOffset" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationPivot" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingOffset" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingPivot" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationActive" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMin" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMax" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMinX" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMinY" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMinZ" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMaxX" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMaxY" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TranslationMaxZ" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationOrder" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationSpaceForLimitOnly" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationStiffnessX" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationStiffnessY" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationStiffnessZ" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "AxisLen" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)10 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "PreRotation" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "PostRotation" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationActive" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMin" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMax" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMinX" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMinY" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMinZ" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMaxX" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMaxY" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "RotationMaxZ" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "InheritType" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingActive" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMin" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMax" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMinX" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMinY" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMinZ" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMaxX" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMaxY" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ScalingMaxZ" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "GeometricTranslation" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "GeometricRotation" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "GeometricScaling" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MinDampRangeX" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MinDampRangeY" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MinDampRangeZ" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MaxDampRangeX" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MaxDampRangeY" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MaxDampRangeZ" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MinDampStrengthX" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MinDampStrengthY" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MinDampStrengthZ" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MaxDampStrengthX" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MaxDampStrengthY" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MaxDampStrengthZ" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "PreferedAngleX" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "PreferedAngleY" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "PreferedAngleZ" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "LookAtProperty" },
-                                                        new FBXProperty { Type = 83, Value = "object" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "UpVectorProperty" },
-                                                        new FBXProperty { Type = 83, Value = "object" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Show" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "NegativePercentShapeSupport" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "DefaultAttributeIndex" },
-                                                        new FBXProperty { Type = 83, Value = "int" },
-                                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = -1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Freeze" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "LODBox" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Lcl Translation" },
-                                                        new FBXProperty { Type = 83, Value = "Lcl Translation" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Lcl Rotation" },
-                                                        new FBXProperty { Type = 83, Value = "Lcl Rotation" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Lcl Scaling" },
-                                                        new FBXProperty { Type = 83, Value = "Lcl Scaling" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Visibility" },
-                                                        new FBXProperty { Type = 83, Value = "Visibility" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Visibility Inheritance" },
-                                                        new FBXProperty { Type = 83, Value = "Visibility Inheritance" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "Geometry" } 
-                            },
-                            Children = 
-                            {
-                                // GEOMETRY COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxMesh" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "ColorRGB" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "BBoxMin" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "BBoxMax" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Primary Visibility" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Casts Shadows" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Receive Shadows" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "Material" } 
-                            },
-                            Children = 
-                            {
-                                // MATERIAL COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = materialCount } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxSurfacePhong" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ShadingModel" },
-                                                        new FBXProperty { Type = 83, Value = "KString" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "Phong" }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "MultiLayer" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "EmissiveColor" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "EmissiveFactor" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "AmbientColor" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0.2 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.2 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.2 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "AmbientFactor" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "DiffuseColor" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "DiffuseFactor" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Bump" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "NormalMap" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "BumpFactor" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TransparentColor" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TransparencyFactor" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "DisplacementColor" },
-                                                        new FBXProperty { Type = 83, Value = "ColorRGB" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "DisplacementFactor" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "VectorDisplacementColor" },
-                                                        new FBXProperty { Type = 83, Value = "ColorRGB" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "VectorDisplacementFactor" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "SpecularColor" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0.2 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.2 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.2 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "SpecularFactor" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ShininessExponent" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)20 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ReflectionColor" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ReflectionFactor" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "Texture" } 
-                            },
-                            Children = 
-                            {
-                                // TEXTURE COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 0 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxFileTexture" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TextureTypeUse" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Texture alpha" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "CurrentMappingType" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "WrapModeU" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "WrapModeV" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "UVSwap" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "PremultiplyAlpha" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Translation" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Rotation" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Scaling" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "A" },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 },
-                                                        new FBXProperty { Type = 68, Value = (double)1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TextureRotationPivot" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "TextureScalingPivot" },
-                                                        new FBXProperty { Type = 83, Value = "Vector3D" },
-                                                        new FBXProperty { Type = 83, Value = "Vector" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "CurrentTextureBlendMode" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "UVSet" },
-                                                        new FBXProperty { Type = 83, Value = "KString" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "default" }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "UseMaterial" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "UseMipMap" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "NodeAttribute" } 
-                            },
-                            Children = 
-                            {
-                                // NODE COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 0 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxNull" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "ColorRGB" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Size" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)100 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Look" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "CollectionExclusive" } 
-                            },
-                            Children = 
-                            {
-                                // COLLECTION COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 0 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxDisplayLayer" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "ColorRGB" },
-                                                        new FBXProperty { Type = 83, Value = "Color" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 },
-                                                        new FBXProperty { Type = 68, Value = (double)0.8 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Show" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 1 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Freeze" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "LODBox" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new FBXElem { ID = "ObjectType", 
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 83, Value = "Video" } 
-                            },
-                            Children = 
-                            {
-                                // VIDEO COUNT
-                                new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 0 } } },
-                                new FBXElem { ID = "PropertyTemplate", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "FbxVideo" } 
-                                    },
-                                    Children = 
-                                    {
-                                        new FBXElem { ID = "Properties70", 
-                                            Children = 
-                                            {
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ImageSequence" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "ImageSequenceOffset" },
-                                                        new FBXProperty { Type = 83, Value = "int" },
-                                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "FrameRate" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "LastFrame" },
-                                                        new FBXProperty { Type = 83, Value = "int" },
-                                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Width" },
-                                                        new FBXProperty { Type = 83, Value = "int" },
-                                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Height" },
-                                                        new FBXProperty { Type = 83, Value = "int" },
-                                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Path" },
-                                                        new FBXProperty { Type = 83, Value = "KString" },
-                                                        new FBXProperty { Type = 83, Value = "XRefUrl" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "StartFrame" },
-                                                        new FBXProperty { Type = 83, Value = "int" },
-                                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "StopFrame" },
-                                                        new FBXProperty { Type = 83, Value = "int" },
-                                                        new FBXProperty { Type = 83, Value = "Integer" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "PlaySpeed" },
-                                                        new FBXProperty { Type = 83, Value = "double" },
-                                                        new FBXProperty { Type = 83, Value = "Number" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 68, Value = (double)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Offset" },
-                                                        new FBXProperty { Type = 83, Value = "KTime" },
-                                                        new FBXProperty { Type = 83, Value = "Time" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 76, Value = (long)0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "InterlaceMode" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "FreeRunning" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "Loop" },
-                                                        new FBXProperty { Type = 83, Value = "bool" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                },
-                                                new FBXElem { ID = "P", 
-                                                    Properties = 
-                                                    {  
-                                                        new FBXProperty { Type = 83, Value = "AccessMode" },
-                                                        new FBXProperty { Type = 83, Value = "enum" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 83, Value = "" },
-                                                        new FBXProperty { Type = 73, Value = 0 }
-                                                    }
-                                                }
-                                            }
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "AnimationStack") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxAnimStack" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.String, "Description", "KString", "", "", ""),
+                                            FBXPropertyElement(FBXPropertyType.Long, "LocalStart", "KTime", "Time", "", (long)0),
+                                            FBXPropertyElement(FBXPropertyType.Long, "LocalStop", "KTime", "Time", "", (long)0),
+                                            FBXPropertyElement(FBXPropertyType.Long, "ReferenceStart", "KTime", "Time", "", (long)0),
+                                            FBXPropertyElement(FBXPropertyType.Long, "ReferenceStop", "KTime", "Time", "", (long)0)
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            );
+                );
+            }
+            #endregion
+            #region Definitions :: AnimationLayer
+            if (fbxObjects.Children.Any(e => e.ID == "AnimationLayer"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "AnimationLayer" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "AnimationLayer") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxAnimLayer" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Double, "Weight", "Number", "", "A", (double)100),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Mute", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Solo", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Lock", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "BlendMode", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationAccumulationMode", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScaleAccumulationMode", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Long, "BlendModeBypass", "ULongLong", "", "", (long)0)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: NodeAttribute
+            if (fbxObjects.Children.Any(e => e.ID == "NodeAttribute"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "NodeAttribute" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "NodeAttribute") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxNull" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Size", "double", "Number", "", (double)100),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Look", "enum", "", "", 1)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: Model
+            if (fbxObjects.Children.Any(e => e.ID == "Model"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem { ID = "ObjectType", 
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "Model" } 
+                        },
+                        Children = 
+                        {
+                            // MODEL COUNT
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Model") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxNode" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Integer, "QuaternionInterpolate", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "RotationOffset", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "RotationPivot", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ScalingOffset", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ScalingPivot", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TranslationActive", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TranslationMin", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TranslationMax", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TranslationMinX", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TranslationMinY", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TranslationMinZ", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TranslationMaxX", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TranslationMaxY", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TranslationMaxZ", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationOrder", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationSpaceForLimitOnly", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "RotationStiffnessX", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "RotationStiffnessY", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "RotationStiffnessZ", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "AxisLen", "double", "Number", "", (double)10),
+                                            FBXPropertyElement(FBXPropertyType.Double, "PreRotation", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "PostRotation", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationActive", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "RotationMin", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "RotationMax", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationMinX", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationMinY", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationMinZ", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationMaxX", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationMaxY", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "RotationMaxZ", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "InheritType", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScalingActive", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ScalingMin", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", (double)1, (double)1, (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScalingMinX", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScalingMinY", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScalingMinZ", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScalingMaxX", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScalingMaxY", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ScalingMaxZ", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "GeometricTranslation", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "GeometricRotation", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "GeometricScaling", "Vector3D", "Vector", "", (double)1, (double)1, (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MinDampRangeX", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MinDampRangeY", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MinDampRangeZ", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MaxDampRangeX", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MaxDampRangeY", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MaxDampRangeZ", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MinDampStrengthX", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MinDampStrengthY", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MinDampStrengthZ", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MaxDampStrengthX", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MaxDampStrengthY", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "MaxDampStrengthZ", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "PreferedAngleX", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "PreferedAngleY", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "PreferedAngleZ", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "LookAtProperty", "object", "", ""),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "UpVectorProperty", "object", "", ""),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Show", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "NegativePercentShapeSupport", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", -1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Freeze", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "LODBox", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Lcl Rotation", "Lcl Rotation", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Lcl Scaling", "Lcl Scaling", "", "A", (double)1, (double)1, (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Visibility", "Visibility", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Visibility Inheritance", "Visibility Inheritance", "", "", 1)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: Material
+            if (fbxObjects.Children.Any(e => e.ID == "Material"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem { ID = "ObjectType", 
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "Material" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Material") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxSurfacePhong" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.String, "ShadingModel", "KString", "", "", "Phong"),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "MultiLayer", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
+                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Bump", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "NormalMap", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "BumpFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TransparentColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
+                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ShininessExponent", "Number", "", "A", (double)20),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionFactor", "Number", "", "A", (double)1)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: Geometry
+            if (fbxObjects.Children.Any(e => e.ID == "Geometry"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem { ID = "ObjectType", 
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "Geometry" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Geometry") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxMesh" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Double, "BBoxMin", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "BBoxMax", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Primary Visibility", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Casts Shadows", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Receive Shadows", "bool", "", "", 1)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: Texture
+            if (fbxObjects.Children.Any(e => e.ID == "Texture"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "Texture" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Texture") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxFileTexture" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Integer, "TextureTypeUse", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Texture alpha", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "CurrentMappingType", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "WrapModeU", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "WrapModeV", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "UVSwap", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "PremultiplyAlpha", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Translation", "Vector", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Rotation", "Vector", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Scaling", "Vector", "", "A", (double)1, (double)1, (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TextureRotationPivot", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TextureScalingPivot", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "CurrentTextureBlendMode", "enum", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.String, "UVSet", "KString", "", "", "default"),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "UseMaterial", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: CollectionExclusive
+            if (fbxObjects.Children.Any(e => e.ID == "CollectionExclusive"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "CollectionExclusive" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "CollectionExclusive") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxDisplayLayer" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Show", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Freeze", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "LODBox", "bool", "", "", 0)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: Video
+            if (fbxObjects.Children.Any(e => e.ID == "Video"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "Video" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Video") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxVideo" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ImageSequence", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "ImageSequenceOffset", "int", "Integer", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "FrameRate", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "LastFrame", "int", "Integer", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Width", "int", "Integer", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Height", "int", "Integer", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.String, "Path", "KString", "XRefUrl", "", ""),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "StartFrame", "int", "Integer", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "StopFrame", "int", "Integer", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "PlaySpeed", "double", "Number", "", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Long, "Offset", "KTime", "Time", "", (long)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "InterlaceMode", "enum", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "FreeRunning", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Loop", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "AccessMode", "enum", "", "", 0)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
 
-            fbx.Elements.Add(objects);
+            fbx.Elements.Add(fbxDefinitions);
+            fbx.Elements.Add(fbxObjects);
 
             var fbxConnections = new FBXElem { ID = "Connections" };
 
@@ -2720,7 +1014,7 @@ namespace Flummery.ContentPipeline.Core
                 }
             );
 
-            foreach (var child in objects.Children)
+            foreach (var child in fbxObjects.Children)
             {
                 if (child.ID == "Material")
                 {
@@ -2742,6 +1036,63 @@ namespace Flummery.ContentPipeline.Core
             fbx.Elements.Add(fbxConnections);
 
             fbx.Save(path);
+        }
+
+        public enum FBXPropertyType : byte
+        {
+            Double = 68,
+            Integer = 73,
+            Long = 76,
+            String = 83
+        }
+
+        public static FBXElem FBXPropertyElement(FBXPropertyType PropertyType, string Name, string A, string B, string C)
+        {
+            return new FBXElem
+            {
+                ID = "P",
+                Properties = 
+                    {  
+                        new FBXProperty { Type = 83, Value = Name },
+                        new FBXProperty { Type = 83, Value = A },
+                        new FBXProperty { Type = 83, Value = B },
+                        new FBXProperty { Type = 83, Value = C }
+                    }
+            };
+        }
+
+        public static FBXElem FBXPropertyElement(FBXPropertyType PropertyType, string Name, string A, string B, string C, object PropertyValue)
+        {
+            return new FBXElem
+            {
+                ID = "P",
+                Properties = 
+                    {  
+                        new FBXProperty { Type = 83, Value = Name },
+                        new FBXProperty { Type = 83, Value = A },
+                        new FBXProperty { Type = 83, Value = B },
+                        new FBXProperty { Type = 83, Value = C },
+                        new FBXProperty { Type = (byte)PropertyType, Value = PropertyValue }
+                    }
+            };
+        }
+
+        public static FBXElem FBXPropertyElement(FBXPropertyType PropertyType, string Name, string A, string B, string C, object PVA, object PVB, object PVC)
+        {
+            return new FBXElem
+            {
+                ID = "P",
+                Properties = 
+                    {  
+                        new FBXProperty { Type = 83, Value = Name },
+                        new FBXProperty { Type = 83, Value = A },
+                        new FBXProperty { Type = 83, Value = B },
+                        new FBXProperty { Type = 83, Value = C },
+                        new FBXProperty { Type = (byte)PropertyType, Value = PVA },
+                        new FBXProperty { Type = (byte)PropertyType, Value = PVB },
+                        new FBXProperty { Type = (byte)PropertyType, Value = PVC }
+                    }
+            };
         }
     }
 }
