@@ -25,7 +25,9 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var material in objects.Children.Where(e => e.ID == "Material"))
             {
-                var m = new Material { Name = material.Properties[1].Value.ToString() };
+                string matName = material.Properties[1].Value.ToString();
+                matName = matName.Substring(0, matName.IndexOf("::"));
+                var m = new Material { Name = matName };
                 components.Add((long)material.Properties[0].Value, m);
             }
 
@@ -44,6 +46,7 @@ namespace Flummery.ContentPipeline.Core
                         t = SceneManager.Current.Content.Load<Texture, TGAImporter>(Path.GetFileNameWithoutExtension(file));
                         break;
 
+                    case ".dds":
                     case ".psd":
                         t = new Texture();
                         break;
@@ -52,12 +55,14 @@ namespace Flummery.ContentPipeline.Core
                         throw new NotImplementedException("Can't load texture \"" + file + "\"");
                 }
 
-                components.Add((int)texture.Properties[0].Value, t);
+                components.Add((long)texture.Properties[0].Value, t);
             }
 
             foreach (var element in objects.Children.Where(e => e.ID == "Geometry"))
             {
                 bool bUVs = true;
+                bool bNorms = true;
+                bool bUseIndexNorm = false;
                 var meshpart = new ModelMeshPart();
 
                 meshpart.PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles;
@@ -70,13 +75,20 @@ namespace Flummery.ContentPipeline.Core
                 for (int i = 0; i < vertParts.Length; i += 3) { verts.Add(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2])); }
 
                 var normElem = element.Children.Find(e => e.ID == "LayerElementNormal");
-                var normParts = (double[])normElem.Children.Find(e => e.ID == "Normals").Properties[0].Value;
-                for (int i = 0; i < normParts.Length; i += 3)
+                if (normElem != null)
                 {
-                    norms.Add(new OpenTK.Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]));
-                }
+                    var normParts = (double[])normElem.Children.Find(e => e.ID == "Normals").Properties[0].Value;
+                    for (int i = 0; i < normParts.Length; i += 3)
+                    {
+                        norms.Add(new OpenTK.Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]));
+                    }
 
-                bool bUseIndexNorm = (normElem.Children.Find(e => e.ID == "MappingInformationType").Properties[0].Value.ToString() == "ByVertice");
+                    bUseIndexNorm = (normElem.Children.Find(e => e.ID == "MappingInformationType").Properties[0].Value.ToString() == "ByVertice");
+                }
+                else
+                {
+                    bNorms = false;
+                }
 
                 var uvElem = element.Children.Find(e => e.ID == "LayerElementUV");
                 if (uvElem != null)
@@ -90,7 +102,17 @@ namespace Flummery.ContentPipeline.Core
                         for (int i = 0; i < uvParts.Length; i += 2) { luvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], -(float)uvParts[i + 1])); }
 
                         var uvindicies = (int[])uvElem.Children.Find(e => e.ID == "UVIndex").Properties[0].Value;
-                        for (int i = 0; i < uvindicies.Length; i++) { uvs.Add(luvs[uvindicies[i]]); }
+                        for (int i = 0; i < uvindicies.Length; i++)
+                        {
+                            if (uvindicies[i] == -1)
+                            {
+                                uvs.Add(OpenTK.Vector2.Zero);
+                            }
+                            else
+                            {
+                                uvs.Add(luvs[uvindicies[i]]);
+                            }
+                        }
                     }
                     else
                     {
@@ -115,7 +137,7 @@ namespace Flummery.ContentPipeline.Core
                         index = (index * -1) - 1;
                     }
 
-                    meshpart.AddVertex(verts[index], norms[(bUseIndexNorm ? index : i)], (bUVs ? uvs[i] : OpenTK.Vector2.Zero));
+                    meshpart.AddVertex(verts[index], (bNorms ? norms[(bUseIndexNorm ? index : i)] : OpenTK.Vector3.Zero), (bUVs ? uvs[i] : OpenTK.Vector2.Zero));
                 }
 
                 components.Add((long)element.Properties[0].Value, meshpart);
@@ -209,6 +231,7 @@ namespace Flummery.ContentPipeline.Core
                                 foreach (var part in ((ModelMesh)components[keyB]).MeshParts)
                                 {
                                     part.Material = (Material)components[keyA];
+                                    SceneManager.Current.Add(part.Material);
                                 }
                             }
                             break;

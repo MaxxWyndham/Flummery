@@ -15,6 +15,20 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override string GetExtension() { return "mt2;mtl;mat"; }
 
+        public override string GetHints(string currentPath)
+        {
+            string hints = (currentPath != null ? currentPath + ";" : "");
+
+            if (Properties.Settings.Default.PathCarmageddonReincarnation != null)
+            {
+                if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\")) { hints = Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\"; }
+
+                return hints;
+            }
+
+            return null;
+        }
+
         public override Asset Import(string path)
         {
             string name = Path.GetFileNameWithoutExtension(path);

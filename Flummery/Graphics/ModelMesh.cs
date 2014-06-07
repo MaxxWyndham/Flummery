@@ -62,6 +62,23 @@ namespace Flummery
             meshParts.Add(meshpart);
         }
 
+        public List<Material> GetMaterials()
+        {
+            var l = new List<Material>();
+            var index = new List<long>();
+
+            foreach (var part in meshParts)
+            {
+                if (part.Material != null && !index.Contains(part.Material.Key))
+                {
+                    l.Add(part.Material);
+                    index.Add(part.Material.Key);
+                }
+            }
+
+            return l;
+        }
+
         public void Draw()
         {
             foreach (ModelMeshPart meshpart in meshParts)

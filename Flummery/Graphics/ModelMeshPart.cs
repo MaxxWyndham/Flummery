@@ -59,18 +59,18 @@ namespace Flummery
             v.Normal = normal;
             v.UV = texcoords;
 
-            int index = -1;
+            //int index = -1;
 
-            //int index = vertexBuffer.Data.FindIndex(vert =>
-            //    vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
-            //    vert.Position.Y.GetHashCode() == v.Position.Y.GetHashCode() &&
-            //    vert.Position.Z.GetHashCode() == v.Position.Z.GetHashCode() &&
-            //    vert.Normal.X.GetHashCode() == v.Normal.X.GetHashCode() &&
-            //    vert.Normal.Y.GetHashCode() == v.Normal.Y.GetHashCode() &&
-            //    vert.Normal.Z.GetHashCode() == v.Normal.Z.GetHashCode() &&
-            //    vert.UV.X.GetHashCode() == v.UV.X.GetHashCode() &&
-            //    vert.UV.Y.GetHashCode() == v.UV.Y.GetHashCode()
-            //);
+            int index = vertexBuffer.Data.FindIndex(vert =>
+                vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
+                vert.Position.Y.GetHashCode() == v.Position.Y.GetHashCode() &&
+                vert.Position.Z.GetHashCode() == v.Position.Z.GetHashCode() &&
+                vert.Normal.X.GetHashCode() == v.Normal.X.GetHashCode() &&
+                vert.Normal.Y.GetHashCode() == v.Normal.Y.GetHashCode() &&
+                vert.Normal.Z.GetHashCode() == v.Normal.Z.GetHashCode() &&
+                vert.UV.X.GetHashCode() == v.UV.X.GetHashCode() &&
+                vert.UV.Y.GetHashCode() == v.UV.Y.GetHashCode()
+            );
 
             if (index == -1)
             {
@@ -181,7 +181,8 @@ namespace Flummery
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.DepthTest);
 
-            // Visualise normals
+            //// Visualise normals
+            //GL.Disable(EnableCap.Texture2D);
             //GL.Begin(BeginMode.Lines);
 
             //foreach (int i in indexBuffer.Data)
@@ -192,10 +193,10 @@ namespace Flummery
             //    GL.Color3(Color.White);
 
             //    GL.Vertex3(v.Position);
-            //    GL.Vertex3(v.Position + (v.Normal * 0.01f));
+            //    GL.Vertex3(v.Position + (v.Normal * 0.1f));
             //}
-
             //GL.End();
+            //GL.Enable(EnableCap.Texture2D);
         }
     }
 }

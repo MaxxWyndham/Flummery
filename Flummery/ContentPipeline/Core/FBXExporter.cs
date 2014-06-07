@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ToxicRagers.Core.Formats;
 using OpenTK;
@@ -123,6 +124,8 @@ namespace Flummery.ContentPipeline.Core
                 }
             );
 
+            long sceneRoot = (long)8008135;
+
             fbx.Elements.Add(
                 new FBXElem
                 {
@@ -133,7 +136,7 @@ namespace Flummery.ContentPipeline.Core
                         new FBXElem { ID = "Document", 
                             Properties = 
                             {  
-                                new FBXProperty { Type = 76, Value = DateTime.Now.Ticks },
+                                new FBXProperty { Type = 76, Value = sceneRoot },
                                 new FBXProperty { Type = 83, Value = "" },
                                 new FBXProperty { Type = 83, Value = "Scene" }
                             },
@@ -156,9 +159,9 @@ namespace Flummery.ContentPipeline.Core
             fbx.Elements.Add(new FBXElem { ID = "References" });
 
             var fbxObjects = new FBXElem { ID = "Objects" };
+            var fbxConnections = new FBXElem { ID = "Connections" };
 
-            var materialList = model.GetMaterials();
-            foreach (var material in materialList)
+            foreach (var material in model.GetMaterials())
             {
                 var fbxMaterial = new FBXElem { ID = "Material", Properties = { new FBXProperty { Type = 76, Value = material.Key }, new FBXProperty { Type = 83, Value = material.Name + "::Material" }, new FBXProperty { Type = 83, Value = "" } } };
                 fbxMaterial.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } });
@@ -178,8 +181,62 @@ namespace Flummery.ContentPipeline.Core
                     }
                 );
 
+                string ddsPath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(material.Texture.FileName);
+                var tdx = (material.Texture.Tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX);
+                if (tdx != null)
+                {
+                    tdx.SaveAsDDS(ddsPath);
+                    ddsPath += ".dds";
+
+                    var fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" }, new FBXProperty { Type = 83, Value = "" } } };
+                    fbxTexture.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "TextureVideoClip" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 202 } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "TextureName", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "Media", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
+                    fbxTexture.Children.Add(
+                        new FBXElem
+                        {
+                            ID = "Properties70",
+                            Children = 
+                        { 
+                            FBXPropertyElement(FBXPropertyType.Integer, "PremultiplyAlpha", "bool", "", "", 1),
+                            FBXPropertyElement(FBXPropertyType.Integer, "CurrentMappingType", "enum", "", "", 6),
+                            FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
+                        }
+                        }
+                    );
+
+                    fbxConnections.Children.Add(FBXConnection("Material", material.Key, "Texture", material.Texture.Key, FBXPropertyType.String, "DiffuseColor"));
+
+                    var fbxVideo = new FBXElem { ID = "Video", Properties = { new FBXProperty { Type = 76, Value = material.Key | material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" }, new FBXProperty { Type = 83, Value = "Clip" } } };
+                    fbxVideo.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "Clip" } } });
+                    fbxVideo.Children.Add(
+                        new FBXElem
+                        {
+                            ID = "Properties70",
+                            Children = 
+                        { 
+                            FBXPropertyElement(FBXPropertyType.String, "Path", "KString", "Url", "", ddsPath)
+                        }
+                        }
+                    );
+                    fbxVideo.Children.Add(new FBXElem { ID = "UseMipMap", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "Content", Properties = { new FBXProperty { Type = 82, Value = new byte[] { } } } });
+
+                    fbxConnections.Children.Add(FBXConnection("Texture", material.Texture.Key, "Video", material.Key | material.Texture.Key));
+
+                    fbxObjects.Children.Add(fbxTexture);
+                    fbxObjects.Children.Add(fbxVideo);
+                }
+
                 fbxObjects.Children.Add(fbxMaterial);
             }
+
+            long rootKey = DateTime.Now.Ticks;
 
             foreach (var mesh in model.Meshes)
             {
@@ -198,6 +255,8 @@ namespace Flummery.ContentPipeline.Core
                 int smoothingGroup = 0;
 
                 bool bBlender = false;
+
+                var materialList = mesh.GetMaterials();
 
                 foreach (var part in mesh.MeshParts)
                 {
@@ -291,15 +350,6 @@ namespace Flummery.ContentPipeline.Core
                     normvalues[(i * 3) + 1] = norms[inm[i]].Y;
                     normvalues[(i * 3) + 2] = norms[inm[i]].Z;
                 }
-                //var vertvalues = new double[inm.Count * 3];
-                //for (var i = 0; i < inm.Count; i++)
-                //{
-                //    int index = ((i + 1) % 3 == 0 ? (ivt[i] + 1) * -1 : ivt[i]);
-
-                //    vertvalues[(i * 3) + 0] = verts[index].X;
-                //    vertvalues[(i * 3) + 1] = verts[index].Y;
-                //    vertvalues[(i * 3) + 2] = verts[index].Z;
-                //}
 
                 var uvvalues = new double[uvs.Count * 2];
                 for (var i = 0; i < uvs.Count; i++)
@@ -308,7 +358,11 @@ namespace Flummery.ContentPipeline.Core
                     uvvalues[(i * 2) + 1] = 1 - uvs[i].Y;
                 }
 
-                var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = (long)1033522512 }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
+                rootKey += verts.Count + 1;
+
+                fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Geometry", rootKey));
+
+                var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = rootKey }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
                 geometry.Children.Add(new FBXElem { ID = "Properties70" });
                 geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
                 geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues } } });
@@ -439,16 +493,24 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var mesh in model.Meshes)
             {
-                var emodel = new FBXElem
+                foreach (var material in mesh.GetMaterials())
                 {
-                    ID = "Model",
-                    Properties = 
+                    fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Material", material.Key));
+                }
+
+                fbxConnections.Children.Add(FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+
+                fbxObjects.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "Model",
+                        Properties = 
                         { 
-                            new FBXProperty { Type = 76, Value = (long)1037079952 }, 
+                            new FBXProperty { Type = 76, Value = (long)Math.Abs(mesh.Name.GetHashCode()) }, 
                             new FBXProperty { Type = 83, Value = mesh.Name + "::Model" }, 
                             new FBXProperty { Type = 83, Value = "Mesh" } 
                         },
-                    Children = 
+                        Children = 
                         { 
                             new FBXElem { ID = "Version", 
                                 Properties = 
@@ -528,9 +590,8 @@ namespace Flummery.ContentPipeline.Core
                                 } 
                             }
                         }
-                };
-
-                fbxObjects.Children.Add(emodel);
+                    }
+                );
             }
 
             var fbxDefinitions = new FBXElem { ID = "Definitions" };
@@ -984,54 +1045,52 @@ namespace Flummery.ContentPipeline.Core
             fbx.Elements.Add(fbxDefinitions);
             fbx.Elements.Add(fbxObjects);
 
-            var fbxConnections = new FBXElem { ID = "Connections" };
+            //// HARDCODED MODEL TO SCENE
+            //fbxConnections.Children.Add(
+            //    new FBXElem
+            //    {
+            //        ID = "C",
+            //        Properties = 
+            //        {  
+            //            new FBXProperty { Type = 83, Value = "OO" },
+            //            new FBXProperty { Type = 76, Value = (long)1037079952 },
+            //            new FBXProperty { Type = 76, Value = (long)0 }
+            //        }
+            //    }
+            //);
 
-            // HARDCODED MODEL TO SCENE
-            fbxConnections.Children.Add(
-                new FBXElem
-                {
-                    ID = "C",
-                    Properties = 
-                    {  
-                        new FBXProperty { Type = 83, Value = "OO" },
-                        new FBXProperty { Type = 76, Value = (long)1037079952 },
-                        new FBXProperty { Type = 76, Value = (long)0 }
-                    }
-                }
-            );
+            //// HARDCODED GEOMETRY TO MODEL
+            //fbxConnections.Children.Add(
+            //    new FBXElem
+            //    {
+            //        ID = "C",
+            //        Properties = 
+            //        {  
+            //            new FBXProperty { Type = 83, Value = "OO" },
+            //            new FBXProperty { Type = 76, Value = (long)1033522512 },
+            //            new FBXProperty { Type = 76, Value = (long)1037079952 }
+            //        }
+            //    }
+            //);
 
-            // HARDCODED GEOMETRY TO MODEL
-            fbxConnections.Children.Add(
-                new FBXElem
-                {
-                    ID = "C",
-                    Properties = 
-                    {  
-                        new FBXProperty { Type = 83, Value = "OO" },
-                        new FBXProperty { Type = 76, Value = (long)1033522512 },
-                        new FBXProperty { Type = 76, Value = (long)1037079952 }
-                    }
-                }
-            );
-
-            foreach (var child in fbxObjects.Children)
-            {
-                if (child.ID == "Material")
-                {
-                    fbxConnections.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "C",
-                            Properties = 
-                            {  
-                                new FBXProperty { Type = 83, Value = "OO" },
-                                new FBXProperty { Type = 76, Value = (long)child.Properties[0].Value },
-                                new FBXProperty { Type = 76, Value = (long)1037079952 }
-                            }
-                        }
-                    );
-                }
-            }
+            //foreach (var child in fbxObjects.Children)
+            //{
+            //    if (child.ID == "Material")
+            //    {
+            //        fbxConnections.Children.Add(
+            //            new FBXElem
+            //            {
+            //                ID = "C",
+            //                Properties = 
+            //                {  
+            //                    new FBXProperty { Type = 83, Value = "OO" },
+            //                    new FBXProperty { Type = 76, Value = (long)child.Properties[0].Value },
+            //                    new FBXProperty { Type = 76, Value = (long)1037079952 }
+            //                }
+            //            }
+            //        );
+            //    }
+            //}
 
             fbx.Elements.Add(fbxConnections);
 
@@ -1092,6 +1151,37 @@ namespace Flummery.ContentPipeline.Core
                         new FBXProperty { Type = (byte)PropertyType, Value = PVB },
                         new FBXProperty { Type = (byte)PropertyType, Value = PVC }
                     }
+            };
+        }
+
+        public static FBXElem FBXConnection(string parentType, long parent, string childType, long child)
+        {
+            Console.WriteLine("Connecting {0} {1} to {2} {3}", childType, child, parentType, parent);
+            return new FBXElem
+            {
+                ID = "C",
+                Properties = 
+                {  
+                    new FBXProperty { Type = 83, Value = "OO" },
+                    new FBXProperty { Type = 76, Value = child },
+                    new FBXProperty { Type = 76, Value = parent }
+                }
+            };
+        }
+
+        public static FBXElem FBXConnection(string parentType, long parent, string childType, long child, FBXPropertyType propertyType, string propertyName)
+        {
+            Console.WriteLine("Connecting {0} {1} to {2}.{4} {3}", childType, child, parentType, parent, propertyName);
+            return new FBXElem
+            {
+                ID = "C",
+                Properties = 
+                {  
+                    new FBXProperty { Type = 83, Value = "OP" },
+                    new FBXProperty { Type = 76, Value = child },
+                    new FBXProperty { Type = 76, Value = parent },
+                    new FBXProperty { Type = (byte)propertyType, Value = propertyName },
+                }
             };
         }
     }
