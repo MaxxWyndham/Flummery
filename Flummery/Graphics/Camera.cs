@@ -25,6 +25,7 @@ namespace Flummery
         private Matrix4 cameraRotation;
 
         public Vector3 Position { get { return position; } }
+        public float Speed { get { return speed; } }
 
         public Camera() { ResetCamera(); }
 

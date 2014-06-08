@@ -147,8 +147,8 @@ namespace Flummery
 
             if (active.ProjectionMode == Viewport.Mode.Orthographic)
             {
-                if (state[Key.A]) { active.Zoom -= 1.0f * dt; }
-                if (state[Key.Z]) { active.Zoom += 1.0f * dt; }
+                if (state[Key.A]) { active.Zoom -= 1.0f * active.Camera.Speed * dt; }
+                if (state[Key.Z]) { active.Zoom += 1.0f * active.Camera.Speed * dt; }
                 if (state[Key.Keypad8]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); }
                 if (state[Key.Keypad2]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); }
 
