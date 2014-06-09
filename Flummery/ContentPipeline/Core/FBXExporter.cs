@@ -16,6 +16,7 @@ namespace Flummery.ContentPipeline.Core
             fbx.Version = 7400;
 
             bool bUseCompression = true;
+            bool bUseBlenderMode = false;
 
             fbx.Elements.Add(
                 new FBXElem
@@ -72,7 +73,7 @@ namespace Flummery.ContentPipeline.Core
                                         FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationName", "KString", "", "", "Flummery"),
                                         FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationVersion", "KString", "", "", Flummery.Version),
                                         FBXPropertyElement(FBXPropertyType.String, "Original|DateTime_GMT", "DateTime", "", "", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff")),
-                                        FBXPropertyElement(FBXPropertyType.String, "Original|FileName", "KString", "", "", path),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original|FileName", "KString", "", "", path.Replace(@"\", "/")),
                                         FBXPropertyElement(FBXPropertyType.String, "LastSaved", "Compound", "", ""),
                                         FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationVendor", "KString", "", "", "Toxic Ragers"),
                                         FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationName", "KString", "", "", "Flummery"),
@@ -103,7 +104,7 @@ namespace Flummery.ContentPipeline.Core
                                 FBXPropertyElement(FBXPropertyType.Integer, "UpAxis", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "UpAxisSign", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "FrontAxis", "int", "Integer", "", 2),
-                                FBXPropertyElement(FBXPropertyType.Integer, "FrontAxisSign", "int", "Integer", "", 0),
+                                FBXPropertyElement(FBXPropertyType.Integer, "FrontAxisSign", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "CoordAxis", "int", "Integer", "", 0),
                                 FBXPropertyElement(FBXPropertyType.Integer, "CoordAxisSign", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "OriginalUpAxis", "int", "Integer", "", 1),
@@ -112,11 +113,11 @@ namespace Flummery.ContentPipeline.Core
                                 FBXPropertyElement(FBXPropertyType.Double, "OriginalUnitScaleFactor", "double", "Number", "", (double)1),
                                 FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "ColorRGB", "Color", "", (double)0.0, (double)0.0, (double)0.0),
                                 FBXPropertyElement(FBXPropertyType.String, "DefaultCamera", "KString", "", "", "Producer Perspective"),
-                                FBXPropertyElement(FBXPropertyType.Integer, "TimeMode", "enum", "", "", 6),
+                                FBXPropertyElement(FBXPropertyType.Integer, "TimeMode", "enum", "", "", 11),
                                 FBXPropertyElement(FBXPropertyType.Integer, "TimeProtocol", "enum", "", "", 2),
                                 FBXPropertyElement(FBXPropertyType.Integer, "SnapOnFrameMode", "enum", "", "", 0),
-                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStart", "KTime", "Time", "", (long)0),
-                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStop", "KTime", "Time", "", (long)153953860000),
+                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStart", "KTime", "Time", "", (long)1924423250),
+                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStop", "KTime", "Time", "", (long)92372316000),
                                 FBXPropertyElement(FBXPropertyType.Double, "CustomFrameRate", "double", "Number", "", (double)(-1.0)),
                                 FBXPropertyElement(FBXPropertyType.String, "TimeMarker", "Compound", "", ""),
                                 FBXPropertyElement(FBXPropertyType.Integer, "CurrentTimeMarker", "int", "Integer", "", -1)
@@ -163,122 +164,7 @@ namespace Flummery.ContentPipeline.Core
             var fbxObjects = new FBXElem { ID = "Objects" };
             var fbxConnections = new FBXElem { ID = "Connections" };
 
-            //fbxObjects.Children.Add(
-            //    new FBXElem
-            //    {
-            //        ID = "AnimationStack",
-            //        Properties = 
-            //        { 
-            //            new FBXProperty { Type = 76, Value = (long)730328688 }, 
-            //            new FBXProperty { Type = 83, Value = "Take 001::AnimStack" }, 
-            //            new FBXProperty { Type = 83, Value = "" } 
-            //        },
-            //        Children = 
-            //        {
-            //            new FBXElem
-            //            {
-            //                ID = "Properties70",
-            //                Children = 
-            //                { 
-            //                    FBXPropertyElement(FBXPropertyType.Long, "LocalStart", "KTime", "Time", "", (long)1924423250),
-            //                    FBXPropertyElement(FBXPropertyType.Long, "LocalStop", "KTime", "Time", "", (long)46186158000),
-            //                    FBXPropertyElement(FBXPropertyType.Long, "ReferenceStart", "KTime", "Time", "", (long)1924423250),
-            //                    FBXPropertyElement(FBXPropertyType.Long, "ReferenceStop", "KTime", "Time", "", (long)46186158000)
-            //                }
-            //            }
-            //        }
-            //    }
-            //);
-
-            //fbxObjects.Children.Add(
-            //    new FBXElem
-            //    {
-            //        ID = "AnimationLayer",
-            //        Properties = 
-            //        { 
-            //            new FBXProperty { Type = 76, Value = (long)1011573216 }, 
-            //            new FBXProperty { Type = 83, Value = "BaseLayer::AnimLayer" }, 
-            //            new FBXProperty { Type = 83, Value = "" } 
-            //        }
-            //    }
-            //);
-
-            //fbxConnections.Children.Add(FBXConnection("AnimationStack", 730328688, "AnimationLayer", 1011573216));
-
-            foreach (var material in model.GetMaterials())
-            {
-                var fbxMaterial = new FBXElem { ID = "Material", Properties = { new FBXProperty { Type = 76, Value = material.Key }, new FBXProperty { Type = 83, Value = material.Name + "::Material" }, new FBXProperty { Type = 83, Value = "" } } };
-                fbxMaterial.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } });
-                fbxMaterial.Children.Add(new FBXElem { ID = "ShadingModel", Properties = { new FBXProperty { Type = 83, Value = "phong" } } });
-                fbxMaterial.Children.Add(new FBXElem { ID = "MultiLayer", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
-                fbxMaterial.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "Properties70",
-                        Children = 
-                        { 
-                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)1, (double)1, (double)1)
-                        }
-                    }
-                );
-
-                string ddsPath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(material.Texture.FileName);
-                var tdx = (material.Texture.Tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX);
-                if (tdx != null)
-                {
-                    tdx.SaveAsDDS(ddsPath);
-                    ddsPath += ".dds";
-
-                    var fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" }, new FBXProperty { Type = 83, Value = "" } } };
-                    fbxTexture.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "TextureVideoClip" } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 202 } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "TextureName", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "Media", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
-                    fbxTexture.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "Properties70",
-                            Children = 
-                        { 
-                            FBXPropertyElement(FBXPropertyType.Integer, "PremultiplyAlpha", "bool", "", "", 1),
-                            FBXPropertyElement(FBXPropertyType.Integer, "CurrentMappingType", "enum", "", "", 6),
-                            FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
-                        }
-                        }
-                    );
-
-                    fbxConnections.Children.Add(FBXConnection("Material", material.Key, "Texture", material.Texture.Key, FBXPropertyType.String, "DiffuseColor"));
-
-                    var fbxVideo = new FBXElem { ID = "Video", Properties = { new FBXProperty { Type = 76, Value = material.Key | material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" }, new FBXProperty { Type = 83, Value = "Clip" } } };
-                    fbxVideo.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "Clip" } } });
-                    fbxVideo.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "Properties70",
-                            Children = 
-                        { 
-                            FBXPropertyElement(FBXPropertyType.String, "Path", "KString", "Url", "", ddsPath)
-                        }
-                        }
-                    );
-                    fbxVideo.Children.Add(new FBXElem { ID = "UseMipMap", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
-                    fbxVideo.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
-                    fbxVideo.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
-                    fbxVideo.Children.Add(new FBXElem { ID = "Content", Properties = { new FBXProperty { Type = 82, Value = new byte[] { } } } });
-
-                    fbxConnections.Children.Add(FBXConnection("Texture", material.Texture.Key, "Video", material.Key | material.Texture.Key));
-
-                    fbxObjects.Children.Add(fbxTexture);
-                    fbxObjects.Children.Add(fbxVideo);
-                }
-
-                fbxObjects.Children.Add(fbxMaterial);
-            }
+            fbxConnections.Children.Add(FBXConnection("AnimationStack", 309734896, "AnimationLayer", 1073569280));
 
             long rootKey = DateTime.Now.Ticks;
 
@@ -298,8 +184,6 @@ namespace Flummery.ContentPipeline.Core
                 int materialIndex = 0;
                 int smoothingGroup = 0;
 
-                bool bBlender = false;
-
                 var materialList = mesh.GetMaterials();
 
                 foreach (var part in mesh.MeshParts)
@@ -312,7 +196,7 @@ namespace Flummery.ContentPipeline.Core
                         int p = part.IndexBuffer.Data[i];
                         var v = part.VertexBuffer.Data[p];
 
-                        if (bBlender)
+                        if (bUseBlenderMode)
                         {
                             ixvt = vects.FindIndex(vect => vect.Position.X == v.Position.X &&
                                                            vect.Position.Y == v.Position.Y &&
@@ -356,7 +240,7 @@ namespace Flummery.ContentPipeline.Core
                         }
 
                         ixuv = uvs.FindIndex(uv => uv.X == v.UV.X &&
-                                                    uv.Y == v.UV.Y);
+                                                   uv.Y == v.UV.Y);
 
                         if (ixuv == -1)
                         {
@@ -409,6 +293,7 @@ namespace Flummery.ContentPipeline.Core
                 var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = rootKey }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
                 geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues, Compressed = bUseCompression } } });
                 geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ivt.ToArray(), Compressed = bUseCompression } } });
+
                 geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
                 geometry.Children.Add(
                     new FBXElem
@@ -424,7 +309,8 @@ namespace Flummery.ContentPipeline.Core
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
-                            new FBXElem { ID = "Normals", Properties = { new FBXProperty { Type = 100, Value = normvalues, Compressed = bUseCompression } } }
+                            new FBXElem { ID = "Normals", Properties = { new FBXProperty { Type = 100, Value = normvalues, Compressed = bUseCompression } } },
+                            new FBXElem { ID = "NormalsW", Properties = { new FBXProperty { Type = 100, Value = Enumerable.Repeat((double)1, normvalues.Length / 3).ToArray(), Compressed = bUseCompression } } }
                         }
                     }
                 );
@@ -439,7 +325,7 @@ namespace Flummery.ContentPipeline.Core
                         Children = 
                         { 
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
-                            new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
+                            new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "map1" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
                             new FBXElem { ID = "UV", Properties = { new FBXProperty { Type = 100, Value = uvvalues, Compressed = bUseCompression } } },
@@ -457,7 +343,7 @@ namespace Flummery.ContentPipeline.Core
                         },
                         Children = 
                         { 
-                            new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
+                            new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
@@ -548,7 +434,7 @@ namespace Flummery.ContentPipeline.Core
                         fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Material", material.Key));
                     }
 
-                    fbxConnections.Children.Add(FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                    fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
 
                     fbxObjects.Children.Add(
                         new FBXElem
@@ -571,7 +457,6 @@ namespace Flummery.ContentPipeline.Core
                                 new FBXElem { ID = "Properties70", 
                                     Children = 
                                     { 
-                                        FBXPropertyElement(FBXPropertyType.Double, "PreRotation", "Vector3D", "Vector", "", (double)0.0, (double)0.0, (double)0.0),
                                         FBXPropertyElement(FBXPropertyType.Integer, "RotationActive", "bool", "", "", 1),
                                         FBXPropertyElement(FBXPropertyType.Integer, "InheritType", "enum", "", "", 1),
                                         FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", (double)0.0, (double)0.0, (double)0.0),
@@ -596,24 +481,106 @@ namespace Flummery.ContentPipeline.Core
                 }
             }
 
-            var fbxDefinitions = new FBXElem { ID = "Definitions" };
-            fbxDefinitions.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 100 } } });
-            fbxDefinitions.Children.Add(new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 + fbxObjects.Children.Count } } });
-            fbxDefinitions.Children.Add(new FBXElem { ID = "ObjectType", Properties = { new FBXProperty { Type = 83, Value = "GlobalSettings" } }, Children = { new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } } } });
-            #region Definitions :: AnimationStack
-            if (fbxObjects.Children.Any(e => e.ID == "AnimationStack"))
+            foreach (var material in model.GetMaterials())
             {
-                fbxDefinitions.Children.Add(
+                var fbxMaterial = new FBXElem { ID = "Material", Properties = { new FBXProperty { Type = 76, Value = material.Key }, new FBXProperty { Type = 83, Value = material.Name + "::Material" }, new FBXProperty { Type = 83, Value = "" } } };
+                fbxMaterial.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } });
+                fbxMaterial.Children.Add(new FBXElem { ID = "ShadingModel", Properties = { new FBXProperty { Type = 83, Value = "phong" } } });
+                fbxMaterial.Children.Add(new FBXElem { ID = "MultiLayer", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
+                fbxMaterial.Children.Add(
                     new FBXElem
                     {
-                        ID = "ObjectType",
-                        Properties = 
+                        ID = "Properties70",
+                        Children = 
+                        { 
+                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)1, (double)1, (double)1),
+                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)1),
+                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "Emissive", "Vector3D", "Vector", "", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "Ambient", "Vector3D", "Vector", "", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "Diffuse", "Vector3D", "Vector", "", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "Specular", "Vector3D", "Vector", "", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "Shininess", "double", "Number", "", (double)20),
+                            FBXPropertyElement(FBXPropertyType.Double, "Opacity", "double", "Number", "", (double)1),
+                            FBXPropertyElement(FBXPropertyType.Double, "Reflectivity", "double", "Number", "", (double)0)
+                        }
+                    }
+                );
+
+                string ddsPath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(material.Texture.FileName);
+                var tdx = (material.Texture.Tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX);
+                if (tdx != null)
+                {
+                    tdx.SaveAsDDS(ddsPath);
+                    ddsPath += ".dds";
+
+                    var fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" }, new FBXProperty { Type = 83, Value = "" } } };
+                    fbxTexture.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "TextureVideoClip" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 202 } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "TextureName", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "Media", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
+                    fbxTexture.Children.Add(
+                        new FBXElem
+                        {
+                            ID = "Properties70",
+                            Children = 
+                        { 
+                            FBXPropertyElement(FBXPropertyType.Integer, "PremultiplyAlpha", "bool", "", "", 1),
+                            FBXPropertyElement(FBXPropertyType.Integer, "CurrentMappingType", "enum", "", "", 6),
+                            FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
+                        }
+                        }
+                    );
+
+                    fbxConnections.Children.Add(FBXConnection("Material", material.Key, "Texture", material.Texture.Key, FBXPropertyType.String, "DiffuseColor"));
+
+                    var fbxVideo = new FBXElem { ID = "Video", Properties = { new FBXProperty { Type = 76, Value = material.Key | material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" }, new FBXProperty { Type = 83, Value = "Clip" } } };
+                    fbxVideo.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "Clip" } } });
+                    fbxVideo.Children.Add(
+                        new FBXElem
+                        {
+                            ID = "Properties70",
+                            Children = 
+                        { 
+                            FBXPropertyElement(FBXPropertyType.String, "Path", "KString", "Url", "", ddsPath)
+                        }
+                        }
+                    );
+                    fbxVideo.Children.Add(new FBXElem { ID = "UseMipMap", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "Content", Properties = { new FBXProperty { Type = 82, Value = new byte[] { } } } });
+
+                    fbxConnections.Children.Add(FBXConnection("Texture", material.Texture.Key, "Video", material.Key | material.Texture.Key));
+
+                    fbxObjects.Children.Add(fbxTexture);
+                    fbxObjects.Children.Add(fbxVideo);
+                }
+
+                fbxObjects.Children.Add(fbxMaterial);
+            }
+
+            var fbxDefinitions = new FBXElem { ID = "Definitions" };
+            fbxDefinitions.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 100 } } });
+            fbxDefinitions.Children.Add(new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 3 + fbxObjects.Children.Count } } });
+            fbxDefinitions.Children.Add(new FBXElem { ID = "ObjectType", Properties = { new FBXProperty { Type = 83, Value = "GlobalSettings" } }, Children = { new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } } } });
+            #region Definitions :: AnimationStack
+            fbxDefinitions.Children.Add(
+                new FBXElem
+                {
+                    ID = "ObjectType",
+                    Properties = 
                         { 
                             new FBXProperty { Type = 83, Value = "AnimationStack" } 
                         },
-                        Children = 
+                    Children = 
                         {
-                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "AnimationStack") } } },
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } },
                             new FBXElem { ID = "PropertyTemplate", 
                                 Properties = 
                                 { 
@@ -634,24 +601,21 @@ namespace Flummery.ContentPipeline.Core
                                 }
                             }
                         }
-                    }
-                );
-            }
+                }
+            );
             #endregion
             #region Definitions :: AnimationLayer
-            if (fbxObjects.Children.Any(e => e.ID == "AnimationLayer"))
-            {
-                fbxDefinitions.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "ObjectType",
-                        Properties = 
+            fbxDefinitions.Children.Add(
+                new FBXElem
+                {
+                    ID = "ObjectType",
+                    Properties = 
                         { 
                             new FBXProperty { Type = 83, Value = "AnimationLayer" } 
                         },
-                        Children = 
+                    Children = 
                         {
-                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "AnimationLayer") } } },
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } },
                             new FBXElem { ID = "PropertyTemplate", 
                                 Properties = 
                                 { 
@@ -676,9 +640,8 @@ namespace Flummery.ContentPipeline.Core
                                 }
                             }
                         }
-                    }
-                );
-            }
+                }
+            );
             #endregion
             #region Definitions :: NodeAttribute
             if (fbxObjects.Children.Any(e => e.ID == "NodeAttribute"))
@@ -707,6 +670,61 @@ namespace Flummery.ContentPipeline.Core
                                             FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
                                             FBXPropertyElement(FBXPropertyType.Double, "Size", "double", "Number", "", (double)100),
                                             FBXPropertyElement(FBXPropertyType.Integer, "Look", "enum", "", "", 1)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: Material
+            if (fbxObjects.Children.Any(e => e.ID == "Material"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 83, Value = "Material" } 
+                        },
+                        Children = 
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Material") } } },
+                            new FBXElem { ID = "PropertyTemplate", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "FbxSurfacePhong" } 
+                                },
+                                Children = 
+                                {
+                                    new FBXElem { ID = "Properties70", 
+                                        Children = 
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.String, "ShadingModel", "KString", "", "", "Phong"),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "MultiLayer", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
+                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Bump", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "NormalMap", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "BumpFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TransparentColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
+                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ShininessExponent", "Number", "", "A", (double)20),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionFactor", "Number", "", "A", (double)1)
                                         }
                                     }
                                 }
@@ -810,59 +828,6 @@ namespace Flummery.ContentPipeline.Core
                                             FBXPropertyElement(FBXPropertyType.Double, "Lcl Scaling", "Lcl Scaling", "", "A", (double)1, (double)1, (double)1),
                                             FBXPropertyElement(FBXPropertyType.Double, "Visibility", "Visibility", "", "A", (double)1),
                                             FBXPropertyElement(FBXPropertyType.Integer, "Visibility Inheritance", "Visibility Inheritance", "", "", 1)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                );
-            }
-            #endregion
-            #region Definitions :: Material
-            if (fbxObjects.Children.Any(e => e.ID == "Material"))
-            {
-                fbxDefinitions.Children.Add(
-                    new FBXElem { ID = "ObjectType", 
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "Material" } 
-                        },
-                        Children = 
-                        {
-                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Material") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxSurfacePhong" } 
-                                },
-                                Children = 
-                                {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
-                                        {
-                                            FBXPropertyElement(FBXPropertyType.String, "ShadingModel", "KString", "", "", "Phong"),
-                                            FBXPropertyElement(FBXPropertyType.Integer, "MultiLayer", "bool", "", "", 0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
-                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)0.8, (double)0.8, (double)0.8),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "Bump", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "NormalMap", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "BumpFactor", "double", "Number", "", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "TransparentColor", "Color", "", "A", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementFactor", "double", "Number", "", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementFactor", "double", "Number", "", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
-                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "ShininessExponent", "Number", "", "A", (double)20),
-                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionColor", "Color", "", "A", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionFactor", "Number", "", "A", (double)1)
                                         }
                                     }
                                 }
