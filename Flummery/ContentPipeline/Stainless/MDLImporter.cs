@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ToxicRagers.Stainless.Formats;
 using OpenTK;
 
@@ -25,7 +26,7 @@ namespace Flummery.ContentPipeline.Stainless
 
                 var mdlmesh = mdl.GetMesh(i);
 
-                meshpart.Material = SceneManager.Current.Content.Load<Material, MaterialImporter>(mdlmesh.Name, path.Substring(0, path.LastIndexOf("\\") + 1), true);
+                meshpart.Material = SceneManager.Current.Content.Load<Material, MaterialImporter>(mdlmesh.Name, Path.GetDirectoryName(path), true);
 
                 // Process triangle strip
                 for (int j = 0; j < mdlmesh.StripList.Count - 2; j++)
