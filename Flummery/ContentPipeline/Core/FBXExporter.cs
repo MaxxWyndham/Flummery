@@ -182,7 +182,7 @@ namespace Flummery.ContentPipeline.Core
                 var smoothingGroups = new List<int>();
 
                 int materialIndex = 0;
-                int smoothingGroup = 0;
+                int smoothingGroup = 1;
 
                 var materialList = mesh.GetMaterials();
 
@@ -422,10 +422,6 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var bone in model.Bones)
             {
-                if (bone.Transform != Matrix4.Identity)
-                {
-                }
-
                 if (bone.Tag != null)
                 {
                     var mesh = (ModelMesh)bone.Tag;
@@ -434,7 +430,65 @@ namespace Flummery.ContentPipeline.Core
                         fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Material", material.Key));
                     }
 
-                    fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                    if (bone.Parent.Index == 0)
+                    {
+                        fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                    }
+                    else
+                    {
+                        if (bone.Parent.Tag != null)
+                        {
+                            fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(((ModelMesh)bone.Parent.Tag).Name.GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                        }
+                        else
+                        {
+                            long nodeKey = (long)Math.Abs(("bone-" + bone.Parent.Name).GetHashCode());
+
+                            fbxObjects.Children.Add(
+                                new FBXElem
+                                {
+                                    ID = "NodeAttribute",
+                                    Properties = 
+                                    { 
+                                        new FBXProperty { Type = 76, Value = nodeKey }, 
+                                        new FBXProperty { Type = 83, Value = "NodeAttribute::" }, 
+                                        new FBXProperty { Type = 83, Value = "Null" } 
+                                    },
+                                    Children = 
+                                    { 
+                                        new FBXElem { ID = "TypeFlags", 
+                                            Properties = 
+                                            { 
+                                                new FBXProperty { Type = 83, Value = "Null" } 
+                                            } 
+                                        }
+                                    }
+                                }
+                            );
+
+                            fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Node", nodeKey));
+
+                            //NodeAttribute: 1416586144, "NodeAttribute::", "Null" {
+                            //    TypeFlags: "Null"
+                            //}
+
+                            //Model: 1409031344, "Model::WheelHub_RR", "Null" {
+                            //    Version: 232
+                            //    Properties70:  {
+                            //        P: "InheritType", "enum", "", "",1
+                            //        P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+                            //        P: "DefaultAttributeIndex", "int", "Integer", "",0
+                            //        P: "Lcl Translation", "Lcl Translation", "", "A",0.962965965270996,-1.75553750991821,0.294419497251511
+                            //        P: "MaxHandle", "int", "Integer", "UH",9
+                            //    }
+                            //    Shading: T
+                            //    Culling: "CullingOff"
+                            //}
+
+                            //;Model::WheelHub_RR, Model::CarBody
+                            //C: "OO",1409031344,1408996544
+                        }
+                    }
 
                     fbxObjects.Children.Add(
                         new FBXElem
@@ -460,7 +514,8 @@ namespace Flummery.ContentPipeline.Core
                                         FBXPropertyElement(FBXPropertyType.Integer, "RotationActive", "bool", "", "", 1),
                                         FBXPropertyElement(FBXPropertyType.Integer, "InheritType", "enum", "", "", 1),
                                         FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", (double)0.0, (double)0.0, (double)0.0),
-                                        FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", 0)
+                                        FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", 0),
+                                        FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)bone.Transform.M41, (double)bone.Transform.M42, (double)bone.Transform.M43),
                                     } 
                                 },
                                 new FBXElem { ID = "Shading", 
@@ -478,6 +533,10 @@ namespace Flummery.ContentPipeline.Core
                             }
                         }
                     );
+                }
+                else
+                {
+
                 }
             }
 
