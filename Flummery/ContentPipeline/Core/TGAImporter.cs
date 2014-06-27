@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Flummery.ContentPipeline.Core
 {
@@ -35,8 +36,64 @@ namespace Flummery.ContentPipeline.Core
 
                 using (var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb))
                 {
-                    var bmpdata = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-                    System.Runtime.InteropServices.Marshal.Copy(br.ReadBytes(width * height * 4), 0, bmpdata.Scan0, width * height * 4);
+                    BitmapData bmpdata;
+                    PixelFormat format = PixelFormat.Format32bppArgb;
+                    byte size = (byte)(pixelDepth / 8);
+
+                    if (size == 3) { format = PixelFormat.Format24bppRgb; }
+
+                    bmpdata = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, format);
+
+                    if (imageType == 10)
+                    {
+                        const int iRAWSection = 127;
+                        uint j = 0;
+                        int iStep = 0;
+                        int bpCount = 0;
+                        int currentPixel = 0;
+                        int pixelCount = width * height;
+                        var colorBuffer = new byte[size];
+                        byte chunkHeader = 0;
+                        byte[] buffer = br.ReadBytes((int)br.BaseStream.Length - 13);
+
+                        using (var nms = new MemoryStream())
+                        {
+                            while (currentPixel < pixelCount)
+                            {
+                                chunkHeader = buffer[iStep];
+                                iStep++;
+
+                                if (chunkHeader <= iRAWSection)
+                                {
+                                    chunkHeader++;
+                                    bpCount = size * chunkHeader;
+                                    nms.Write(buffer, iStep, bpCount);
+                                    iStep += bpCount;
+
+                                    currentPixel += chunkHeader;
+                                }
+                                else
+                                {
+                                    chunkHeader -= iRAWSection;
+                                    Array.Copy(buffer, iStep, colorBuffer, 0, size);
+                                    iStep += size;
+                                    for (j = 0; j < chunkHeader; j++) { nms.Write(colorBuffer, 0, size); }
+                                    currentPixel += chunkHeader;
+                                }
+                            }
+
+                            var contentBuffer = new byte[nms.Length];
+                            nms.Position = 0;
+                            nms.Read(contentBuffer, 0, contentBuffer.Length);
+
+                            Marshal.Copy(contentBuffer, 0, bmpdata.Scan0, contentBuffer.Length);
+                        }
+                    }
+                    else
+                    {
+                        Marshal.Copy(br.ReadBytes(width * height * size), 0, bmpdata.Scan0, width * height * size);
+                    }
+
                     bmp.UnlockBits(bmpdata);
 
                     texture.CreateFromBitmap(bmp, Path.GetFileNameWithoutExtension(path));
