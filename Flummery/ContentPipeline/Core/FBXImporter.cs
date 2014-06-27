@@ -58,14 +58,31 @@ namespace Flummery.ContentPipeline.Core
                 components.Add((long)texture.Properties[0].Value, t);
             }
 
+            foreach (var element in objects.Children.Where(e => e.ID == "Model"))
+            {
+                string modelName = element.Properties[1].Value.ToString();
+                modelName = modelName.Substring(0, modelName.IndexOf("::"));
+                components.Add((long)element.Properties[0].Value, new ModelMesh { Name = modelName, Tag = (long)element.Properties[0].Value });
+
+                var properties = element.Children.Find(c => c.ID == "Properties70");
+                foreach (var property in properties.Children)
+                {
+                    if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Translation"))
+                    {
+                        var m = Matrix4.Identity;
+                        m.M41 = Convert.ToSingle(property.Properties[4].Value);
+                        m.M42 = Convert.ToSingle(property.Properties[5].Value);
+                        m.M43 = Convert.ToSingle(property.Properties[6].Value);
+                        transforms.Add((long)element.Properties[0].Value, m);
+                    }
+                }
+            }
+
             foreach (var element in objects.Children.Where(e => e.ID == "Geometry"))
             {
                 bool bUVs = true;
                 bool bNorms = true;
                 bool bUseIndexNorm = false;
-                var meshpart = new ModelMeshPart();
-
-                meshpart.PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles;
 
                 var verts = new List<OpenTK.Vector3>();
                 var norms = new List<OpenTK.Vector3>();
@@ -125,6 +142,8 @@ namespace Flummery.ContentPipeline.Core
                 }
 
                 var indicies = (int[])element.Children.Find(e => e.ID == "PolygonVertexIndex").Properties[0].Value;
+                var faces = new List<FBXFace>();
+                var face = new FBXFace();
 
                 for (int i = 0; i < indicies.Length; i++)
                 {
@@ -137,31 +156,51 @@ namespace Flummery.ContentPipeline.Core
                         index = (index * -1) - 1;
                     }
 
-                    meshpart.AddVertex(verts[index], (bNorms ? norms[(bUseIndexNorm ? index : i)] : OpenTK.Vector3.Zero), (bUVs ? uvs[i] : OpenTK.Vector2.Zero));
-                }
+                    face.AddVertex(verts[index], (bNorms ? norms[(bUseIndexNorm ? index : i)] : OpenTK.Vector3.Zero), (bUVs ? uvs[i] : OpenTK.Vector2.Zero));
 
-                components.Add((long)element.Properties[0].Value, meshpart);
-            }
-
-            foreach (var element in objects.Children.Where(e => e.ID == "Model"))
-            {
-                components.Add((long)element.Properties[0].Value, new ModelMesh { Name = element.Properties[1].Value.ToString(), Tag = (long)element.Properties[0].Value });
-
-                var properties = element.Children.Find(c => c.ID == "Properties70");
-                foreach (var property in properties.Children)
-                {
-                    if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Translation"))
+                    if (bFace)
                     {
-                        var m = Matrix4.Identity;
-                        m.M41 = Convert.ToSingle(property.Properties[4].Value);
-                        m.M42 = Convert.ToSingle(property.Properties[5].Value);
-                        m.M43 = Convert.ToSingle(property.Properties[6].Value);
-                        transforms.Add((long)element.Properties[0].Value, m);
+                        faces.Add(face);
+                        face = new FBXFace();
                     }
                 }
-        }
 
-            string[] connectionOrder = new string[] { "Flummery.ModelMeshPart", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
+                var elemMaterial = element.Children.Find(e => e.ID == "LayerElementMaterial");
+                if (elemMaterial != null)
+                {
+                    var faceMaterials = (int[])elemMaterial.Children.Find(e => e.ID == "Materials").Properties[0].Value;
+                    for (int i = 0; i < faceMaterials.Length; i++)
+                    {
+                        faces[i].MaterialID = faceMaterials[i];
+                    }
+                }
+
+                var parts = new List<ModelMeshPart>();
+
+                foreach (var materialGroup in faces.GroupBy(f => f.MaterialID))
+                {
+                    foreach (var smoothingGroup in materialGroup.GroupBy(f => f.SmoothingGroup))
+                    {
+                        var meshpart = new ModelMeshPart { PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles };
+
+                        foreach (var groupface in smoothingGroup)
+                        {
+                            foreach (var vert in groupface.Vertices)
+                            {
+                                meshpart.AddVertex(vert.Position, vert.Normal, vert.UV);
+                            }
+                        }
+
+                        meshpart.Key = components.Where(c => c.Value.GetType().ToString() == "Flummery.Material").ToList()[materialGroup.Key].Key;
+
+                        parts.Add(meshpart);
+                    }
+                }
+
+                components.Add((long)element.Properties[0].Value, parts);
+            }
+
+            string[] connectionOrder = new string[] { "System.Collections.Generic.List`1[Flummery.ModelMeshPart]", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
             var connections = fbx.Elements.Find(e => e.ID == "Connections");
 
             foreach (var connectionType in connectionOrder)
@@ -218,10 +257,13 @@ namespace Flummery.ContentPipeline.Core
                             }
                             break;
 
-                        case "Flummery.ModelMeshPart":
+                        case "System.Collections.Generic.List`1[Flummery.ModelMeshPart]":
                             if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.ModelMesh")
                             {
-                                ((ModelMesh)components[keyB]).AddModelMeshPart((ModelMeshPart)components[keyA]);
+                                foreach (var part in (List<ModelMeshPart>)components[keyA])
+                                {
+                                    ((ModelMesh)components[keyB]).AddModelMeshPart(part);
+                                }
                             }
                             break;
 
@@ -230,8 +272,11 @@ namespace Flummery.ContentPipeline.Core
                             {
                                 foreach (var part in ((ModelMesh)components[keyB]).MeshParts)
                                 {
-                                    part.Material = (Material)components[keyA];
-                                    SceneManager.Current.Add(part.Material);
+                                    if ((long)part.Key == keyA)
+                                    {
+                                        part.Material = (Material)components[keyA];
+                                        //SceneManager.Current.Add(part.Material);
+                                    }
                                 }
                             }
                             break;
@@ -246,6 +291,45 @@ namespace Flummery.ContentPipeline.Core
             }
 
             return model;
+        }
+    }
+
+    public class FBXFace
+    {
+        private List<Vertex> verts;
+        private int materialID = 0;
+        private int smoothingGroup = 0;
+
+        public int MaterialID
+        {
+            get { return materialID; }
+            set { materialID = value; }
+        }
+
+        public int SmoothingGroup
+        {
+            get { return smoothingGroup; }
+            set { smoothingGroup = value; }
+        }
+
+        public List<Vertex> Vertices
+        {
+            get { return verts; }
+        }
+
+        public FBXFace()
+        {
+            verts = new List<Vertex>();
+        }
+
+        public void AddVertex(OpenTK.Vector3 position, OpenTK.Vector3 normal, OpenTK.Vector2 texcoords)
+        {
+            var v = new Vertex();
+            v.Position = position;
+            v.Normal = normal;
+            v.UV = texcoords;
+
+            verts.Add(v);
         }
     }
 }
