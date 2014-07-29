@@ -199,7 +199,7 @@ namespace Flummery.ContentPipeline.Core
                 }
 
                 m *= Matrix4.CreateTranslation(-scalingPivot);
-                m *= Matrix4.CreateScale(lclScaling);
+                //m *= Matrix4.CreateScale(lclScaling);
                 m *= Matrix4.CreateTranslation(scalingOffset + scalingPivot - rotationPivot);
 
                 if (bRotationActive)
@@ -251,6 +251,8 @@ namespace Flummery.ContentPipeline.Core
                 var vertParts = (double[])element.Children.Find(e => e.ID == "Vertices").Properties[0].Value;
                 for (int i = 0; i < vertParts.Length; i += 3) { verts.Add(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2])); }
 
+                SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Vertices", element.Properties[1].Value));
+
                 var normElem = element.Children.Find(e => e.ID == "LayerElementNormal");
                 if (normElem != null)
                 {
@@ -261,6 +263,8 @@ namespace Flummery.ContentPipeline.Core
                     }
 
                     bUseIndexNorm = (normElem.Children.Find(e => e.ID == "MappingInformationType").Properties[0].Value.ToString() == "ByVertice");
+
+                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Normals", element.Properties[1].Value));
                 }
                 else
                 {
@@ -295,6 +299,8 @@ namespace Flummery.ContentPipeline.Core
                     {
                         for (int i = 0; i < uvParts.Length; i += 2) { uvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], -(float)uvParts[i + 1])); }
                     }
+
+                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->UVs", element.Properties[1].Value));
                 }
                 else
                 {
@@ -325,6 +331,8 @@ namespace Flummery.ContentPipeline.Core
                     }
                 }
 
+                SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Faces", element.Properties[1].Value));
+
                 var elemMaterial = element.Children.Find(e => e.ID == "LayerElementMaterial");
                 if (elemMaterial != null)
                 {
@@ -333,15 +341,25 @@ namespace Flummery.ContentPipeline.Core
                     {
                         faces[i].MaterialID = faceMaterials[i];
                     }
+
+                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Materials", element.Properties[1].Value));
                 }
 
                 var parts = new List<ModelMeshPart>();
 
-                foreach (var materialGroup in faces.GroupBy(f => f.MaterialID))
+                var materialGroups = faces.GroupBy(f => f.MaterialID);
+
+                int processedFaceCount = 0,
+                    processedGroupCount = 0;
+
+                foreach (var materialGroup in materialGroups)
                 {
-                    foreach (var smoothingGroup in materialGroup.GroupBy(f => f.SmoothingGroup))
+                    var smoothingGroups = materialGroup.GroupBy(f => f.SmoothingGroup);
+
+                    foreach (var smoothingGroup in smoothingGroups)
                     {
                         var meshpart = new ModelMeshPart { PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles };
+                        processedFaceCount = 0;
 
                         foreach (var groupface in smoothingGroup)
                         {
@@ -349,16 +367,24 @@ namespace Flummery.ContentPipeline.Core
                             {
                                 meshpart.AddVertex(vert.Position, vert.Normal, vert.UV);
                             }
+
+                            processedFaceCount++;
+
+                            if (processedFaceCount % 250 == 0) { SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart[{1}]->Face[{2}]", element.Properties[1].Value, processedGroupCount, processedFaceCount)); }
                         }
 
                         var materialLookup = components.Where(c => c.Value.GetType().ToString() == "Flummery.Material").ToList();
                         if (materialLookup.Count > 0) { meshpart.Key = materialLookup[materialGroup.Key].Key; }
 
                         parts.Add(meshpart);
+                        SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart", element.Properties[1].Value));
+
+                        processedGroupCount++;
                     }
                 }
 
                 components.Add((long)element.Properties[0].Value, parts);
+                SceneManager.Current.UpdateProgress(string.Format("Processed {0}", element.Properties[1].Value));
             }
 
             string[] connectionOrder = new string[] { "System.Collections.Generic.List`1[Flummery.ModelMeshPart]", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
@@ -450,6 +476,8 @@ namespace Flummery.ContentPipeline.Core
                     }
                 }
             }
+
+            SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", name));
 
             return model;
         }
