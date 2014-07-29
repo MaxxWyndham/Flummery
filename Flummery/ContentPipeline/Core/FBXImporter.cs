@@ -65,17 +65,40 @@ namespace Flummery.ContentPipeline.Core
                 components.Add((long)element.Properties[0].Value, new ModelMesh { Name = modelName, Tag = (long)element.Properties[0].Value });
 
                 var properties = element.Children.Find(c => c.ID == "Properties70");
+                var m = Matrix4.Identity;
+
                 foreach (var property in properties.Children)
                 {
+                    //if (property.Properties.Any(pv => pv.Value.ToString() == "PreRotation"))
+                    //{
+                    //    m *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[4].Value)));
+                    //    m *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[5].Value)));
+                    //    m *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[6].Value)));
+                    //}
+
                     if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Translation"))
                     {
-                        var m = Matrix4.Identity;
                         m.M41 = Convert.ToSingle(property.Properties[4].Value);
                         m.M42 = Convert.ToSingle(property.Properties[5].Value);
                         m.M43 = Convert.ToSingle(property.Properties[6].Value);
-                        transforms.Add((long)element.Properties[0].Value, m);
                     }
+
+                    //if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Rotation"))
+                    //{
+                    //    m *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[4].Value)));
+                    //    m *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[5].Value)));
+                    //    m *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[6].Value)));
+                    //}
+
+                    //if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Translation"))
+                    //{
+                    //    m.M41 = Convert.ToSingle(property.Properties[4].Value);
+                    //    m.M42 = Convert.ToSingle(property.Properties[5].Value);
+                    //    m.M43 = Convert.ToSingle(property.Properties[6].Value);
+                    //}
                 }
+
+                if (m != Matrix4.Identity) { transforms.Add((long)element.Properties[0].Value, m); }
             }
 
             foreach (var element in objects.Children.Where(e => e.ID == "Geometry"))
@@ -191,7 +214,8 @@ namespace Flummery.ContentPipeline.Core
                             }
                         }
 
-                        meshpart.Key = components.Where(c => c.Value.GetType().ToString() == "Flummery.Material").ToList()[materialGroup.Key].Key;
+                        var materialLookup = components.Where(c => c.Value.GetType().ToString() == "Flummery.Material").ToList();
+                        if (materialLookup.Count > 0) { meshpart.Key = materialLookup[materialGroup.Key].Key; }
 
                         parts.Add(meshpart);
                     }
