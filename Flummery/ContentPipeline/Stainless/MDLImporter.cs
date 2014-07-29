@@ -68,13 +68,13 @@ namespace Flummery.ContentPipeline.Stainless
                 }
 
                 // Process patch list
-                for (int j = 0; j < mdlmesh.PatchList.Count; j += 3)
+                for (int j = 0; j < mdlmesh.TriList.Count; j += 3)
                 {
                     MDLVertex v0, v1, v2;
 
-                    v0 = mdl.Vertices[mdlmesh.PatchList[j + 0].Index];
-                    v1 = mdl.Vertices[mdlmesh.PatchList[j + 2].Index];
-                    v2 = mdl.Vertices[mdlmesh.PatchList[j + 1].Index];
+                    v0 = mdl.Vertices[mdlmesh.TriList[j + 0].Index];
+                    v1 = mdl.Vertices[mdlmesh.TriList[j + 2].Index];
+                    v2 = mdl.Vertices[mdlmesh.TriList[j + 1].Index];
 
                     meshpart.AddFace(
                         new Vector3[] {
