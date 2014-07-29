@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
@@ -11,6 +12,8 @@ namespace Flummery
         public Vector3 Position;
         public Vector3 Normal;
         public Vector2 UV;
+        public Vector2 UV2;
+        public Color4 Color;
 
         public static readonly int Stride = Marshal.SizeOf(default(Vertex));
     }
@@ -57,6 +60,8 @@ namespace Flummery
             GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, new IntPtr(0));
             GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
             GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
+            GL.SecondaryColorPointer(2, ColorPointerType.Float, Vertex.Stride, new IntPtr((2 * Vector3.SizeInBytes) + Vector2.SizeInBytes));
+            GL.ColorPointer(4, ColorPointerType.Float, Vertex.Stride, new IntPtr((2 * Vector3.SizeInBytes) + (2 * Vector2.SizeInBytes)));
 
             GL.DrawElements(primitiveType, ibo.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
