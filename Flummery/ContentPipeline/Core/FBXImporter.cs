@@ -10,6 +10,16 @@ namespace Flummery.ContentPipeline.Core
 {
     class FBXImporter : ContentImporter
     {
+        public enum RotationOrder
+        {
+            OrderXYZ,
+            OrderXZY,
+            OrderYZX,
+            OrderYXZ,
+            OrderZXY,
+            OrderZYX,
+            OrderSphericXYZ
+        }
         public override string GetExtension() { return "fbx"; }
 
         public override Asset Import(string path)
@@ -66,37 +76,164 @@ namespace Flummery.ContentPipeline.Core
 
                 var properties = element.Children.Find(c => c.ID == "Properties70");
                 var m = Matrix4.Identity;
+                bool bRotationActive = false;
+                RotationOrder order = RotationOrder.OrderXYZ;
 
-                foreach (var property in properties.Children)
+                var lclTranslation = OpenTK.Vector3.Zero;
+                var lclRotation = Quaternion.Identity;
+                var preRotation = Quaternion.Identity;
+                var postRotation = Quaternion.Identity;
+                var rotationPivot = OpenTK.Vector3.Zero;
+                var rotationOffset = OpenTK.Vector3.Zero;
+                var lclScaling = OpenTK.Vector3.One;
+                var scalingPivot = OpenTK.Vector3.Zero;
+                var scalingOffset = OpenTK.Vector3.Zero;
+
+                FBXElem property;
+
+                property = properties.Children.GetProperty("RotationActive");
+                if (property != null) { bRotationActive = ((int)property.Properties[4].Value == 1); }
+
+                property = properties.Children.GetProperty("GeometricRotation");
+                if (property != null)
                 {
-                    //if (property.Properties.Any(pv => pv.Value.ToString() == "PreRotation"))
-                    //{
-                    //    m *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[4].Value)));
-                    //    m *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[5].Value)));
-                    //    m *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[6].Value)));
-                    //}
-
-                    if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Translation"))
-                    {
-                        m.M41 = Convert.ToSingle(property.Properties[4].Value);
-                        m.M42 = Convert.ToSingle(property.Properties[5].Value);
-                        m.M43 = Convert.ToSingle(property.Properties[6].Value);
-                    }
-
-                    //if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Rotation"))
-                    //{
-                    //    m *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[4].Value)));
-                    //    m *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[5].Value)));
-                    //    m *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Convert.ToSingle(property.Properties[6].Value)));
-                    //}
-
-                    //if (property.Properties.Any(pv => pv.Value.ToString() == "Lcl Translation"))
-                    //{
-                    //    m.M41 = Convert.ToSingle(property.Properties[4].Value);
-                    //    m.M42 = Convert.ToSingle(property.Properties[5].Value);
-                    //    m.M43 = Convert.ToSingle(property.Properties[6].Value);
-                    //}
+                    m *= Matrix4.CreateFromQuaternion(MakeQuaternion(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value),
+                        order
+                    ));
                 }
+
+                property = properties.Children.GetProperty("ScalingPivot");
+                if (property != null)
+                {
+                    scalingPivot = new OpenTK.Vector3(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value)
+                    );
+                }
+
+                property = properties.Children.GetProperty("Lcl Scaling");
+                if (property != null)
+                {
+                    lclScaling = new OpenTK.Vector3(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value)
+                    );
+                }
+
+                property = properties.Children.GetProperty("ScalingOffset");
+                if (property != null)
+                {
+                    scalingOffset = new OpenTK.Vector3(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value)
+                    );
+                }
+
+                property = properties.Children.GetProperty("RotationPivot");
+                if (property != null)
+                {
+                    rotationPivot = new OpenTK.Vector3(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value)
+                    );
+                }
+
+                property = properties.Children.GetProperty("PostRotation");
+                if (property != null)
+                {
+                    postRotation = MakeQuaternion(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value),
+                        order
+                    );
+                }
+
+                property = properties.Children.GetProperty("Lcl Rotation");
+                if (property != null)
+                {
+                    lclRotation = MakeQuaternion(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value),
+                        order
+                    );
+                }
+
+                property = properties.Children.GetProperty("PreRotation");
+                if (property != null)
+                {
+                    preRotation = MakeQuaternion(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value),
+                        order
+                    );
+                }
+
+                property = properties.Children.GetProperty("RotationOffset");
+                if (property != null)
+                {
+                    rotationOffset = new OpenTK.Vector3(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value)
+                    );
+                }
+
+                property = properties.Children.GetProperty("Lcl Translation");
+                if (property != null)
+                {
+                    lclTranslation = new OpenTK.Vector3(
+                        Convert.ToSingle(property.Properties[4].Value),
+                        Convert.ToSingle(property.Properties[5].Value),
+                        Convert.ToSingle(property.Properties[6].Value)
+                    );
+                }
+
+                m *= Matrix4.CreateTranslation(-scalingPivot);
+                m *= Matrix4.CreateScale(lclScaling);
+                m *= Matrix4.CreateTranslation(scalingOffset + scalingPivot - rotationPivot);
+
+                if (bRotationActive)
+                {
+                    m *= Matrix4.CreateFromQuaternion(postRotation * lclRotation * preRotation);
+                }
+                else
+                {
+                    m *= Matrix4.CreateFromQuaternion(lclRotation);
+                }
+
+                m *= Matrix4.CreateTranslation(lclTranslation + rotationOffset + rotationPivot);
+
+                //property = properties.Children.GetProperty("GeometricTranslation");
+                //if (property != null)
+                //{
+                //    m *= Matrix4.CreateTranslation(
+                //        Convert.ToSingle(property.Properties[4].Value),
+                //        Convert.ToSingle(property.Properties[5].Value),
+                //        Convert.ToSingle(property.Properties[6].Value)
+                //    );
+                //}
+
+                //m = scalingPivot.Inverted() *
+                //    lclScaling *
+                //    scalingPivot *
+                //    scalingOffset *
+                //    rotationPivot.Inverted() *
+                //    postRotation *
+                //    lclRotation *
+                //    preRotation *
+                //    rotationPivot *
+                //    rotationOffset *
+                //    lclTranslation;
 
                 if (m != Matrix4.Identity) { transforms.Add((long)element.Properties[0].Value, m); }
             }
@@ -316,6 +453,24 @@ namespace Flummery.ContentPipeline.Core
 
             return model;
         }
+
+        public Quaternion MakeQuaternion(Single x, Single y, Single z, RotationOrder order)
+        {
+            Single radX = MathHelper.DegreesToRadians(x);
+            Single radY = MathHelper.DegreesToRadians(y);
+            Single radZ = MathHelper.DegreesToRadians(z);
+
+            switch (order)
+            {
+                case RotationOrder.OrderXYZ:
+                    return Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, radX) *
+                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, radY) *
+                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, radZ);
+
+                default:
+                    throw new NotImplementedException(string.Format("Unhandled RotationOrder: {0}", order.ToString()));
+            }
+        }
     }
 
     public class FBXFace
@@ -354,6 +509,22 @@ namespace Flummery.ContentPipeline.Core
             v.UV = texcoords;
 
             verts.Add(v);
+        }
+    }
+
+    public static class FBXExtensionMethods
+    {
+        public static FBXElem GetProperty(this List<FBXElem> propertyList, string propertyName)
+        {
+            foreach (var property in propertyList)
+            {
+                if (string.Equals(property.ID, "P", StringComparison.InvariantCultureIgnoreCase) && property.Properties.Count > 0 && property.Properties[0].Value.ToString() == propertyName)
+                {
+                    return property;
+                }
+            }
+
+            return null;
         }
     }
 }
