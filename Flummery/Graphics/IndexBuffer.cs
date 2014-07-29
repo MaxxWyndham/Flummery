@@ -10,7 +10,9 @@ namespace Flummery
         List<int> indicies;
         int ibo;
 
-        public int[] Data { get { return indicies.ToArray(); } }
+        static int[] data;
+
+        public List<int> Data { get { return indicies; } }
         public int Length { get { return indicies.Count; } }
 
         public IndexBuffer()

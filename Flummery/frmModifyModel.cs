@@ -77,7 +77,7 @@ namespace Flummery
                                 meshpart.VertexBuffer.ModifyVertexPosition(i, position);
                             }
 
-                            for (int i = 0; i < meshpart.IndexBuffer.Data.Length; i += 3)
+                            for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
                             {
                                 meshpart.IndexBuffer.SwapIndices(i + 1, i + 2);
                             }

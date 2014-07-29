@@ -50,7 +50,7 @@ namespace Flummery.ContentPipeline.Stainless
                         }
 
                         // Normalise input triangles
-                        for (int i = 0; i < meshpart.IndexBuffer.Data.Length; i += 3)
+                        for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
                         {
                             var n = Vector3.Cross(
                                 meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 1]].Position - meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 0]].Position,
@@ -65,7 +65,7 @@ namespace Flummery.ContentPipeline.Stainless
                             }
                         }
 
-                        var stripper = new Stripper.Stripper(meshpart.IndexBuffer.Data.Length / 3, meshpart.IndexBuffer.Data);
+                        var stripper = new Stripper.Stripper(meshpart.IndexBuffer.Data.Count / 3, meshpart.IndexBuffer.Data.ToArray());
                         stripper.OneSided = true;
                         stripper.ConnectAllStrips = true;
                         stripper.ShakeItBaby();
@@ -107,7 +107,7 @@ namespace Flummery.ContentPipeline.Stainless
 
                         mdlmesh.PatchOffset = mdl.Vertices.Count;
 
-                        for (int i = 0; i < data.Length; i += 3)
+                        for (int i = 0; i < data.Count; i += 3)
                         {
                             mdl.Faces.Add(new MDLFace(materialIndex, mdlmesh.PatchOffset + data[i + 0], mdlmesh.PatchOffset + data[i + 2], mdlmesh.PatchOffset + data[i + 1]));
 
