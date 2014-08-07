@@ -173,7 +173,7 @@ namespace Flummery.ContentPipeline.Core
                 var vects = new List<Vertex>();
                 var verts = new List<Vector3>();
                 var norms = new List<Vector3>();
-                var uvs = new List<Vector2>();
+                var uvs = new List<Vector4>();
 
                 var ivt = new List<int>();
                 var inm = new List<int>();

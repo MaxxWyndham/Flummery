@@ -7,13 +7,13 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
+    
     public struct Vertex
     {
         public Vector3 Position;
         public Vector3 Normal;
-        public Vector2 UV;
-        public Vector2 UV2;
-        public Color4 Color;
+        public Vector4 UV;
+        public Color4 Colour;
 
         public static readonly int Stride = Marshal.SizeOf(default(Vertex));
     }
@@ -26,9 +26,10 @@ namespace Flummery
         public int Length { get { return (data != null ? data.Count : 0); } }
         public List<Vertex> Data { get { return data; } }
 
-        public void AddVertex(Vertex vert)
+        public int AddVertex(Vertex v)
         {
-            data.Add(vert);
+            data.Add(v);
+            return data.Count - 1;
         }
 
         public void ModifyVertexPosition(int index, Vector3 position)
@@ -56,18 +57,19 @@ namespace Flummery
             GL.EnableClientState(ArrayCap.VertexArray);
             GL.EnableClientState(ArrayCap.NormalArray);
             GL.EnableClientState(ArrayCap.TextureCoordArray);
+            GL.EnableClientState(ArrayCap.ColorArray);
 
             GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, new IntPtr(0));
             GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
             GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
-            GL.SecondaryColorPointer(2, ColorPointerType.Float, Vertex.Stride, new IntPtr((2 * Vector3.SizeInBytes) + Vector2.SizeInBytes));
-            GL.ColorPointer(4, ColorPointerType.Float, Vertex.Stride, new IntPtr((2 * Vector3.SizeInBytes) + (2 * Vector2.SizeInBytes)));
+            GL.ColorPointer(4, ColorPointerType.Float, Vertex.Stride, new IntPtr((2 * Vector3.SizeInBytes) + Vector4.SizeInBytes));
 
             GL.DrawElements(primitiveType, ibo.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
             GL.DisableClientState(ArrayCap.VertexArray);
             GL.DisableClientState(ArrayCap.NormalArray);
             GL.DisableClientState(ArrayCap.TextureCoordArray);
+            GL.DisableClientState(ArrayCap.ColorArray);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }

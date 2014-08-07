@@ -242,11 +242,13 @@ namespace Flummery.ContentPipeline.Core
             {
                 bool bUVs = true;
                 bool bNorms = true;
+                bool bColours = true;
                 bool bUseIndexNorm = false;
 
                 var verts = new List<OpenTK.Vector3>();
                 var norms = new List<OpenTK.Vector3>();
                 var uvs = new List<OpenTK.Vector2>();
+                var colours = new List<OpenTK.Graphics.Color4>();
 
                 var vertParts = (double[])element.Children.Find(e => e.ID == "Vertices").Properties[0].Value;
                 for (int i = 0; i < vertParts.Length; i += 3) { verts.Add(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2])); }
@@ -269,6 +271,34 @@ namespace Flummery.ContentPipeline.Core
                 else
                 {
                     bNorms = false;
+                }
+
+                var colourElem = element.Children.Find(e => e.ID == "LayerElementColor");
+                if (colourElem != null)
+                {
+                    var colourParts = (double[])colourElem.Children.Find(e => e.ID == "Colors").Properties[0].Value;
+
+                    var colourReferenceType = colourElem.Children.Find(e => e.ID == "ReferenceInformationType");
+
+                    if (colourReferenceType.Properties[0].Value.ToString() == "IndexToDirect")
+                    {
+                        var colourIndicies = (int[])colourElem.Children.Find(e => e.ID == "ColorIndex").Properties[0].Value;
+                        for (int i = 0; i < colourIndicies.Length; i++)
+                        {
+                            int offset = colourIndicies[i] * 4;
+                            colours.Add(new OpenTK.Graphics.Color4((float)colourParts[offset + 0], (float)colourParts[offset + 1], (float)colourParts[offset + 2], (float)colourParts[offset + 3]));
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("Unsupported Colour Reference Type: " + colourReferenceType.Properties[0].Value.ToString());
+                    }
+
+                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Colours", element.Properties[1].Value));
+                }
+                else
+                {
+                    bColours = false;
                 }
 
                 var uvElem = element.Children.Find(e => e.ID == "LayerElementUV");
@@ -322,7 +352,7 @@ namespace Flummery.ContentPipeline.Core
                         index = (index * -1) - 1;
                     }
 
-                    face.AddVertex(verts[index], (bNorms ? norms[(bUseIndexNorm ? index : i)] : OpenTK.Vector3.Zero), (bUVs ? uvs[i] : OpenTK.Vector2.Zero));
+                    face.AddVertex(verts[index], (bNorms ? norms[(bUseIndexNorm ? index : i)] : OpenTK.Vector3.Zero), (bUVs ? uvs[i] : OpenTK.Vector2.Zero), (bColours ? colours[i] : OpenTK.Graphics.Color4.White));
 
                     if (bFace)
                     {
@@ -365,7 +395,7 @@ namespace Flummery.ContentPipeline.Core
                         {
                             foreach (var vert in groupface.Vertices)
                             {
-                                meshpart.AddVertex(vert.Position, vert.Normal, vert.UV);
+                                meshpart.AddVertex(vert.Position, vert.Normal, vert.UV, vert.Colour);
                             }
 
                             processedFaceCount++;
@@ -529,12 +559,13 @@ namespace Flummery.ContentPipeline.Core
             verts = new List<Vertex>();
         }
 
-        public void AddVertex(OpenTK.Vector3 position, OpenTK.Vector3 normal, OpenTK.Vector2 texcoords)
+        public void AddVertex(OpenTK.Vector3 position, OpenTK.Vector3 normal, OpenTK.Vector2 texcoords, OpenTK.Graphics.Color4 colour)
         {
             var v = new Vertex();
             v.Position = position;
             v.Normal = normal;
-            v.UV = texcoords;
+            v.UV = v.UV = new OpenTK.Vector4(texcoords.X, texcoords.Y, texcoords.X, texcoords.Y);
+            v.Colour = colour;
 
             verts.Add(v);
         }

@@ -13,6 +13,7 @@ namespace Flummery
             Solid,
             SolidWireframe,
             Wireframe,
+            VertexColour,
             Count
         }
 

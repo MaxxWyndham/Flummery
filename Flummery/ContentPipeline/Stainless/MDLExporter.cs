@@ -44,8 +44,8 @@ namespace Flummery.ContentPipeline.Stainless
                                     vp.X, vp.Y, vp.Z,
                                     v.Normal.X, v.Normal.Y, v.Normal.Z,
                                     v.UV.X, v.UV.Y,
-                                    0, 0,
-                                    255, 255, 255, 255
+                                    v.UV.Z, v.UV.W,
+                                    (byte)(v.Colour.R * 255), (byte)(v.Colour.G * 255), (byte)(v.Colour.B * 255), (byte)(v.Colour.A * 255)
                                 )
                             );
                         }
@@ -136,8 +136,8 @@ namespace Flummery.ContentPipeline.Stainless
                                     vp.X, vp.Y, vp.Z,
                                     v.Normal.X, v.Normal.Y, v.Normal.Z,
                                     v.UV.X, v.UV.Y,
-                                    v.UV2.X, v.UV2.Y,
-                                    (byte)v.Color.R, (byte)v.Color.G, (byte)v.Color.B, (byte)v.Color.A
+                                    v.UV.Z, v.UV.W,
+                                    (byte)v.Colour.R, (byte)v.Colour.G, (byte)v.Colour.B, (byte)v.Colour.A
                                 )
                             );
                         }
