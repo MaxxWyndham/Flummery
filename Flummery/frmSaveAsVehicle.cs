@@ -61,11 +61,10 @@ namespace Flummery
             }
 
             var cx = new CNTExporter();
-            cx.ExportSettings.AddSetting("Scale", new Vector3(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
             cx.Export(SceneManager.Current.Models[0], txtPath.Text + "car.cnt");
 
             var mx = new MDLExporter();
-            mx.ExportSettings.AddSetting("Transform", Matrix4.CreateScale(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
+            //mx.ExportSettings.AddSetting("Handed", Model.CoordinateSystem.RightHanded);
             mx.Export(SceneManager.Current.Models[0], txtPath.Text);
             this.Close();
         }

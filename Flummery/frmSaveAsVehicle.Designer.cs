@@ -32,9 +32,6 @@
             this.txtPath = new System.Windows.Forms.TextBox();
             this.lblPath = new System.Windows.Forms.Label();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.txtScaleZ = new System.Windows.Forms.TextBox();
-            this.txtScaleY = new System.Windows.Forms.TextBox();
-            this.txtScaleX = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.chkMaterials = new System.Windows.Forms.CheckBox();
@@ -65,30 +62,6 @@
             this.lblPath.Size = new System.Drawing.Size(117, 13);
             this.lblPath.TabIndex = 9;
             this.lblPath.Text = "Output Folder / Vehicle";
-            // 
-            // txtScaleZ
-            // 
-            this.txtScaleZ.Location = new System.Drawing.Point(421, 228);
-            this.txtScaleZ.Name = "txtScaleZ";
-            this.txtScaleZ.Size = new System.Drawing.Size(43, 20);
-            this.txtScaleZ.TabIndex = 28;
-            this.txtScaleZ.Text = "-6.9";
-            // 
-            // txtScaleY
-            // 
-            this.txtScaleY.Location = new System.Drawing.Point(372, 228);
-            this.txtScaleY.Name = "txtScaleY";
-            this.txtScaleY.Size = new System.Drawing.Size(43, 20);
-            this.txtScaleY.TabIndex = 27;
-            this.txtScaleY.Text = "6.9";
-            // 
-            // txtScaleX
-            // 
-            this.txtScaleX.Location = new System.Drawing.Point(323, 228);
-            this.txtScaleX.Name = "txtScaleX";
-            this.txtScaleX.Size = new System.Drawing.Size(43, 20);
-            this.txtScaleX.TabIndex = 26;
-            this.txtScaleX.Text = "6.9";
             // 
             // btnOK
             // 
@@ -128,9 +101,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 261);
-            this.Controls.Add(this.txtScaleZ);
-            this.Controls.Add(this.txtScaleY);
-            this.Controls.Add(this.txtScaleX);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.chkMaterials);
@@ -154,9 +124,6 @@
         private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.FolderBrowserDialog fbdBrowse;
-        private System.Windows.Forms.TextBox txtScaleZ;
-        private System.Windows.Forms.TextBox txtScaleY;
-        private System.Windows.Forms.TextBox txtScaleX;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox chkMaterials;
