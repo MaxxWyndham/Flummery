@@ -43,9 +43,6 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.txtScaleX = new System.Windows.Forms.TextBox();
-            this.txtScaleY = new System.Windows.Forms.TextBox();
-            this.txtScaleZ = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnPath
@@ -176,38 +173,11 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // txtScaleX
-            // 
-            this.txtScaleX.Location = new System.Drawing.Point(318, 159);
-            this.txtScaleX.Name = "txtScaleX";
-            this.txtScaleX.Size = new System.Drawing.Size(43, 20);
-            this.txtScaleX.TabIndex = 20;
-            this.txtScaleX.Text = "6.9";
-            // 
-            // txtScaleY
-            // 
-            this.txtScaleY.Location = new System.Drawing.Point(367, 159);
-            this.txtScaleY.Name = "txtScaleY";
-            this.txtScaleY.Size = new System.Drawing.Size(43, 20);
-            this.txtScaleY.TabIndex = 21;
-            this.txtScaleY.Text = "6.9";
-            // 
-            // txtScaleZ
-            // 
-            this.txtScaleZ.Location = new System.Drawing.Point(416, 159);
-            this.txtScaleZ.Name = "txtScaleZ";
-            this.txtScaleZ.Size = new System.Drawing.Size(43, 20);
-            this.txtScaleZ.TabIndex = 22;
-            this.txtScaleZ.Text = "-6.9";
-            // 
             // frmSaveAsEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(693, 192);
-            this.Controls.Add(this.txtScaleZ);
-            this.Controls.Add(this.txtScaleY);
-            this.Controls.Add(this.txtScaleX);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.chkMaterials);
@@ -250,8 +220,5 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.FolderBrowserDialog fbdBrowse;
-        private System.Windows.Forms.TextBox txtScaleX;
-        private System.Windows.Forms.TextBox txtScaleY;
-        private System.Windows.Forms.TextBox txtScaleZ;
     }
 }

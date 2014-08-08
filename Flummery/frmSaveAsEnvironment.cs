@@ -55,9 +55,6 @@ namespace Flummery
             flump.Settings["environment.level"] = txtLevel.Text;
             flump.Settings["environment.level.name"] = txtRace1Name.Text;
             flump.Settings["environment.level.description"] = txtRace1Writeup.Text;
-            flump.Settings["environment.scale.x"] = txtScaleX.Text;
-            flump.Settings["environment.scale.y"] = txtScaleY.Text;
-            flump.Settings["environment.scale.z"] = txtScaleZ.Text;
 
             using (StreamWriter w = File.CreateText(txtPath.Text + "\\environment.lol"))
             {
@@ -134,11 +131,10 @@ namespace Flummery
             }
 
             var cx = new CNTExporter();
-            cx.ExportSettings.AddSetting("Scale", new Vector3(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
             cx.Export(SceneManager.Current.Models[0], racePath + "level.cnt");
 
             var mx = new MDLExporter();
-            mx.ExportSettings.AddSetting("Transform", Matrix4.CreateScale(Single.Parse(txtScaleX.Text), Single.Parse(txtScaleY.Text), Single.Parse(txtScaleZ.Text)));
+            //mx.ExportSettings.AddSetting("Handed", Model.CoordinateSystem.RightHanded);
             mx.Export(SceneManager.Current.Models[0], racePath);
 
             if (SceneManager.Current.Entities.Count > 0)
@@ -166,7 +162,7 @@ namespace Flummery
                             w.WriteLine("\t\t\t{" + entity.Transform.M11 + "," + entity.Transform.M21 + "," + entity.Transform.M31 + "},");
                             w.WriteLine("\t\t\t{" + entity.Transform.M12 + "," + entity.Transform.M22 + "," + entity.Transform.M32 + "},");
                             w.WriteLine("\t\t\t{" + entity.Transform.M13 + "," + entity.Transform.M23 + "," + entity.Transform.M33 + "},");
-                            w.WriteLine("\t\t\t{" + entity.Transform.M41 * Single.Parse(txtScaleX.Text) + "," + entity.Transform.M42 * Single.Parse(txtScaleY.Text) + "," + entity.Transform.M43 * Single.Parse(txtScaleZ.Text) + "}");
+                            w.WriteLine("\t\t\t{" + entity.Transform.M41 + "," + entity.Transform.M42 + "," + entity.Transform.M43 + "}");
                             w.WriteLine("\t\t},");
                             w.WriteLine("\t\tcolour = { 255, 255, 255 }");
                             w.Write("\t}");
@@ -201,9 +197,6 @@ namespace Flummery
             if (flump.Settings.ContainsKey("environment.name")) { txtEnvironment.Text = flump.Settings["environment.name"]; }
             if (flump.Settings.ContainsKey("environment.level.name")) { txtRace1Name.Text = flump.Settings["environment.level.name"]; }
             if (flump.Settings.ContainsKey("environment.level.description")) { txtRace1Writeup.Text = flump.Settings["environment.level.description"]; }
-            if (flump.Settings.ContainsKey("environment.scale.x")) { txtScaleX.Text = flump.Settings["environment.scale.x"]; }
-            if (flump.Settings.ContainsKey("environment.scale.y")) { txtScaleY.Text = flump.Settings["environment.scale.y"]; }
-            if (flump.Settings.ContainsKey("environment.scale.z")) { txtScaleZ.Text = flump.Settings["environment.scale.z"]; }
         }
 
         void updateLabels(string level)
