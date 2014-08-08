@@ -424,7 +424,31 @@ namespace Flummery.ContentPipeline.Core
             {
                 if (bone.Index == 0) { continue; }
 
-                if (bone.Tag == null)
+                bool bHasMesh = (bone.Tag != null);
+                var mesh = (bHasMesh ? (ModelMesh)bone.Tag : new ModelMesh() { Name = bone.Name });
+
+                foreach (var material in mesh.GetMaterials())
+                {
+                    fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Material", material.Key));
+                }
+
+                if (bone.Parent.Index == 0)
+                {
+                    fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                }
+                else
+                {
+                    if (bone.Parent.Tag != null)
+                    {
+                        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(((ModelMesh)bone.Parent.Tag).Name.GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                    }
+                    else
+                    {
+                        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(("bone-" + bone.Parent.Name).GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                    }
+                }
+
+                if (!bHasMesh)
                 {
                     long nodeKey = (long)Math.Abs(("bone-" + bone.Name).GetHashCode());
 
@@ -449,84 +473,65 @@ namespace Flummery.ContentPipeline.Core
                             }
                         }
                     );
-
-                    if (bone.Parent.Tag != null)
-                    {
-                        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(((ModelMesh)bone.Parent.Tag).Name.GetHashCode()), "Node", nodeKey));
-                    }
-                    else
-                    {
-                        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(("bone-" + bone.Parent.Name).GetHashCode()), "Node", nodeKey));
-                    }
                 }
-                else
-                {
-                    var mesh = (ModelMesh)bone.Tag;
-                    foreach (var material in mesh.GetMaterials())
-                    {
-                        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Material", material.Key));
-                    }
 
-                    if (bone.Parent.Index == 0)
+                fbxObjects.Children.Add(
+                    new FBXElem
                     {
-                        fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
-                    }
-                    else
-                    {
-                        if (bone.Parent.Tag != null)
-                        {
-                            fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(((ModelMesh)bone.Parent.Tag).Name.GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
-                        }
-                        else
-                        {
-                            fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(("bone-" + bone.Parent.Name).GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
-                        }
-                    }
-
-                    fbxObjects.Children.Add(
-                        new FBXElem
-                        {
-                            ID = "Model",
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 76, Value = (long)Math.Abs(mesh.Name.GetHashCode()) }, 
-                                new FBXProperty { Type = 83, Value = mesh.Name + "::Model" }, 
-                                new FBXProperty { Type = 83, Value = "Mesh" } 
+                        ID = "Model",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 76, Value = (long)Math.Abs(mesh.Name.GetHashCode()) }, 
+                            new FBXProperty { Type = 83, Value = mesh.Name + "::Model" }, 
+                            new FBXProperty { Type = 83, Value = "Mesh" } 
+                        },
+                        Children = 
+                        { 
+                            new FBXElem { ID = "Version", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 73, Value = 232 } 
+                                } 
+                            }, 
+                            new FBXElem { ID = "Properties70", 
+                                Children = 
+                                { 
+                                    FBXPropertyElement(FBXPropertyType.Integer, "RotationActive", "bool", "", "", 1),
+                                    FBXPropertyElement(FBXPropertyType.Integer, "InheritType", "enum", "", "", 1),
+                                    FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", (double)0.0, (double)0.0, (double)0.0),
+                                    FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", 0),
+                                    FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)bone.Transform.M41, (double)bone.Transform.M42, (double)bone.Transform.M43),
+                                } 
                             },
-                            Children = 
-                            { 
-                                new FBXElem { ID = "Version", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 73, Value = 232 } 
-                                    } 
-                                }, 
-                                new FBXElem { ID = "Properties70", 
-                                    Children = 
-                                    { 
-                                        FBXPropertyElement(FBXPropertyType.Integer, "RotationActive", "bool", "", "", 1),
-                                        FBXPropertyElement(FBXPropertyType.Integer, "InheritType", "enum", "", "", 1),
-                                        FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", (double)0.0, (double)0.0, (double)0.0),
-                                        FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", 0),
-                                        FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)bone.Transform.M41, (double)bone.Transform.M42, (double)bone.Transform.M43),
-                                    } 
-                                },
-                                new FBXElem { ID = "Shading", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 67, Value = false } 
-                                    } 
-                                },
-                                new FBXElem { ID = "Culling", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "CullingOff" } 
-                                    } 
-                                }
+                            new FBXElem { ID = "Shading", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 67, Value = false } 
+                                } 
+                            },
+                            new FBXElem { ID = "Culling", 
+                                Properties = 
+                                { 
+                                    new FBXProperty { Type = 83, Value = "CullingOff" } 
+                                } 
                             }
                         }
-                    );
-                }
+                    }
+                );
+
+
+                // driver and wheel nodes don't seem to be exported
+                //if (bone.Tag == null)
+                //{
+                //    if (bone.Parent.Tag != null)
+                //    {
+                //        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(((ModelMesh)bone.Parent.Tag).Name.GetHashCode()), "Node", nodeKey));
+                //    }
+                //    else
+                //    {
+                //        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(("bone-" + bone.Parent.Name).GetHashCode()), "Node", nodeKey));
+                //    }
+                //}
             }
 
             foreach (var material in model.GetMaterials())
