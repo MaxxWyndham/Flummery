@@ -166,33 +166,7 @@ namespace Flummery
             GL.Vertex3(0, 0, 1.0f);
             GL.End();
 
-            if (bb != null)
-            {
-                GL.Begin(PrimitiveType.Quads);
-                GL.Color4(0f, 1.0f, 0f, 1.0f);
-
-                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Min.Z);
-                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Max.Z);
-                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Max.Z);
-                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Min.Z);
-
-                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Min.Z);
-                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Max.Z);
-                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Max.Z);
-                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Min.Z);
-
-                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Min.Z);
-                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Min.Z);
-                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Min.Z);
-                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Min.Z);
-
-                GL.Vertex3(bb.Min.X, bb.Min.Y, bb.Max.Z);
-                GL.Vertex3(bb.Max.X, bb.Min.Y, bb.Max.Z);
-                GL.Vertex3(bb.Max.X, bb.Max.Y, bb.Max.Z);
-                GL.Vertex3(bb.Min.X, bb.Max.Y, bb.Max.Z);
-
-                GL.End();
-            }
+            if (bb != null) { bb.Draw(); }
 
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.Texture2D);
