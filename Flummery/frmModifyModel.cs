@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using ToxicRagers.Helpers;
+
 namespace Flummery
 {
     public partial class frmModifyModel : Form
@@ -31,9 +33,39 @@ namespace Flummery
         private void rdo_CheckedChanged(object sender, EventArgs e)
         {
             string name = ((RadioButton)sender).Name.Substring(3);
+
+            foreach (Control c in this.Controls)
+            {
+                if (c is GroupBox) { c.Visible = false; }
+            }
+
             var groupBox = this.Controls.Find("gb" + name, true);
             if (groupBox.Length > 0) { groupBox[0].Visible = !groupBox[0].Visible; }
         }
+
+        // Scale START
+        private void rdoScale_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (Control c in this.gbScaling.Controls) { if (c is TextBox) { c.Enabled = false; } }
+
+            switch (((RadioButton)sender).Name)
+            {
+                case "rdoScaleWholeModel":
+                    this.txtScaleWholeModel.Enabled = true;
+                    break;
+
+                case "rdoScaleByAxis":
+                    this.txtScaleAxisX.Enabled = true;
+                    this.txtScaleAxisY.Enabled = true;
+                    this.txtScaleAxisZ.Enabled = true;
+                    break;
+
+                case "rdoScaleRadius":
+                    this.txtScaleRadius.Enabled = true;
+                    break;
+            }
+        }
+        // Scale END
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -43,7 +75,28 @@ namespace Flummery
 
         private void applyTransforms()
         {
-            if (rdoMunging.Checked)
+            if (rdoScaling.Checked)
+            {
+                if (rdoScaleByAxis.Checked)
+                {
+
+                    var scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleAxisX.Text.ToSingle(), txtScaleAxisY.Text.ToSingle(), txtScaleAxisZ.Text.ToSingle());
+                    var bone = SceneManager.Current.Models[0].Bones[parentBoneIndex];
+                    var mesh = (ModelMesh)bone.Tag;
+
+                    foreach (var meshpart in mesh.MeshParts)
+                    {
+                        for (int i = 0; i < meshpart.VertexCount; i++)
+                        {
+                            var position = OpenTK.Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scaleMatrix);
+                            meshpart.VertexBuffer.ModifyVertexPosition(i, position);
+                        }
+
+                        meshpart.VertexBuffer.Initialise();
+                    }
+                }
+            }
+            else if (rdoMunging.Checked)
             {
                 if (rdoInvert.Checked)
                 {

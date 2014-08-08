@@ -38,8 +38,23 @@
             this.lblInvertAxis = new System.Windows.Forms.Label();
             this.cboInvertAxis = new System.Windows.Forms.ComboBox();
             this.rdoInvert = new System.Windows.Forms.RadioButton();
+            this.gbRotation = new System.Windows.Forms.GroupBox();
+            this.gbTranslation = new System.Windows.Forms.GroupBox();
             this.chkHierarchy = new System.Windows.Forms.CheckBox();
+            this.gbScaling = new System.Windows.Forms.GroupBox();
+            this.txtScaleRadius = new System.Windows.Forms.TextBox();
+            this.rdoScaleRadius = new System.Windows.Forms.RadioButton();
+            this.txtScaleAxisZ = new System.Windows.Forms.TextBox();
+            this.lblScaleAxisZ = new System.Windows.Forms.Label();
+            this.txtScaleAxisY = new System.Windows.Forms.TextBox();
+            this.lblScaleAxisY = new System.Windows.Forms.Label();
+            this.txtScaleAxisX = new System.Windows.Forms.TextBox();
+            this.rdoScaleByAxis = new System.Windows.Forms.RadioButton();
+            this.txtScaleWholeModel = new System.Windows.Forms.TextBox();
+            this.lblScaleAxisX = new System.Windows.Forms.Label();
+            this.rdoScaleWholeModel = new System.Windows.Forms.RadioButton();
             this.gbMunging.SuspendLayout();
+            this.gbScaling.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOK
@@ -124,7 +139,7 @@
             this.gbMunging.Controls.Add(this.lblInvertAxis);
             this.gbMunging.Controls.Add(this.cboInvertAxis);
             this.gbMunging.Controls.Add(this.rdoInvert);
-            this.gbMunging.Location = new System.Drawing.Point(12, 41);
+            this.gbMunging.Location = new System.Drawing.Point(13, 41);
             this.gbMunging.Name = "gbMunging";
             this.gbMunging.Size = new System.Drawing.Size(322, 179);
             this.gbMunging.TabIndex = 33;
@@ -164,6 +179,23 @@
             this.rdoInvert.Text = "Invert along";
             this.rdoInvert.UseVisualStyleBackColor = true;
             // 
+            // gbRotation
+            // 
+            this.gbRotation.Location = new System.Drawing.Point(13, 41);
+            this.gbRotation.Name = "gbRotation";
+            this.gbRotation.Size = new System.Drawing.Size(322, 179);
+            this.gbRotation.TabIndex = 33;
+            this.gbRotation.TabStop = false;
+            this.gbRotation.Visible = false;
+            // 
+            // gbTranslation
+            // 
+            this.gbTranslation.Location = new System.Drawing.Point(13, 41);
+            this.gbTranslation.Name = "gbTranslation";
+            this.gbTranslation.Size = new System.Drawing.Size(322, 179);
+            this.gbTranslation.TabIndex = 33;
+            this.gbTranslation.TabStop = false;
+            // 
             // chkHierarchy
             // 
             this.chkHierarchy.AutoSize = true;
@@ -174,13 +206,142 @@
             this.chkHierarchy.Text = "apply to hierarchy";
             this.chkHierarchy.UseVisualStyleBackColor = true;
             // 
+            // gbScaling
+            // 
+            this.gbScaling.Controls.Add(this.txtScaleRadius);
+            this.gbScaling.Controls.Add(this.rdoScaleRadius);
+            this.gbScaling.Controls.Add(this.txtScaleAxisZ);
+            this.gbScaling.Controls.Add(this.lblScaleAxisZ);
+            this.gbScaling.Controls.Add(this.txtScaleAxisY);
+            this.gbScaling.Controls.Add(this.lblScaleAxisY);
+            this.gbScaling.Controls.Add(this.txtScaleAxisX);
+            this.gbScaling.Controls.Add(this.rdoScaleByAxis);
+            this.gbScaling.Controls.Add(this.txtScaleWholeModel);
+            this.gbScaling.Controls.Add(this.lblScaleAxisX);
+            this.gbScaling.Controls.Add(this.rdoScaleWholeModel);
+            this.gbScaling.Location = new System.Drawing.Point(13, 41);
+            this.gbScaling.Name = "gbScaling";
+            this.gbScaling.Size = new System.Drawing.Size(322, 179);
+            this.gbScaling.TabIndex = 35;
+            this.gbScaling.TabStop = false;
+            this.gbScaling.Visible = false;
+            // 
+            // txtScaleRadius
+            // 
+            this.txtScaleRadius.Enabled = false;
+            this.txtScaleRadius.Location = new System.Drawing.Point(93, 70);
+            this.txtScaleRadius.Name = "txtScaleRadius";
+            this.txtScaleRadius.Size = new System.Drawing.Size(100, 20);
+            this.txtScaleRadius.TabIndex = 11;
+            this.txtScaleRadius.Text = "1";
+            // 
+            // rdoScaleRadius
+            // 
+            this.rdoScaleRadius.AutoSize = true;
+            this.rdoScaleRadius.Enabled = false;
+            this.rdoScaleRadius.Location = new System.Drawing.Point(6, 71);
+            this.rdoScaleRadius.Name = "rdoScaleRadius";
+            this.rdoScaleRadius.Size = new System.Drawing.Size(83, 17);
+            this.rdoScaleRadius.TabIndex = 10;
+            this.rdoScaleRadius.Text = "To fit radius:";
+            this.rdoScaleRadius.UseVisualStyleBackColor = true;
+            this.rdoScaleRadius.CheckedChanged += new System.EventHandler(this.rdoScale_CheckedChanged);
+            // 
+            // txtScaleAxisZ
+            // 
+            this.txtScaleAxisZ.Location = new System.Drawing.Point(256, 44);
+            this.txtScaleAxisZ.Name = "txtScaleAxisZ";
+            this.txtScaleAxisZ.Size = new System.Drawing.Size(50, 20);
+            this.txtScaleAxisZ.TabIndex = 9;
+            this.txtScaleAxisZ.Text = "1";
+            // 
+            // lblScaleAxisZ
+            // 
+            this.lblScaleAxisZ.AutoSize = true;
+            this.lblScaleAxisZ.Location = new System.Drawing.Point(238, 47);
+            this.lblScaleAxisZ.Name = "lblScaleAxisZ";
+            this.lblScaleAxisZ.Size = new System.Drawing.Size(12, 13);
+            this.lblScaleAxisZ.TabIndex = 8;
+            this.lblScaleAxisZ.Text = "z";
+            // 
+            // txtScaleAxisY
+            // 
+            this.txtScaleAxisY.Location = new System.Drawing.Point(182, 44);
+            this.txtScaleAxisY.Name = "txtScaleAxisY";
+            this.txtScaleAxisY.Size = new System.Drawing.Size(50, 20);
+            this.txtScaleAxisY.TabIndex = 7;
+            this.txtScaleAxisY.Text = "1";
+            // 
+            // lblScaleAxisY
+            // 
+            this.lblScaleAxisY.AutoSize = true;
+            this.lblScaleAxisY.Location = new System.Drawing.Point(164, 47);
+            this.lblScaleAxisY.Name = "lblScaleAxisY";
+            this.lblScaleAxisY.Size = new System.Drawing.Size(12, 13);
+            this.lblScaleAxisY.TabIndex = 6;
+            this.lblScaleAxisY.Text = "y";
+            // 
+            // txtScaleAxisX
+            // 
+            this.txtScaleAxisX.Location = new System.Drawing.Point(108, 44);
+            this.txtScaleAxisX.Name = "txtScaleAxisX";
+            this.txtScaleAxisX.Size = new System.Drawing.Size(50, 20);
+            this.txtScaleAxisX.TabIndex = 5;
+            this.txtScaleAxisX.Text = "1";
+            // 
+            // rdoScaleByAxis
+            // 
+            this.rdoScaleByAxis.AutoSize = true;
+            this.rdoScaleByAxis.Checked = true;
+            this.rdoScaleByAxis.Location = new System.Drawing.Point(6, 45);
+            this.rdoScaleByAxis.Name = "rdoScaleByAxis";
+            this.rdoScaleByAxis.Size = new System.Drawing.Size(61, 17);
+            this.rdoScaleByAxis.TabIndex = 4;
+            this.rdoScaleByAxis.TabStop = true;
+            this.rdoScaleByAxis.Text = "By axis:";
+            this.rdoScaleByAxis.UseVisualStyleBackColor = true;
+            this.rdoScaleByAxis.CheckedChanged += new System.EventHandler(this.rdoScale_CheckedChanged);
+            // 
+            // txtScaleWholeModel
+            // 
+            this.txtScaleWholeModel.Enabled = false;
+            this.txtScaleWholeModel.Location = new System.Drawing.Point(93, 18);
+            this.txtScaleWholeModel.Name = "txtScaleWholeModel";
+            this.txtScaleWholeModel.Size = new System.Drawing.Size(100, 20);
+            this.txtScaleWholeModel.TabIndex = 3;
+            this.txtScaleWholeModel.Text = "1";
+            // 
+            // lblScaleAxisX
+            // 
+            this.lblScaleAxisX.AutoSize = true;
+            this.lblScaleAxisX.Location = new System.Drawing.Point(90, 47);
+            this.lblScaleAxisX.Name = "lblScaleAxisX";
+            this.lblScaleAxisX.Size = new System.Drawing.Size(12, 13);
+            this.lblScaleAxisX.TabIndex = 2;
+            this.lblScaleAxisX.Text = "x";
+            // 
+            // rdoScaleWholeModel
+            // 
+            this.rdoScaleWholeModel.AutoSize = true;
+            this.rdoScaleWholeModel.Enabled = false;
+            this.rdoScaleWholeModel.Location = new System.Drawing.Point(6, 19);
+            this.rdoScaleWholeModel.Name = "rdoScaleWholeModel";
+            this.rdoScaleWholeModel.Size = new System.Drawing.Size(90, 17);
+            this.rdoScaleWholeModel.TabIndex = 0;
+            this.rdoScaleWholeModel.Text = "Whole model:";
+            this.rdoScaleWholeModel.UseVisualStyleBackColor = true;
+            this.rdoScaleWholeModel.CheckedChanged += new System.EventHandler(this.rdoScale_CheckedChanged);
+            // 
             // frmModifyModel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 268);
+            this.Controls.Add(this.gbScaling);
             this.Controls.Add(this.chkHierarchy);
             this.Controls.Add(this.gbMunging);
+            this.Controls.Add(this.gbRotation);
+            this.Controls.Add(this.gbTranslation);
             this.Controls.Add(this.rdoMunging);
             this.Controls.Add(this.rdoRotation);
             this.Controls.Add(this.rdoScaling);
@@ -197,6 +358,8 @@
             this.Load += new System.EventHandler(this.frmModifyModel_Load);
             this.gbMunging.ResumeLayout(false);
             this.gbMunging.PerformLayout();
+            this.gbScaling.ResumeLayout(false);
+            this.gbScaling.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,9 +374,23 @@
         private System.Windows.Forms.RadioButton rdoScaling;
         private System.Windows.Forms.RadioButton rdoTranslation;
         private System.Windows.Forms.GroupBox gbMunging;
+        private System.Windows.Forms.GroupBox gbRotation;
+        private System.Windows.Forms.GroupBox gbTranslation;
         private System.Windows.Forms.Label lblInvertAxis;
         private System.Windows.Forms.ComboBox cboInvertAxis;
         private System.Windows.Forms.RadioButton rdoInvert;
         private System.Windows.Forms.CheckBox chkHierarchy;
+        private System.Windows.Forms.GroupBox gbScaling;
+        private System.Windows.Forms.Label lblScaleAxisX;
+        private System.Windows.Forms.RadioButton rdoScaleWholeModel;
+        private System.Windows.Forms.TextBox txtScaleAxisX;
+        private System.Windows.Forms.RadioButton rdoScaleByAxis;
+        private System.Windows.Forms.TextBox txtScaleWholeModel;
+        private System.Windows.Forms.TextBox txtScaleAxisZ;
+        private System.Windows.Forms.Label lblScaleAxisZ;
+        private System.Windows.Forms.TextBox txtScaleAxisY;
+        private System.Windows.Forms.Label lblScaleAxisY;
+        private System.Windows.Forms.TextBox txtScaleRadius;
+        private System.Windows.Forms.RadioButton rdoScaleRadius;
     }
 }
