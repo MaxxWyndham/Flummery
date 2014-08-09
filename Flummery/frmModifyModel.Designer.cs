@@ -53,6 +53,7 @@
             this.txtScaleWholeModel = new System.Windows.Forms.TextBox();
             this.lblScaleAxisX = new System.Windows.Forms.Label();
             this.rdoScaleWholeModel = new System.Windows.Forms.RadioButton();
+            this.rdoMeshBoneSwap = new System.Windows.Forms.RadioButton();
             this.gbMunging.SuspendLayout();
             this.gbScaling.SuspendLayout();
             this.SuspendLayout();
@@ -88,7 +89,7 @@
             this.rdoMunging.Name = "rdoMunging";
             this.rdoMunging.Size = new System.Drawing.Size(76, 23);
             this.rdoMunging.TabIndex = 32;
-            this.rdoMunging.Text = "Axis munging";
+            this.rdoMunging.Text = "Munging";
             this.rdoMunging.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rdoMunging.UseVisualStyleBackColor = true;
             this.rdoMunging.CheckedChanged += new System.EventHandler(this.rdo_CheckedChanged);
@@ -136,6 +137,7 @@
             // 
             // gbMunging
             // 
+            this.gbMunging.Controls.Add(this.rdoMeshBoneSwap);
             this.gbMunging.Controls.Add(this.lblInvertAxis);
             this.gbMunging.Controls.Add(this.cboInvertAxis);
             this.gbMunging.Controls.Add(this.rdoInvert);
@@ -332,14 +334,25 @@
             this.rdoScaleWholeModel.UseVisualStyleBackColor = true;
             this.rdoScaleWholeModel.CheckedChanged += new System.EventHandler(this.rdoScale_CheckedChanged);
             // 
+            // rdoMeshBoneSwap
+            // 
+            this.rdoMeshBoneSwap.AutoSize = true;
+            this.rdoMeshBoneSwap.Location = new System.Drawing.Point(6, 46);
+            this.rdoMeshBoneSwap.Name = "rdoMeshBoneSwap";
+            this.rdoMeshBoneSwap.Size = new System.Drawing.Size(135, 17);
+            this.rdoMeshBoneSwap.TabIndex = 3;
+            this.rdoMeshBoneSwap.TabStop = true;
+            this.rdoMeshBoneSwap.Text = "Munge mesh with bone";
+            this.rdoMeshBoneSwap.UseVisualStyleBackColor = true;
+            // 
             // frmModifyModel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 268);
+            this.Controls.Add(this.gbMunging);
             this.Controls.Add(this.gbScaling);
             this.Controls.Add(this.chkHierarchy);
-            this.Controls.Add(this.gbMunging);
             this.Controls.Add(this.gbRotation);
             this.Controls.Add(this.gbTranslation);
             this.Controls.Add(this.rdoMunging);
@@ -392,5 +405,6 @@
         private System.Windows.Forms.Label lblScaleAxisY;
         private System.Windows.Forms.TextBox txtScaleRadius;
         private System.Windows.Forms.RadioButton rdoScaleRadius;
+        private System.Windows.Forms.RadioButton rdoMeshBoneSwap;
     }
 }

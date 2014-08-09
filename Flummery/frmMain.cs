@@ -146,7 +146,7 @@ namespace Flummery
             menu.MenuItems[2].MenuItems.Add("-");
             menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("-");
-            menu.MenuItems[2].MenuItems.Add("Munge Mesh with Bone", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("Flatten hierarchy...", menuObjectClick);
 
             menu.MenuItems.Add("&Tools");
             menu.MenuItems[3].MenuItems.Add("General");
@@ -674,27 +674,8 @@ namespace Flummery
                     }
                     break;
 
-                case "Munge Mesh with Bone":
-                    if (SceneManager.Current.SelectedBoneIndex > -1 && SceneManager.Current.Models[0].Bones[SceneManager.Current.SelectedBoneIndex].Tag != null)
-                    {
-                        var bone = SceneManager.Current.Models[0].Bones[SceneManager.Current.SelectedBoneIndex];
-                        var mesh = (ModelMesh)bone.Tag;
-                        var offset = mesh.BoundingBox.Centre;
+                case "Flatten hierarchy...":
 
-                        foreach (var meshpart in mesh.MeshParts) { 
-                            for (int i = 0; i < meshpart.VertexCount; i++) { meshpart.VertexBuffer.ModifyVertexPosition(i, meshpart.VertexBuffer.Data[i].Position - offset); }
-                            meshpart.VertexBuffer.Initialise();
-                        }
-                        mesh.BoundingBox.Calculate(mesh);
-
-                        var m = bone.Transform;
-                        m.M41 += offset.X;
-                        m.M42 += offset.Y;
-                        m.M43 += offset.Z;
-                        bone.Transform = m;
-
-                        SceneManager.Current.Change();
-                    }
                     break;
             }
         }

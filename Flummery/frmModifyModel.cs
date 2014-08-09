@@ -75,24 +75,30 @@ namespace Flummery
 
         private void applyTransforms()
         {
+            var bones = (chkHierarchy.Checked ? SceneManager.Current.Models[0].Bones[parentBoneIndex].AllChildren() : new List<ModelBone> { SceneManager.Current.Models[0].Bones[parentBoneIndex] });
+
             if (rdoScaling.Checked)
             {
                 if (rdoScaleByAxis.Checked)
                 {
-
-                    var scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleAxisX.Text.ToSingle(), txtScaleAxisY.Text.ToSingle(), txtScaleAxisZ.Text.ToSingle());
-                    var bone = SceneManager.Current.Models[0].Bones[parentBoneIndex];
-                    var mesh = (ModelMesh)bone.Tag;
-
-                    foreach (var meshpart in mesh.MeshParts)
+                    foreach (var bone in bones)
                     {
-                        for (int i = 0; i < meshpart.VertexCount; i++)
-                        {
-                            var position = OpenTK.Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scaleMatrix);
-                            meshpart.VertexBuffer.ModifyVertexPosition(i, position);
-                        }
+                        var scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleAxisX.Text.ToSingle(), txtScaleAxisY.Text.ToSingle(), txtScaleAxisZ.Text.ToSingle());
+                        var mesh = (ModelMesh)bone.Tag;
 
-                        meshpart.VertexBuffer.Initialise();
+                        if (mesh != null)
+                        {
+                            foreach (var meshpart in mesh.MeshParts)
+                            {
+                                for (int i = 0; i < meshpart.VertexCount; i++)
+                                {
+                                    var position = OpenTK.Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scaleMatrix);
+                                    meshpart.VertexBuffer.ModifyVertexPosition(i, position);
+                                }
+
+                                meshpart.VertexBuffer.Initialise();
+                            }
+                        }
                     }
                 }
             }
@@ -100,48 +106,81 @@ namespace Flummery
             {
                 if (rdoInvert.Checked)
                 {
-                    while (true)
+                    foreach (var bone in bones)
                     {
-                        var bone = SceneManager.Current.Models[0].Bones[parentBoneIndex];
                         var mesh = (ModelMesh)bone.Tag;
 
-                        foreach (var meshpart in mesh.MeshParts)
+                        if (mesh != null)
                         {
-                            for (int i = 0; i < meshpart.VertexCount; i++)
+                            foreach (var meshpart in mesh.MeshParts)
                             {
-                                var position = meshpart.VertexBuffer.Data[i].Position;
-
-                                switch (cboInvertAxis.SelectedItem.ToString())
+                                for (int i = 0; i < meshpart.VertexCount; i++)
                                 {
-                                    case "X":
-                                        position.X = -position.X;
-                                        break;
+                                    var position = meshpart.VertexBuffer.Data[i].Position;
 
-                                    case "Y":
-                                        position.Y = -position.Y;
-                                        break;
+                                    switch (cboInvertAxis.SelectedItem.ToString())
+                                    {
+                                        case "X":
+                                            position.X = -position.X;
+                                            break;
 
-                                    case "Z":
-                                        position.Z = -position.Z;
-                                        break;
+                                        case "Y":
+                                            position.Y = -position.Y;
+                                            break;
 
+                                        case "Z":
+                                            position.Z = -position.Z;
+                                            break;
+
+                                    }
+
+                                    meshpart.VertexBuffer.ModifyVertexPosition(i, position);
                                 }
 
-                                meshpart.VertexBuffer.ModifyVertexPosition(i, position);
+                                for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
+                                {
+                                    meshpart.IndexBuffer.SwapIndices(i + 1, i + 2);
+                                }
+
+                                meshpart.IndexBuffer.Initialise();
+                                meshpart.VertexBuffer.Initialise();
                             }
 
-                            for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
+                            mesh.BoundingBox.Calculate(mesh);
+                        }
+                    }
+                }
+
+                if (rdoMeshBoneSwap.Checked)
+                {
+                    var offset = bones[0].Parent.Transform.ExtractTranslation();
+
+                    foreach (var bone in bones)
+                    {
+                        var mesh = (ModelMesh)bone.Tag;
+
+                        if (mesh != null)
+                        {
+                            var meshoffset = mesh.BoundingBox.Centre;
+
+                            foreach (var meshpart in mesh.MeshParts)
                             {
-                                meshpart.IndexBuffer.SwapIndices(i + 1, i + 2);
+                                for (int i = 0; i < meshpart.VertexCount; i++) { meshpart.VertexBuffer.ModifyVertexPosition(i, meshpart.VertexBuffer.Data[i].Position - meshoffset); }
+                                meshpart.VertexBuffer.Initialise();
                             }
+                            mesh.BoundingBox.Calculate(mesh);
 
-                            meshpart.IndexBuffer.Initialise();
-                            meshpart.VertexBuffer.Initialise();
+                            var moffset = meshoffset - offset;
+                            offset = meshoffset;
+
+                            var m = bone.Transform;
+                            m.M41 += moffset.X;
+                            m.M42 += moffset.Y;
+                            m.M43 += moffset.Z;
+                            bone.Transform = m;
                         }
 
-                        mesh.BoundingBox.Calculate(mesh);
-
-                        break;
+                        //offset = bone.CombinedTransform.ExtractTranslation();
                     }
                 }
             }

@@ -72,5 +72,25 @@ namespace Flummery
             Index = 0;
             Transform = Matrix4.Identity;
         }
+
+        public List<ModelBone> AllChildren(bool bIncludeSelf = true)
+        {
+            var childs = new List<ModelBone>();
+
+            if (bIncludeSelf) { childs.Add(this); }
+            getChildren(this, ref childs);
+
+            return childs;
+        }
+
+        protected void getChildren(ModelBone parent, ref List<ModelBone> list)
+        {
+            foreach (var child in parent.children)
+            {
+                list.Add(child);
+
+                child.getChildren(child, ref list);
+            }
+        }
     }
 }
