@@ -34,10 +34,12 @@ namespace Flummery
             var materials = new pnlMaterialList();
             var settings = new widgetTransform();
 
+            viewport.Show(dockPanel, DockState.Document);
             overview.Show(dockPanel, DockState.DockLeft);
             settings.Show(dockPanel, DockState.DockRight);
             materials.Show(dockPanel, DockState.DockBottom);
-            viewport.Show(dockPanel, DockState.Document);
+
+            dockPanel.DockRightPortion = settings.DefaultWidth;
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
             this.Text += " v" + Flummery.Version;

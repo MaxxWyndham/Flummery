@@ -50,13 +50,16 @@
             this.btnFreeze = new System.Windows.Forms.Button();
             this.btnZero = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.rdoRelative = new System.Windows.Forms.RadioButton();
+            this.rdoAbsolute = new System.Windows.Forms.RadioButton();
+            this.btnSet = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblPositionX
             // 
             this.lblPositionX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPositionX.AutoSize = true;
-            this.lblPositionX.Location = new System.Drawing.Point(8, 15);
+            this.lblPositionX.Location = new System.Drawing.Point(14, 44);
             this.lblPositionX.Name = "lblPositionX";
             this.lblPositionX.Size = new System.Drawing.Size(54, 13);
             this.lblPositionX.TabIndex = 0;
@@ -66,7 +69,7 @@
             // 
             this.lblPositionY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPositionY.AutoSize = true;
-            this.lblPositionY.Location = new System.Drawing.Point(48, 41);
+            this.lblPositionY.Location = new System.Drawing.Point(54, 70);
             this.lblPositionY.Name = "lblPositionY";
             this.lblPositionY.Size = new System.Drawing.Size(14, 13);
             this.lblPositionY.TabIndex = 1;
@@ -76,7 +79,7 @@
             // 
             this.lblPositionZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPositionZ.AutoSize = true;
-            this.lblPositionZ.Location = new System.Drawing.Point(48, 67);
+            this.lblPositionZ.Location = new System.Drawing.Point(54, 96);
             this.lblPositionZ.Name = "lblPositionZ";
             this.lblPositionZ.Size = new System.Drawing.Size(14, 13);
             this.lblPositionZ.TabIndex = 2;
@@ -86,7 +89,7 @@
             // 
             this.lblRotationX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRotationX.AutoSize = true;
-            this.lblRotationX.Location = new System.Drawing.Point(5, 93);
+            this.lblRotationX.Location = new System.Drawing.Point(11, 122);
             this.lblRotationX.Name = "lblRotationX";
             this.lblRotationX.Size = new System.Drawing.Size(57, 13);
             this.lblRotationX.TabIndex = 3;
@@ -96,7 +99,7 @@
             // 
             this.lblRotationY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRotationY.AutoSize = true;
-            this.lblRotationY.Location = new System.Drawing.Point(48, 119);
+            this.lblRotationY.Location = new System.Drawing.Point(54, 148);
             this.lblRotationY.Name = "lblRotationY";
             this.lblRotationY.Size = new System.Drawing.Size(14, 13);
             this.lblRotationY.TabIndex = 4;
@@ -106,7 +109,7 @@
             // 
             this.lblRotationZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRotationZ.AutoSize = true;
-            this.lblRotationZ.Location = new System.Drawing.Point(48, 145);
+            this.lblRotationZ.Location = new System.Drawing.Point(54, 174);
             this.lblRotationZ.Name = "lblRotationZ";
             this.lblRotationZ.Size = new System.Drawing.Size(14, 13);
             this.lblRotationZ.TabIndex = 5;
@@ -116,7 +119,7 @@
             // 
             this.lblScaleX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblScaleX.AutoSize = true;
-            this.lblScaleX.Location = new System.Drawing.Point(18, 171);
+            this.lblScaleX.Location = new System.Drawing.Point(24, 200);
             this.lblScaleX.Name = "lblScaleX";
             this.lblScaleX.Size = new System.Drawing.Size(44, 13);
             this.lblScaleX.TabIndex = 6;
@@ -126,7 +129,7 @@
             // 
             this.lblScaleY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblScaleY.AutoSize = true;
-            this.lblScaleY.Location = new System.Drawing.Point(48, 197);
+            this.lblScaleY.Location = new System.Drawing.Point(54, 226);
             this.lblScaleY.Name = "lblScaleY";
             this.lblScaleY.Size = new System.Drawing.Size(14, 13);
             this.lblScaleY.TabIndex = 7;
@@ -136,7 +139,7 @@
             // 
             this.lblScaleZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblScaleZ.AutoSize = true;
-            this.lblScaleZ.Location = new System.Drawing.Point(48, 223);
+            this.lblScaleZ.Location = new System.Drawing.Point(54, 252);
             this.lblScaleZ.Name = "lblScaleZ";
             this.lblScaleZ.Size = new System.Drawing.Size(14, 13);
             this.lblScaleZ.TabIndex = 8;
@@ -145,7 +148,7 @@
             // txtPositionX
             // 
             this.txtPositionX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPositionX.Location = new System.Drawing.Point(68, 12);
+            this.txtPositionX.Location = new System.Drawing.Point(74, 41);
             this.txtPositionX.Name = "txtPositionX";
             this.txtPositionX.Size = new System.Drawing.Size(102, 20);
             this.txtPositionX.TabIndex = 9;
@@ -154,7 +157,7 @@
             // txtPositionY
             // 
             this.txtPositionY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPositionY.Location = new System.Drawing.Point(68, 38);
+            this.txtPositionY.Location = new System.Drawing.Point(74, 67);
             this.txtPositionY.Name = "txtPositionY";
             this.txtPositionY.Size = new System.Drawing.Size(102, 20);
             this.txtPositionY.TabIndex = 10;
@@ -163,7 +166,7 @@
             // txtPositionZ
             // 
             this.txtPositionZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPositionZ.Location = new System.Drawing.Point(68, 64);
+            this.txtPositionZ.Location = new System.Drawing.Point(74, 93);
             this.txtPositionZ.Name = "txtPositionZ";
             this.txtPositionZ.Size = new System.Drawing.Size(102, 20);
             this.txtPositionZ.TabIndex = 11;
@@ -172,7 +175,7 @@
             // txtRotationX
             // 
             this.txtRotationX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRotationX.Location = new System.Drawing.Point(68, 90);
+            this.txtRotationX.Location = new System.Drawing.Point(74, 119);
             this.txtRotationX.Name = "txtRotationX";
             this.txtRotationX.Size = new System.Drawing.Size(102, 20);
             this.txtRotationX.TabIndex = 12;
@@ -181,7 +184,7 @@
             // txtRotationY
             // 
             this.txtRotationY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRotationY.Location = new System.Drawing.Point(68, 116);
+            this.txtRotationY.Location = new System.Drawing.Point(74, 145);
             this.txtRotationY.Name = "txtRotationY";
             this.txtRotationY.Size = new System.Drawing.Size(102, 20);
             this.txtRotationY.TabIndex = 13;
@@ -190,7 +193,7 @@
             // txtRotationZ
             // 
             this.txtRotationZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRotationZ.Location = new System.Drawing.Point(68, 142);
+            this.txtRotationZ.Location = new System.Drawing.Point(74, 171);
             this.txtRotationZ.Name = "txtRotationZ";
             this.txtRotationZ.Size = new System.Drawing.Size(102, 20);
             this.txtRotationZ.TabIndex = 14;
@@ -199,7 +202,7 @@
             // txtScaleX
             // 
             this.txtScaleX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScaleX.Location = new System.Drawing.Point(68, 168);
+            this.txtScaleX.Location = new System.Drawing.Point(74, 197);
             this.txtScaleX.Name = "txtScaleX";
             this.txtScaleX.Size = new System.Drawing.Size(102, 20);
             this.txtScaleX.TabIndex = 15;
@@ -208,7 +211,7 @@
             // txtScaleY
             // 
             this.txtScaleY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScaleY.Location = new System.Drawing.Point(68, 194);
+            this.txtScaleY.Location = new System.Drawing.Point(74, 223);
             this.txtScaleY.Name = "txtScaleY";
             this.txtScaleY.Size = new System.Drawing.Size(102, 20);
             this.txtScaleY.TabIndex = 16;
@@ -217,7 +220,7 @@
             // txtScaleZ
             // 
             this.txtScaleZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScaleZ.Location = new System.Drawing.Point(68, 220);
+            this.txtScaleZ.Location = new System.Drawing.Point(74, 249);
             this.txtScaleZ.Name = "txtScaleZ";
             this.txtScaleZ.Size = new System.Drawing.Size(102, 20);
             this.txtScaleZ.TabIndex = 17;
@@ -227,7 +230,7 @@
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReset.Enabled = false;
-            this.btnReset.Location = new System.Drawing.Point(14, 248);
+            this.btnReset.Location = new System.Drawing.Point(20, 277);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 18;
@@ -237,7 +240,7 @@
             // btnFreeze
             // 
             this.btnFreeze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFreeze.Location = new System.Drawing.Point(14, 277);
+            this.btnFreeze.Location = new System.Drawing.Point(20, 306);
             this.btnFreeze.Name = "btnFreeze";
             this.btnFreeze.Size = new System.Drawing.Size(75, 23);
             this.btnFreeze.TabIndex = 19;
@@ -248,7 +251,7 @@
             // btnZero
             // 
             this.btnZero.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnZero.Location = new System.Drawing.Point(95, 248);
+            this.btnZero.Location = new System.Drawing.Point(101, 277);
             this.btnZero.Name = "btnZero";
             this.btnZero.Size = new System.Drawing.Size(75, 23);
             this.btnZero.TabIndex = 20;
@@ -258,7 +261,7 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(95, 277);
+            this.btnAdd.Location = new System.Drawing.Point(101, 306);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 21;
@@ -266,11 +269,54 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // rdoRelative
+            // 
+            this.rdoRelative.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rdoRelative.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rdoRelative.Checked = true;
+            this.rdoRelative.Location = new System.Drawing.Point(14, 12);
+            this.rdoRelative.Name = "rdoRelative";
+            this.rdoRelative.Size = new System.Drawing.Size(77, 23);
+            this.rdoRelative.TabIndex = 22;
+            this.rdoRelative.TabStop = true;
+            this.rdoRelative.Text = "relative";
+            this.rdoRelative.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rdoRelative.UseVisualStyleBackColor = true;
+            this.rdoRelative.CheckedChanged += new System.EventHandler(this.rdoRelativity_CheckedChanged);
+            // 
+            // rdoAbsolute
+            // 
+            this.rdoAbsolute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rdoAbsolute.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rdoAbsolute.Location = new System.Drawing.Point(99, 12);
+            this.rdoAbsolute.Name = "rdoAbsolute";
+            this.rdoAbsolute.Size = new System.Drawing.Size(77, 23);
+            this.rdoAbsolute.TabIndex = 23;
+            this.rdoAbsolute.Text = "absolute";
+            this.rdoAbsolute.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rdoAbsolute.UseVisualStyleBackColor = true;
+            this.rdoAbsolute.CheckedChanged += new System.EventHandler(this.rdoRelativity_CheckedChanged);
+            // 
+            // btnSet
+            // 
+            this.btnSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSet.Location = new System.Drawing.Point(20, 277);
+            this.btnSet.Name = "btnSet";
+            this.btnSet.Size = new System.Drawing.Size(156, 23);
+            this.btnSet.TabIndex = 24;
+            this.btnSet.Text = "set";
+            this.btnSet.UseVisualStyleBackColor = true;
+            this.btnSet.Visible = false;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
+            // 
             // widgetTransform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(182, 312);
+            this.ClientSize = new System.Drawing.Size(188, 337);
+            this.Controls.Add(this.btnSet);
+            this.Controls.Add(this.rdoAbsolute);
+            this.Controls.Add(this.rdoRelative);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnZero);
             this.Controls.Add(this.btnFreeze);
@@ -294,6 +340,7 @@
             this.Controls.Add(this.lblPositionY);
             this.Controls.Add(this.lblPositionX);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "widgetTransform";
             this.Text = "Transform";
             this.ResumeLayout(false);
@@ -325,6 +372,9 @@
         private System.Windows.Forms.Button btnFreeze;
         private System.Windows.Forms.Button btnZero;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.RadioButton rdoRelative;
+        private System.Windows.Forms.RadioButton rdoAbsolute;
+        private System.Windows.Forms.Button btnSet;
 
     }
 }
