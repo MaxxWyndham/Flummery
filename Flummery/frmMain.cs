@@ -161,6 +161,8 @@ namespace Flummery
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Accessory.txt files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Routes.txt files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("vehicle_setup.cfg files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Structure.xml files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
             menu.MenuItems[3].MenuItems.Add("Carma 2");
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
@@ -459,6 +461,8 @@ namespace Flummery
                 case "LIGHT files":
                 case "Accessory.txt files":
                 case "Routes.txt files":
+                case "vehicle_setup.cfg files":
+                case "Structure.xml files":
                     processAll(mi.Text);
                     break;
 
@@ -556,6 +560,14 @@ namespace Flummery
 
                             case "routes.txt":
                                 result = ToxicRagers.CarmageddonReincarnation.Formats.Routes.Load(fi.FullName);
+                                break;
+
+                            case "vehicle_setup.cfg":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.VehicleSetupConfig.Load(fi.FullName);
+                                break;
+
+                            case "structure.xml":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.Structure.Load(fi.FullName);
                                 break;
                         }
 
