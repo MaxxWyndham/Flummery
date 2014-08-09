@@ -23,8 +23,6 @@ namespace Flummery
             InitializeComponent();
         }
 
-        static bool bPublicRelease = false;
-
         SceneManager scene;
 
         public DockPanel DockPanel { get { return dockPanel; } }
@@ -184,8 +182,6 @@ namespace Flummery
                     break;
 
                 case "Save":
-                    if (bPublicRelease) { MessageBox.Show("Coming Soon!"); return; }
-
                     sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
@@ -594,8 +590,6 @@ namespace Flummery
         private void menuSaveAsClick(object sender, EventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
-
-            if (bPublicRelease) { MessageBox.Show("Coming Soon!"); return; }
 
             switch (mi.Text)
             {
