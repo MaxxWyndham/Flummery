@@ -44,10 +44,10 @@ namespace Flummery.ContentPipeline.Stainless
             model.SetName(cnt.Name, boneIndex);
             model.SetTransform(
                 new Matrix4 (
-                    cnt.Transform.M11, cnt.Transform.M12,  cnt.Transform.M13, 0,
-                    cnt.Transform.M21, cnt.Transform.M22,  cnt.Transform.M23, 0,
-                    cnt.Transform.M31, cnt.Transform.M32,  cnt.Transform.M33, 0,
-                    cnt.Transform.M41, cnt.Transform.M42, -cnt.Transform.M43, 1
+                    cnt.Transform.M11, cnt.Transform.M12, cnt.Transform.M13, 0,
+                    cnt.Transform.M21, cnt.Transform.M22, cnt.Transform.M23, 0,
+                    cnt.Transform.M31, cnt.Transform.M32, cnt.Transform.M33, 0,
+                    cnt.Transform.M41, cnt.Transform.M42, cnt.Transform.M43, 1
                 ), boneIndex);
 
             foreach (CNT subcnt in cnt.Children)

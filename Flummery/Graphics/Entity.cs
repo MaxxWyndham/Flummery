@@ -84,6 +84,8 @@ namespace Flummery
         {
             if (Linked) { transform = ((ModelBone)link).CombinedTransform; }
 
+            var m = transform * SceneManager.Current.Transform;
+
             switch (assetType)
             {
                 case AssetType.Model:
@@ -92,7 +94,7 @@ namespace Flummery
                     {
                         GL.PushMatrix();
 
-                        GL.MultMatrix(ref transform);
+                        GL.MultMatrix(ref m);
 
                         model.Draw();
 
@@ -126,7 +128,7 @@ namespace Flummery
 
                     GL.PushMatrix();
 
-                    var position = Matrix4.CreateTranslation(transform.ExtractTranslation());
+                    var position = Matrix4.CreateTranslation(m.ExtractTranslation());
 
                     GL.MultMatrix(ref position);
 

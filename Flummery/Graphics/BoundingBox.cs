@@ -55,7 +55,7 @@ namespace Flummery
 
         public void Draw()
         {
-            var m = mesh.Parent.CombinedTransform;
+            var m = mesh.Parent.CombinedTransform * SceneManager.Current.Transform;
 
             GL.PushMatrix();
             GL.MultMatrix(ref m);

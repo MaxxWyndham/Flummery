@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
@@ -17,6 +18,12 @@ namespace Flummery
             Count
         }
 
+        public enum CoordinateSystem
+        {
+            LeftHanded,
+            RightHanded
+        }
+
         public static SceneManager Current;
 
         int selectedBoneIndex = 0;
@@ -26,6 +33,10 @@ namespace Flummery
         List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
         List<Material> materials = new List<Material>();
+
+        Matrix4 sceneTransform = Matrix4.Identity;
+        CoordinateSystem coords = CoordinateSystem.LeftHanded;
+        FrontFaceDirection frontFace = FrontFaceDirection.Ccw;
 
         bool bVertexBuffer;
         ContentManager content;
@@ -38,6 +49,8 @@ namespace Flummery
         public List<Entity> Entities { get { return entities; } }
         public List<Model> Models { get { return models; } }
         public List<Material> Materials { get { return materials; } }
+
+        public Matrix4 Transform { get { return sceneTransform; } }
 
         public int SelectedBoneIndex { get { return selectedBoneIndex; } }
 
@@ -86,6 +99,22 @@ namespace Flummery
             this.bb = bb;
         }
 
+        public void SetCoordinateSystem(CoordinateSystem c)
+        {
+            this.coords = c;
+
+            if (c == CoordinateSystem.RightHanded)
+            {
+                this.sceneTransform = Matrix4.Identity;
+                this.frontFace = FrontFaceDirection.Ccw;
+            }
+            else
+            {
+                this.sceneTransform = Matrix4.CreateScale(1, 1, -1);
+                this.frontFace = FrontFaceDirection.Cw;
+            }
+        }
+
         public void Reset()
         {
             content.Reset();
@@ -104,6 +133,18 @@ namespace Flummery
             {
                 renderMode = (RenderMeshMode)((int)renderMode + 1);
                 if (renderMode == RenderMeshMode.Count) { renderMode = RenderMeshMode.Solid; }
+            }
+
+            if (state[Key.P] && !lastState[Key.P])
+            {
+                if (coords == CoordinateSystem.LeftHanded)
+                {
+                    SetCoordinateSystem(CoordinateSystem.RightHanded);
+                }
+                else
+                {
+                    SetCoordinateSystem(CoordinateSystem.LeftHanded);
+                }
             }
 
             lastState = state;
@@ -172,6 +213,7 @@ namespace Flummery
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
+            GL.FrontFace(frontFace);
 
             Lights();
 

@@ -7,25 +7,12 @@ namespace Flummery
 {
     public class Model : Asset
     {
-        public enum CoordinateSystem
-        {
-            LeftHanded,
-            RightHanded
-        }
-
         List<ModelBone> bones;
         List<ModelMesh> meshes;
-        CoordinateSystem coords = CoordinateSystem.LeftHanded;
 
         public List<ModelBone> Bones { get { return bones; } }
         public List<ModelMesh> Meshes { get { return meshes; } }
         public ModelBone Root { get { return bones[0]; } }
-
-        public CoordinateSystem Handedness
-        {
-            get { return coords; }
-            set { coords = value; }
-        }
 
         public Model()
         {
@@ -42,7 +29,6 @@ namespace Flummery
             m.bones = new List<ModelBone>(this.bones);
             m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));
             m.tag = this.tag;
-            m.coords = this.coords;
 
             return m;
         }
@@ -200,11 +186,13 @@ namespace Flummery
         {
             Matrix4[] transforms = new Matrix4[bones.Count];
             CopyAbsoluteBoneTransformsTo(transforms);
+            Matrix4 m = SceneManager.Current.Transform;
 
             foreach (var mesh in meshes)
             {
                 GL.PushMatrix();
 
+                GL.MultMatrix(ref m);
                 GL.MultMatrix(ref transforms[mesh.Parent.Index]);
 
                 mesh.Draw();

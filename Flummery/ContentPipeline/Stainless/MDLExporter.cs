@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using ToxicRagers.Stainless.Formats;
+
 using OpenTK;
+using ToxicRagers.Stainless.Formats;
 
 namespace Flummery.ContentPipeline.Stainless
 {
     class MDLExporter : ContentExporter
     {
-        public override void Export(Asset asset, string Path)
+        public override void Export(Asset asset, string path)
         {
-            var exportTransform = (settings.HasSetting("Transform") ? settings.GetSetting<Matrix4>("Transform") : Matrix4.Identity);
-            var exportHandedness = (settings.HasSetting("Handed") ? settings.GetSetting<Model.CoordinateSystem>("Handed") : Model.CoordinateSystem.LeftHanded);
-
             var model = (asset as Model);
-            model.Handedness = exportHandedness;
 
             int materialIndex = 1;
-            bool bLeftHanded = (model.Handedness == Model.CoordinateSystem.LeftHanded);
 
             foreach (var mesh in model.Meshes)
             {
@@ -37,11 +34,9 @@ namespace Flummery.ContentPipeline.Stainless
 
                         foreach (var v in meshpart.VertexBuffer.Data)
                         {
-                            var vp = Vector3.TransformVector(v.Position, exportTransform);
-
                             mdl.Vertices.Add(
                                 new MDLVertex(
-                                    vp.X, vp.Y, vp.Z,
+                                    v.Position.X, v.Position.Y, v.Position.Z,
                                     v.Normal.X, v.Normal.Y, v.Normal.Z,
                                     v.UV.X, v.UV.Y,
                                     v.UV.Z, v.UV.W,
@@ -112,32 +107,22 @@ namespace Flummery.ContentPipeline.Stainless
                         {
                             mdl.Faces.Add(new MDLFace(materialIndex, 0, mdlmesh.TriListOffset + data[i + 0], mdlmesh.TriListOffset + data[i + 2], mdlmesh.TriListOffset + data[i + 1]));
 
-                            if (bLeftHanded)
-                            {
-                                mdlmesh.TriList.Add(new MDLPoint(data[i + 0]));
-                                mdlmesh.TriList.Add(new MDLPoint(data[i + 2]));
-                                mdlmesh.TriList.Add(new MDLPoint(data[i + 1]));
-                            }
-                            else
-                            {
-                                mdlmesh.TriList.Add(new MDLPoint(data[i + 0]));
-                                mdlmesh.TriList.Add(new MDLPoint(data[i + 1]));
-                                mdlmesh.TriList.Add(new MDLPoint(data[i + 2]));
-                            }
+                            mdlmesh.TriList.Add(new MDLPoint(data[i + 0]));
+                            mdlmesh.TriList.Add(new MDLPoint(data[i + 1]));
+                            mdlmesh.TriList.Add(new MDLPoint(data[i + 2]));
                         }
 
                         for (int i = 0; i < meshpart.VertexBuffer.Data.Count; i++)
                         {
                             var v = meshpart.VertexBuffer.Data[i];
-                            var vp = Vector3.TransformVector(v.Position, exportTransform);
 
                             mdl.Vertices.Add(
                                 new MDLVertex(
-                                    vp.X, vp.Y, vp.Z,
+                                    v.Position.X, v.Position.Y, v.Position.Z,
                                     v.Normal.X, v.Normal.Y, v.Normal.Z,
                                     v.UV.X, v.UV.Y,
                                     v.UV.Z, v.UV.W,
-                                    (byte)v.Colour.R, (byte)v.Colour.G, (byte)v.Colour.B, (byte)v.Colour.A
+                                    (byte)(v.Colour.R * 255), (byte)(v.Colour.G * 255), (byte)(v.Colour.B * 255), (byte)(v.Colour.A * 255)
                                 )
                             );
                         }
@@ -152,7 +137,8 @@ namespace Flummery.ContentPipeline.Stainless
                     Console.WriteLine("Saved mesh");
                 }
 
-                mdl.Save(Path + mesh.Name + ".mdl");
+                mdl.Save(path + mesh.Name + ".mdl");
+                Console.WriteLine("Saved MDL");
             }
         }
     }

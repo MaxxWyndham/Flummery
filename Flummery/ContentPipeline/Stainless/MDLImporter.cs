@@ -15,7 +15,6 @@ namespace Flummery.ContentPipeline.Stainless
             MDL mdl = MDL.Load(path);
             Model model = new Model();
 
-            model.Handedness = Model.CoordinateSystem.RightHanded;
             model.Tag = mdl;
 
             ModelMesh mesh = new ModelMesh();
@@ -37,7 +36,7 @@ namespace Flummery.ContentPipeline.Stainless
 
                     v0 = mdl.Vertices[mdlmesh.StripList[j + 0].Index];
 
-                    if (j % 2 != 0)
+                    if (j % 2 == 0)
                     {
                         v1 = mdl.Vertices[mdlmesh.StripList[j + 1].Index];
                         v2 = mdl.Vertices[mdlmesh.StripList[j + 2].Index];
@@ -50,14 +49,14 @@ namespace Flummery.ContentPipeline.Stainless
 
                     meshpart.AddFace(
                         new Vector3[] {
-                            new Vector3(v0.Position.X, v0.Position.Y, -v0.Position.Z),
-                            new Vector3(v1.Position.X, v1.Position.Y, -v1.Position.Z),
-                            new Vector3(v2.Position.X, v2.Position.Y, -v2.Position.Z)
+                            new Vector3(v0.Position.X, v0.Position.Y, v0.Position.Z),
+                            new Vector3(v1.Position.X, v1.Position.Y, v1.Position.Z),
+                            new Vector3(v2.Position.X, v2.Position.Y, v2.Position.Z)
                         },
                         new Vector3[] {
-                            new Vector3(v0.Normal.X, v0.Normal.Y, -v0.Normal.Z),
-                            new Vector3(v1.Normal.X, v1.Normal.Y, -v1.Normal.Z),
-                            new Vector3(v2.Normal.X, v2.Normal.Y, -v2.Normal.Z)
+                            new Vector3(v0.Normal.X, v0.Normal.Y, v0.Normal.Z),
+                            new Vector3(v1.Normal.X, v1.Normal.Y, v1.Normal.Z),
+                            new Vector3(v2.Normal.X, v2.Normal.Y, v2.Normal.Z)
                         },
                         new Vector2[] {
                             new Vector2(v0.UV.X, v0.UV.Y),
@@ -73,19 +72,19 @@ namespace Flummery.ContentPipeline.Stainless
                     MDLVertex v0, v1, v2;
 
                     v0 = mdl.Vertices[mdlmesh.TriList[j + 0].Index];
-                    v1 = mdl.Vertices[mdlmesh.TriList[j + 2].Index];
-                    v2 = mdl.Vertices[mdlmesh.TriList[j + 1].Index];
+                    v1 = mdl.Vertices[mdlmesh.TriList[j + 1].Index];
+                    v2 = mdl.Vertices[mdlmesh.TriList[j + 2].Index];
 
                     meshpart.AddFace(
                         new Vector3[] {
-                            new Vector3(v0.Position.X, v0.Position.Y, -v0.Position.Z),
-                            new Vector3(v1.Position.X, v1.Position.Y, -v1.Position.Z),
-                            new Vector3(v2.Position.X, v2.Position.Y, -v2.Position.Z)
+                            new Vector3(v0.Position.X, v0.Position.Y, v0.Position.Z),
+                            new Vector3(v1.Position.X, v1.Position.Y, v1.Position.Z),
+                            new Vector3(v2.Position.X, v2.Position.Y, v2.Position.Z)
                         },
                         new Vector3[] {
-                            new Vector3(v0.Normal.X, v0.Normal.Y, -v0.Normal.Z),
-                            new Vector3(v1.Normal.X, v1.Normal.Y, -v1.Normal.Z),
-                            new Vector3(v2.Normal.X, v2.Normal.Y, -v2.Normal.Z)
+                            new Vector3(v0.Normal.X, v0.Normal.Y, v0.Normal.Z),
+                            new Vector3(v1.Normal.X, v1.Normal.Y, v1.Normal.Z),
+                            new Vector3(v2.Normal.X, v2.Normal.Y, v2.Normal.Z)
                         },
                         new Vector2[] {
                             new Vector2(v0.UV.X, v0.UV.Y),

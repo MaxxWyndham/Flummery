@@ -15,7 +15,6 @@ namespace Flummery
         Material material;
 
         PrimitiveType primitiveType = PrimitiveType.Triangles;
-        FrontFaceDirection windingOrder = FrontFaceDirection.Ccw;
 
         public IndexBuffer IndexBuffer { get { return indexBuffer; } }
         public VertexBuffer VertexBuffer { get { return vertexBuffer; } }
@@ -30,12 +29,6 @@ namespace Flummery
         {
             get { return primitiveType; }
             set { primitiveType = value; }
-        }
-
-        public FrontFaceDirection WindingOrder
-        {
-            get { return windingOrder; }
-            set { windingOrder = value; }
         }
 
         public int VertexCount { get { return vertexBuffer.Length; } }
@@ -123,8 +116,6 @@ namespace Flummery
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, (material != null && material.Texture != null ? material.Texture.ID : 0));
-
-            GL.FrontFace(windingOrder);
 
             GL.DepthFunc(DepthFunction.Lequal);
             GL.Enable(EnableCap.Lighting);

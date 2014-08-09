@@ -59,6 +59,7 @@ namespace Flummery
             this.KeyPress += new KeyPressEventHandler(frmMain_KeyPress);
 
             SceneManager.Current.OnProgress += scene_OnProgress;
+            SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
             //flpMaterials.Tag = new SortedList<string, string>();
 
@@ -189,12 +190,9 @@ namespace Flummery
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         var cx = new CNTExporter();
-                        cx.ExportSettings.AddSetting("Scale", new Vector3(1.0f, 1.0f, -1.0f));
                         cx.Export(scene.Models[0], sfdBrowse.FileName);
 
                         var mx = new MDLExporter();
-                        mx.ExportSettings.AddSetting("Transform", Matrix4.CreateScale(1.0f, 1.0f, -1.0f));
-                        mx.ExportSettings.AddSetting("Handed", Model.CoordinateSystem.RightHanded);
                         mx.Export(scene.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\");
                     }
                     break;
@@ -287,7 +285,6 @@ namespace Flummery
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         var fx = new ContentPipeline.Core.FBXExporter();
-                        fx.ExportSettings.AddSetting("Scale", new Vector3(1.0f, 1.0f, -1.0f));
                         fx.Export(scene.Models[0], sfdBrowse.FileName);
                         SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(sfdBrowse.FileName)));
                     }
@@ -298,7 +295,6 @@ namespace Flummery
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         var cx = new CNTExporter();
-                        cx.ExportSettings.AddSetting("Scale", new Vector3(1.0f, 1.0f, -1.0f));
                         cx.Export(scene.Models[0], sfdBrowse.FileName);
                     }
                     break;
@@ -308,6 +304,8 @@ namespace Flummery
         private void menuCarmageddon2Click(object sender, EventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
+
+            SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.RightHanded);
 
             switch (mi.Text)
             {
@@ -399,6 +397,8 @@ namespace Flummery
         private void menuCarmageddonReincarnationClick(object sender, EventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
+
+            SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
             switch (mi.Text)
             {
