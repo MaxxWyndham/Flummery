@@ -3,6 +3,15 @@ using System.Collections.Generic;
 
 namespace Flummery
 {
+    [Flags]
+    public enum LinkType
+    {
+        Position = 1,
+        Rotation = 2,
+        Scale = 4,
+        All = Position | Rotation | Scale
+    }
+
     public abstract class Asset 
     {
         protected string filename;
@@ -10,6 +19,7 @@ namespace Flummery
         protected object tag;
         protected long key = DateTime.Now.Ticks;
 
+        protected LinkType linkType;
         protected object link;
 
         public string FileName
@@ -38,9 +48,10 @@ namespace Flummery
             return this;
         }
 
-        public void LinkWith(object item)
+        public void LinkWith(object item, LinkType linkType = LinkType.All)
         {
             link = item;
+            this.linkType = linkType;
         }
     }
 

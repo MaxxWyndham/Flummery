@@ -82,7 +82,22 @@ namespace Flummery
 
         public void Draw()
         {
-            if (Linked) { transform = ((ModelBone)link).CombinedTransform; }
+            if (Linked)
+            {
+                var parentTransform = ((ModelBone)link).CombinedTransform;
+                if (linkType == LinkType.All)
+                {
+                    transform = parentTransform;
+                }
+                else
+                {
+                    transform = Matrix4.Identity;
+
+                    if ((linkType & LinkType.Rotation) == LinkType.Rotation) { transform *= Matrix4.CreateFromQuaternion(parentTransform.ExtractRotation()); }
+                    if ((linkType & LinkType.Scale)    == LinkType.Scale)    { transform *= Matrix4.CreateScale(parentTransform.ExtractScale()); }
+                    if ((linkType & LinkType.Position) == LinkType.Position) { transform *= Matrix4.CreateTranslation(parentTransform.ExtractTranslation()); }
+                }
+            }
 
             var m = transform * SceneManager.Current.Transform;
 
