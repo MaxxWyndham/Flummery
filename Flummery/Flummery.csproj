@@ -81,7 +81,6 @@
     <Compile Include="ContentPipeline\Core\FBXExporter.cs" />
     <Compile Include="ContentPipeline\Core\FBXImporter.cs" />
     <Compile Include="ContentPipeline\Core\JPGImporter.cs" />
-    <Compile Include="ContentPipeline\Core\OBJImporter.cs" />
     <Compile Include="ContentPipeline\Core\PNGImporter.cs" />
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
     <Compile Include="ContentPipeline\ExportSettings.cs" />
