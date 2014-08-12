@@ -435,7 +435,7 @@ namespace Flummery
                         {
                             string boneName = bone.Name.ToLower();
 
-                            if (boneName.StartsWith("wheel_") || bone.Name.StartsWith("driver"))
+                            if (boneName.StartsWith("wheel_") || boneName.StartsWith("driver"))
                             {
                                 var entity = new Entity { 
                                     Name = bone.Name, 
