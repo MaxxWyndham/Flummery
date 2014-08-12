@@ -59,12 +59,14 @@ namespace Flummery
         public delegate void SelectHandler(object sender, SelectEventArgs e);
         public delegate void ChangeHandler(object sender, EventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
+        public delegate void ErrorHandler(object sender, ErrorEventArgs e);
 
         public event ResetHandler OnReset;
         public event AddHandler OnAdd;
         public event SelectHandler OnSelect;
         public event ChangeHandler OnChange;
         public event ProgressHandler OnProgress;
+        public event ErrorHandler OnError;
 
         public SceneManager(bool bUseVertexBuffer = true)
         {
@@ -233,6 +235,11 @@ namespace Flummery
             if (OnProgress != null) { OnProgress(this, new ProgressEventArgs(message)); }
         }
 
+        public void RaiseError(string message)
+        {
+            if (OnError != null) { OnError(this, new ErrorEventArgs(message)); }
+        }
+
         public void SetSelectedBone(int index)
         {
             selectedBoneIndex = index;
@@ -275,6 +282,16 @@ namespace Flummery
         public ProgressEventArgs(string status)
         {
             Status = status;
+        }
+    }
+
+    public class ErrorEventArgs : EventArgs
+    {
+        public string Message { get; private set; }
+
+        public ErrorEventArgs(string message)
+        {
+            Message = message;
         }
     }
 }

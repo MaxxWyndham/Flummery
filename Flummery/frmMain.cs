@@ -59,6 +59,7 @@ namespace Flummery
             this.KeyPress += new KeyPressEventHandler(frmMain_KeyPress);
 
             SceneManager.Current.OnProgress += scene_OnProgress;
+            SceneManager.Current.OnError += scene_OnError;
             SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
             //flpMaterials.Tag = new SortedList<string, string>();
@@ -78,6 +79,11 @@ namespace Flummery
             tsslProgress.Text = e.Status;
             tsslProgress.Owner.Refresh();
             Application.DoEvents();
+        }
+
+        void scene_OnError(object sender, ErrorEventArgs e)
+        {
+            MessageBox.Show(e.Message);
         }
 
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
