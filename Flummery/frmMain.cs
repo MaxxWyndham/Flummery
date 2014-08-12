@@ -119,7 +119,6 @@ namespace Flummery
 
             menu.MenuItems[0].MenuItems.Add("&Import");
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("Autodesk FBX File...", menuImportClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Blender OBJ File...", menuImportClick);
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender ACT File...", menuImportClick);
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender DAT File...", menuImportClick);
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless CNT File...", menuImportClick);
@@ -221,15 +220,6 @@ namespace Flummery
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
                         scene.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
-                    }
-                    break;
-
-                case "Blender OBJ File...":
-                    ofdBrowse.Filter = "Blender OBJ files (*.obj)|*.obj";
-
-                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
-                    {
-                        scene.Content.Load<Model, ContentPipeline.Core.OBJImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
