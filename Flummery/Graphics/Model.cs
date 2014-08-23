@@ -108,13 +108,24 @@ namespace Flummery
 
         public void MoveBone(int BoneIndex, int NewParentBoneIndex)
         {
+            int newBoneIndex;
+
             bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]);
             bones[BoneIndex].Parent = bones[NewParentBoneIndex];
             bones[NewParentBoneIndex].Children.Add(bones[BoneIndex]);
 
             var bone = bones[BoneIndex];
             bones.RemoveAt(BoneIndex);
-            bones.Insert(NewParentBoneIndex + (BoneIndex < NewParentBoneIndex ? 0 : 1), bone);
+            newBoneIndex = NewParentBoneIndex + (BoneIndex < NewParentBoneIndex ? 0 : 1);
+            bones.Insert(newBoneIndex, bone);
+
+            ModelBone[] children = new ModelBone[bones[newBoneIndex].Children.Count];
+            bones[newBoneIndex].Children.CopyTo(children);
+
+            for (int i = 0; i < children.Length; i++)
+            {
+                MoveBone(children[i].Index, newBoneIndex);
+            }
 
             for (int i = 0; i < bones.Count; i++) { bones[i].Index = i; }
         }

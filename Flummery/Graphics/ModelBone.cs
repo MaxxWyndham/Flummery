@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using OpenTK;
 
 namespace Flummery
 {
+    [DebuggerDisplay("Name {name} Index {index} Children {children.Count}")]
     public class ModelBone
     {
         List<ModelBone> children;
