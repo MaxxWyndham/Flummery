@@ -44,12 +44,14 @@ namespace Flummery
                 {
                     ParentNode.Text = bone.Name;
                     ParentNode.Tag = i;
+                    ParentNode.ImageIndex = (bone.Tag == null ? 0 : 1);
                 }
                 else
                 {
                     while (ParentNode != null && (int)ParentNode.Tag != bone.Parent.Index) { ParentNode = ParentNode.Parent; }
                     ParentNode = ParentNode.Nodes.Add(bone.Name);
                     ParentNode.Tag = i;
+                    ParentNode.ImageIndex = (bone.Tag == null ? 0 : 1);
                 }
             }
 

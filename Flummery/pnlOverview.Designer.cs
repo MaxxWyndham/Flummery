@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pnlOverview));
             this.tvNodes = new System.Windows.Forms.TreeView();
             this.lblCoords = new System.Windows.Forms.Label();
+            this.ilNodeIcons = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // tvNodes
@@ -38,8 +41,11 @@
             this.tvNodes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tvNodes.ImageIndex = 0;
+            this.tvNodes.ImageList = this.ilNodeIcons;
             this.tvNodes.Location = new System.Drawing.Point(12, 12);
             this.tvNodes.Name = "tvNodes";
+            this.tvNodes.SelectedImageIndex = 0;
             this.tvNodes.Size = new System.Drawing.Size(133, 214);
             this.tvNodes.TabIndex = 0;
             this.tvNodes.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvNodes_ItemDrag);
@@ -60,6 +66,13 @@
             this.lblCoords.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblCoords.Click += new System.EventHandler(this.lblCoords_Click);
             // 
+            // ilNodeIcons
+            // 
+            this.ilNodeIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilNodeIcons.ImageStream")));
+            this.ilNodeIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilNodeIcons.Images.SetKeyName(0, "interface_node_16x16.png");
+            this.ilNodeIcons.Images.SetKeyName(1, "interface_mesh_16x16.png");
+            // 
             // pnlOverview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -78,5 +91,6 @@
 
         private System.Windows.Forms.TreeView tvNodes;
         private System.Windows.Forms.Label lblCoords;
+        private System.Windows.Forms.ImageList ilNodeIcons;
     }
 }
