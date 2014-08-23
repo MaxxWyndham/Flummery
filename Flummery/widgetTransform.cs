@@ -106,9 +106,9 @@ namespace Flummery
                 var r = bone.ExtractRotation().ToAxisAngle();
                 var s = bone.ExtractScale();
 
-                if (r.X < 0.0001f) { r.X = 0; }
-                if (r.Y < 0.0001f) { r.Y = 0; }
-                if (r.Z < 0.0001f) { r.Z = 0; }
+                if (Math.Abs(r.X) < 0.0001f) { r.X = 0; }
+                if (Math.Abs(r.Y) < 0.0001f) { r.Y = 0; }
+                if (Math.Abs(r.Z) < 0.0001f) { r.Z = 0; }
 
                 r.X *= MathHelper.RadiansToDegrees(r.W);
                 r.Y *= MathHelper.RadiansToDegrees(r.W);
