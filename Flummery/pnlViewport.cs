@@ -55,6 +55,7 @@ namespace Flummery
             Control.MouseMove += glcViewport_MouseMove;
             Control.MouseEnter += glcViewport_MouseEnter;
             Control.MouseLeave += glcViewport_MouseLeave;
+            Control.MouseWheel += glcViewport_MouseWheel;
             Control.Click += glcViewport_Click;
             this.paneViewport.Controls.Add(Control);
 
@@ -104,6 +105,11 @@ namespace Flummery
             if (!bRendered) { return; }
 
             viewman.MouseMove(e.X, e.Y);
+        }
+
+        void glcViewport_MouseWheel(object sender, MouseEventArgs e)
+        {
+            //viewman.MouseScroll(e);
         }
 
         private void glcViewport_Paint(object sender, PaintEventArgs e)

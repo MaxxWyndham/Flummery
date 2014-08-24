@@ -36,7 +36,7 @@ namespace Flummery
             roll = 0.0f;
 
             speed = 10.0f;
-            rotationSpeed = 4.0f;
+            rotationSpeed = 0.5f;
 
             cameraRotation = Matrix4.Identity;
 
@@ -129,7 +129,7 @@ namespace Flummery
 
         public void SetActionScale(float speed)
         {
-            this.speed = 10.0f * speed;
+            this.speed = 1.0f * speed;
         }
     }
 }

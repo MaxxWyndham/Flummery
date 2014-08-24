@@ -54,6 +54,8 @@ namespace Flummery
         ContentManager content;
         KeyboardState lastState;
 
+        float dt;
+
         public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
         public ContentManager Content { get { return content; } }
         public RenderMeshMode RenderMode { get { return renderMode; } }
@@ -65,6 +67,7 @@ namespace Flummery
         public Matrix4 Transform { get { return sceneTransform; } }
 
         public int SelectedBoneIndex { get { return selectedBoneIndex; } }
+        public float DeltaTime { get { return dt; } }
 
         public delegate void ResetHandler(object sender, ResetEventArgs e);
         public delegate void AddHandler(object sender, AddEventArgs e);
@@ -161,14 +164,17 @@ namespace Flummery
             if (OnReset != null) { OnReset(this, new ResetEventArgs()); }
         }
 
-        private void HandleInput(float dt)
+        public bool HandleInput(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             var state = Keyboard.GetState();
+            var bHandled = false;
 
             if (state[Key.W] && !lastState[Key.W])
             {
                 renderMode = (RenderMeshMode)((int)renderMode + 1);
                 if (renderMode == RenderMeshMode.Count) { renderMode = RenderMeshMode.Solid; }
+
+                bHandled = true;
             }
 
             if (state[Key.P] && !lastState[Key.P])
@@ -181,14 +187,16 @@ namespace Flummery
                 {
                     SetCoordinateSystem(CoordinateSystem.LeftHanded);
                 }
+
+                bHandled = true;
             }
 
-            lastState = state;
+            return bHandled;
         }
 
         public void Update(float dt)
         {
-            HandleInput(dt);
+            this.dt = dt;
         }
 
         public void Lights()

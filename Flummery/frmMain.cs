@@ -89,6 +89,7 @@ namespace Flummery
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             e.Handled = ViewportManager.Current.KeyPress(sender, e);
+            if (!e.Handled) { e.Handled = SceneManager.Current.HandleInput(sender, e); }
         }
 
         private void BuildMenu()

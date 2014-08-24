@@ -85,26 +85,6 @@ namespace Flummery
             foreach (var viewport in viewports) { viewport.Camera.SetActionScale(scale); }
         }
 
-        public void MouseMove(int X, int Y)
-        {
-            foreach (var viewport in viewports)
-            {
-                if (!viewport.Enabled) { continue; }
-
-                if (viewport.IsActive(X, Y))
-                {
-                    viewport.Active = true;
-                    active = viewport;
-
-                    if (OnMouseMove != null) { OnMouseMove(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y))); }
-                }
-                else
-                {
-                    viewport.Active = false;
-                }
-            }
-        }
-
         public bool KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (Flummery.Active && bHasFocus)
@@ -135,47 +115,64 @@ namespace Flummery
                 }
             }
 
-            return false;
-        }
-
-        private void HandleInput(float dt)
-        {
             var state = Keyboard.GetState();
+            float dt = SceneManager.Current.DeltaTime;
+            var bHandled = false;
 
-            if (state[Key.E]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); }
-            if (state[Key.Q]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); }
+            if (state[Key.E]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); bHandled = true; }
+            if (state[Key.Q]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); bHandled = true; }
 
             if (active.ProjectionMode == Viewport.Mode.Orthographic)
             {
-                if (state[Key.A]) { active.Zoom -= 1.0f * active.Camera.Speed * dt; }
-                if (state[Key.Z]) { active.Zoom += 1.0f * active.Camera.Speed * dt; }
-                if (state[Key.Keypad8]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); }
-                if (state[Key.Keypad2]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); }
+                if (state[Key.A]) { active.Zoom -= 1.0f * active.Camera.Speed * dt; bHandled = true; }
+                if (state[Key.Z]) { active.Zoom += 1.0f * active.Camera.Speed * dt; bHandled = true; }
+                if (state[Key.Keypad8]) { active.Camera.MoveCamera(Camera.Direction.Up, dt); bHandled = true; }
+                if (state[Key.Keypad2]) { active.Camera.MoveCamera(Camera.Direction.Down, dt); bHandled = true; }
 
-                if (state[Key.Keypad4]) { active.Camera.MoveCamera(Camera.Direction.Left, dt); }
-                if (state[Key.Keypad6]) { active.Camera.MoveCamera(Camera.Direction.Right, dt); }
+                if (state[Key.Keypad4]) { active.Camera.MoveCamera(Camera.Direction.Left, dt); bHandled = true; }
+                if (state[Key.Keypad6]) { active.Camera.MoveCamera(Camera.Direction.Right, dt); bHandled = true; }
             }
             else
             {
-                if (state[Key.A]) { active.Camera.MoveCamera(Camera.Direction.Forward, dt); }
-                if (state[Key.Z]) { active.Camera.MoveCamera(Camera.Direction.Backward, dt); }
+                if (state[Key.A]) { active.Camera.MoveCamera(Camera.Direction.Forward, dt); bHandled = true; }
+                if (state[Key.Z]) { active.Camera.MoveCamera(Camera.Direction.Backward, dt); bHandled = true; }
 
-                if (state[Key.Keypad4]) { active.Camera.Rotate(dt, 0, 0); }
-                if (state[Key.Keypad6]) { active.Camera.Rotate(-dt, 0, 0); }
-                if (state[Key.Keypad2]) { active.Camera.Rotate(0, dt, 0); }
-                if (state[Key.Keypad8]) { active.Camera.Rotate(0, -dt, 0); }
-                if (state[Key.Keypad7]) { active.Camera.Rotate(0, 0, dt); }
-                if (state[Key.Keypad9]) { active.Camera.Rotate(0, 0, -dt); }
+                if (state[Key.Keypad4]) { active.Camera.Rotate(dt, 0, 0); bHandled = true; }
+                if (state[Key.Keypad6]) { active.Camera.Rotate(-dt, 0, 0); bHandled = true; }
+                if (state[Key.Keypad2]) { active.Camera.Rotate(0, dt, 0); bHandled = true; }
+                if (state[Key.Keypad8]) { active.Camera.Rotate(0, -dt, 0); bHandled = true; }
+                if (state[Key.Keypad7]) { active.Camera.Rotate(0, 0, dt); bHandled = true; }
+                if (state[Key.Keypad9]) { active.Camera.Rotate(0, 0, -dt); bHandled = true; }
 
-                if (state[Key.Keypad1]) { active.Camera.MoveCamera(Camera.Direction.Left, dt); }
-                if (state[Key.Keypad3]) { active.Camera.MoveCamera(Camera.Direction.Right, dt); }
+                if (state[Key.Keypad1]) { active.Camera.MoveCamera(Camera.Direction.Left, dt); bHandled = true; }
+                if (state[Key.Keypad3]) { active.Camera.MoveCamera(Camera.Direction.Right, dt); bHandled = true; }
+            }
+
+            return bHandled;
+        }
+
+        public void MouseMove(int X, int Y)
+        {
+            foreach (var viewport in viewports)
+            {
+                if (!viewport.Enabled) { continue; }
+
+                if (viewport.IsActive(X, Y))
+                {
+                    viewport.Active = true;
+                    active = viewport;
+
+                    if (OnMouseMove != null) { OnMouseMove(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y))); }
+                }
+                else
+                {
+                    viewport.Active = false;
+                }
             }
         }
 
         public void Update(float dt)
         {
-            if (Flummery.Active && bHasFocus && active != null) { HandleInput(dt); }
-
             foreach (var viewport in viewports)
             {
                 if (!viewport.Enabled) { continue; }
