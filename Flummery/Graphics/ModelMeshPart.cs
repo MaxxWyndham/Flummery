@@ -45,17 +45,17 @@ namespace Flummery
             indexBuffer = new IndexBuffer();
         }
 
-        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords)
+        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, bool bAddIndex = true)
         {
-            AddVertex(position, normal, texcoords, Vector2.One, Color.White);
+            AddVertex(position, normal, texcoords, Vector2.One, Color.White, bAddIndex);
         }
 
-        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, Vector2 texcoords2, OpenTK.Graphics.Color4 colour)
+        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, Vector2 texcoords2, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
         {
-            AddVertex(position, normal, new Vector4(texcoords.X, texcoords.Y, texcoords2.X, texcoords2.Y), colour);
+            AddVertex(position, normal, new Vector4(texcoords.X, texcoords.Y, texcoords2.X, texcoords2.Y), colour, bAddIndex);
         }
 
-        public void AddVertex(Vector3 position, Vector3 normal, Vector4 texcoords, OpenTK.Graphics.Color4 colour)
+        public void AddVertex(Vector3 position, Vector3 normal, Vector4 texcoords, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
         {
             var v = new Vertex();
             v.Position = position;
@@ -63,7 +63,15 @@ namespace Flummery
             v.UV = texcoords;
             v.Colour = colour;
 
-            indexBuffer.AddIndex(vertexBuffer.AddVertex(v));
+            int i = vertexBuffer.AddVertex(v);
+            if (bAddIndex) { indexBuffer.AddIndex(vertexBuffer.AddVertex(v)); }
+        }
+
+        public void AddFace(int v1, int v2, int v3)
+        {
+            indexBuffer.AddIndex(v1);
+            indexBuffer.AddIndex(v2);
+            indexBuffer.AddIndex(v3);
         }
 
         public void AddFace(Vector3[] positions, Vector3[] normals, Vector2[] texcoords)

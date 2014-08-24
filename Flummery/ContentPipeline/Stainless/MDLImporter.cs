@@ -27,71 +27,51 @@ namespace Flummery.ContentPipeline.Stainless
 
                 meshpart.Material = SceneManager.Current.Content.Load<Material, MaterialImporter>(mdlmesh.Name, Path.GetDirectoryName(path), true);
 
+                foreach (var v in mdl.Vertices)
+                {
+                    meshpart.AddVertex(
+                        new Vector3(v.Position.X, v.Position.Y, v.Position.Z),
+                        new Vector3(v.Normal.X, v.Normal.Y, v.Normal.Z),
+                        new Vector2(v.UV.X, v.UV.Y),
+                        new Vector2(v.UV2.X, v.UV2.Y),
+                        v.Colour,
+                        false
+                    );
+                }
+
                 // Process triangle strip
                 for (int j = 0; j < mdlmesh.StripList.Count - 2; j++)
                 {
                     if (mdlmesh.StripList[j + 2].Degenerate) { continue; }
 
-                    MDLVertex v0, v1, v2;
+                    int v0, v1, v2;
 
-                    v0 = mdl.Vertices[mdlmesh.StripList[j + 0].Index];
+                    v0 = mdlmesh.StripList[j + 0].Index;
 
                     if (j % 2 == 0)
                     {
-                        v1 = mdl.Vertices[mdlmesh.StripList[j + 1].Index];
-                        v2 = mdl.Vertices[mdlmesh.StripList[j + 2].Index];
+                        v1 = mdlmesh.StripList[j + 1].Index;
+                        v2 = mdlmesh.StripList[j + 2].Index;
                     }
                     else
                     {
-                        v1 = mdl.Vertices[mdlmesh.StripList[j + 2].Index];
-                        v2 = mdl.Vertices[mdlmesh.StripList[j + 1].Index];
+                        v1 = mdlmesh.StripList[j + 2].Index;
+                        v2 = mdlmesh.StripList[j + 1].Index;
                     }
 
-                    meshpart.AddFace(
-                        new Vector3[] {
-                            new Vector3(v0.Position.X, v0.Position.Y, v0.Position.Z),
-                            new Vector3(v1.Position.X, v1.Position.Y, v1.Position.Z),
-                            new Vector3(v2.Position.X, v2.Position.Y, v2.Position.Z)
-                        },
-                        new Vector3[] {
-                            new Vector3(v0.Normal.X, v0.Normal.Y, v0.Normal.Z),
-                            new Vector3(v1.Normal.X, v1.Normal.Y, v1.Normal.Z),
-                            new Vector3(v2.Normal.X, v2.Normal.Y, v2.Normal.Z)
-                        },
-                        new Vector2[] {
-                            new Vector2(v0.UV.X, v0.UV.Y),
-                            new Vector2(v1.UV.X, v1.UV.Y),
-                            new Vector2(v2.UV.X, v2.UV.Y)
-                        }
-                    );
+                    meshpart.AddFace(v0, v1, v2);
                 }
 
                 // Process patch list
                 for (int j = 0; j < mdlmesh.TriList.Count; j += 3)
                 {
-                    MDLVertex v0, v1, v2;
+                    int v0, v1, v2;
 
-                    v0 = mdl.Vertices[mdlmesh.TriList[j + 0].Index];
-                    v1 = mdl.Vertices[mdlmesh.TriList[j + 1].Index];
-                    v2 = mdl.Vertices[mdlmesh.TriList[j + 2].Index];
+                    v0 = mdlmesh.TriList[j + 0].Index;
+                    v1 = mdlmesh.TriList[j + 1].Index;
+                    v2 = mdlmesh.TriList[j + 2].Index;
 
-                    meshpart.AddFace(
-                        new Vector3[] {
-                            new Vector3(v0.Position.X, v0.Position.Y, v0.Position.Z),
-                            new Vector3(v1.Position.X, v1.Position.Y, v1.Position.Z),
-                            new Vector3(v2.Position.X, v2.Position.Y, v2.Position.Z)
-                        },
-                        new Vector3[] {
-                            new Vector3(v0.Normal.X, v0.Normal.Y, v0.Normal.Z),
-                            new Vector3(v1.Normal.X, v1.Normal.Y, v1.Normal.Z),
-                            new Vector3(v2.Normal.X, v2.Normal.Y, v2.Normal.Z)
-                        },
-                        new Vector2[] {
-                            new Vector2(v0.UV.X, v0.UV.Y),
-                            new Vector2(v1.UV.X, v1.UV.Y),
-                            new Vector2(v2.UV.X, v2.UV.Y)
-                        }
-                    );
+                    meshpart.AddFace(v0, v1, v2);
                 }
 
                 mesh.AddModelMeshPart(meshpart);
