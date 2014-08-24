@@ -86,9 +86,90 @@ namespace Flummery
             if (m != null) { ProcessTree(m); }
         }
 
-        void scene_OnChange(object sender, EventArgs e)
+        void scene_OnChange(object sender, ChangeEventArgs e)
         {
-            ProcessTree(SceneManager.Current.Models[0], true);
+            if (e.Index == -1) { ProcessTree(SceneManager.Current.Models[0], true); }
+
+            TreeNode node;
+
+            //if (node == null) { throw new IndexOutOfRangeException(string.Format("Can't find node with index {0}", e.Index)); }
+
+            switch (e.Change)
+            {
+                case ChangeType.Add:
+                    FindNode((int)e.AdditionalInformation, tvNodes.Nodes[0], out node);
+                    node.Nodes.Add(CreateNode(SceneManager.Current.Models[0].Bones[e.Index].Name, e.Index, (SceneManager.Current.Models[0].Bones[e.Index].Tag == null ? 0 : 1)));
+                    ReindexTree(0, tvNodes.Nodes[0]);
+                    node.Expand();
+                    break;
+
+                case ChangeType.Delete:
+                    FindNode(e.Index, tvNodes.Nodes[0], out node);
+                    if ((bool)e.AdditionalInformation)
+                    {
+                        node.Remove();
+                        ReindexTree(0, tvNodes.Nodes[0]);
+                    }
+                    else
+                    {
+                        node.ImageIndex = 0;
+                    }
+                    break;
+
+                case ChangeType.Move:
+                    TreeNode dest;
+                    FindNode(e.Index, tvNodes.Nodes[0], out node);
+                    FindNode((int)e.AdditionalInformation, tvNodes.Nodes[0], out dest);
+
+                    node.Remove();
+                    dest.Nodes.Add(node);
+                    ReindexTree(0, tvNodes.Nodes[0]);
+                    break;
+
+                case ChangeType.Rename:
+                    FindNode(e.Index, tvNodes.Nodes[0], out node);
+                    node.Text = e.AdditionalInformation.ToString();
+                    break;
+            }
+        }
+
+        protected void FindNode(int index, TreeNode root, out TreeNode node)
+        {
+            if ((int)root.Tag == index)
+            {
+                node = root;
+            }
+            else
+            {
+                node = null;
+
+                foreach (TreeNode child in root.Nodes)
+                {
+                    FindNode(index, child, out node);
+
+                    if (node != null) { break; }
+                }
+            }
+        }
+
+        protected int ReindexTree(int index, TreeNode root)
+        {
+            root.Tag = index++;
+
+            foreach (TreeNode child in root.Nodes)
+            {
+                index = ReindexTree(index, child);
+            }
+
+            return index;
+        }
+
+        protected TreeNode CreateNode(string name, int index, int image)
+        {
+            var node = new TreeNode(name);
+            node.Tag = index;
+            node.ImageIndex = image;
+            return node;
         }
 
         void scene_OnReset(object sender, ResetEventArgs e)
@@ -144,7 +225,7 @@ namespace Flummery
                 NewNode.Remove();
 
                 SceneManager.Current.Models[0].MoveBone(srcBone, dstBone);
-                SceneManager.Current.Change();
+                SceneManager.Current.Change(ChangeType.Move, srcBone, dstBone);
             }
         }
 

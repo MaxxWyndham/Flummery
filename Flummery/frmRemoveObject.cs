@@ -12,6 +12,9 @@ namespace Flummery
     public partial class frmRemoveObject : Form
     {
         int parentBoneIndex;
+        bool bRemovedBone;
+
+        public bool RemovedBone { get { return bRemovedBone; } }
 
         public frmRemoveObject()
         {
@@ -38,8 +41,8 @@ namespace Flummery
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (chkModel.Checked) { SceneManager.Current.Models[0].ClearMesh(parentBoneIndex); }
-            if (chkBone.Checked) { SceneManager.Current.Models[0].RemoveBone(parentBoneIndex); }
+            if (chkModel.Checked) { SceneManager.Current.Models[0].ClearMesh(parentBoneIndex); bRemovedBone = false; }
+            if (chkBone.Checked) { SceneManager.Current.Models[0].RemoveBone(parentBoneIndex); bRemovedBone = true; }
             this.Close();
         }
 

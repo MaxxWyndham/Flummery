@@ -7,6 +7,16 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
+    public enum ChangeType
+    {
+        Add,
+        Delete,
+        Rename,
+        Move,
+        Transform,
+        Munge
+    }
+
     public class SceneManager
     {
         public enum RenderMeshMode
@@ -57,7 +67,7 @@ namespace Flummery
         public delegate void ResetHandler(object sender, ResetEventArgs e);
         public delegate void AddHandler(object sender, AddEventArgs e);
         public delegate void SelectHandler(object sender, SelectEventArgs e);
-        public delegate void ChangeHandler(object sender, EventArgs e);
+        public delegate void ChangeHandler(object sender, ChangeEventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
         public delegate void ErrorHandler(object sender, ErrorEventArgs e);
 
@@ -94,7 +104,10 @@ namespace Flummery
             return asset;
         }
 
-        public void Change() { if (OnChange != null) { OnChange(this, new EventArgs()); } }
+        public void Change(ChangeType type, int index, object additionalInfo = null) 
+        { 
+            if (OnChange != null) { OnChange(this, new ChangeEventArgs(type, index, additionalInfo)); } 
+        }
 
         public void SetBoundingBox(BoundingBox bb)
         {
@@ -272,6 +285,20 @@ namespace Flummery
         public SelectEventArgs(ModelBone item)
         {
             Item = item;
+        }
+    }
+
+    public class ChangeEventArgs : EventArgs
+    {
+        public ChangeType Change { get; private set; }
+        public int Index { get; private set; }
+        public object AdditionalInformation { get; private set; }
+
+        public ChangeEventArgs(ChangeType type, int index, object additionalInfo = null)
+        {
+            this.Change = type;
+            this.Index = index;
+            this.AdditionalInformation = additionalInfo;
         }
     }
 

@@ -62,7 +62,7 @@ namespace Flummery
             bone *= transform;
 
             SceneManager.Current.Models[0].SetTransform(bone, SceneManager.Current.SelectedBoneIndex);
-            SceneManager.Current.Change();
+            SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
 
             resetWidget();
         }
@@ -83,7 +83,7 @@ namespace Flummery
             bone = transform;
 
             SceneManager.Current.Models[0].SetTransform(bone, SceneManager.Current.SelectedBoneIndex);
-            SceneManager.Current.Change();
+            SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
         }
 
         private void resetWidget()

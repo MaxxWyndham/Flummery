@@ -6,6 +6,9 @@ namespace Flummery
     public partial class frmRename : Form
     {
         int parentBoneIndex;
+        string newName;
+
+        public string NewName { get { return newName; } }
 
         public frmRename()
         {
@@ -23,6 +26,8 @@ namespace Flummery
 
             if (chkActors.Checked) { model.SetName(txtName.Text, parentBoneIndex); }
             if (chkModels.Checked && model.Bones[parentBoneIndex].Tag != null) { ((ModelMesh)model.Bones[parentBoneIndex].Tag).Name = txtName.Text; }
+
+            newName = txtName.Text;
 
             this.Close();
         }

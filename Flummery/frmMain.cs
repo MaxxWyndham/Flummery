@@ -361,7 +361,8 @@ namespace Flummery
                         }
                     }
 
-                    SceneManager.Current.Change();
+                    SceneManager.Current.Change(ChangeType.Munge, -1);
+                    break;
                     break;
             }
         }
@@ -640,7 +641,7 @@ namespace Flummery
 
                     if (addNew.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change();
+                        SceneManager.Current.Change(ChangeType.Add, addNew.NewBoneIndex, SceneManager.Current.SelectedBoneIndex);
                     }
                     break;
 
@@ -650,7 +651,7 @@ namespace Flummery
 
                     if (removeObject.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change();
+                        SceneManager.Current.Change(ChangeType.Delete, SceneManager.Current.SelectedBoneIndex, removeObject.RemovedBone);
                     }
                     break;
 
@@ -660,7 +661,7 @@ namespace Flummery
 
                     if (geometry.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change();
+                        SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
                     }
                     break;
 
@@ -670,7 +671,7 @@ namespace Flummery
 
                     if (transform.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change();
+                        SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
                     }
                     break;
 
@@ -680,7 +681,7 @@ namespace Flummery
 
                     if (rename.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change();
+                        SceneManager.Current.Change(ChangeType.Rename, SceneManager.Current.SelectedBoneIndex, rename.NewName);
                     }
                     break;
 

@@ -12,6 +12,9 @@ namespace Flummery
     public partial class frmNewObject : Form
     {
         int parentBoneIndex;
+        int newBoneIndex;
+
+        public int NewBoneIndex { get { return newBoneIndex; } }
 
         public frmNewObject()
         {
@@ -26,7 +29,8 @@ namespace Flummery
         private void btnOK_Click(object sender, EventArgs e)
         {
             var model = SceneManager.Current.Models[0];
-            model.SetName(txtName.Text, model.AddMesh(null, parentBoneIndex));
+            newBoneIndex = model.AddMesh(null, parentBoneIndex);
+            model.SetName(txtName.Text, newBoneIndex);
             this.Close();
         }
 

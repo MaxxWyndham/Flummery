@@ -122,16 +122,17 @@ namespace Flummery
             ModelBone[] children = new ModelBone[bones[newBoneIndex].Children.Count];
             bones[newBoneIndex].Children.CopyTo(children);
 
-            for (int i = 0; i < children.Length; i++)
-            {
-                MoveBone(children[i].Index, newBoneIndex);
-            }
+            for (int i = 0; i < children.Length; i++) { MoveBone(children[i].Index, newBoneIndex); }
 
             for (int i = 0; i < bones.Count; i++) { bones[i].Index = i; }
         }
 
         public void RemoveBone(int BoneIndex)
         {
+            ModelBone[] children = new ModelBone[bones[BoneIndex].Children.Count];
+            bones[BoneIndex].Children.CopyTo(children);
+            for (int i = children.Length - 1; i > -1; i--) { RemoveBone(children[i].Index); }
+
             for (int i = BoneIndex + 1; i < bones.Count; i++) { bones[i].Index--; }
             bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]);
             meshes.Remove((ModelMesh)bones[BoneIndex].Tag);
