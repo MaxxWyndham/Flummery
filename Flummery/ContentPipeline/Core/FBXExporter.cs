@@ -189,7 +189,7 @@ namespace Flummery.ContentPipeline.Core
                 foreach (var part in mesh.MeshParts)
                 {
                     int ixvt, ixnm, ixuv;
-                    materialIndex = materialList.FindIndex(m => m.Key == part.Material.Key);
+                    if (part.Material != null) { materialIndex = materialList.FindIndex(m => m.Key == part.Material.Key); }
 
                     for (int i = 0; i < part.IndexBuffer.Data.Count; i ++)
                     {
