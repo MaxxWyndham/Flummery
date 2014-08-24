@@ -8,12 +8,8 @@ namespace Flummery.ContentPipeline.Stainless
 {
     class CNTExporter : ContentExporter
     {
-        static OpenTK.Vector3 exportScale;
-
         public override void Export(Asset asset, string Path)
         {
-            exportScale = (settings.HasSetting("Scale") ? settings.GetSetting<OpenTK.Vector3>("Scale") : OpenTK.Vector3.One);
-
             var model = (asset as Model);
             var cnt = new CNT();
 
@@ -32,9 +28,7 @@ namespace Flummery.ContentPipeline.Stainless
                                 bone.Transform.M11, bone.Transform.M21, bone.Transform.M31,
                                 bone.Transform.M12, bone.Transform.M22, bone.Transform.M32,
                                 bone.Transform.M13, bone.Transform.M23, bone.Transform.M33,
-                                bone.Transform.M41 * exportScale.X, 
-                                bone.Transform.M42 * exportScale.Y, 
-                                bone.Transform.M43 * exportScale.Z
+                                bone.Transform.M41, bone.Transform.M42, bone.Transform.M43
                             );
 
             if (bone.Tag != null)
