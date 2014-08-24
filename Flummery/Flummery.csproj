@@ -186,6 +186,7 @@
     <Compile Include="Graphics\ModelMeshPart.cs" />
     <Compile Include="Graphics\Primitive.cs" />
     <Compile Include="Graphics\Primitives\Capsule.cs" />
+    <Compile Include="Graphics\Primitives\Sphere.cs" />
     <Compile Include="Graphics\SceneManager.cs" />
     <Compile Include="Graphics\TextWriter.cs" />
     <Compile Include="Graphics\Viewport.cs" />
