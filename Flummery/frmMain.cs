@@ -436,12 +436,13 @@ namespace Flummery
                         {
                             string boneName = bone.Name.ToLower();
 
-                            if (boneName.StartsWith("wheel_") || boneName.StartsWith("driver"))
+                            if (boneName.StartsWith("wheel_") || boneName.StartsWith("vfx_") || boneName.StartsWith("driver"))
                             {
-                                var entity = new Entity { 
-                                    Name = bone.Name, 
-                                    EntityType = (boneName.StartsWith("driver") ? EntityType.Driver : EntityType.Wheel), 
-                                    AssetType = AssetType.Sprite 
+                                var entity = new Entity
+                                {
+                                    Name = bone.Name,
+                                    EntityType = (boneName.StartsWith("driver") ? EntityType.Driver : (boneName.StartsWith("wheel_") ? EntityType.Wheel : EntityType.VFX)),
+                                    AssetType = AssetType.Sprite
                                 };
                                 entity.LinkWith(bone);
 
