@@ -12,6 +12,7 @@ namespace Flummery
 
             txtCRPath.Text = Properties.Settings.Default.PathCarmageddonReincarnation;
             txtC2Path.Text = Properties.Settings.Default.PathCarmageddon2;
+            txtC1Path.Text = Properties.Settings.Default.PathCarmageddon1;
         }
 
         private void btnCRPath_Click(object sender, EventArgs e)
@@ -48,10 +49,28 @@ namespace Flummery
             }
         }
 
+        private void btnC1Path_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(txtC1Path.Text)) { fbdBrowse.SelectedPath = txtC1Path.Text; }
+
+            if (fbdBrowse.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(fbdBrowse.SelectedPath + "\\SCREAM2.WAV"))
+                {
+                    txtC1Path.Text = fbdBrowse.SelectedPath + (fbdBrowse.SelectedPath.EndsWith("\\") ? "" : "\\");
+                }
+                else
+                {
+                    MessageBox.Show("SCREAM2.wav not found.  Are you sure you've selected the right folder?");
+                }
+            }
+        }
+        
         private void applySettings()
         {
             Properties.Settings.Default.PathCarmageddonReincarnation = txtCRPath.Text;
             Properties.Settings.Default.PathCarmageddon2 = txtC2Path.Text;
+            Properties.Settings.Default.PathCarmageddon1 = txtC1Path.Text;
             Properties.Settings.Default.Save();
         }
 

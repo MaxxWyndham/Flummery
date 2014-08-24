@@ -28,19 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPreferences));
             this.tcPreferences = new System.Windows.Forms.TabControl();
             this.tpPaths = new System.Windows.Forms.TabPage();
+            this.lblNotes = new System.Windows.Forms.Label();
+            this.btnC2Path = new System.Windows.Forms.Button();
+            this.txtC2Path = new System.Windows.Forms.TextBox();
+            this.lblC2Path = new System.Windows.Forms.Label();
             this.btnCRPath = new System.Windows.Forms.Button();
             this.txtCRPath = new System.Windows.Forms.TextBox();
             this.lblCRPath = new System.Windows.Forms.Label();
             this.cmdOK = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdApply = new System.Windows.Forms.Button();
-            this.btnC2Path = new System.Windows.Forms.Button();
-            this.txtC2Path = new System.Windows.Forms.TextBox();
-            this.lblC2Path = new System.Windows.Forms.Label();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.lblNotes = new System.Windows.Forms.Label();
+            this.btnC1Path = new System.Windows.Forms.Button();
+            this.txtC1Path = new System.Windows.Forms.TextBox();
+            this.lblC1Path = new System.Windows.Forms.Label();
             this.tcPreferences.SuspendLayout();
             this.tpPaths.SuspendLayout();
             this.SuspendLayout();
@@ -56,6 +60,9 @@
             // 
             // tpPaths
             // 
+            this.tpPaths.Controls.Add(this.btnC1Path);
+            this.tpPaths.Controls.Add(this.txtC1Path);
+            this.tpPaths.Controls.Add(this.lblC1Path);
             this.tpPaths.Controls.Add(this.lblNotes);
             this.tpPaths.Controls.Add(this.btnC2Path);
             this.tpPaths.Controls.Add(this.txtC2Path);
@@ -71,9 +78,44 @@
             this.tpPaths.Text = "Paths";
             this.tpPaths.UseVisualStyleBackColor = true;
             // 
+            // lblNotes
+            // 
+            this.lblNotes.AutoSize = true;
+            this.lblNotes.Location = new System.Drawing.Point(57, 145);
+            this.lblNotes.Name = "lblNotes";
+            this.lblNotes.Size = new System.Drawing.Size(403, 91);
+            this.lblNotes.TabIndex = 9;
+            this.lblNotes.Text = resources.GetString("lblNotes.Text");
+            // 
+            // btnC2Path
+            // 
+            this.btnC2Path.Location = new System.Drawing.Point(493, 35);
+            this.btnC2Path.Name = "btnC2Path";
+            this.btnC2Path.Size = new System.Drawing.Size(29, 23);
+            this.btnC2Path.TabIndex = 8;
+            this.btnC2Path.Text = "...";
+            this.btnC2Path.UseVisualStyleBackColor = true;
+            this.btnC2Path.Click += new System.EventHandler(this.btnC2Path_Click);
+            // 
+            // txtC2Path
+            // 
+            this.txtC2Path.Location = new System.Drawing.Point(154, 37);
+            this.txtC2Path.Name = "txtC2Path";
+            this.txtC2Path.Size = new System.Drawing.Size(333, 20);
+            this.txtC2Path.TabIndex = 7;
+            // 
+            // lblC2Path
+            // 
+            this.lblC2Path.AutoSize = true;
+            this.lblC2Path.Location = new System.Drawing.Point(6, 40);
+            this.lblC2Path.Name = "lblC2Path";
+            this.lblC2Path.Size = new System.Drawing.Size(82, 13);
+            this.lblC2Path.TabIndex = 6;
+            this.lblC2Path.Text = "Carmageddon 2";
+            // 
             // btnCRPath
             // 
-            this.btnCRPath.Location = new System.Drawing.Point(493, 6);
+            this.btnCRPath.Location = new System.Drawing.Point(493, 64);
             this.btnCRPath.Name = "btnCRPath";
             this.btnCRPath.Size = new System.Drawing.Size(29, 23);
             this.btnCRPath.TabIndex = 5;
@@ -83,7 +125,7 @@
             // 
             // txtCRPath
             // 
-            this.txtCRPath.Location = new System.Drawing.Point(154, 8);
+            this.txtCRPath.Location = new System.Drawing.Point(154, 66);
             this.txtCRPath.Name = "txtCRPath";
             this.txtCRPath.Size = new System.Drawing.Size(333, 20);
             this.txtCRPath.TabIndex = 4;
@@ -91,7 +133,7 @@
             // lblCRPath
             // 
             this.lblCRPath.AutoSize = true;
-            this.lblCRPath.Location = new System.Drawing.Point(6, 11);
+            this.lblCRPath.Location = new System.Drawing.Point(6, 69);
             this.lblCRPath.Name = "lblCRPath";
             this.lblCRPath.Size = new System.Drawing.Size(142, 13);
             this.lblCRPath.TabIndex = 3;
@@ -127,46 +169,35 @@
             this.cmdApply.UseVisualStyleBackColor = true;
             this.cmdApply.Click += new System.EventHandler(this.cmdApply_Click);
             // 
-            // btnC2Path
-            // 
-            this.btnC2Path.Location = new System.Drawing.Point(493, 35);
-            this.btnC2Path.Name = "btnC2Path";
-            this.btnC2Path.Size = new System.Drawing.Size(29, 23);
-            this.btnC2Path.TabIndex = 8;
-            this.btnC2Path.Text = "...";
-            this.btnC2Path.UseVisualStyleBackColor = true;
-            this.btnC2Path.Click += new System.EventHandler(this.btnC2Path_Click);
-            // 
-            // txtC2Path
-            // 
-            this.txtC2Path.Location = new System.Drawing.Point(154, 37);
-            this.txtC2Path.Name = "txtC2Path";
-            this.txtC2Path.Size = new System.Drawing.Size(333, 20);
-            this.txtC2Path.TabIndex = 7;
-            // 
-            // lblC2Path
-            // 
-            this.lblC2Path.AutoSize = true;
-            this.lblC2Path.Location = new System.Drawing.Point(6, 40);
-            this.lblC2Path.Name = "lblC2Path";
-            this.lblC2Path.Size = new System.Drawing.Size(82, 13);
-            this.lblC2Path.TabIndex = 6;
-            this.lblC2Path.Text = "Carmageddon 2";
-            // 
             // fbdBrowse
             // 
             this.fbdBrowse.ShowNewFolderButton = false;
             // 
-            // lblNotes
+            // btnC1Path
             // 
-            this.lblNotes.AutoSize = true;
-            this.lblNotes.Location = new System.Drawing.Point(57, 145);
-            this.lblNotes.Name = "lblNotes";
-            this.lblNotes.Size = new System.Drawing.Size(403, 65);
-            this.lblNotes.TabIndex = 9;
-            this.lblNotes.Text = "NOTES\r\n\r\nCarmageddon Reincarnation path is the directory containing the \"config.l" +
-    "ua\" file.\r\n\r\nCarmageddon 2 path is the directory containing the executables (CAR" +
-    "MA2_HW etc)";
+            this.btnC1Path.Location = new System.Drawing.Point(493, 6);
+            this.btnC1Path.Name = "btnC1Path";
+            this.btnC1Path.Size = new System.Drawing.Size(29, 23);
+            this.btnC1Path.TabIndex = 12;
+            this.btnC1Path.Text = "...";
+            this.btnC1Path.UseVisualStyleBackColor = true;
+            this.btnC1Path.Click += new System.EventHandler(this.btnC1Path_Click);
+            // 
+            // txtC1Path
+            // 
+            this.txtC1Path.Location = new System.Drawing.Point(154, 8);
+            this.txtC1Path.Name = "txtC1Path";
+            this.txtC1Path.Size = new System.Drawing.Size(333, 20);
+            this.txtC1Path.TabIndex = 11;
+            // 
+            // lblC1Path
+            // 
+            this.lblC1Path.AutoSize = true;
+            this.lblC1Path.Location = new System.Drawing.Point(6, 11);
+            this.lblC1Path.Name = "lblC1Path";
+            this.lblC1Path.Size = new System.Drawing.Size(73, 13);
+            this.lblC1Path.TabIndex = 10;
+            this.lblC1Path.Text = "Carmageddon";
             // 
             // frmPreferences
             // 
@@ -206,5 +237,8 @@
         private System.Windows.Forms.Label lblC2Path;
         private System.Windows.Forms.FolderBrowserDialog fbdBrowse;
         private System.Windows.Forms.Label lblNotes;
+        private System.Windows.Forms.Button btnC1Path;
+        private System.Windows.Forms.TextBox txtC1Path;
+        private System.Windows.Forms.Label lblC1Path;
     }
 }
