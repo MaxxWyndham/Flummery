@@ -48,6 +48,8 @@ namespace Flummery
         CoordinateSystem coords = CoordinateSystem.LeftHanded;
         FrontFaceDirection frontFace = FrontFaceDirection.Ccw;
 
+        Entity node;
+
         bool bVertexBuffer;
         ContentManager content;
         KeyboardState lastState;
@@ -84,6 +86,16 @@ namespace Flummery
 
             bVertexBuffer = bUseVertexBuffer;
             Current = this;
+
+            node = new Entity
+            {
+                Name = "node",
+                EntityType = EntityType.Bone,
+                AssetType = AssetType.Model,
+                Asset = new Model()
+            };
+
+            ((Model)node.Asset).AddMesh(new Sphere(0.125f, 7, 7));
         }
 
         public Asset Add(Asset asset)
@@ -111,7 +123,14 @@ namespace Flummery
 
         public void SetBoundingBox(BoundingBox bb)
         {
+            this.node.LinkWith(null);
             this.bb = bb;
+        }
+
+        public void SetNodePosition(ModelBone bone)
+        {
+            this.node.LinkWith(bone, LinkType.Position | LinkType.Rotation);
+            this.bb = null;
         }
 
         public void SetCoordinateSystem(CoordinateSystem c)
@@ -136,6 +155,8 @@ namespace Flummery
             entities.Clear();
             models.Clear();
             materials.Clear();
+
+            entities.Add(node);
 
             if (OnReset != null) { OnReset(this, new ResetEventArgs()); }
         }

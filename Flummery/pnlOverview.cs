@@ -183,8 +183,16 @@ namespace Flummery
             {
                 SceneManager.Current.SetSelectedBone((int)e.Node.Tag);
 
+                var bone = SceneManager.Current.Models[0].Bones[(int)e.Node.Tag];
                 var mesh = (SceneManager.Current.Models[0].Bones[(int)e.Node.Tag].Tag as ModelMesh);
-                if (mesh != null) { SceneManager.Current.SetBoundingBox(mesh.BoundingBox); }
+                if (mesh != null)
+                {
+                    SceneManager.Current.SetBoundingBox(mesh.BoundingBox);
+                }
+                else
+                {
+                    SceneManager.Current.SetNodePosition(bone);
+                }
             }
         }
 
