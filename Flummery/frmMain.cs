@@ -64,13 +64,6 @@ namespace Flummery
 
             //flpMaterials.Tag = new SortedList<string, string>();
 
-            //var bundle = ToxicRagers.BurnoutParadise.Formats.BUNDLE.Load(@"D:\Steam\steamapps\common\Burnout(TM) Paradise The Ultimate Box\VEHICLES\VEH_PUSMBG13_GR.BIN");
-            //foreach (var entry in bundle.Contents)
-            //{
-            //    //Console.WriteLine("{0} @ {1}: {2} {3}", entry.Name, entry.Offset, entry.Size, entry.Unknown);
-            //    bundle.Extract(entry, @"D:\Unbundle\VEH_PUSMBG13_GR\");
-            //}
-
             Flummery.UI = this;
         }
 
@@ -175,6 +168,7 @@ namespace Flummery
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
             menu.MenuItems[3].MenuItems.Add("Carma 2");
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
+            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Scale for C:R", menuCarmageddon2Click);
             menu.MenuItems[3].MenuItems.Add("Reincarnation");
             menu.MenuItems[3].MenuItems[2].MenuItems.Add("Wheel Preview", menuCarmageddonReincarnationClick);
 
@@ -386,6 +380,8 @@ namespace Flummery
 
                     SceneManager.Current.Change(ChangeType.Munge, -1);
                     break;
+
+                case "Scale for C:R":
                     break;
             }
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using OpenTK;
+
 namespace Flummery
 {
     public class ModelMesh
@@ -11,6 +13,7 @@ namespace Flummery
         string name;
         ModelBone parent;
         object tag;
+        bool visible = true;
 
         public string Name
         {
@@ -42,6 +45,12 @@ namespace Flummery
                 if (boundingBox == null) { boundingBox = new BoundingBox(this); }
                 return boundingBox;
             }
+        }
+
+        public bool Visible
+        {
+            get { return visible; }
+            set { visible = value; }
         }
 
         public ModelMesh()
@@ -81,9 +90,12 @@ namespace Flummery
 
         public void Draw()
         {
-            foreach (ModelMeshPart meshpart in meshParts)
+            if (visible)
             {
-                meshpart.Draw();
+                foreach (ModelMeshPart meshpart in meshParts)
+                {
+                    meshpart.Draw();
+                }
             }
         }
     }
