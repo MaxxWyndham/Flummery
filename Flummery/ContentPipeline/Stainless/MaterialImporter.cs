@@ -19,14 +19,17 @@ namespace Flummery.ContentPipeline.Stainless
         {
             string hints = (currentPath != null ? currentPath + ";" : "");
 
-            if (Properties.Settings.Default.PathCarmageddonReincarnation != null)
+            if (Properties.Settings.Default.PathCarmageddon1 != null && currentPath.Contains(Properties.Settings.Default.PathCarmageddon1))
             {
-                if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\")) { hints = Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\"; }
-
-                return hints;
+                if (Directory.Exists(Properties.Settings.Default.PathCarmageddon1 + "DATA\\MATERIAL\\")) { hints += Properties.Settings.Default.PathCarmageddon1 + "DATA\\MATERIAL\\;"; }
             }
 
-            return null;
+            if (Properties.Settings.Default.PathCarmageddonReincarnation != null && currentPath.Contains(Properties.Settings.Default.PathCarmageddonReincarnation))
+            {
+                if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\")) { hints += Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\;"; }
+            }
+
+            return hints;
         }
 
         public override Asset Import(string path)

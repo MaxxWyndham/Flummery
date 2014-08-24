@@ -10,6 +10,18 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override string GetExtension() { return "dat"; }
 
+        public override string GetHints(string currentPath)
+        {
+            string hints = (currentPath != null ? currentPath + ";" : "");
+
+            if (Properties.Settings.Default.PathCarmageddon1 != null && currentPath.Contains(Properties.Settings.Default.PathCarmageddon1))
+            {
+                if (Directory.Exists(Properties.Settings.Default.PathCarmageddon1 + "DATA\\MODELS\\")) { hints += Properties.Settings.Default.PathCarmageddon1 + "DATA\\MODELS\\;"; }
+            }
+
+            return hints;
+        }
+
         public override Asset Import(string path)
         {
             DAT dat = DAT.Load(path);

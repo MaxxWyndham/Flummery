@@ -98,24 +98,27 @@ namespace Flummery
             menu.MenuItems[0].MenuItems.Add("&New", menuClick);
             menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlN;
             menu.MenuItems[0].MenuItems.Add("&Open...");
+            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon / Splat Pack");
+            menu.MenuItems[0].MenuItems[1].MenuItems[0].MenuItems.Add("Actor", menuCarmageddonClick);
+
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon 2");
-            menu.MenuItems[0].MenuItems[1].MenuItems[0].MenuItems.Add("Actor", menuCarmageddon2Click);
+            menu.MenuItems[0].MenuItems[1].MenuItems[1].MenuItems.Add("Actor", menuCarmageddon2Click);
 
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon Mobile");
-            menu.MenuItems[0].MenuItems[1].MenuItems[1].MenuItems.Add("Vehicle", menuCarmageddonMobileClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Vehicle", menuCarmageddonMobileClick);
 
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
 
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Novadrome");
-            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Environment", menuNovadromeClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Vehicle", menuNovadromeClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Environment", menuNovadromeClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Vehicle", menuNovadromeClick);
 
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("TDR2000");
-            menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Hierarchy", menuTDR2000Click);
+            menu.MenuItems[0].MenuItems[1].MenuItems[5].MenuItems.Add("Hierarchy", menuTDR2000Click);
 
             menu.MenuItems[0].MenuItems.Add("&Import");
             menu.MenuItems[0].MenuItems[2].MenuItems.Add("Autodesk FBX File...", menuImportClick);
@@ -292,6 +295,25 @@ namespace Flummery
                     {
                         var cx = new CNTExporter();
                         cx.Export(scene.Models[0], sfdBrowse.FileName);
+                    }
+                    break;
+            }
+        }
+
+        private void menuCarmageddonClick(object sender, EventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+
+            SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.RightHanded);
+
+            switch (mi.Text)
+            {
+                case "Actor":
+                    ofdBrowse.Filter = "Carmageddon ACTOR (*.act)|*.act";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
             }
