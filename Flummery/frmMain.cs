@@ -173,7 +173,7 @@ namespace Flummery
             menu.MenuItems[3].MenuItems[2].MenuItems.Add("Wheel Preview", menuCarmageddonReincarnationClick);
 
             menu.MenuItems.Add("&Help");
-            menu.MenuItems[4].MenuItems.Add("About Flummery");
+            menu.MenuItems[4].MenuItems.Add("About Flummery", menuClick);
 
             this.Menu = menu;
         }
@@ -202,6 +202,11 @@ namespace Flummery
 
                 case "E&xit":
                     Application.Exit();
+                    break;
+
+                case "About Flummery":
+                    var about = new frmAbout();
+                    about.ShowDialog();
                     break;
             }
         }
