@@ -102,16 +102,16 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("RotationActive");
                 if (property != null) { bRotationActive = ((int)property.Properties[4].Value == 1); }
 
-                property = properties.Children.GetProperty("GeometricRotation");
-                if (property != null)
-                {
-                    m *= Matrix4.CreateFromQuaternion(MakeQuaternion(
-                        Convert.ToSingle(property.Properties[4].Value),
-                        Convert.ToSingle(property.Properties[5].Value),
-                        Convert.ToSingle(property.Properties[6].Value),
-                        order
-                    ));
-                }
+                //property = properties.Children.GetProperty("GeometricRotation");
+                //if (property != null)
+                //{
+                //    m *= Matrix4.CreateFromQuaternion(MakeQuaternion(
+                //        Convert.ToSingle(property.Properties[4].Value),
+                //        Convert.ToSingle(property.Properties[5].Value),
+                //        Convert.ToSingle(property.Properties[6].Value),
+                //        order
+                //    ));
+                //}
 
                 property = properties.Children.GetProperty("ScalingPivot");
                 if (property != null)
@@ -222,7 +222,7 @@ namespace Flummery.ContentPipeline.Core
 
                 if (bRotationActive)
                 {
-                    m *= Matrix4.CreateFromQuaternion(postRotation * lclRotation * preRotation);
+                    m *= Matrix4.CreateFromQuaternion((postRotation * lclRotation * preRotation).Normalized());
                 }
                 else
                 {
