@@ -13,7 +13,7 @@ namespace Flummery.ContentPipeline.Stainless
             var model = (asset as Model);
             var cnt = new CNT();
 
-            TravelTree(model.Root.Children[0], ref cnt, true);
+            TravelTree(model.Root, ref cnt, true);
 
             cnt.Save(Path);
         }
