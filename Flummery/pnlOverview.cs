@@ -30,10 +30,8 @@ namespace Flummery
 
             tvNodes.Nodes.Clear();
             n = tvNodes.Nodes.Add("Root");
-            n.Tag = -1;
 
             n = n.Nodes.Add("Scene");
-            n.Tag = -1;
 
             tvNodes.Nodes[0].Expand();
         }
@@ -51,7 +49,7 @@ namespace Flummery
                 var bone = m.Bones[i];
                 var key = ModelBone.GetModelBoneKey(index, i);
 
-                while (ParentNode != null && (int)ParentNode.Tag != -1 && (int)ParentNode.Tag != ModelBone.GetModelBoneKey(index, bone.Parent.Index)) { ParentNode = ParentNode.Parent; }
+                while (ParentNode != null && ParentNode.Tag != null && (int)ParentNode.Tag != ModelBone.GetModelBoneKey(index, bone.Parent.Index)) { ParentNode = ParentNode.Parent; }
                 ParentNode = ParentNode.Nodes.Add(bone.Name);
                 ParentNode.Tag = key;
                 ParentNode.ImageIndex = (bone.Tag == null ? 0 : 1);
@@ -136,9 +134,6 @@ namespace Flummery
 
         protected void ReindexTree()
         {
-            tvNodes.Nodes[0].Tag = -1;
-            tvNodes.Nodes[0].Nodes[0].Tag = -1;
-
             for (int i = 0; i < tvNodes.Nodes[0].Nodes[0].Nodes.Count; i++)
             {
                 ReindexHierarchy(i, 0, tvNodes.Nodes[0].Nodes[0].Nodes[i]);
