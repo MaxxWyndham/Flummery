@@ -129,7 +129,7 @@ namespace Flummery
 
         public void SetActionScale(float speed)
         {
-            this.speed = 1.0f * speed;
+            this.speed = 1.25f * speed;
         }
     }
 }
