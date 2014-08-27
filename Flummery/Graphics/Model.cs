@@ -230,6 +230,17 @@ namespace Flummery
             return l;
         }
 
+        public void Santise()
+        {
+            for (int i = meshes.Count - 1; i > -1; i--)
+            {
+                if (meshes[i].MeshParts.Count == 0)
+                {
+                    ClearMesh(meshes[i].Parent.Index);
+                }
+            }
+        }
+
         public void Draw() 
         {
             Matrix4[] transforms = new Matrix4[bones.Count];

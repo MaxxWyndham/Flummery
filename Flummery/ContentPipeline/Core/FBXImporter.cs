@@ -541,6 +541,8 @@ namespace Flummery.ContentPipeline.Core
 
             SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", name));
 
+            model.Santise();
+
             return model;
         }
 
