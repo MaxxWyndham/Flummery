@@ -163,6 +163,7 @@ namespace Flummery
             entities.Clear();
             models.Clear();
             materials.Clear();
+            bb = null;
 
             entities.Add(node);
 
