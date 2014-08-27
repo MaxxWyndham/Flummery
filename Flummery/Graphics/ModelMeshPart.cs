@@ -108,6 +108,47 @@ namespace Flummery
             }
         }
 
+        public void Optimise()
+        {
+            List<Vertex> vb = new List<Vertex>(vertexBuffer.Data);
+            List<int> ib = new List<int>(indexBuffer.Data);
+
+            vertexBuffer.Data.Clear();
+            indexBuffer.Data.Clear();
+
+            for (int i = 0; i < ib.Count; i++)
+            {
+                var v = vb[ib[i]];
+
+                int index = vertexBuffer.Data.FindIndex(vert =>
+                    vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
+                    vert.Position.Y.GetHashCode() == v.Position.Y.GetHashCode() &&
+                    vert.Position.Z.GetHashCode() == v.Position.Z.GetHashCode() &&
+                    vert.Normal.X.GetHashCode() == v.Normal.X.GetHashCode() &&
+                    vert.Normal.Y.GetHashCode() == v.Normal.Y.GetHashCode() &&
+                    vert.Normal.Z.GetHashCode() == v.Normal.Z.GetHashCode() &&
+                    vert.UV.X.GetHashCode() == v.UV.X.GetHashCode() &&
+                    vert.UV.Y.GetHashCode() == v.UV.Y.GetHashCode() &&
+                    vert.UV.Z.GetHashCode() == v.UV.Z.GetHashCode() &&
+                    vert.UV.W.GetHashCode() == v.UV.W.GetHashCode() &&
+                    vert.Colour == v.Colour
+                );
+
+                if (index == -1)
+                {
+                    vertexBuffer.AddVertex(v);
+                    indexBuffer.AddIndex(vertexBuffer.Length - 1);
+                }
+                else
+                {
+                    indexBuffer.AddIndex(index);
+                }
+            }
+
+            indexBuffer.Initialise();
+            vertexBuffer.Initialise();
+        }
+
         public void Finalise()
         {
             if (SceneManager.Current.CanUseVertexBuffer)

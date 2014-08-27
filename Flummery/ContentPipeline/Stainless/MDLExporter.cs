@@ -25,6 +25,8 @@ namespace Flummery.ContentPipeline.Stainless
 
                 foreach (var meshpart in mesh.MeshParts.OrderByDescending(m => m.VertexCount).ToList())
                 {
+                    meshpart.Optimise();
+
                     var mdlmesh = new MDLMaterialGroup((meshpart.Material != null ? meshpart.Material.Name : "DEFAULT"));
                     bool bUseTrianglestrips = false;
 
