@@ -12,6 +12,8 @@ namespace Flummery
             InitializeComponent();
 
             this.TabText = "Overview";
+
+            Reset();
         }
 
         public void RegisterEventHandlers()
@@ -22,73 +24,53 @@ namespace Flummery
             ViewportManager.Current.OnMouseMove += viewport_OnMouseMove;
         }
 
-        public void ProcessTree(Model m, bool bReset = false)
+        public void Reset()
+        {
+            TreeNode n;
+
+            tvNodes.Nodes.Clear();
+            n = tvNodes.Nodes.Add("Root");
+            n.Tag = -1;
+
+            n = n.Nodes.Add("Scene");
+            n.Tag = -1;
+
+            tvNodes.Nodes[0].Expand();
+        }
+
+        public void ProcessTree(Model m, int index, bool bReset = false)
         {
             TreeNode ParentNode;
 
-            if (bReset || tvNodes.Nodes.Count == 0) 
-            { 
-                tvNodes.Nodes.Clear();
-                ParentNode = tvNodes.Nodes.Add("ROOT");
-            } 
-            else 
-            {
-                ParentNode = tvNodes.Nodes[0];
-            }
+            if (bReset || tvNodes.Nodes.Count == 0) { Reset(); }
+
+            ParentNode = tvNodes.Nodes[0].Nodes[0];
 
             for (int i = 0; i < m.Bones.Count; i++)
             {
                 var bone = m.Bones[i];
+                var key = ModelBone.GetModelBoneKey(index, i);
 
-                if (bone.Parent == null)
-                {
-                    ParentNode.Text = bone.Name;
-                    ParentNode.Tag = i;
-                    ParentNode.ImageIndex = (bone.Tag == null ? 0 : 1);
-                }
-                else
-                {
-                    while (ParentNode != null && (int)ParentNode.Tag != bone.Parent.Index) { ParentNode = ParentNode.Parent; }
-                    ParentNode = ParentNode.Nodes.Add(bone.Name);
-                    ParentNode.Tag = i;
-                    ParentNode.ImageIndex = (bone.Tag == null ? 0 : 1);
-                }
+                while (ParentNode != null && (int)ParentNode.Tag != -1 && (int)ParentNode.Tag != ModelBone.GetModelBoneKey(index, bone.Parent.Index)) { ParentNode = ParentNode.Parent; }
+                ParentNode = ParentNode.Nodes.Add(bone.Name);
+                ParentNode.Tag = key;
+                ParentNode.ImageIndex = (bone.Tag == null ? 0 : 1);
             }
-
-            //TreeNode ParentNode = (tvNodes.Nodes.Count == 0 ? tvNodes.Nodes.Add("ROOT") : tvNodes.Nodes[0]);
-
-            //foreach (var child in m.Root.Children)
-            //{
-            //    TravelTree(child, ref ParentNode);
-            //}
 
             tvNodes.Nodes[0].Expand();
             if (tvNodes.Nodes[0].Nodes.Count > 0) { tvNodes.Nodes[0].Nodes[0].Expand(); }
-        }
-
-        public static void TravelTree(ModelBone bone, ref TreeNode node)
-        {
-            node = node.Nodes.Add(bone.Name);
-            node.Tag = bone.Index;
-
-            foreach (var b in bone.Children)
-            {
-                TravelTree(b, ref node);
-            }
-
-            node = node.Parent;
         }
 
         void scene_OnAdd(object sender, AddEventArgs e)
         {
             var m = (e.Item as Model);
 
-            if (m != null) { ProcessTree(m); }
+            if (m != null) { ProcessTree(m, e.Index); }
         }
 
         void scene_OnChange(object sender, ChangeEventArgs e)
         {
-            if (e.Index == -1) { ProcessTree(SceneManager.Current.Models[0], true); }
+            if (e.Index == -1) { ProcessTree(SceneManager.Current.Models[0], 0, true); }
 
             TreeNode node;
 
@@ -97,18 +79,18 @@ namespace Flummery
             switch (e.Change)
             {
                 case ChangeType.Add:
-                    FindNode((int)e.AdditionalInformation, tvNodes.Nodes[0], out node);
-                    node.Nodes.Add(CreateNode(SceneManager.Current.Models[0].Bones[e.Index].Name, e.Index, (SceneManager.Current.Models[0].Bones[e.Index].Tag == null ? 0 : 1)));
-                    ReindexTree(0, tvNodes.Nodes[0]);
+                    FindNode((int)e.AdditionalInformation, tvNodes.Nodes[0].Nodes[0], out node);
+                    node.Nodes.Add(CreateNode("[" + e.Index + "] " + SceneManager.Current.Models[0].Bones[e.Index].Name, e.Index, (SceneManager.Current.Models[0].Bones[e.Index].Tag == null ? 0 : 1)));
+                    ReindexTree();
                     node.Expand();
                     break;
 
                 case ChangeType.Delete:
-                    FindNode(e.Index, tvNodes.Nodes[0], out node);
+                    FindNode(e.Index, tvNodes.Nodes[0].Nodes[0], out node);
                     if ((bool)e.AdditionalInformation)
                     {
                         node.Remove();
-                        ReindexTree(0, tvNodes.Nodes[0]);
+                        ReindexTree();
                     }
                     else
                     {
@@ -118,16 +100,16 @@ namespace Flummery
 
                 case ChangeType.Move:
                     TreeNode dest;
-                    FindNode(e.Index, tvNodes.Nodes[0], out node);
+                    FindNode(e.Index, tvNodes.Nodes[0].Nodes[0], out node);
                     FindNode((int)e.AdditionalInformation, tvNodes.Nodes[0], out dest);
 
                     node.Remove();
                     dest.Nodes.Add(node);
-                    ReindexTree(0, tvNodes.Nodes[0]);
+                    ReindexTree();
                     break;
 
                 case ChangeType.Rename:
-                    FindNode(e.Index, tvNodes.Nodes[0], out node);
+                    FindNode(e.Index, tvNodes.Nodes[0].Nodes[0], out node);
                     node.Text = e.AdditionalInformation.ToString();
                     break;
             }
@@ -152,16 +134,27 @@ namespace Flummery
             }
         }
 
-        protected int ReindexTree(int index, TreeNode root)
+        protected void ReindexTree()
         {
-            root.Tag = index++;
+            tvNodes.Nodes[0].Tag = -1;
+            tvNodes.Nodes[0].Nodes[0].Tag = -1;
+
+            for (int i = 0; i < tvNodes.Nodes[0].Nodes[0].Nodes.Count; i++)
+            {
+                ReindexHierarchy(i, 0, tvNodes.Nodes[0].Nodes[0].Nodes[i]);
+            }
+        }
+
+        protected int ReindexHierarchy(int modelIndex, int boneIndex, TreeNode root)
+        {
+            root.Tag = ModelBone.GetModelBoneKey(modelIndex, boneIndex++);
 
             foreach (TreeNode child in root.Nodes)
             {
-                index = ReindexTree(index, child);
+                boneIndex = ReindexHierarchy(modelIndex, boneIndex, child);
             }
 
-            return index;
+            return boneIndex;
         }
 
         protected TreeNode CreateNode(string name, int index, int image)
@@ -174,17 +167,20 @@ namespace Flummery
 
         void scene_OnReset(object sender, ResetEventArgs e)
         {
-            ProcessTree(new Model(), true);
+            ProcessTree(new Model(), 0, true);
         }
 
         private void tvNodes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Tag != null && SceneManager.Current.Models.Count > 0)
             {
-                SceneManager.Current.SetSelectedBone((int)e.Node.Tag);
+                int mI = ModelBone.GetModelIndexFromKey((int)e.Node.Tag);
+                int bI = ModelBone.GetBoneIndexFromKey((int)e.Node.Tag);
 
-                var bone = SceneManager.Current.Models[0].Bones[(int)e.Node.Tag];
-                var mesh = (SceneManager.Current.Models[0].Bones[(int)e.Node.Tag].Tag as ModelMesh);
+                SceneManager.Current.SetSelectedBone(mI, bI);
+
+                var bone = SceneManager.Current.Models[mI].Bones[bI];
+                var mesh = (bone.Tag as ModelMesh);
                 if (mesh != null)
                 {
                     SceneManager.Current.SetBoundingBox(mesh.BoundingBox);
@@ -225,15 +221,26 @@ namespace Flummery
                 TreeNode DestinationNode = ((TreeView)sender).GetNodeAt(pt);
                 NewNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
 
-                int srcBone = (int)NewNode.Tag;
-                int dstBone = (int)DestinationNode.Tag;
+                int srcModel = ModelBone.GetModelIndexFromKey((int)NewNode.Tag);
+                int srcBone = ModelBone.GetBoneIndexFromKey((int)NewNode.Tag);
+                int dstModel = ModelBone.GetModelIndexFromKey((int)DestinationNode.Tag);
+                int dstBone = ModelBone.GetBoneIndexFromKey((int)DestinationNode.Tag);
 
                 DestinationNode.Nodes.Add((TreeNode)NewNode.Clone());
                 DestinationNode.Expand();
                 NewNode.Remove();
 
-                SceneManager.Current.Models[0].MoveBone(srcBone, dstBone);
-                SceneManager.Current.Change(ChangeType.Move, srcBone, dstBone);
+                if (srcModel == dstModel)
+                {
+                    if (SceneManager.Current.Models[srcModel].MoveBone(srcBone, dstBone)) { SceneManager.Current.Change(ChangeType.Move, srcBone, dstBone); }
+                }
+                else
+                {
+                    SceneManager.Current.Models[dstModel].ImportBone(SceneManager.Current.Models[srcModel].Bones[srcBone], dstBone);
+                    SceneManager.Current.Models[srcModel].RemoveBone(srcBone);
+                    
+                    ReindexTree();
+                }
             }
         }
 

@@ -8,7 +8,7 @@ namespace Flummery
     [DebuggerDisplay("Name {name} Index {index} Children {children.Count}")]
     public class ModelBone
     {
-        List<ModelBone> children;
+        ModelBoneCollection children;
         int index;
         string name;
         ModelBone parent;
@@ -33,7 +33,7 @@ namespace Flummery
             set { parent = value; }
         }
 
-        public List<ModelBone> Children
+        public ModelBoneCollection Children
         {
             get { return children; }
             set { children = value; }
@@ -70,14 +70,35 @@ namespace Flummery
 
         public ModelBone()
         {
-            children = new List<ModelBone>();
+            children = new ModelBoneCollection();
             Index = 0;
             Transform = Matrix4.Identity;
         }
 
-        public List<ModelBone> AllChildren(bool bIncludeSelf = true)
+        public ModelBone Clone()
         {
-            var childs = new List<ModelBone>();
+            var b = new ModelBone();
+
+            b.index = this.index;
+            b.name = this.name;
+            b.parent = this.parent;
+            b.transform = this.transform;
+            b.tag = this.tag;
+
+            foreach (var child in this.children)
+            {
+                var cb = child.Clone();
+                cb.parent = b;
+
+                b.children.Add(cb); 
+            }
+
+            return b;
+        }
+
+        public ModelBoneCollection AllChildren(bool bIncludeSelf = true)
+        {
+            var childs = new ModelBoneCollection();
 
             if (bIncludeSelf) { childs.Add(this); }
             getChildren(this, ref childs);
@@ -85,7 +106,7 @@ namespace Flummery
             return childs;
         }
 
-        protected void getChildren(ModelBone parent, ref List<ModelBone> list)
+        protected void getChildren(ModelBone parent, ref ModelBoneCollection list)
         {
             foreach (var child in parent.children)
             {
@@ -93,6 +114,21 @@ namespace Flummery
 
                 child.getChildren(child, ref list);
             }
+        }
+
+        public static int GetModelBoneKey(int index, int boneIndex)
+        {
+            return (index << 20) + boneIndex;
+        }
+
+        public static int GetBoneIndexFromKey(int key)
+        {
+            return (key & 0xFFFFF);
+        }
+
+        public static int GetModelIndexFromKey(int key)
+        {
+            return key >> 20;
         }
     }
 }

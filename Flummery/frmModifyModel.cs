@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using ToxicRagers.Helpers;
@@ -13,16 +7,18 @@ namespace Flummery
 {
     public partial class frmModifyModel : Form
     {
-        int parentBoneIndex;
+        int modelIndex;
+        int boneIndex;
 
         public frmModifyModel()
         {
             InitializeComponent();
         }
 
-        public void SetParentNode(int boneID)
+        public void SetParentNode(int modelID, int boneID)
         {
-            parentBoneIndex = boneID;
+            modelIndex = modelID;
+            boneIndex = boneID;
         }
 
         private void frmModifyModel_Load(object sender, EventArgs e)
@@ -75,7 +71,7 @@ namespace Flummery
 
         private void applyTransforms()
         {
-            var bones = (chkHierarchy.Checked ? SceneManager.Current.Models[0].Bones[parentBoneIndex].AllChildren() : new List<ModelBone> { SceneManager.Current.Models[0].Bones[parentBoneIndex] });
+            var bones = (chkHierarchy.Checked ? SceneManager.Current.Models[modelIndex].Bones[boneIndex].AllChildren() : new ModelBoneCollection { SceneManager.Current.Models[modelIndex].Bones[boneIndex] });
 
             if (rdoScaling.Checked)
             {

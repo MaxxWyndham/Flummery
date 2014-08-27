@@ -7,26 +7,24 @@ namespace Flummery
 {
     public class Model : Asset
     {
-        List<ModelBone> bones;
+        ModelBoneCollection bones;
         List<ModelMesh> meshes;
 
-        public List<ModelBone> Bones { get { return bones; } }
+        public ModelBoneCollection Bones { get { return bones; } }
         public List<ModelMesh> Meshes { get { return meshes; } }
         public ModelBone Root { get { return bones[0]; } }
 
         public Model()
         {
-            bones = new List<ModelBone>();
+            bones = new ModelBoneCollection();
             meshes = new List<ModelMesh>();
-
-            bones.Add(new ModelBone() { Name = "ROOT" });
         }
 
         public override Asset Clone()
         {
             var m = new Model();
 
-            m.bones = new List<ModelBone>(this.bones);
+            //m.bones = new ModelBoneCollection(this.bones);
             m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));
             m.tag = this.tag;
 
@@ -58,17 +56,21 @@ namespace Flummery
             bool bAddBone = true;
             ModelBone b = new ModelBone();
             b.Index = -1;
-            b.Parent = bones[ParentBoneIndex];
-            bones[ParentBoneIndex].Children.Add(b);
 
-            int childBoneCount = countChildrenOf(ParentBoneIndex);
-            if (ParentBoneIndex + childBoneCount < bones.Count)
+            if (bones.Count > 0)
             {
-                int index = ParentBoneIndex + childBoneCount;
+                b.Parent = bones[ParentBoneIndex];
+                bones[ParentBoneIndex].Children.Add(b);
 
-                bAddBone = false;
-                bones.Insert(index, b);
-                b.Index = index;
+                int childBoneCount = countChildrenOf(ParentBoneIndex);
+                if (ParentBoneIndex + childBoneCount < bones.Count)
+                {
+                    int index = ParentBoneIndex + childBoneCount;
+
+                    bAddBone = false;
+                    bones.Insert(index, b);
+                    b.Index = index;
+                }
             }
 
             if (bAddBone)
@@ -78,7 +80,7 @@ namespace Flummery
             }
             else
             {
-                for (int i = 0; i < bones.Count; i++) { bones[i].Index = i; }
+                bones.ReIndex();
             }
 
             if (mesh != null)
@@ -106,9 +108,38 @@ namespace Flummery
             return childCount;
         }
 
-        public void MoveBone(int BoneIndex, int NewParentBoneIndex)
+        public void ImportBone(ModelBone bone, int parentBoneIndex)
+        {
+            var cloneBone = bone.Clone();
+            var boneList = cloneBone.AllChildren();
+
+            var parent = bones[parentBoneIndex];
+
+            for (int i = 0; i < boneList.Count; i++)
+            {
+                bones.Insert(parentBoneIndex + i + 1, boneList[i]);
+                if (boneList[i].Tag != null)
+                { 
+                    var mesh = boneList[i].Tag as ModelMesh;
+                    mesh.Parent = boneList[i];
+                    meshes.Add(mesh); 
+                }
+
+                if (i == 0)
+                {
+                    boneList[i].Parent = parent;
+                    parent.Children.Add(boneList[i]);
+                }
+            }
+
+            bones.ReIndex();
+        }
+
+        public bool MoveBone(int BoneIndex, int NewParentBoneIndex)
         {
             int newBoneIndex;
+
+            if (BoneIndex == NewParentBoneIndex) { return false; }
 
             bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]);
             bones[BoneIndex].Parent = bones[NewParentBoneIndex];
@@ -124,19 +155,24 @@ namespace Flummery
 
             for (int i = 0; i < children.Length; i++) { MoveBone(children[i].Index, newBoneIndex); }
 
-            for (int i = 0; i < bones.Count; i++) { bones[i].Index = i; }
+            bones.ReIndex();
+
+            return true;
         }
 
         public void RemoveBone(int BoneIndex)
         {
+            Console.WriteLine("Going to remove bone {0}", BoneIndex);
             ModelBone[] children = new ModelBone[bones[BoneIndex].Children.Count];
             bones[BoneIndex].Children.CopyTo(children);
             for (int i = children.Length - 1; i > -1; i--) { RemoveBone(children[i].Index); }
 
             for (int i = BoneIndex + 1; i < bones.Count; i++) { bones[i].Index--; }
-            bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]);
+            if (bones[BoneIndex].Parent != null) { bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]); }
             meshes.Remove((ModelMesh)bones[BoneIndex].Tag);
+
             bones.RemoveAt(BoneIndex);
+            Console.WriteLine("Removing bone at {0}, bones.Count = {1}", BoneIndex, bones.Count);
         }
 
         public ModelMesh FindMesh(string name)

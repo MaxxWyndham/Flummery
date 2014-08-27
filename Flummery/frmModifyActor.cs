@@ -7,21 +7,23 @@ namespace Flummery
 {
     public partial class frmModifyActor : Form
     {
-        int parentBoneIndex;
+        int modelIndex;
+        int boneIndex;
 
         public frmModifyActor()
         {
             InitializeComponent();
         }
 
-        public void SetParentNode(int boneID)
+        public void SetParentNode(int modelID, int boneID)
         {
-            parentBoneIndex = boneID;
+            modelIndex = modelID;
+            boneIndex = boneID;
         }
 
         private void frmTransformEditor_Load(object sender, EventArgs e)
         {
-            var bone = SceneManager.Current.Models[0].Bones[parentBoneIndex];
+            var bone = SceneManager.Current.Models[modelIndex].Bones[boneIndex];
 
             txtM11.Text = bone.Transform.M11.ToString();
             txtM12.Text = bone.Transform.M12.ToString();
@@ -60,7 +62,7 @@ namespace Flummery
                                             Convert.ToSingle(txtM41.Text, culture), Convert.ToSingle(txtM42.Text, culture), Convert.ToSingle(txtM43.Text, culture), 1
                                         );
 
-            SceneManager.Current.Models[0].SetTransform(transform, parentBoneIndex);
+            SceneManager.Current.Models[modelIndex].SetTransform(transform, boneIndex);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

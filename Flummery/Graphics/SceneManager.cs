@@ -37,6 +37,7 @@ namespace Flummery
         public static SceneManager Current;
 
         int selectedBoneIndex = 0;
+        int selectedModelIndex = 0;
         BoundingBox bb = null;
 
         RenderMeshMode renderMode = RenderMeshMode.Solid;
@@ -66,6 +67,7 @@ namespace Flummery
 
         public Matrix4 Transform { get { return sceneTransform; } }
 
+        public int SelectedModelIndex { get { return selectedModelIndex; } }
         public int SelectedBoneIndex { get { return selectedBoneIndex; } }
         public float DeltaTime { get { return dt; } }
 
@@ -103,18 +105,21 @@ namespace Flummery
 
         public Asset Add(Asset asset)
         {
+            int index = -1;
             var m = (asset as Model);
 
             if (m != null)
             {
+                index = models.Count;
                 models.Add(m);
             }
             else
             {
+                index = materials.Count;
                 materials.Add(asset as Material);
             }
 
-            if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset)); }
+            if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset, index)); }
 
             return asset;
         }
@@ -282,11 +287,14 @@ namespace Flummery
             if (OnError != null) { OnError(this, new ErrorEventArgs(message)); }
         }
 
-        public void SetSelectedBone(int index)
+        public void SetSelectedBone(int modelIndex, int boneIndex)
         {
-            selectedBoneIndex = index;
+            if (modelIndex == -1) { return; }
 
-            if (OnSelect != null) { OnSelect(this, new SelectEventArgs(models[0].Bones[index])); }
+            selectedModelIndex = modelIndex;
+            selectedBoneIndex = boneIndex;
+
+            if (OnSelect != null) { OnSelect(this, new SelectEventArgs(models[modelIndex].Bones[boneIndex])); }
         }
     }
 
@@ -300,10 +308,12 @@ namespace Flummery
     public class AddEventArgs : EventArgs
     {
         public Asset Item { get; private set; }
+        public int Index { get; private set; }
 
-        public AddEventArgs(Asset item)
+        public AddEventArgs(Asset item, int index)
         {
-            Item = item;
+            this.Item = item;
+            this.Index = index;
         }
     }
 

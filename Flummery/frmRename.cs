@@ -5,7 +5,8 @@ namespace Flummery
 {
     public partial class frmRename : Form
     {
-        int parentBoneIndex;
+        int modelIndex;
+        int boneIndex;
         string newName;
 
         public string NewName { get { return newName; } }
@@ -15,17 +16,18 @@ namespace Flummery
             InitializeComponent();
         }
 
-        public void SetParentNode(int boneID)
+        public void SetParentNode(int modelID, int boneID)
         {
-            parentBoneIndex = boneID;
+            modelIndex = modelID;
+            boneIndex = boneID;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            var model = SceneManager.Current.Models[0];
+            var model = SceneManager.Current.Models[modelIndex];
 
-            if (chkActors.Checked) { model.SetName(txtName.Text, parentBoneIndex); }
-            if (chkModels.Checked && model.Bones[parentBoneIndex].Tag != null) { ((ModelMesh)model.Bones[parentBoneIndex].Tag).Name = txtName.Text; }
+            if (chkActors.Checked) { model.SetName(txtName.Text, boneIndex); }
+            if (chkModels.Checked && model.Bones[boneIndex].Tag != null) { ((ModelMesh)model.Bones[boneIndex].Tag).Name = txtName.Text; }
 
             newName = txtName.Text;
 

@@ -11,7 +11,8 @@ namespace Flummery
 {
     public partial class frmRemoveObject : Form
     {
-        int parentBoneIndex;
+        int modelIndex;
+        int boneIndex;
         bool bRemovedBone;
 
         public bool RemovedBone { get { return bRemovedBone; } }
@@ -21,9 +22,10 @@ namespace Flummery
             InitializeComponent();
         }
 
-        public void SetParentNode(int boneID)
+        public void SetParentNode(int modelID, int boneID)
         {
-            parentBoneIndex = boneID;
+            modelIndex = modelID;
+            boneIndex = boneID;
         }
 
         private void chkBone_CheckedChanged(object sender, EventArgs e)
@@ -41,8 +43,8 @@ namespace Flummery
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (chkModel.Checked) { SceneManager.Current.Models[0].ClearMesh(parentBoneIndex); bRemovedBone = false; }
-            if (chkBone.Checked) { SceneManager.Current.Models[0].RemoveBone(parentBoneIndex); bRemovedBone = true; }
+            if (chkModel.Checked) { SceneManager.Current.Models[modelIndex].ClearMesh(boneIndex); bRemovedBone = false; }
+            if (chkBone.Checked) { SceneManager.Current.Models[modelIndex].RemoveBone(boneIndex); bRemovedBone = true; }
             this.Close();
         }
 

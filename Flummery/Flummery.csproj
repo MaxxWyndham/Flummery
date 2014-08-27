@@ -188,6 +188,7 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Model.cs" />
+    <Compile Include="Graphics\ModelBoneCollection.cs" />
     <Compile Include="Graphics\ModelMesh.cs" />
     <Compile Include="Graphics\ModelMeshPart.cs" />
     <Compile Include="Graphics\Primitive.cs" />

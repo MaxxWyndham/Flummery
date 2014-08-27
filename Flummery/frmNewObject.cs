@@ -11,26 +11,29 @@ namespace Flummery
 {
     public partial class frmNewObject : Form
     {
-        int parentBoneIndex;
-        int newBoneIndex;
+        int modelIndex;
+        int boneIndex;
+        int newBoneKey;
 
-        public int NewBoneIndex { get { return newBoneIndex; } }
+        public int NewBoneKey { get { return newBoneKey; } }
 
         public frmNewObject()
         {
             InitializeComponent();
         }
 
-        public void SetParentNode(int boneID)
+        public void SetParentNode(int modelID, int boneID)
         {
-            parentBoneIndex = boneID;
+            modelIndex = modelID;
+            boneIndex = boneID;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            var model = SceneManager.Current.Models[0];
-            newBoneIndex = model.AddMesh(null, parentBoneIndex);
-            model.SetName(txtName.Text, newBoneIndex);
+            var model = SceneManager.Current.Models[modelIndex];
+            newBoneKey = model.AddMesh(null, boneIndex);
+            model.SetName(txtName.Text, newBoneKey);
+            newBoneKey = ModelBone.GetModelBoneKey(modelIndex, newBoneKey);
             this.Close();
         }
 

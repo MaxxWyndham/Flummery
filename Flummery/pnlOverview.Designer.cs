@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Root");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pnlOverview));
             this.tvNodes = new System.Windows.Forms.TreeView();
-            this.lblCoords = new System.Windows.Forms.Label();
             this.ilNodeIcons = new System.Windows.Forms.ImageList(this.components);
+            this.lblCoords = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tvNodes
@@ -45,6 +46,11 @@
             this.tvNodes.ImageList = this.ilNodeIcons;
             this.tvNodes.Location = new System.Drawing.Point(12, 12);
             this.tvNodes.Name = "tvNodes";
+            treeNode1.Name = "nRoot";
+            treeNode1.Tag = "-1";
+            treeNode1.Text = "Root";
+            this.tvNodes.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
             this.tvNodes.SelectedImageIndex = 0;
             this.tvNodes.Size = new System.Drawing.Size(133, 214);
             this.tvNodes.TabIndex = 0;
@@ -53,6 +59,13 @@
             this.tvNodes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvNodes_NodeMouseDoubleClick);
             this.tvNodes.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvNodes_DragDrop);
             this.tvNodes.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvNodes_DragEnter);
+            // 
+            // ilNodeIcons
+            // 
+            this.ilNodeIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilNodeIcons.ImageStream")));
+            this.ilNodeIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilNodeIcons.Images.SetKeyName(0, "interface_node_16x16.png");
+            this.ilNodeIcons.Images.SetKeyName(1, "interface_mesh_16x16.png");
             // 
             // lblCoords
             // 
@@ -65,13 +78,6 @@
             this.lblCoords.TabIndex = 1;
             this.lblCoords.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblCoords.Click += new System.EventHandler(this.lblCoords_Click);
-            // 
-            // ilNodeIcons
-            // 
-            this.ilNodeIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilNodeIcons.ImageStream")));
-            this.ilNodeIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.ilNodeIcons.Images.SetKeyName(0, "interface_node_16x16.png");
-            this.ilNodeIcons.Images.SetKeyName(1, "interface_mesh_16x16.png");
             // 
             // pnlOverview
             // 

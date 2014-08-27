@@ -658,55 +658,59 @@ namespace Flummery
         {
             MenuItem mi = (MenuItem)sender;
 
+            int boneIndex = SceneManager.Current.SelectedBoneIndex;
+            int modelIndex = SceneManager.Current.SelectedModelIndex;
+            int modelBoneKey = ModelBone.GetModelBoneKey(modelIndex, boneIndex);
+
             switch (mi.Text)
             {
                 case "New...":
                     var addNew = new frmNewObject();
-                    addNew.SetParentNode(SceneManager.Current.SelectedBoneIndex);
+                    addNew.SetParentNode(modelIndex, boneIndex);
 
                     if (addNew.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Add, addNew.NewBoneIndex, SceneManager.Current.SelectedBoneIndex);
+                        SceneManager.Current.Change(ChangeType.Add, addNew.NewBoneKey, modelBoneKey);
                     }
                     break;
 
                 case "Remove...":
                     var removeObject = new frmRemoveObject();
-                    removeObject.SetParentNode(SceneManager.Current.SelectedBoneIndex);
+                    removeObject.SetParentNode(modelIndex, boneIndex);
 
                     if (removeObject.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Delete, SceneManager.Current.SelectedBoneIndex, removeObject.RemovedBone);
+                        SceneManager.Current.Change(ChangeType.Delete, modelBoneKey, removeObject.RemovedBone);
                     }
                     break;
 
                 case "Modify geometry...":
                     var geometry = new frmModifyModel();
-                    geometry.SetParentNode(SceneManager.Current.SelectedBoneIndex);
+                    geometry.SetParentNode(modelIndex, boneIndex);
 
                     if (geometry.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
+                        SceneManager.Current.Change(ChangeType.Transform, modelBoneKey);
                     }
                     break;
 
                 case "Modify actor...":
                     var transform = new frmModifyActor();
-                    transform.SetParentNode(SceneManager.Current.SelectedBoneIndex);
+                    transform.SetParentNode(modelIndex, boneIndex);
 
                     if (transform.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
+                        SceneManager.Current.Change(ChangeType.Transform, modelBoneKey);
                     }
                     break;
 
                 case "Rename":
                     var rename = new frmRename();
-                    rename.SetParentNode(SceneManager.Current.SelectedBoneIndex);
+                    rename.SetParentNode(modelIndex, boneIndex);
 
                     if (rename.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Rename, SceneManager.Current.SelectedBoneIndex, rename.NewName);
+                        SceneManager.Current.Change(ChangeType.Rename, modelBoneKey, rename.NewName);
                     }
                     break;
 
