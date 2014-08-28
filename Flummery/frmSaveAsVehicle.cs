@@ -32,6 +32,8 @@ namespace Flummery
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (!Directory.Exists(txtPath.Text)) { Directory.CreateDirectory(txtPath.Text); }
+
             if (chkMaterials.Checked)
             {
                 var textures = new List<string>();
