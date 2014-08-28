@@ -354,6 +354,7 @@
     <Content Include="data\icons\entity_wheel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="data\icons\interface_freeze_16x16.png" />
     <Content Include="data\test.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
