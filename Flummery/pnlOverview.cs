@@ -115,7 +115,7 @@ namespace Flummery
 
         protected void FindNode(int index, TreeNode root, out TreeNode node)
         {
-            if ((int)root.Tag == index)
+            if (root.Tag != null && (int)root.Tag == index)
             {
                 node = root;
             }
