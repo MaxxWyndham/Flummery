@@ -747,6 +747,11 @@ namespace Flummery
         {
             Flummery.Active = false;
         }
+
+        private void frmMain_Resize(object sender, EventArgs e)
+        {
+            Flummery.Active = (WindowState == FormWindowState.Minimized);
+        }
     }
 }
  

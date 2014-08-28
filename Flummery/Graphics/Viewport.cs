@@ -182,10 +182,19 @@ namespace Flummery
             return new Vector3(vec.X, vec.Y, vec.Z);
         }
 
+        int ow = -1;
+        int oh = -1;
+
         public void Resize()
         {
             w = pnlViewport.Control.Width;
             h = pnlViewport.Control.Height;
+
+            if ((w == ow && h == oh) || (w <= 0 || h <= 0)) { return; }
+
+            ow = vw;
+            oh = vh;
+
             aspect_ratio = w / (float)h;
 
             perspective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect_ratio, 0.1f, 1000);

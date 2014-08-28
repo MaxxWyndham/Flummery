@@ -55,6 +55,7 @@ namespace Flummery
 
         public void Initialise()
         {
+            if (!Flummery.Active) { return; }
             foreach (var viewport in viewports) { viewport.Resize(); }
         }
 
