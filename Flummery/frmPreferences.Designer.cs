@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPreferences));
             this.tcPreferences = new System.Windows.Forms.TabControl();
             this.tpPaths = new System.Windows.Forms.TabPage();
+            this.btnC1Path = new System.Windows.Forms.Button();
+            this.txtC1Path = new System.Windows.Forms.TextBox();
+            this.lblC1Path = new System.Windows.Forms.Label();
             this.lblNotes = new System.Windows.Forms.Label();
             this.btnC2Path = new System.Windows.Forms.Button();
             this.txtC2Path = new System.Windows.Forms.TextBox();
@@ -42,9 +45,6 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdApply = new System.Windows.Forms.Button();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnC1Path = new System.Windows.Forms.Button();
-            this.txtC1Path = new System.Windows.Forms.TextBox();
-            this.lblC1Path = new System.Windows.Forms.Label();
             this.tcPreferences.SuspendLayout();
             this.tpPaths.SuspendLayout();
             this.SuspendLayout();
@@ -78,6 +78,33 @@
             this.tpPaths.Text = "Paths";
             this.tpPaths.UseVisualStyleBackColor = true;
             // 
+            // btnC1Path
+            // 
+            this.btnC1Path.Location = new System.Drawing.Point(493, 6);
+            this.btnC1Path.Name = "btnC1Path";
+            this.btnC1Path.Size = new System.Drawing.Size(29, 23);
+            this.btnC1Path.TabIndex = 12;
+            this.btnC1Path.Text = "...";
+            this.btnC1Path.UseVisualStyleBackColor = true;
+            this.btnC1Path.Click += new System.EventHandler(this.btnC1Path_Click);
+            // 
+            // txtC1Path
+            // 
+            this.txtC1Path.Enabled = false;
+            this.txtC1Path.Location = new System.Drawing.Point(154, 8);
+            this.txtC1Path.Name = "txtC1Path";
+            this.txtC1Path.Size = new System.Drawing.Size(333, 20);
+            this.txtC1Path.TabIndex = 11;
+            // 
+            // lblC1Path
+            // 
+            this.lblC1Path.AutoSize = true;
+            this.lblC1Path.Location = new System.Drawing.Point(6, 11);
+            this.lblC1Path.Name = "lblC1Path";
+            this.lblC1Path.Size = new System.Drawing.Size(73, 13);
+            this.lblC1Path.TabIndex = 10;
+            this.lblC1Path.Text = "Carmageddon";
+            // 
             // lblNotes
             // 
             this.lblNotes.AutoSize = true;
@@ -99,6 +126,7 @@
             // 
             // txtC2Path
             // 
+            this.txtC2Path.Enabled = false;
             this.txtC2Path.Location = new System.Drawing.Point(154, 37);
             this.txtC2Path.Name = "txtC2Path";
             this.txtC2Path.Size = new System.Drawing.Size(333, 20);
@@ -125,6 +153,7 @@
             // 
             // txtCRPath
             // 
+            this.txtCRPath.Enabled = false;
             this.txtCRPath.Location = new System.Drawing.Point(154, 66);
             this.txtCRPath.Name = "txtCRPath";
             this.txtCRPath.Size = new System.Drawing.Size(333, 20);
@@ -172,32 +201,6 @@
             // fbdBrowse
             // 
             this.fbdBrowse.ShowNewFolderButton = false;
-            // 
-            // btnC1Path
-            // 
-            this.btnC1Path.Location = new System.Drawing.Point(493, 6);
-            this.btnC1Path.Name = "btnC1Path";
-            this.btnC1Path.Size = new System.Drawing.Size(29, 23);
-            this.btnC1Path.TabIndex = 12;
-            this.btnC1Path.Text = "...";
-            this.btnC1Path.UseVisualStyleBackColor = true;
-            this.btnC1Path.Click += new System.EventHandler(this.btnC1Path_Click);
-            // 
-            // txtC1Path
-            // 
-            this.txtC1Path.Location = new System.Drawing.Point(154, 8);
-            this.txtC1Path.Name = "txtC1Path";
-            this.txtC1Path.Size = new System.Drawing.Size(333, 20);
-            this.txtC1Path.TabIndex = 11;
-            // 
-            // lblC1Path
-            // 
-            this.lblC1Path.AutoSize = true;
-            this.lblC1Path.Location = new System.Drawing.Point(6, 11);
-            this.lblC1Path.Name = "lblC1Path";
-            this.lblC1Path.Size = new System.Drawing.Size(73, 13);
-            this.lblC1Path.TabIndex = 10;
-            this.lblC1Path.Text = "Carmageddon";
             // 
             // frmPreferences
             // 
