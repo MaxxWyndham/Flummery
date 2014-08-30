@@ -169,6 +169,7 @@
             // 
             // paneViewport
             // 
+            this.paneViewport.BackColor = System.Drawing.SystemColors.Control;
             this.paneViewport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paneViewport.Location = new System.Drawing.Point(0, 0);
             this.paneViewport.Name = "paneViewport";

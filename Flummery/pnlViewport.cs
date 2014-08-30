@@ -53,6 +53,8 @@ namespace Flummery
             Control.Paint += glcViewport_Paint;
             Control.Resize += glcViewport_Resize;
             Control.MouseMove += glcViewport_MouseMove;
+            Control.MouseDown += glcViewport_MouseDown;
+            Control.MouseUp += glcViewport_MouseUp;
             Control.MouseEnter += glcViewport_MouseEnter;
             Control.MouseLeave += glcViewport_MouseLeave;
             Control.MouseWheel += glcViewport_MouseWheel;
@@ -105,6 +107,18 @@ namespace Flummery
             if (!bRendered) { return; }
 
             viewman.MouseMove(e.X, e.Y);
+        }
+
+        void glcViewport_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (!bRendered) { return; }
+            viewman.MouseDown(e.X, e.Y);
+        }
+
+        void glcViewport_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (!bRendered) { return; }
+            viewman.MouseUp(e.X, e.Y);
         }
 
         void glcViewport_MouseWheel(object sender, MouseEventArgs e)

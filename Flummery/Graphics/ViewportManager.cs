@@ -13,6 +13,10 @@ namespace Flummery
 
         bool bHasFocus = false;
 
+        private bool isMouseDown = false;
+        private Vector2 previousMouseDragPosition;
+        float MouseLookAcceleration = 0.01f;
+
         public bool HasFocus { get { return bHasFocus; } set { bHasFocus = value; } }
 
         int actionScaling = 3;
@@ -21,8 +25,12 @@ namespace Flummery
         Viewport active;
 
         public delegate void MouseMoveHandler(object sender, ViewportMouseMoveEventArgs e);
+        public delegate void MouseDownHandler(object sender, ViewportMouseMoveEventArgs e);
+        public delegate void MouseUpHandler(object sender, ViewportMouseMoveEventArgs e);
 
         public event MouseMoveHandler OnMouseMove;
+        public event MouseDownHandler OnMouseDown;
+        public event MouseUpHandler OnMouseUp;
 
         public ViewportManager()
         {
@@ -158,6 +166,16 @@ namespace Flummery
 
         public void MouseMove(int X, int Y)
         {
+            if (!active.Enabled) { return; }
+            if (!isMouseDown) { return; }
+
+            Drag( new ViewportMouseDragEventArgs( previousMouseDragPosition, new Vector2(X, Y) ) );
+
+            previousMouseDragPosition = new Vector2(X, Y);
+        }
+
+        public void MouseDown(int X, int Y)
+        {
             foreach (var viewport in viewports)
             {
                 if (!viewport.Enabled) { continue; }
@@ -167,12 +185,47 @@ namespace Flummery
                     viewport.Active = true;
                     active = viewport;
 
-                    if (OnMouseMove != null) { OnMouseMove(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y))); }
+                    if (OnMouseDown != null) { OnMouseDown(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y))); }
                 }
                 else
                 {
                     viewport.Active = false;
                 }
+            }
+
+            isMouseDown = true;
+            previousMouseDragPosition = new Vector2(X, Y);
+        }
+
+        public void MouseUp(int X, int Y)
+        {
+            isMouseDown = false;
+        }
+
+        public void Drag(ViewportMouseDragEventArgs e)
+        {
+            if (!active.Enabled) { return; }
+            float diffX = (e.PreviousPosition.X - e.CurrentPosition.X) * MouseLookAcceleration;
+            float diffY = (e.PreviousPosition.Y - e.CurrentPosition.Y) * MouseLookAcceleration;
+
+            if (active.ProjectionMode == Viewport.Mode.Orthographic)
+            {
+                if (active.Name == "Top")
+                {
+                    active.Camera.Translate(diffX, 0, diffY);
+                }
+                else if (active.Name == "Right")
+                {
+                    active.Camera.Translate(0, -diffY, -diffX);
+                }
+                else if (active.Name == "Front")
+                {
+                    active.Camera.Translate(diffX, -diffY);
+                }
+            }
+            else if (active.ProjectionMode == Viewport.Mode.Perspective)
+            {
+                active.Camera.Rotate(-diffX, -diffY);
             }
         }
 
@@ -205,6 +258,38 @@ namespace Flummery
         public ViewportMouseMoveEventArgs(Vector3 position)
         {
             Position = position;
+        }
+    }
+
+    public class ViewportMouseUpEventArgs : EventArgs
+    {
+        public Vector3 Position { get; private set; }
+
+        public ViewportMouseUpEventArgs(Vector3 position)
+        {
+            Position = position;
+        }
+    }
+
+    public class ViewportMouseDownEventArgs : EventArgs
+    {
+        public Vector3 Position { get; private set; }
+
+        public ViewportMouseDownEventArgs(Vector3 position)
+        {
+            Position = position;
+        }
+    }
+
+    public class ViewportMouseDragEventArgs : EventArgs
+    {
+        public Vector2 PreviousPosition { get; private set; }
+        public Vector2 CurrentPosition { get; private set; }
+
+        public ViewportMouseDragEventArgs(Vector2 previousPosition, Vector2 currentPosition)
+        {
+            PreviousPosition = previousPosition;
+            CurrentPosition = currentPosition;
         }
     }
 }
