@@ -15,7 +15,6 @@ namespace Flummery
 
         private bool isMouseDown = false;
         private Vector2 previousMouseDragPosition;
-        float MouseLookAcceleration = 0.01f;
 
         public bool HasFocus { get { return bHasFocus; } set { bHasFocus = value; } }
 
@@ -27,10 +26,12 @@ namespace Flummery
         public delegate void MouseMoveHandler(object sender, ViewportMouseMoveEventArgs e);
         public delegate void MouseDownHandler(object sender, ViewportMouseMoveEventArgs e);
         public delegate void MouseUpHandler(object sender, ViewportMouseMoveEventArgs e);
+        public delegate void MouseScrollHandler(object sender, ViewportMouseMoveEventArgs e);
 
         public event MouseMoveHandler OnMouseMove;
         public event MouseDownHandler OnMouseDown;
         public event MouseUpHandler OnMouseUp;
+        public event MouseUpHandler OnMouseScroll;
 
         public ViewportManager()
         {
@@ -202,15 +203,33 @@ namespace Flummery
             isMouseDown = false;
         }
 
+        public void MouseScroll(int delta)
+        {
+            float fDelta = (float)(delta) * active.Camera.ZoomSpeed;
+            if (!active.Enabled) { return; }
+
+           if (active.ProjectionMode == Viewport.Mode.Orthographic)
+           {
+               active.Zoom -= fDelta;
+           }
+           else
+           {
+               active.Camera.MoveCamera(Camera.Direction.Backward, -fDelta);
+           }
+
+            //active.Camera.Translate(0, 0, -fDelta);
+            Console.WriteLine(fDelta);
+        }
+
         public void Drag(ViewportMouseDragEventArgs e)
         {
             if (!active.Enabled) { return; }
-            float diffX = (e.CurrentPosition.X - e.PreviousPosition.X) * MouseLookAcceleration;
-            float diffY = (e.CurrentPosition.Y - e.PreviousPosition.Y) * MouseLookAcceleration;
+            float diffX = (e.CurrentPosition.X - e.PreviousPosition.X);
+            float diffY = (e.CurrentPosition.Y - e.PreviousPosition.Y);
 
             if (active.ProjectionMode == Viewport.Mode.Orthographic)
             {
-                active.Camera.Translate(-diffX, diffY);
+                active.Camera.Translate(-diffX * 0.01f * active.Zoom, diffY * 0.01f * active.Zoom);
             }
             else if (active.ProjectionMode == Viewport.Mode.Perspective)
             {

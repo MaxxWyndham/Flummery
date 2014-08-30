@@ -123,7 +123,7 @@ namespace Flummery
 
         void glcViewport_MouseWheel(object sender, MouseEventArgs e)
         {
-            //viewman.MouseScroll(e);
+            viewman.MouseScroll(e.Delta);
         }
 
         private void glcViewport_Paint(object sender, PaintEventArgs e)

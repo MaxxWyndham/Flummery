@@ -21,11 +21,13 @@ namespace Flummery
         public Matrix4 viewMatrix, projectionMatrix;
 
         private float yaw, pitch, roll;
-        private float speed, rotationSpeed;
+        private float speed, rotationSpeed, zoomSpeed;
         private Matrix4 cameraRotation;
 
         public Vector3 Position { get { return position; } }
         public float Speed { get { return speed; } }
+        public float RotationSpeed { get { return rotationSpeed; } }
+        public float ZoomSpeed { get { return zoomSpeed; } }
 
         public Camera() { ResetCamera(); }
 
@@ -36,7 +38,8 @@ namespace Flummery
             roll = 0.0f;
 
             speed = 10.0f;
-            rotationSpeed = 0.5f;
+            rotationSpeed = 0.01f;
+            zoomSpeed = 0.001f;
 
             cameraRotation = Matrix4.Identity;
 
