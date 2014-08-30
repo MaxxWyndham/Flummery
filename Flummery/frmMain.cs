@@ -435,7 +435,7 @@ namespace Flummery
 
                         if (File.Exists(accessorytxt))
                         {
-                            accessory.Tag = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(accessorytxt);
+                            accessory.SupportingDocuments["Accessory"] = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(accessorytxt);
                         }
                     }
                     break;

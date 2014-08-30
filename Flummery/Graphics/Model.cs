@@ -26,7 +26,11 @@ namespace Flummery
 
             //m.bones = new ModelBoneCollection(this.bones);
             m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));
-            m.tag = this.tag;
+
+            foreach (var kvp in this.supportingDocuments)
+            {
+                m.supportingDocuments[kvp.Key] = kvp.Value;
+            }
 
             return m;
         }

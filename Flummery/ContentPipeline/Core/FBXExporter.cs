@@ -562,7 +562,7 @@ namespace Flummery.ContentPipeline.Core
                 );
 
                 string ddsPath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(material.Texture.FileName);
-                var tdx = (material.Texture.Tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX);
+                var tdx = (material.Texture.SupportingDocuments["Source"] as ToxicRagers.CarmageddonReincarnation.Formats.TDX);
                 if (tdx != null)
                 {
                     tdx.SaveAsDDS(ddsPath);
