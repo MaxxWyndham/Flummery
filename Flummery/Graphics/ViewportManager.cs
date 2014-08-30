@@ -135,6 +135,11 @@ namespace Flummery
                 }
             }
 
+            if (isMouseDown)
+            {
+                return true;
+            }
+
             return bHandled;
         }
 
