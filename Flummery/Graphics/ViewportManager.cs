@@ -88,6 +88,26 @@ namespace Flummery
             foreach (var viewport in viewports) { viewport.Resize(); }
         }
 
+        public void ActionScaleUp()
+        {
+            if (actionScaling + 1 < actionScales.Length)
+            {
+                actionScaling++;
+                SetActionScale(actionScales[actionScaling]);
+                Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+            }
+        }
+
+        public void ActionScaleDown()
+        {
+            if (actionScaling - 1 > -1)
+            {
+                actionScaling--;
+                SetActionScale(actionScales[actionScaling]);
+                Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+            }
+        }
+
         public void SetActionScale(float scale)
         {
             foreach (var viewport in viewports) { viewport.Camera.SetActionScale(scale); }
@@ -102,21 +122,11 @@ namespace Flummery
                 switch (e.KeyChar)
                 {
                     case '*':
-                        if (actionScaling + 1 < actionScales.Length)
-                        {
-                            actionScaling++;
-                            SetActionScale(actionScales[actionScaling]);
-                            Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
-                        }
+                        ActionScaleUp();
                         return true;
 
                     case '/':
-                        if (actionScaling - 1 > -1)
-                        {
-                            actionScaling--;
-                            SetActionScale(actionScales[actionScaling]);
-                            Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
-                        }
+                        ActionScaleDown();
                         return true;
 
                     case 'd':
@@ -132,11 +142,6 @@ namespace Flummery
         {
             var state = Keyboard.GetState();
             float dt = SceneManager.Current.DeltaTime;
-
-            if (!isMouseDown)
-            {
-                return;
-            }
 
             if (active.ProjectionMode == Viewport.Mode.Orthographic)
             {
@@ -215,6 +220,19 @@ namespace Flummery
             float fDelta = (float)(delta) * active.Camera.ZoomSpeed;
             if (!active.Enabled) { return; }
 
+            if (isMouseDown)
+            {
+                if (delta > 0)
+                {
+                    ActionScaleUp();
+                }
+                else
+                {
+                    ActionScaleDown();
+                }
+                return;
+            }
+
            if (active.ProjectionMode == Viewport.Mode.Orthographic)
            {
                active.Zoom -= fDelta;
@@ -223,9 +241,6 @@ namespace Flummery
            {
                active.Camera.MoveCamera(Camera.Direction.Backward, -fDelta);
            }
-
-            //active.Camera.Translate(0, 0, -fDelta);
-            Console.WriteLine(fDelta);
         }
 
         public void Drag(ViewportMouseDragEventArgs e)
