@@ -422,8 +422,6 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var bone in model.Bones)
             {
-                if (bone.Index == 0) { continue; }
-
                 bool bHasMesh = (bone.Tag != null);
                 var mesh = (bHasMesh ? (ModelMesh)bone.Tag : new ModelMesh() { Name = bone.Name });
 
@@ -432,7 +430,7 @@ namespace Flummery.ContentPipeline.Core
                     fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Material", material.Key));
                 }
 
-                if (bone.Parent.Index == 0)
+                if (bone.Parent == null)
                 {
                     fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
                 }
