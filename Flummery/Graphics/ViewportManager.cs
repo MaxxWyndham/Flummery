@@ -205,27 +205,16 @@ namespace Flummery
         public void Drag(ViewportMouseDragEventArgs e)
         {
             if (!active.Enabled) { return; }
-            float diffX = (e.PreviousPosition.X - e.CurrentPosition.X) * MouseLookAcceleration;
-            float diffY = (e.PreviousPosition.Y - e.CurrentPosition.Y) * MouseLookAcceleration;
+            float diffX = (e.CurrentPosition.X - e.PreviousPosition.X) * MouseLookAcceleration;
+            float diffY = (e.CurrentPosition.Y - e.PreviousPosition.Y) * MouseLookAcceleration;
 
             if (active.ProjectionMode == Viewport.Mode.Orthographic)
             {
-                if (active.Name == "Top")
-                {
-                    active.Camera.Translate(diffX, 0, diffY);
-                }
-                else if (active.Name == "Right")
-                {
-                    active.Camera.Translate(0, -diffY, -diffX);
-                }
-                else if (active.Name == "Front")
-                {
-                    active.Camera.Translate(diffX, -diffY);
-                }
+                active.Camera.Translate(-diffX, diffY);
             }
             else if (active.ProjectionMode == Viewport.Mode.Perspective)
             {
-                active.Camera.Rotate(-diffX, -diffY);
+                active.Camera.Rotate(diffX, diffY);
             }
         }
 

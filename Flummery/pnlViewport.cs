@@ -118,7 +118,7 @@ namespace Flummery
         void glcViewport_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (!bRendered) { return; }
-            viewman.MouseUp(e.X, e.Y);
+            viewman.MouseUp( e.X, e.Y);
         }
 
         void glcViewport_MouseWheel(object sender, MouseEventArgs e)

@@ -129,9 +129,7 @@ namespace Flummery
 
         public void Translate(float X = 0, float Y = 0, float Z = 0)
         {
-            position.X += X;
-            position.Y += Y;
-            position.Z += Z;
+            position += Vector3.Transform(new Vector3(X, Y, Z), cameraRotation);
         }
 
         public void SetActionScale(float speed)
