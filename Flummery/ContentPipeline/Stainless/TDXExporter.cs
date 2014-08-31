@@ -14,7 +14,7 @@ namespace Flummery.ContentPipeline.Stainless
             Stopwatch sw = new Stopwatch();
             var texture = (asset as Texture);
             var tdx = new TDX();
-            var b = (texture.Tag as Bitmap);
+            var b = (texture.SupportingDocuments["Source"] as Bitmap);
 
             SceneManager.Current.UpdateProgress(string.Format("Saving {0}", texture.Name));
 

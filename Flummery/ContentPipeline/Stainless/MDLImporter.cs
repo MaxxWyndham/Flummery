@@ -15,7 +15,7 @@ namespace Flummery.ContentPipeline.Stainless
             MDL mdl = MDL.Load(path);
             Model model = new Model();
 
-            model.Tag = mdl;
+            model.SupportingDocuments["Source"] = mdl;
 
             ModelMesh mesh = new ModelMesh();
 

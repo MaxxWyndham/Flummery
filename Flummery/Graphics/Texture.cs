@@ -39,7 +39,7 @@ namespace Flummery
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmpdata.Width, bmpdata.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpdata.Scan0);
             bitmap.UnlockBits(bmpdata);
 
-            this.tag = bitmap.Clone();
+            this.supportingDocuments["Source"] = bitmap.Clone();
         }
 
         public void SetData(string name, string format, int width, int height, byte[] data)
@@ -79,10 +79,10 @@ namespace Flummery
 
         public Bitmap GetBitmap()
         {
-            var bmp = tag as Bitmap;
+            var bmp = this.supportingDocuments["Source"] as Bitmap;
             if (bmp != null) { return bmp; }
 
-            var tdx = tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX;
+            var tdx = this.supportingDocuments["Source"] as ToxicRagers.CarmageddonReincarnation.Formats.TDX;
             if (tdx != null) { return tdx.Decompress(0, true); }
 
             return new Bitmap(64, 64);
@@ -90,10 +90,10 @@ namespace Flummery
 
         public Bitmap GetThumbnail()
         {
-            var bmp = tag as Bitmap;
+            var bmp = this.supportingDocuments["Source"] as Bitmap;
             if (bmp != null) { return bmp; }
 
-            var tdx = tag as ToxicRagers.CarmageddonReincarnation.Formats.TDX;
+            var tdx = this.supportingDocuments["Source"] as ToxicRagers.CarmageddonReincarnation.Formats.TDX;
             if (tdx != null) { return tdx.Decompress(tdx.GetMipLevelForSize(128), true); }
 
             return new Bitmap(64, 64);

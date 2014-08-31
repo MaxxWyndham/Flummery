@@ -34,7 +34,7 @@ namespace Flummery.ContentPipeline.Stainless
             Texture texture = new Texture();
             
             texture.SetData(tdx.Name, tdx.Format.ToString(), tdx.MipMaps[0].Width, tdx.MipMaps[0].Height, tdx.MipMaps[0].Data);
-            texture.Tag = tdx;
+            texture.SupportingDocuments["Source"] = tdx;
             texture.FileName = path;
 
             return texture;

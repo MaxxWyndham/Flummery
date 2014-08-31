@@ -15,7 +15,7 @@ namespace Flummery.ContentPipeline.BurnoutParadise
             BOM bom = BOM.Load(path);
             Model model = new Model();
 
-            model.Tag = bom;
+            model.SupportingDocuments["Source"] = bom;
 
             for (int i = 0; i < bom.Meshes.Count; i++)
             {

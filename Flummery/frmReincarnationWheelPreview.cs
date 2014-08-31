@@ -22,11 +22,19 @@ namespace Flummery
             if (Properties.Settings.Default.PathCarmageddonReincarnation != null && Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation))
             {
                 wheelsFolder = Properties.Settings.Default.PathCarmageddonReincarnation + @"Data_Core\Content\Vehicles\Wheels\";
-                var wheels = Directory.GetDirectories(wheelsFolder);
 
-                for (int i = 0; i < wheels.Length; i++)
+                if (Directory.Exists(wheelsFolder))
                 {
-                    lstWheels.Items.Add(wheels[i].Replace(wheelsFolder, ""));
+                    var wheels = Directory.GetDirectories(wheelsFolder);
+
+                    for (int i = 0; i < wheels.Length; i++)
+                    {
+                        lstWheels.Items.Add(wheels[i].Replace(wheelsFolder, ""));
+                    }
+                }
+                else
+                {
+                    SceneManager.Current.UpdateProgress(@"{C:R path}\Data_Core\Content\Vehicles\Wheels\ could not be found");
                 }
             }
         }

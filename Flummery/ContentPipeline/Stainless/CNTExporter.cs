@@ -8,14 +8,14 @@ namespace Flummery.ContentPipeline.Stainless
 {
     class CNTExporter : ContentExporter
     {
-        public override void Export(Asset asset, string Path)
+        public override void Export(Asset asset, string path)
         {
             var model = (asset as Model);
             var cnt = new CNT();
 
             TravelTree(model.Root, ref cnt, true);
 
-            cnt.Save(Path);
+            cnt.Save(path);
         }
 
         public static void TravelTree(ModelBone bone, ref CNT parent, bool root = false)

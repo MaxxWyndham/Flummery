@@ -16,6 +16,7 @@ namespace Flummery
     {
         protected string filename;
         protected string name;
+        protected Dictionary<string, object> supportingDocuments;
         protected object tag;
         protected long key = DateTime.Now.Ticks;
 
@@ -34,10 +35,20 @@ namespace Flummery
             set { name = value; }
         }
 
+        public Dictionary<string, object> SupportingDocuments
+        {
+            get { return supportingDocuments; }
+        }
+
         public object Tag
         {
             get { return tag; }
             set { tag = value; }
+        }
+
+        public Asset()
+        {
+            supportingDocuments = new Dictionary<string, object>();
         }
 
         public long Key { get { return key; } }
