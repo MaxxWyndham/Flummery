@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+using Flummery.Util;
+
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -64,7 +66,24 @@ namespace Flummery
 
             //flpMaterials.Tag = new SortedList<string, string>();
 
+            checkUpdate();
+
             Flummery.UI = this;
+        }
+
+        public void checkUpdate()
+        {
+            new Updater().Check(Flummery.Version, finishRequest);
+        }
+
+        private void finishRequest(bool result, Updater.Update[] updates)
+        {
+            if (result == true && updates.Count() > 0)
+            {
+                frmUpdater updateForm = new frmUpdater();
+                updateForm.Updates = updates;
+                updateForm.ShowDialog();
+            }
         }
 
         void scene_OnProgress(object sender, ProgressEventArgs e)

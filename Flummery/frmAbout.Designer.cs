@@ -32,6 +32,7 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblEmail = new System.Windows.Forms.LinkLabel();
             this.btnOk = new System.Windows.Forms.Button();
+            this.btnUpdateCheck = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,14 +75,25 @@
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 3;
-            this.btnOk.Text = "ok";
+            this.btnOk.Text = "Close";
             this.btnOk.UseVisualStyleBackColor = true;
+            // 
+            // btnUpdateCheck
+            // 
+            this.btnUpdateCheck.Location = new System.Drawing.Point(262, 215);
+            this.btnUpdateCheck.Name = "btnUpdateCheck";
+            this.btnUpdateCheck.Size = new System.Drawing.Size(121, 23);
+            this.btnUpdateCheck.TabIndex = 4;
+            this.btnUpdateCheck.Text = "Check for updates";
+            this.btnUpdateCheck.UseVisualStyleBackColor = true;
+            this.btnUpdateCheck.Click += new System.EventHandler(this.btnUpdateCheck_Click);
             // 
             // frmAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(476, 250);
+            this.Controls.Add(this.btnUpdateCheck);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.lblVersion);
@@ -89,6 +101,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "frmAbout";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About Flummery";
             this.Load += new System.EventHandler(this.frmAbout_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -103,5 +117,6 @@
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.LinkLabel lblEmail;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnUpdateCheck;
     }
 }

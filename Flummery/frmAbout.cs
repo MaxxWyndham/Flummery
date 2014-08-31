@@ -22,5 +22,12 @@ namespace Flummery
         {
             lblVersion.Text = "v" + Flummery.Version;
         }
+
+        private void btnUpdateCheck_Click(object sender, EventArgs e)
+        {
+            frmUpdater updateForm = new frmUpdater();
+            updateForm.checkUpdate();
+            updateForm.ShowDialog(this);
+        }
     }
 }
