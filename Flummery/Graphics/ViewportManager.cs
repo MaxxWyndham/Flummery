@@ -145,6 +145,7 @@ namespace Flummery
 
         public void UpdateKeyboardMovement()
         {
+            if (!isMouseDown) { return; }
             var state = Keyboard.GetState();
             float dt = SceneManager.Current.DeltaTime;
 
