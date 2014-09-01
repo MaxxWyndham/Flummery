@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+
 using Flummery.ContentPipeline.Stainless;
 using OpenTK;
 
@@ -66,7 +67,6 @@ namespace Flummery
             cx.Export(SceneManager.Current.Models[0], txtPath.Text + "car.cnt");
 
             var mx = new MDLExporter();
-            //mx.ExportSettings.AddSetting("Handed", Model.CoordinateSystem.RightHanded);
             mx.Export(SceneManager.Current.Models[0], txtPath.Text);
             this.Close();
         }

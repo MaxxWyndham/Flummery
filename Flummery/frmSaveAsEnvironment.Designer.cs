@@ -57,6 +57,7 @@
             // 
             // txtPath
             // 
+            this.txtPath.Enabled = false;
             this.txtPath.Location = new System.Drawing.Point(318, 6);
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(333, 20);
