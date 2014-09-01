@@ -48,6 +48,8 @@ namespace Flummery.ContentPipeline.Core
                 matName = matName.Substring(0, matName.IndexOf("::"));
                 var m = new Material { Name = matName };
                 components.Add((long)material.Properties[0].Value, m);
+
+                Console.WriteLine("Added material \"{0}\" ({1})", matName, material.Properties[0].Value);
             }
 
             foreach (var texture in objects.Children.Where(e => e.ID == "Texture"))
@@ -74,14 +76,22 @@ namespace Flummery.ContentPipeline.Core
                         throw new NotImplementedException("Can't load texture \"" + file + "\"");
                 }
 
-                components.Add((long)texture.Properties[0].Value, t);
+                if (!components.ContainsKey((long)texture.Properties[0].Value))
+                {
+                    components.Add((long)texture.Properties[0].Value, t);
+
+                    Console.WriteLine("Added texture \"{0}\" ({1})", file, texture.Properties[0].Value);
+                }
             }
 
             foreach (var element in objects.Children.Where(e => e.ID == "Model"))
             {
                 string modelName = element.Properties[1].Value.ToString();
                 modelName = modelName.Substring(0, modelName.IndexOf("::"));
+
                 components.Add((long)element.Properties[0].Value, new ModelMesh { Name = modelName, Tag = (long)element.Properties[0].Value });
+
+                Console.WriteLine("Added model \"{0}\" ({1})", modelName, element.Properties[0].Value);
 
                 var properties = element.Children.Find(c => c.ID == "Properties70");
                 var m = Matrix4.Identity;
@@ -435,8 +445,7 @@ namespace Flummery.ContentPipeline.Core
                             if (processedFaceCount % 250 == 0) { SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart[{1}]->Face[{2}]", element.Properties[1].Value, processedGroupCount, processedFaceCount)); }
                         }
 
-                        var materialLookup = components.Where(c => c.Value.GetType().ToString() == "Flummery.Material").ToList();
-                        if (materialLookup.Count > 0 && materialGroup.Key > -1) { meshpart.Key = materialLookup[materialGroup.Key].Key; }
+                        meshpart.Key = materialGroup.Key;
 
                         parts.Add(meshpart);
                         SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart", element.Properties[1].Value));
@@ -454,10 +463,14 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var connectionType in connectionOrder)
             {
-                foreach (var connection in connections.Children.Where(c => components.ContainsKey((long)c.Properties[1].Value) && components[(long)c.Properties[1].Value].GetType().ToString() == connectionType))
+                var connectionsOfType = connections.Children.Where(c => components.ContainsKey((long)c.Properties[1].Value) && components[(long)c.Properties[1].Value].GetType().ToString() == connectionType);
+
+                foreach (var connection in connectionsOfType)
                 {
                     long keyA = (long)connection.Properties[1].Value;
                     long keyB = (long)connection.Properties[2].Value;
+
+                    Console.WriteLine("{0} is connected to {1} :: {2}", keyA, keyB, connectionType);
 
                     switch (connectionType)
                     {
@@ -519,9 +532,12 @@ namespace Flummery.ContentPipeline.Core
                         case "Flummery.Material":
                             if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.ModelMesh")
                             {
+                                var materialLookup = connections.Children.Where(c => (long)c.Properties[2].Value == keyB).ToList();
+                                for (int i = materialLookup.Count - 1; i > -1; i--) { if (!connectionsOfType.Any(c => (long)c.Properties[1].Value == (long)materialLookup[i].Properties[1].Value)) { materialLookup.RemoveAt(i); } }
+                        
                                 foreach (var part in ((ModelMesh)components[keyB]).MeshParts)
                                 {
-                                    if ((long)part.Key == keyA)
+                                    if ((long)materialLookup[(int)part.Key].Properties[1].Value == keyA)
                                     {
                                         part.Material = (Material)components[keyA];
                                         //SceneManager.Current.Add(part.Material);
