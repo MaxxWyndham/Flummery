@@ -9,25 +9,32 @@ using Newtonsoft.Json;
 namespace Flummery.Util
 {
 
-    class Updater
+    public class Updater
     {
-        private struct UpdateResponse
+        public struct UpdateResponse
         {
             public bool success;
+            public Update[] updates;
+        }
+
+        public struct Update
+        {
             public string update;
+            public string version;
+            public string changelog;
         }
 
         public string UpdateUrl = "http://localhost/FlummeryUpdateService/update.php?client_version={0}";
         private WebRequest webRequest;
 
-        Action<bool, string> responseCallback;
+        Action<bool, Update[]> responseCallback;
 
         public Updater()
         {
 
         }
 
-        public void Check(string currentVersion, Action<bool, string> callback)
+        public void Check(string currentVersion, Action<bool, Update[]> callback)
         {
             responseCallback = callback;
             webRequest = WebRequest.Create(string.Format(UpdateUrl, currentVersion));
@@ -40,7 +47,8 @@ namespace Flummery.Util
             try
             {
                 UpdateResponse response = (UpdateResponse)JsonConvert.DeserializeObject<UpdateResponse>(new StreamReader(webRequest.GetResponse().GetResponseStream()).ReadToEnd());
-                responseCallback(response.success, response.update);
+
+                responseCallback(response.success, response.updates);
             }
             catch (Exception e)
             {

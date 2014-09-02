@@ -25,7 +25,7 @@ namespace Flummery
 
         private void btnUpdateCheck_Click(object sender, EventArgs e)
         {
-            frmUpdate updateForm = new frmUpdate();
+            frmUpdater updateForm = new frmUpdater();
             updateForm.checkUpdate();
             updateForm.ShowDialog(this);
         }

@@ -76,13 +76,12 @@ namespace Flummery
             new Updater().Check(Flummery.Version, finishRequest);
         }
 
-        private void finishRequest(bool result, string url)
+        private void finishRequest(bool result, Updater.Update[] updates)
         {
-            Console.WriteLine(url == null);
-             if (result == true && url != null)
+            if (result == true && updates.Count() > 0)
             {
-                frmUpdate updateForm = new frmUpdate();
-                updateForm.NewUpdateUrl = url;
+                frmUpdater updateForm = new frmUpdater();
+                updateForm.Updates = updates;
                 updateForm.ShowDialog();
             }
         }

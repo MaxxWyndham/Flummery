@@ -14,113 +14,87 @@ using Flummery.Util;
 
 namespace Flummery
 {
-    public partial class frmUpdate : Form
+    public partial class frmUpdater : Form
     {
-        WebRequest webRequest;
+        private Updater.Update[] updates;
+        private bool complete = false;
 
-        // 0 = checking for updates
-        // 1 = update found
-        // 2 = no update found
-        private int viewState = 0;
-
-        private string updateUrl = "http://asdasd/FlummeryUpdateService/update.php?client_version={0}";
-
-        private string newUpdateUrl;
-
-        private int ViewState {
-            get
-            {
-                return viewState;
-            }
-
-            set
-            {
-                viewState = value;
-                UpdateViewState();
-            }
-        }
-
-        public string NewUpdateUrl
+        public Updater.Update[] Updates
         {
             get
             {
-                return newUpdateUrl;
+                return updates;
             }
 
             set
             {
-                if (newUpdateUrl != null)
-                {
-                    viewState = 2;
-                }
-                else
-                {
-                    viewState = 1;
-                }
-                newUpdateUrl = value;
+                complete = true;
+                updates = value;
                 UpdateViewState();
             }
         }
 
-        public frmUpdate()
+        public frmUpdater()
         {
             InitializeComponent();
-            UpdateViewState();
         }
 
         public void checkUpdate() {
             new Updater().Check(Flummery.Version, finishRequest);
         }
 
-        private void finishRequest(bool result, string url)
+        private void finishRequest(bool result, Updater.Update[] updates)
         {
-            Console.WriteLine(url == null);
-            if (result == false || url == null)
-            {
-                Invoke((Action)delegate {
-                    viewState = 2;
-                    newUpdateUrl = url;
-                    UpdateViewState();
-                });
-            }
-            else if(result == true && url != null)
-            {
-                Invoke((Action)delegate {
-                    viewState = 1;
-                    newUpdateUrl = url;
-                    UpdateViewState();
-                });
-            }
+            Invoke((Action)delegate {
+                this.Updates = updates;
+            });
         }
 
-        private void UpdateViewState() {
-            if (viewState == 1)
+        private void UpdateViewState()
+        {
+            if (complete == false)
             {
-                label1.Text = "Update found!";
-                btnClose.Visible = true;
-                btnDownload.Visible = true;
-                btnCancel.Visible = false;
-            }
-            else if (viewState == 2)
-            {
-                this.label1.Text = "You're running the latest version!";
-                this.btnClose.Visible = true;
-                this.btnDownload.Visible = false;
-                this.btnCancel.Visible = false;
-            }
-            else
-            {
-                label1.Text = "Checking for updates...";
+                labelHeader.Text = "Checking for updates...";
                 btnClose.Visible = false;
                 btnDownload.Visible = false;
                 btnCancel.Visible = true;
+                txtChangelog.Visible = false;
             }
+            else if (updates != null && updates.Count() > 0)
+            {
+                labelHeader.Text = "Update to version " + updates[ updates.Count() - 1 ].version + " is ready for download!";
+                btnClose.Visible = true;
+                btnDownload.Visible = true;
+                btnCancel.Visible = false;
+                txtChangelog.Visible = true;
+
+                UpdateChangelog();
+            }
+            else
+            {
+                this.labelHeader.Text = "You're running the latest version!";
+                this.btnClose.Visible = true;
+                this.btnDownload.Visible = false;
+                this.btnCancel.Visible = false;
+                txtChangelog.Visible = false;
+            }
+
+            this.CenterToScreen();
+        }
+
+        private void UpdateChangelog() {
+            string changelog = "";
+            foreach (Updater.Update update in updates.Reverse()) {
+                changelog += "Update " + update.version + "\r\n" + update.changelog + "\r\n\r\n";
+            }
+
+            this.txtChangelog.Text = changelog;
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
             Process proc = new Process();
-            proc.StartInfo.FileName = newUpdateUrl;
+            proc.StartInfo.FileName = updates[ updates.Count() - 1 ].update;
             proc.Start();
 
             this.Close();
@@ -134,6 +108,12 @@ namespace Flummery
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmUpdate_Shown(object sender, EventArgs e)
+        {
+            this.UpdateViewState();
+            this.CenterToScreen();
         }
     }
 }
