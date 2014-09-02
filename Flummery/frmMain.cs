@@ -14,6 +14,8 @@ using WeifenLuo.WinFormsUI.Docking;
 using ToxicRagers.Carmageddon2.Formats;
 using Flummery.ContentPipeline.Stainless;
 
+using Flummery.Util;
+
 namespace Flummery
 {
     public partial class frmMain : Form
@@ -23,6 +25,7 @@ namespace Flummery
             InitializeComponent();
         }
 
+        private frmLog logForm;
         SceneManager scene;
 
         public DockPanel DockPanel { get { return dockPanel; } }
@@ -64,13 +67,14 @@ namespace Flummery
 
             //flpMaterials.Tag = new SortedList<string, string>();
 
+            logForm = new frmLog();
+
             Flummery.UI = this;
         }
 
         void scene_OnProgress(object sender, ProgressEventArgs e)
         {
-            tsslProgress.Text = e.Status;
-            tsslProgress.Owner.Refresh();
+            Logger.Log(e.Status);
             Application.DoEvents();
         }
 
@@ -83,6 +87,12 @@ namespace Flummery
         {
             e.Handled = ViewportManager.Current.KeyPress(sender, e);
             if (!e.Handled) { e.Handled = SceneManager.Current.HandleInput(sender, e); }
+        }
+
+        public void SetProgressText(string text)
+        {
+            tsslProgress.Text = text;
+            tsslProgress.Owner.Refresh();
         }
 
         private void BuildMenu()
@@ -600,13 +610,14 @@ namespace Flummery
 
                         if (result != null) { success++; } else { fail++; }
 
-                        tsslProgress.Text = string.Format("[{0}/{1}] {2}", success, fail, fi.FullName.Replace(fbdBrowse.SelectedPath, ""));
+                        Logger.Log("[{0}/{1}] {2}", success, fail, fi.FullName.Replace(fbdBrowse.SelectedPath, ""));
+
                         Application.DoEvents();
                     }
                 }
                 );
 
-                tsslProgress.Text = string.Format("{0} processing complete. {1} success {2} fail", extension, success, fail);
+                Logger.Log("{0} processing complete. {1} success {2} fail", extension, success, fail);
             }
         }
 
@@ -756,6 +767,12 @@ namespace Flummery
         private void frmMain_Resize(object sender, EventArgs e)
         {
             Flummery.Active = (WindowState != FormWindowState.Minimized);
+        }
+
+        private void tsslProgress_Click(object sender, EventArgs e)
+        {
+            logForm.Show();
+            logForm.BringToFront();
         }
     }
 }

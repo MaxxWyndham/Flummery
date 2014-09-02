@@ -58,16 +58,16 @@
             // tsslProgress
             // 
             this.tsslProgress.Name = "tsslProgress";
-            this.tsslProgress.Size = new System.Drawing.Size(1193, 19);
+            this.tsslProgress.Size = new System.Drawing.Size(1162, 19);
             this.tsslProgress.Spring = true;
-            this.tsslProgress.Text = "[progress]";
             this.tsslProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsslProgress.Click += new System.EventHandler(this.tsslProgress_Click);
             // 
             // tsslActionScaling
             // 
             this.tsslActionScaling.AutoSize = false;
-            this.tsslActionScaling.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+            this.tsslActionScaling.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.tsslActionScaling.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.tsslActionScaling.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
