@@ -771,7 +771,7 @@ namespace Flummery
 
         private void tsslProgress_Click(object sender, EventArgs e)
         {
-            logForm.Show();
+            logForm.Show(this);
             logForm.BringToFront();
         }
     }
