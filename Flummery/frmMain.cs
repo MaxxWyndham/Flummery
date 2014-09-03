@@ -80,7 +80,7 @@ namespace Flummery
 
         void scene_OnError(object sender, ErrorEventArgs e)
         {
-            MessageBox.Show(e.Message);
+            Logger.Error(e.Message);
         }
 
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
@@ -89,10 +89,17 @@ namespace Flummery
             if (!e.Handled) { e.Handled = SceneManager.Current.HandleInput(sender, e); }
         }
 
-        public void SetProgressText(string text)
+        public void SetProgressText(string text, Color? color = null)
         {
             tsslProgress.Text = text;
             tsslProgress.Owner.Refresh();
+
+            if (color == null)
+            {
+                color = Color.Empty;
+            }
+
+            tsslProgress.ForeColor = (Color) color;
         }
 
         private void BuildMenu()
@@ -771,7 +778,7 @@ namespace Flummery
 
         private void tsslProgress_Click(object sender, EventArgs e)
         {
-            logForm.Show(this);
+            logForm.Show();
             logForm.BringToFront();
         }
     }
