@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.IO;
+using System.Net;
+
 using Newtonsoft.Json;
 
 namespace Flummery.Util
@@ -24,7 +22,7 @@ namespace Flummery.Util
             public string changelog;
         }
 
-        public string UpdateUrl = "http://localhost/FlummeryUpdateService/update.php?client_version={0}";
+        public string UpdateUrl = "http://www.toxic-ragers.co.uk/fuss/update.php?client_version={0}";
         private WebRequest webRequest;
 
         Action<bool, Update[]> responseCallback;
@@ -46,7 +44,7 @@ namespace Flummery.Util
         {
             try
             {
-                UpdateResponse response = (UpdateResponse)JsonConvert.DeserializeObject<UpdateResponse>(new StreamReader(webRequest.GetResponse().GetResponseStream()).ReadToEnd());
+                UpdateResponse response = JsonConvert.DeserializeObject<UpdateResponse>(new StreamReader(webRequest.GetResponse().GetResponseStream()).ReadToEnd());
 
                 responseCallback(response.success, response.updates);
             }
