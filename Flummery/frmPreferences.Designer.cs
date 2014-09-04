@@ -41,17 +41,37 @@
             this.btnCRPath = new System.Windows.Forms.Button();
             this.txtCRPath = new System.Windows.Forms.TextBox();
             this.lblCRPath = new System.Windows.Forms.Label();
+            this.tpShortcuts = new System.Windows.Forms.TabPage();
+            this.gbCameraControls = new System.Windows.Forms.GroupBox();
+            this.lblPickedKeySelect = new System.Windows.Forms.Label();
+            this.txtKeySelect = new System.Windows.Forms.TextBox();
+            this.lblKeySelect = new System.Windows.Forms.Label();
             this.cmdOK = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdApply = new System.Windows.Forms.Button();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
+            this.lblPickedKeyPan = new System.Windows.Forms.Label();
+            this.txtKeyPan = new System.Windows.Forms.TextBox();
+            this.lblKeyPan = new System.Windows.Forms.Label();
+            this.lblPickedKeyRotate = new System.Windows.Forms.Label();
+            this.txtKeyRotate = new System.Windows.Forms.TextBox();
+            this.lblKeyRotate = new System.Windows.Forms.Label();
+            this.lblPickedKeyZoom = new System.Windows.Forms.Label();
+            this.txtKeyZoom = new System.Windows.Forms.TextBox();
+            this.lblKeyZoom = new System.Windows.Forms.Label();
+            this.lblPickedKeyFrame = new System.Windows.Forms.Label();
+            this.txtKeyFrame = new System.Windows.Forms.TextBox();
+            this.lblKeyFrame = new System.Windows.Forms.Label();
             this.tcPreferences.SuspendLayout();
             this.tpPaths.SuspendLayout();
+            this.tpShortcuts.SuspendLayout();
+            this.gbCameraControls.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcPreferences
             // 
             this.tcPreferences.Controls.Add(this.tpPaths);
+            this.tcPreferences.Controls.Add(this.tpShortcuts);
             this.tcPreferences.Location = new System.Drawing.Point(12, 12);
             this.tcPreferences.Name = "tcPreferences";
             this.tcPreferences.SelectedIndex = 0;
@@ -168,6 +188,68 @@
             this.lblCRPath.TabIndex = 3;
             this.lblCRPath.Text = "Carmageddon Reincarnation";
             // 
+            // tpShortcuts
+            // 
+            this.tpShortcuts.Controls.Add(this.gbCameraControls);
+            this.tpShortcuts.Location = new System.Drawing.Point(4, 22);
+            this.tpShortcuts.Name = "tpShortcuts";
+            this.tpShortcuts.Padding = new System.Windows.Forms.Padding(3);
+            this.tpShortcuts.Size = new System.Drawing.Size(528, 265);
+            this.tpShortcuts.TabIndex = 1;
+            this.tpShortcuts.Text = "Keys";
+            this.tpShortcuts.UseVisualStyleBackColor = true;
+            // 
+            // gbCameraControls
+            // 
+            this.gbCameraControls.Controls.Add(this.lblPickedKeyFrame);
+            this.gbCameraControls.Controls.Add(this.txtKeyFrame);
+            this.gbCameraControls.Controls.Add(this.lblKeyFrame);
+            this.gbCameraControls.Controls.Add(this.lblPickedKeyRotate);
+            this.gbCameraControls.Controls.Add(this.txtKeyRotate);
+            this.gbCameraControls.Controls.Add(this.lblKeyRotate);
+            this.gbCameraControls.Controls.Add(this.lblPickedKeyZoom);
+            this.gbCameraControls.Controls.Add(this.txtKeyZoom);
+            this.gbCameraControls.Controls.Add(this.lblKeyZoom);
+            this.gbCameraControls.Controls.Add(this.lblPickedKeyPan);
+            this.gbCameraControls.Controls.Add(this.txtKeyPan);
+            this.gbCameraControls.Controls.Add(this.lblKeyPan);
+            this.gbCameraControls.Controls.Add(this.lblPickedKeySelect);
+            this.gbCameraControls.Controls.Add(this.txtKeySelect);
+            this.gbCameraControls.Controls.Add(this.lblKeySelect);
+            this.gbCameraControls.Location = new System.Drawing.Point(6, 6);
+            this.gbCameraControls.Name = "gbCameraControls";
+            this.gbCameraControls.Size = new System.Drawing.Size(516, 156);
+            this.gbCameraControls.TabIndex = 3;
+            this.gbCameraControls.TabStop = false;
+            this.gbCameraControls.Text = "Camera Controls";
+            // 
+            // lblPickedKeySelect
+            // 
+            this.lblPickedKeySelect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPickedKeySelect.Location = new System.Drawing.Point(256, 19);
+            this.lblPickedKeySelect.Name = "lblPickedKeySelect";
+            this.lblPickedKeySelect.Size = new System.Drawing.Size(75, 20);
+            this.lblPickedKeySelect.TabIndex = 5;
+            this.lblPickedKeySelect.Text = "V";
+            this.lblPickedKeySelect.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtKeySelect
+            // 
+            this.txtKeySelect.Location = new System.Drawing.Point(337, 19);
+            this.txtKeySelect.Name = "txtKeySelect";
+            this.txtKeySelect.Size = new System.Drawing.Size(27, 20);
+            this.txtKeySelect.TabIndex = 4;
+            this.txtKeySelect.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtKey_KeyPress);
+            // 
+            // lblKeySelect
+            // 
+            this.lblKeySelect.AutoSize = true;
+            this.lblKeySelect.Location = new System.Drawing.Point(213, 23);
+            this.lblKeySelect.Name = "lblKeySelect";
+            this.lblKeySelect.Size = new System.Drawing.Size(37, 13);
+            this.lblKeySelect.TabIndex = 3;
+            this.lblKeySelect.Text = "Select";
+            // 
             // cmdOK
             // 
             this.cmdOK.Location = new System.Drawing.Point(311, 309);
@@ -202,6 +284,114 @@
             // 
             this.fbdBrowse.ShowNewFolderButton = false;
             // 
+            // lblPickedKeyPan
+            // 
+            this.lblPickedKeyPan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPickedKeyPan.Location = new System.Drawing.Point(256, 45);
+            this.lblPickedKeyPan.Name = "lblPickedKeyPan";
+            this.lblPickedKeyPan.Size = new System.Drawing.Size(75, 20);
+            this.lblPickedKeyPan.TabIndex = 8;
+            this.lblPickedKeyPan.Text = "X";
+            this.lblPickedKeyPan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtKeyPan
+            // 
+            this.txtKeyPan.Location = new System.Drawing.Point(337, 45);
+            this.txtKeyPan.Name = "txtKeyPan";
+            this.txtKeyPan.Size = new System.Drawing.Size(27, 20);
+            this.txtKeyPan.TabIndex = 7;
+            this.txtKeyPan.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtKey_KeyPress);
+            // 
+            // lblKeyPan
+            // 
+            this.lblKeyPan.AutoSize = true;
+            this.lblKeyPan.Location = new System.Drawing.Point(213, 49);
+            this.lblKeyPan.Name = "lblKeyPan";
+            this.lblKeyPan.Size = new System.Drawing.Size(26, 13);
+            this.lblKeyPan.TabIndex = 6;
+            this.lblKeyPan.Text = "Pan";
+            // 
+            // lblPickedKeyRotate
+            // 
+            this.lblPickedKeyRotate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPickedKeyRotate.Location = new System.Drawing.Point(256, 97);
+            this.lblPickedKeyRotate.Name = "lblPickedKeyRotate";
+            this.lblPickedKeyRotate.Size = new System.Drawing.Size(75, 20);
+            this.lblPickedKeyRotate.TabIndex = 14;
+            this.lblPickedKeyRotate.Text = "C";
+            this.lblPickedKeyRotate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtKeyRotate
+            // 
+            this.txtKeyRotate.Location = new System.Drawing.Point(337, 97);
+            this.txtKeyRotate.Name = "txtKeyRotate";
+            this.txtKeyRotate.Size = new System.Drawing.Size(27, 20);
+            this.txtKeyRotate.TabIndex = 13;
+            this.txtKeyRotate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtKey_KeyPress);
+            // 
+            // lblKeyRotate
+            // 
+            this.lblKeyRotate.AutoSize = true;
+            this.lblKeyRotate.Location = new System.Drawing.Point(213, 101);
+            this.lblKeyRotate.Name = "lblKeyRotate";
+            this.lblKeyRotate.Size = new System.Drawing.Size(39, 13);
+            this.lblKeyRotate.TabIndex = 12;
+            this.lblKeyRotate.Text = "Rotate";
+            // 
+            // lblPickedKeyZoom
+            // 
+            this.lblPickedKeyZoom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPickedKeyZoom.Location = new System.Drawing.Point(256, 71);
+            this.lblPickedKeyZoom.Name = "lblPickedKeyZoom";
+            this.lblPickedKeyZoom.Size = new System.Drawing.Size(75, 20);
+            this.lblPickedKeyZoom.TabIndex = 11;
+            this.lblPickedKeyZoom.Text = "Z";
+            this.lblPickedKeyZoom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtKeyZoom
+            // 
+            this.txtKeyZoom.Location = new System.Drawing.Point(337, 71);
+            this.txtKeyZoom.Name = "txtKeyZoom";
+            this.txtKeyZoom.Size = new System.Drawing.Size(27, 20);
+            this.txtKeyZoom.TabIndex = 10;
+            this.txtKeyZoom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtKey_KeyPress);
+            // 
+            // lblKeyZoom
+            // 
+            this.lblKeyZoom.AutoSize = true;
+            this.lblKeyZoom.Location = new System.Drawing.Point(213, 75);
+            this.lblKeyZoom.Name = "lblKeyZoom";
+            this.lblKeyZoom.Size = new System.Drawing.Size(34, 13);
+            this.lblKeyZoom.TabIndex = 9;
+            this.lblKeyZoom.Text = "Zoom";
+            // 
+            // lblPickedKeyFrame
+            // 
+            this.lblPickedKeyFrame.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPickedKeyFrame.Location = new System.Drawing.Point(256, 123);
+            this.lblPickedKeyFrame.Name = "lblPickedKeyFrame";
+            this.lblPickedKeyFrame.Size = new System.Drawing.Size(75, 20);
+            this.lblPickedKeyFrame.TabIndex = 17;
+            this.lblPickedKeyFrame.Text = "F";
+            this.lblPickedKeyFrame.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtKeyFrame
+            // 
+            this.txtKeyFrame.Location = new System.Drawing.Point(337, 123);
+            this.txtKeyFrame.Name = "txtKeyFrame";
+            this.txtKeyFrame.Size = new System.Drawing.Size(27, 20);
+            this.txtKeyFrame.TabIndex = 16;
+            this.txtKeyFrame.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtKey_KeyPress);
+            // 
+            // lblKeyFrame
+            // 
+            this.lblKeyFrame.AutoSize = true;
+            this.lblKeyFrame.Location = new System.Drawing.Point(182, 126);
+            this.lblKeyFrame.Name = "lblKeyFrame";
+            this.lblKeyFrame.Size = new System.Drawing.Size(68, 13);
+            this.lblKeyFrame.TabIndex = 15;
+            this.lblKeyFrame.Text = "Frame object";
+            // 
             // frmPreferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,6 +411,9 @@
             this.tcPreferences.ResumeLayout(false);
             this.tpPaths.ResumeLayout(false);
             this.tpPaths.PerformLayout();
+            this.tpShortcuts.ResumeLayout(false);
+            this.gbCameraControls.ResumeLayout(false);
+            this.gbCameraControls.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -243,5 +436,22 @@
         private System.Windows.Forms.Button btnC1Path;
         private System.Windows.Forms.TextBox txtC1Path;
         private System.Windows.Forms.Label lblC1Path;
+        private System.Windows.Forms.TabPage tpShortcuts;
+        private System.Windows.Forms.GroupBox gbCameraControls;
+        private System.Windows.Forms.Label lblPickedKeySelect;
+        private System.Windows.Forms.TextBox txtKeySelect;
+        private System.Windows.Forms.Label lblKeySelect;
+        private System.Windows.Forms.Label lblPickedKeyPan;
+        private System.Windows.Forms.TextBox txtKeyPan;
+        private System.Windows.Forms.Label lblKeyPan;
+        private System.Windows.Forms.Label lblPickedKeyRotate;
+        private System.Windows.Forms.TextBox txtKeyRotate;
+        private System.Windows.Forms.Label lblKeyRotate;
+        private System.Windows.Forms.Label lblPickedKeyZoom;
+        private System.Windows.Forms.TextBox txtKeyZoom;
+        private System.Windows.Forms.Label lblKeyZoom;
+        private System.Windows.Forms.Label lblPickedKeyFrame;
+        private System.Windows.Forms.TextBox txtKeyFrame;
+        private System.Windows.Forms.Label lblKeyFrame;
     }
 }

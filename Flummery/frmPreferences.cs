@@ -55,13 +55,13 @@ namespace Flummery
 
             if (fbdBrowse.ShowDialog() == DialogResult.OK)
             {
-                if (File.Exists(fbdBrowse.SelectedPath + "\\SCREAM2.WAV"))
+                if (File.Exists(fbdBrowse.SelectedPath + "\\CARMA.exe"))
                 {
                     txtC1Path.Text = fbdBrowse.SelectedPath + (fbdBrowse.SelectedPath.EndsWith("\\") ? "" : "\\");
                 }
                 else
                 {
-                    MessageBox.Show("SCREAM2.wav not found.  Are you sure you've selected the right folder?");
+                    MessageBox.Show("CARMA.exe not found.  Are you sure you've selected the right folder?");
                 }
             }
         }
@@ -88,6 +88,18 @@ namespace Flummery
         {
             applySettings();
             this.Close();
+        }
+
+        private void txtKey_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            var label = this.Controls.Find(((Control)sender).Name.Replace("txtKey", "lblPickedKey"), true)[0];
+
+            if (char.ToUpper(e.KeyChar) >= 65 && char.ToUpper(e.KeyChar) <= 90)
+            {
+                label.Text = char.ToUpper(e.KeyChar).ToString();
+            }
+
+            e.Handled = true;
         }
     }
 }
