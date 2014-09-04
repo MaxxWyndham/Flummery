@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pnlViewport));
             this.cmsViewport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiViewportMaximise = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiViewportMinimise = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,8 +45,20 @@
             this.tsmiViewportSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiViewportCancel = new System.Windows.Forms.ToolStripMenuItem();
+            this.tscViewport = new System.Windows.Forms.ToolStripContainer();
             this.paneViewport = new System.Windows.Forms.Panel();
+            this.tsStatic = new System.Windows.Forms.ToolStrip();
+            this.tsbSelect = new System.Windows.Forms.ToolStripButton();
+            this.tsbPan = new System.Windows.Forms.ToolStripButton();
+            this.tsbZoom = new System.Windows.Forms.ToolStripButton();
+            this.tsbRotate = new System.Windows.Forms.ToolStripButton();
+            this.tssBar1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbFrame = new System.Windows.Forms.ToolStripButton();
             this.cmsViewport.SuspendLayout();
+            this.tscViewport.ContentPanel.SuspendLayout();
+            this.tscViewport.TopToolStripPanel.SuspendLayout();
+            this.tscViewport.SuspendLayout();
+            this.tsStatic.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsViewport
@@ -167,26 +180,125 @@
             this.tsmiViewportCancel.Size = new System.Drawing.Size(124, 22);
             this.tsmiViewportCancel.Text = "Cancel";
             // 
+            // tscViewport
+            // 
+            // 
+            // tscViewport.ContentPanel
+            // 
+            this.tscViewport.ContentPanel.Controls.Add(this.paneViewport);
+            this.tscViewport.ContentPanel.Size = new System.Drawing.Size(547, 417);
+            this.tscViewport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tscViewport.Location = new System.Drawing.Point(0, 0);
+            this.tscViewport.Name = "tscViewport";
+            this.tscViewport.Size = new System.Drawing.Size(547, 442);
+            this.tscViewport.TabIndex = 12;
+            this.tscViewport.Text = "toolStripContainer1";
+            // 
+            // tscViewport.TopToolStripPanel
+            // 
+            this.tscViewport.TopToolStripPanel.Controls.Add(this.tsStatic);
+            // 
             // paneViewport
             // 
             this.paneViewport.BackColor = System.Drawing.SystemColors.Control;
             this.paneViewport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paneViewport.Location = new System.Drawing.Point(0, 0);
             this.paneViewport.Name = "paneViewport";
-            this.paneViewport.Size = new System.Drawing.Size(284, 261);
-            this.paneViewport.TabIndex = 1;
+            this.paneViewport.Size = new System.Drawing.Size(547, 417);
+            this.paneViewport.TabIndex = 2;
+            // 
+            // tsStatic
+            // 
+            this.tsStatic.AutoSize = false;
+            this.tsStatic.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsStatic.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.tsStatic.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbSelect,
+            this.tsbPan,
+            this.tsbZoom,
+            this.tsbRotate,
+            this.tssBar1,
+            this.tsbFrame});
+            this.tsStatic.Location = new System.Drawing.Point(0, 0);
+            this.tsStatic.Name = "tsStatic";
+            this.tsStatic.Size = new System.Drawing.Size(547, 25);
+            this.tsStatic.Stretch = true;
+            this.tsStatic.TabIndex = 0;
+            // 
+            // tsbSelect
+            // 
+            this.tsbSelect.Checked = true;
+            this.tsbSelect.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsbSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSelect.Image = ((System.Drawing.Image)(resources.GetObject("tsbSelect.Image")));
+            this.tsbSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSelect.Name = "tsbSelect";
+            this.tsbSelect.Size = new System.Drawing.Size(23, 22);
+            this.tsbSelect.ToolTipText = "Select (V)";
+            this.tsbSelect.Click += new System.EventHandler(this.tsbSelect_Click);
+            // 
+            // tsbPan
+            // 
+            this.tsbPan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbPan.Image = ((System.Drawing.Image)(resources.GetObject("tsbPan.Image")));
+            this.tsbPan.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbPan.Name = "tsbPan";
+            this.tsbPan.Size = new System.Drawing.Size(23, 22);
+            this.tsbPan.ToolTipText = "Pan (X)";
+            this.tsbPan.Click += new System.EventHandler(this.tsbPan_Click);
+            // 
+            // tsbZoom
+            // 
+            this.tsbZoom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbZoom.Image = ((System.Drawing.Image)(resources.GetObject("tsbZoom.Image")));
+            this.tsbZoom.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbZoom.Name = "tsbZoom";
+            this.tsbZoom.Size = new System.Drawing.Size(23, 22);
+            this.tsbZoom.ToolTipText = "Zoom (Z)";
+            this.tsbZoom.Click += new System.EventHandler(this.tsbZoom_Click);
+            // 
+            // tsbRotate
+            // 
+            this.tsbRotate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRotate.Image = ((System.Drawing.Image)(resources.GetObject("tsbRotate.Image")));
+            this.tsbRotate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRotate.Name = "tsbRotate";
+            this.tsbRotate.Size = new System.Drawing.Size(23, 22);
+            this.tsbRotate.ToolTipText = "Rotate (C)";
+            this.tsbRotate.Click += new System.EventHandler(this.tsbRotate_Click);
+            // 
+            // tssBar1
+            // 
+            this.tssBar1.Name = "tssBar1";
+            this.tssBar1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbFrame
+            // 
+            this.tsbFrame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbFrame.Image = ((System.Drawing.Image)(resources.GetObject("tsbFrame.Image")));
+            this.tsbFrame.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbFrame.Name = "tsbFrame";
+            this.tsbFrame.Size = new System.Drawing.Size(23, 22);
+            this.tsbFrame.ToolTipText = "Zoom extents (F)";
+            this.tsbFrame.Click += new System.EventHandler(this.tsbFrame_Click);
             // 
             // pnlViewport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.paneViewport);
+            this.ClientSize = new System.Drawing.Size(547, 442);
+            this.Controls.Add(this.tscViewport);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "pnlViewport";
             this.Text = "pnlViewport";
             this.Load += new System.EventHandler(this.pnlViewport_Load);
             this.cmsViewport.ResumeLayout(false);
+            this.tscViewport.ContentPanel.ResumeLayout(false);
+            this.tscViewport.TopToolStripPanel.ResumeLayout(false);
+            this.tscViewport.ResumeLayout(false);
+            this.tscViewport.PerformLayout();
+            this.tsStatic.ResumeLayout(false);
+            this.tsStatic.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -208,6 +320,14 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiViewportSetup;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem tsmiViewportCancel;
+        private System.Windows.Forms.ToolStripContainer tscViewport;
         private System.Windows.Forms.Panel paneViewport;
+        private System.Windows.Forms.ToolStrip tsStatic;
+        private System.Windows.Forms.ToolStripButton tsbSelect;
+        private System.Windows.Forms.ToolStripButton tsbPan;
+        private System.Windows.Forms.ToolStripButton tsbZoom;
+        private System.Windows.Forms.ToolStripButton tsbRotate;
+        private System.Windows.Forms.ToolStripSeparator tssBar1;
+        private System.Windows.Forms.ToolStripButton tsbFrame;
     }
 }

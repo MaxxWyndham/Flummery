@@ -22,12 +22,6 @@ namespace Flummery
             TopRight = 3
         }
 
-        public enum Mode
-        {
-            Orthographic,
-            Perspective
-        }
-
         bool bDisabled = false;
         string name;
         bool bActive;
@@ -40,8 +34,8 @@ namespace Flummery
         Size oldwidth;
         Size oldheight;
         Quadrant oldposition;
-        
-        Mode mode = Mode.Perspective;
+
+        Projection mode = Projection.Perspective;
         Vector3 axis = Vector3.UnitY;
         TextWriter tw;
 
@@ -68,7 +62,7 @@ namespace Flummery
             set { name = value; }
         }
 
-        public Mode ProjectionMode
+        public Projection ProjectionMode
         {
             get { return mode; }
             set { mode = value; }
@@ -88,24 +82,9 @@ namespace Flummery
             set { bActive = value; }
         }
 
-        float zoom = 1.0f;
-        public float Zoom 
-        { 
-            get 
-            { 
-                return zoom; 
-            }
-            set 
-            { 
-                zoom = value;
-                zoom = Math.Max(0.001f, zoom);
-            } 
-        }
-        public Vector3 ZoomAxis { set { axis = value; } }
-
         public Viewport()
         {
-            camera = new Camera();
+            camera = new Camera() { ProjectionMode = mode, Zoom = 2 };
             tw = new TextWriter(vw, vh, 50, 20);
         }
 
@@ -134,13 +113,13 @@ namespace Flummery
 
         public Vector3 ConvertScreenToWorldCoords(int X, int Y)
         {
-            if (mode != Mode.Orthographic) { return Vector3.Zero; }
+            if (mode != Projection.Orthographic) { return Vector3.Zero; }
 
             Matrix4 lookat = camera.viewMatrix;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
-            perspective = Matrix4.CreateOrthographic(4 * Zoom, (4 / aspect_ratio) * Zoom, 0.001f, 100);
+            perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 100);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perspective);
 
@@ -240,7 +219,7 @@ namespace Flummery
         {
             GL.ClearColor(Color.Gray);
 
-            if (mode == Mode.Orthographic) { perspective = Matrix4.CreateOrthographic(4 * Zoom, (4 / aspect_ratio) * Zoom, 0.001f, 100); }
+            if (mode == Projection.Orthographic) { perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 100); }
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perspective);

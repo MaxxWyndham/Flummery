@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -188,6 +189,51 @@ namespace Flummery
         private void glcViewport_MouseLeave(object sender, EventArgs e)
         {
             ViewportManager.Current.HasFocus = false;
+        }
+
+        private void tsbSelect_Click(object sender, EventArgs e)
+        {
+            tsbSelect.Checked = true;
+            tsbPan.Checked = false;
+            tsbZoom.Checked = false;
+            tsbRotate.Checked = false;
+
+            viewman.Mode = MouseMode.Select;
+        }
+
+        private void tsbPan_Click(object sender, EventArgs e)
+        {
+            tsbSelect.Checked = false;
+            tsbPan.Checked = true;
+            tsbZoom.Checked = false;
+            tsbRotate.Checked = false;
+
+            viewman.Mode = MouseMode.Pan;
+        }
+
+        private void tsbZoom_Click(object sender, EventArgs e)
+        {
+            tsbSelect.Checked = false;
+            tsbPan.Checked = false;
+            tsbZoom.Checked = true;
+            tsbRotate.Checked = false;
+
+            viewman.Mode = MouseMode.Zoom;
+        }
+
+        private void tsbRotate_Click(object sender, EventArgs e)
+        {
+            tsbSelect.Checked = false;
+            tsbPan.Checked = false;
+            tsbZoom.Checked = false;
+            tsbRotate.Checked = true;
+
+            viewman.Mode = MouseMode.Rotate;
+        }
+
+        private void tsbFrame_Click(object sender, EventArgs e)
+        {
+            viewman.Frame();
         }
     }
 }
