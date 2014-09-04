@@ -39,6 +39,13 @@ namespace Flummery
             data[index] = v;
         }
 
+        public void ModifyVertexNormal(int index, Vector3 normal)
+        {
+            var v = data[index];
+            v.Normal = normal;
+            data[index] = v;
+        }
+
         public void Initialise(List<Vertex> data = null)
         {
             if (data != null) { this.data = data; }
