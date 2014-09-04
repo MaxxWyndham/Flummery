@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-
 using ToxicRagers.Helpers;
 
 namespace Flummery
@@ -71,30 +71,53 @@ namespace Flummery
 
         private void applyTransforms()
         {
+            var processed = new List<string>();
             var bones = (chkHierarchy.Checked ? SceneManager.Current.Models[modelIndex].Bones[boneIndex].AllChildren() : new ModelBoneCollection { SceneManager.Current.Models[modelIndex].Bones[boneIndex] });
 
             if (rdoScaling.Checked)
             {
+                OpenTK.Matrix4 scaleMatrix = OpenTK.Matrix4.Identity;
+
+                if (rdoScaleWholeModel.Checked)
+                {
+                    scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleWholeModel.Text.ToSingle(), txtScaleWholeModel.Text.ToSingle(), txtScaleWholeModel.Text.ToSingle());
+                }
+
                 if (rdoScaleByAxis.Checked)
                 {
-                    foreach (var bone in bones)
+                    scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleAxisX.Text.ToSingle(), txtScaleAxisY.Text.ToSingle(), txtScaleAxisZ.Text.ToSingle());
+                }
+
+                foreach (var bone in bones)
+                {
+                    var mesh = (ModelMesh)bone.Tag;
+
+                    if (mesh != null && !processed.Contains(mesh.Name))
                     {
-                        var scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleAxisX.Text.ToSingle(), txtScaleAxisY.Text.ToSingle(), txtScaleAxisZ.Text.ToSingle());
-                        var mesh = (ModelMesh)bone.Tag;
-
-                        if (mesh != null)
+                        foreach (var meshpart in mesh.MeshParts)
                         {
-                            foreach (var meshpart in mesh.MeshParts)
+                            for (int i = 0; i < meshpart.VertexCount; i++)
                             {
-                                for (int i = 0; i < meshpart.VertexCount; i++)
-                                {
-                                    var position = OpenTK.Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scaleMatrix);
-                                    meshpart.VertexBuffer.ModifyVertexPosition(i, position);
-                                }
-
-                                meshpart.VertexBuffer.Initialise();
+                                var position = OpenTK.Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scaleMatrix);
+                                meshpart.VertexBuffer.ModifyVertexPosition(i, position);
                             }
+
+                            meshpart.VertexBuffer.Initialise();
                         }
+
+                        processed.Add(mesh.Name);
+                    }
+
+                    if (chkHierarchy.Checked)
+                    {
+                        var transform = bone.Transform;
+                        var position = OpenTK.Vector3.TransformPosition(transform.ExtractTranslation(), scaleMatrix);
+
+                        transform.M41 = position.X;
+                        transform.M42 = position.Y;
+                        transform.M43 = position.Z;
+
+                        bone.Transform = transform;
                     }
                 }
             }
@@ -106,31 +129,36 @@ namespace Flummery
                     {
                         var mesh = (ModelMesh)bone.Tag;
 
-                        if (mesh != null)
+                        if (mesh != null && !processed.Contains(mesh.Name))
                         {
                             foreach (var meshpart in mesh.MeshParts)
                             {
                                 for (int i = 0; i < meshpart.VertexCount; i++)
                                 {
                                     var position = meshpart.VertexBuffer.Data[i].Position;
+                                    var normal = meshpart.VertexBuffer.Data[i].Normal;
 
                                     switch (cboInvertAxis.SelectedItem.ToString())
                                     {
                                         case "X":
                                             position.X = -position.X;
+                                            normal.X = -normal.X;
                                             break;
 
                                         case "Y":
                                             position.Y = -position.Y;
+                                            normal.Y = -normal.Y;
                                             break;
 
                                         case "Z":
                                             position.Z = -position.Z;
+                                            normal.Z = -normal.Z;
                                             break;
 
                                     }
 
                                     meshpart.VertexBuffer.ModifyVertexPosition(i, position);
+                                    //meshpart.VertexBuffer.ModifyVertexNormal(i, normal);
                                 }
 
                                 for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
@@ -143,6 +171,20 @@ namespace Flummery
                             }
 
                             mesh.BoundingBox.Calculate(mesh);
+
+                            processed.Add(mesh.Name);
+                        }
+
+                        if (chkHierarchy.Checked)
+                        {
+                            var transform = bone.Transform;
+                            var position = transform.ExtractTranslation();
+
+                            transform.M41 = (cboInvertAxis.SelectedItem.ToString() == "X" ? -position.X : position.X);
+                            transform.M42 = (cboInvertAxis.SelectedItem.ToString() == "Y" ? -position.Y : position.Y);
+                            transform.M43 = (cboInvertAxis.SelectedItem.ToString() == "Z" ? -position.Z : position.Z);
+
+                            bone.Transform = transform;
                         }
                     }
                 }
@@ -155,7 +197,7 @@ namespace Flummery
                     {
                         var mesh = (ModelMesh)bone.Tag;
 
-                        if (mesh != null)
+                        if (mesh != null && !processed.Contains(mesh.Name))
                         {
                             var meshoffset = mesh.BoundingBox.Centre;
 
@@ -174,9 +216,34 @@ namespace Flummery
                             m.M42 += moffset.Y;
                             m.M43 += moffset.Z;
                             bone.Transform = m;
+
+                            processed.Add(mesh.Name);
                         }
 
                         //offset = bone.CombinedTransform.ExtractTranslation();
+                    }
+                }
+
+                if (rdoFlipWindingOrder.Checked)
+                {
+                    foreach (var bone in bones)
+                    {
+                        var mesh = (ModelMesh)bone.Tag;
+
+                        if (mesh != null && !processed.Contains(mesh.Name))
+                        {
+                            foreach (var meshpart in mesh.MeshParts)
+                            {
+                                for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
+                                {
+                                    meshpart.IndexBuffer.SwapIndices(i + 1, i + 2);
+                                }
+
+                                meshpart.IndexBuffer.Initialise();
+                            }
+
+                            processed.Add(mesh.Name);
+                        }
                     }
                 }
             }

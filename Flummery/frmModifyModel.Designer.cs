@@ -35,6 +35,7 @@
             this.rdoScaling = new System.Windows.Forms.RadioButton();
             this.rdoTranslation = new System.Windows.Forms.RadioButton();
             this.gbMunging = new System.Windows.Forms.GroupBox();
+            this.rdoMeshBoneSwap = new System.Windows.Forms.RadioButton();
             this.lblInvertAxis = new System.Windows.Forms.Label();
             this.cboInvertAxis = new System.Windows.Forms.ComboBox();
             this.rdoInvert = new System.Windows.Forms.RadioButton();
@@ -53,7 +54,7 @@
             this.txtScaleWholeModel = new System.Windows.Forms.TextBox();
             this.lblScaleAxisX = new System.Windows.Forms.Label();
             this.rdoScaleWholeModel = new System.Windows.Forms.RadioButton();
-            this.rdoMeshBoneSwap = new System.Windows.Forms.RadioButton();
+            this.rdoFlipWindingOrder = new System.Windows.Forms.RadioButton();
             this.gbMunging.SuspendLayout();
             this.gbScaling.SuspendLayout();
             this.SuspendLayout();
@@ -137,6 +138,7 @@
             // 
             // gbMunging
             // 
+            this.gbMunging.Controls.Add(this.rdoFlipWindingOrder);
             this.gbMunging.Controls.Add(this.rdoMeshBoneSwap);
             this.gbMunging.Controls.Add(this.lblInvertAxis);
             this.gbMunging.Controls.Add(this.cboInvertAxis);
@@ -147,6 +149,17 @@
             this.gbMunging.TabIndex = 33;
             this.gbMunging.TabStop = false;
             this.gbMunging.Visible = false;
+            // 
+            // rdoMeshBoneSwap
+            // 
+            this.rdoMeshBoneSwap.AutoSize = true;
+            this.rdoMeshBoneSwap.Location = new System.Drawing.Point(6, 46);
+            this.rdoMeshBoneSwap.Name = "rdoMeshBoneSwap";
+            this.rdoMeshBoneSwap.Size = new System.Drawing.Size(135, 17);
+            this.rdoMeshBoneSwap.TabIndex = 3;
+            this.rdoMeshBoneSwap.TabStop = true;
+            this.rdoMeshBoneSwap.Text = "Munge mesh with bone";
+            this.rdoMeshBoneSwap.UseVisualStyleBackColor = true;
             // 
             // lblInvertAxis
             // 
@@ -325,7 +338,6 @@
             // rdoScaleWholeModel
             // 
             this.rdoScaleWholeModel.AutoSize = true;
-            this.rdoScaleWholeModel.Enabled = false;
             this.rdoScaleWholeModel.Location = new System.Drawing.Point(6, 19);
             this.rdoScaleWholeModel.Name = "rdoScaleWholeModel";
             this.rdoScaleWholeModel.Size = new System.Drawing.Size(90, 17);
@@ -334,16 +346,16 @@
             this.rdoScaleWholeModel.UseVisualStyleBackColor = true;
             this.rdoScaleWholeModel.CheckedChanged += new System.EventHandler(this.rdoScale_CheckedChanged);
             // 
-            // rdoMeshBoneSwap
+            // rdoFlipWindingOrder
             // 
-            this.rdoMeshBoneSwap.AutoSize = true;
-            this.rdoMeshBoneSwap.Location = new System.Drawing.Point(6, 46);
-            this.rdoMeshBoneSwap.Name = "rdoMeshBoneSwap";
-            this.rdoMeshBoneSwap.Size = new System.Drawing.Size(135, 17);
-            this.rdoMeshBoneSwap.TabIndex = 3;
-            this.rdoMeshBoneSwap.TabStop = true;
-            this.rdoMeshBoneSwap.Text = "Munge mesh with bone";
-            this.rdoMeshBoneSwap.UseVisualStyleBackColor = true;
+            this.rdoFlipWindingOrder.AutoSize = true;
+            this.rdoFlipWindingOrder.Location = new System.Drawing.Point(6, 68);
+            this.rdoFlipWindingOrder.Name = "rdoFlipWindingOrder";
+            this.rdoFlipWindingOrder.Size = new System.Drawing.Size(107, 17);
+            this.rdoFlipWindingOrder.TabIndex = 4;
+            this.rdoFlipWindingOrder.TabStop = true;
+            this.rdoFlipWindingOrder.Text = "Flip winding order";
+            this.rdoFlipWindingOrder.UseVisualStyleBackColor = true;
             // 
             // frmModifyModel
             // 
@@ -352,8 +364,8 @@
             this.ClientSize = new System.Drawing.Size(347, 268);
             this.Controls.Add(this.gbMunging);
             this.Controls.Add(this.gbScaling);
-            this.Controls.Add(this.chkHierarchy);
             this.Controls.Add(this.gbRotation);
+            this.Controls.Add(this.chkHierarchy);
             this.Controls.Add(this.gbTranslation);
             this.Controls.Add(this.rdoMunging);
             this.Controls.Add(this.rdoRotation);
@@ -406,5 +418,6 @@
         private System.Windows.Forms.TextBox txtScaleRadius;
         private System.Windows.Forms.RadioButton rdoScaleRadius;
         private System.Windows.Forms.RadioButton rdoMeshBoneSwap;
+        private System.Windows.Forms.RadioButton rdoFlipWindingOrder;
     }
 }
