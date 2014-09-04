@@ -107,7 +107,7 @@ namespace Flummery.ContentPipeline.Stainless
 
                         for (int i = 0; i < data.Count; i += 3)
                         {
-                            mdl.Faces.Add(new MDLFace(materialIndex, 0, mdlmesh.TriListOffset + data[i + 0], mdlmesh.TriListOffset + data[i + 2], mdlmesh.TriListOffset + data[i + 1]));
+                            mdl.Faces.Add(new MDLFace(materialIndex, 0, mdlmesh.TriListOffset + data[i + 0], mdlmesh.TriListOffset + data[i + 1], mdlmesh.TriListOffset + data[i + 2]));
 
                             mdlmesh.TriList.Add(new MDLPoint(data[i + 0]));
                             mdlmesh.TriList.Add(new MDLPoint(data[i + 1]));
