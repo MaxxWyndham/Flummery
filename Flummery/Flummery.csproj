@@ -94,6 +94,7 @@
     <Compile Include="ContentPipeline\Stainless\MaterialImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\SetupLOLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\StructureXMLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\TDXExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\TDXImporter.cs" />
