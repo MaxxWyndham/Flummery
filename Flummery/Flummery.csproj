@@ -100,6 +100,7 @@
     <Compile Include="ContentPipeline\Stainless\TDXExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\TDXImporter.cs" />
     <Compile Include="ContentPipeline\Core\TIFImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\VehicleSetupCFGExporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\HIEImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\MSHSImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\TXImporter.cs" />
