@@ -186,6 +186,8 @@ namespace Flummery
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Routes.txt files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("vehicle_setup.cfg files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Structure.xml files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("SystemsDamage.xml files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Setup.lol files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
             menu.MenuItems[3].MenuItems.Add("Carma 2");
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
@@ -480,7 +482,10 @@ namespace Flummery
                         var vehicle = (Model)scene.Add(scene.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), assetFolder));
 
                         // Load supporting documents
+                        if (File.Exists(assetFolder + "setup.lol")) { vehicle.SupportingDocuments["Setup"] = ToxicRagers.CarmageddonReincarnation.Formats.Setup.Load(assetFolder + "setup.lol"); }
                         if (File.Exists(assetFolder + "Structure.xml")) { vehicle.SupportingDocuments["Structure"] = ToxicRagers.CarmageddonReincarnation.Formats.Structure.Load(assetFolder + "Structure.xml"); }
+                        if (File.Exists(assetFolder + "SystemsDamage.xml")) { vehicle.SupportingDocuments["SystemsDamage"] = ToxicRagers.CarmageddonReincarnation.Formats.SystemsDamage.Load(assetFolder + "SystemsDamage.xml"); }
+                        if (File.Exists(assetFolder + "vehicle_setup.cfg")) { vehicle.SupportingDocuments["VehicleSetupConfig"] = ToxicRagers.CarmageddonReincarnation.Formats.VehicleSetupConfig.Load(assetFolder + "vehicle_setup.cfg"); }
 
                         foreach (var bone in vehicle.Bones)
                         {
@@ -511,6 +516,8 @@ namespace Flummery
                 case "Routes.txt files":
                 case "vehicle_setup.cfg files":
                 case "Structure.xml files":
+                case "SystemsDamage.xml files":
+                case "Setup.lol files":
                     processAll(mi.Text);
                     break;
 
@@ -616,6 +623,14 @@ namespace Flummery
 
                             case "structure.xml":
                                 result = ToxicRagers.CarmageddonReincarnation.Formats.Structure.Load(fi.FullName);
+                                break;
+
+                            case "systemsdamage.xml":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.SystemsDamage.Load(fi.FullName);
+                                break;
+
+                            case "setup.lol":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.Setup.Load(fi.FullName);
                                 break;
                         }
 
