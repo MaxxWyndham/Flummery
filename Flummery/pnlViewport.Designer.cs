@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pnlViewport));
             this.cmsViewport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiViewportMaximise = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiViewportMinimise = new System.Windows.Forms.ToolStripMenuItem();
@@ -230,7 +229,8 @@
             this.tsbSelect.Checked = true;
             this.tsbSelect.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsbSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbSelect.Image = ((System.Drawing.Image)(resources.GetObject("tsbSelect.Image")));
+            this.tsbSelect.Image = global::Flummery.Properties.Resources.interface_select_borderless_16x16;
+            this.tsbSelect.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbSelect.Name = "tsbSelect";
             this.tsbSelect.Size = new System.Drawing.Size(23, 22);
@@ -241,7 +241,8 @@
             // tsbPan
             // 
             this.tsbPan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbPan.Image = ((System.Drawing.Image)(resources.GetObject("tsbPan.Image")));
+            this.tsbPan.Image = global::Flummery.Properties.Resources.interface_pan_borderless_16x16;
+            this.tsbPan.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbPan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbPan.Name = "tsbPan";
             this.tsbPan.Size = new System.Drawing.Size(23, 22);
@@ -252,7 +253,8 @@
             // tsbZoom
             // 
             this.tsbZoom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbZoom.Image = ((System.Drawing.Image)(resources.GetObject("tsbZoom.Image")));
+            this.tsbZoom.Image = global::Flummery.Properties.Resources.interface_zoom_borderless_16x16;
+            this.tsbZoom.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbZoom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbZoom.Name = "tsbZoom";
             this.tsbZoom.Size = new System.Drawing.Size(23, 22);
@@ -263,7 +265,8 @@
             // tsbRotate
             // 
             this.tsbRotate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbRotate.Image = ((System.Drawing.Image)(resources.GetObject("tsbRotate.Image")));
+            this.tsbRotate.Image = global::Flummery.Properties.Resources.interface_rotate_borderless_16x16;
+            this.tsbRotate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbRotate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbRotate.Name = "tsbRotate";
             this.tsbRotate.Size = new System.Drawing.Size(23, 22);
@@ -279,7 +282,8 @@
             // tsbFrame
             // 
             this.tsbFrame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbFrame.Image = ((System.Drawing.Image)(resources.GetObject("tsbFrame.Image")));
+            this.tsbFrame.Image = global::Flummery.Properties.Resources.interface_frame_borderless_16x16;
+            this.tsbFrame.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbFrame.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFrame.Name = "tsbFrame";
             this.tsbFrame.Size = new System.Drawing.Size(23, 22);

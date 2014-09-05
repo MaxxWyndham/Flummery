@@ -73,9 +73,59 @@ namespace Flummery.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap interface_frame_borderless_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("interface_frame_borderless_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap interface_freeze_16x16 {
             get {
                 object obj = ResourceManager.GetObject("interface_freeze_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap interface_pan_borderless_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("interface_pan_borderless_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap interface_rotate_borderless_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("interface_rotate_borderless_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap interface_select_borderless_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("interface_select_borderless_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap interface_zoom_borderless_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("interface_zoom_borderless_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

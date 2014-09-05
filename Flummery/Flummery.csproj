@@ -370,6 +370,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="data\icons\interface_freeze_16x16.png" />
+    <None Include="data\icons\interface_select_borderless.png" />
+    <None Include="data\icons\interface_select_borderless_16x16.png" />
+    <None Include="data\icons\interface_pan_borderless_16x16.png" />
+    <None Include="data\icons\interface_zoom_borderless_16x16.png" />
+    <None Include="data\icons\interface_rotate_borderless_16x16.png" />
+    <None Include="data\icons\interface_frame_borderless_16x16.png" />
     <Content Include="data\test.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
