@@ -58,12 +58,12 @@
             this.lblPickedKeySelect = new System.Windows.Forms.Label();
             this.txtKeySelect = new System.Windows.Forms.TextBox();
             this.lblKeySelect = new System.Windows.Forms.Label();
+            this.tbMisc = new System.Windows.Forms.TabPage();
+            this.chkCheckForUpdates = new System.Windows.Forms.CheckBox();
             this.cmdOK = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdApply = new System.Windows.Forms.Button();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.tbMisc = new System.Windows.Forms.TabPage();
-            this.chkCheckForUpdates = new System.Windows.Forms.CheckBox();
             this.tcPreferences.SuspendLayout();
             this.tpPaths.SuspendLayout();
             this.tpShortcuts.SuspendLayout();
@@ -362,8 +362,30 @@
             this.lblKeySelect.TabIndex = 3;
             this.lblKeySelect.Text = "Select";
             // 
+            // tbMisc
+            // 
+            this.tbMisc.Controls.Add(this.chkCheckForUpdates);
+            this.tbMisc.Location = new System.Drawing.Point(4, 22);
+            this.tbMisc.Name = "tbMisc";
+            this.tbMisc.Padding = new System.Windows.Forms.Padding(3);
+            this.tbMisc.Size = new System.Drawing.Size(528, 265);
+            this.tbMisc.TabIndex = 2;
+            this.tbMisc.Text = "Misc";
+            this.tbMisc.UseVisualStyleBackColor = true;
+            // 
+            // chkCheckForUpdates
+            // 
+            this.chkCheckForUpdates.AutoSize = true;
+            this.chkCheckForUpdates.Location = new System.Drawing.Point(113, 122);
+            this.chkCheckForUpdates.Name = "chkCheckForUpdates";
+            this.chkCheckForUpdates.Size = new System.Drawing.Size(287, 17);
+            this.chkCheckForUpdates.TabIndex = 0;
+            this.chkCheckForUpdates.Text = "Automatically check for updates when Flummery starts?";
+            this.chkCheckForUpdates.UseVisualStyleBackColor = true;
+            // 
             // cmdOK
             // 
+            this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdOK.Location = new System.Drawing.Point(311, 309);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
@@ -374,6 +396,7 @@
             // 
             // cmdCancel
             // 
+            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.Location = new System.Drawing.Point(392, 309);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
@@ -395,27 +418,6 @@
             // fbdBrowse
             // 
             this.fbdBrowse.ShowNewFolderButton = false;
-            // 
-            // tbMisc
-            // 
-            this.tbMisc.Controls.Add(this.chkCheckForUpdates);
-            this.tbMisc.Location = new System.Drawing.Point(4, 22);
-            this.tbMisc.Name = "tbMisc";
-            this.tbMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.tbMisc.Size = new System.Drawing.Size(528, 265);
-            this.tbMisc.TabIndex = 2;
-            this.tbMisc.Text = "Misc";
-            this.tbMisc.UseVisualStyleBackColor = true;
-            // 
-            // chkCheckForUpdates
-            // 
-            this.chkCheckForUpdates.AutoSize = true;
-            this.chkCheckForUpdates.Location = new System.Drawing.Point(113, 122);
-            this.chkCheckForUpdates.Name = "chkCheckForUpdates";
-            this.chkCheckForUpdates.Size = new System.Drawing.Size(287, 17);
-            this.chkCheckForUpdates.TabIndex = 0;
-            this.chkCheckForUpdates.Text = "Automatically check for updates when Flummery starts?";
-            this.chkCheckForUpdates.UseVisualStyleBackColor = true;
             // 
             // frmPreferences
             // 

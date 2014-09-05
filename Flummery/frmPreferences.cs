@@ -13,6 +13,8 @@ namespace Flummery
             txtCRPath.Text = Properties.Settings.Default.PathCarmageddonReincarnation;
             txtC2Path.Text = Properties.Settings.Default.PathCarmageddon2;
             txtC1Path.Text = Properties.Settings.Default.PathCarmageddon1;
+
+            chkCheckForUpdates.Checked = Properties.Settings.Default.CheckForUpdates;
         }
 
         private void btnCRPath_Click(object sender, EventArgs e)
@@ -68,9 +70,14 @@ namespace Flummery
         
         private void applySettings()
         {
+            // Paths
             Properties.Settings.Default.PathCarmageddonReincarnation = txtCRPath.Text;
             Properties.Settings.Default.PathCarmageddon2 = txtC2Path.Text;
             Properties.Settings.Default.PathCarmageddon1 = txtC1Path.Text;
+
+            // Misc
+            Properties.Settings.Default.CheckForUpdates = chkCheckForUpdates.Checked;
+
             Properties.Settings.Default.Save();
         }
 

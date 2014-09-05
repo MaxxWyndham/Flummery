@@ -66,7 +66,7 @@ namespace Flummery
 
             //flpMaterials.Tag = new SortedList<string, string>();
 
-            checkUpdate();
+            if (Properties.Settings.Default.CheckForUpdates) { checkUpdate(); }
 
             Flummery.UI = this;
         }
