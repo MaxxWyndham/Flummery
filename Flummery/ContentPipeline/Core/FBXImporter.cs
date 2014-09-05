@@ -29,6 +29,8 @@ namespace Flummery.ContentPipeline.Core
             Dictionary<long, object> components = new Dictionary<long, object>();
             Dictionary<long, Matrix4> transforms = new Dictionary<long, Matrix4>();
 
+            Dictionary<long, string> triangulationErrors = new Dictionary<long, string>();
+
             string name = Path.GetFileNameWithoutExtension(path);
 
             if (fbx == null)
@@ -280,6 +282,8 @@ namespace Flummery.ContentPipeline.Core
                 bool bColours = true;
                 bool bUseIndexNorm = false;
 
+                bool bNeedsTriangulating = false;
+
                 string geometryName = element.Properties[1].Value.ToString();
                 geometryName = geometryName.Substring(0, geometryName.IndexOf("::"));
 
@@ -401,8 +405,9 @@ namespace Flummery.ContentPipeline.Core
                     {
                         if (j > 3)
                         {
-                            SceneManager.Current.RaiseError(string.Format("File \"{0}\", part \"{1}\" has not been triangulated!  Please triangulate and try again.", name, geometryName));
-                            return null;
+                            triangulationErrors.Add((long)element.Properties[0].Value, geometryName);
+                            bNeedsTriangulating = true;
+                            break;
                         }
 
                         faces.Add(face);
@@ -411,54 +416,58 @@ namespace Flummery.ContentPipeline.Core
                     }
                 }
 
-                SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Faces", element.Properties[1].Value));
-
-                var elemMaterial = element.Children.Find(e => e.ID == "LayerElementMaterial");
-                if (elemMaterial != null)
-                {
-                    var faceMaterials = (int[])elemMaterial.Children.Find(e => e.ID == "Materials").Properties[0].Value;
-                    for (int i = 0; i < faceMaterials.Length; i++)
-                    {
-                        faces[i].MaterialID = faceMaterials[i];
-                    }
-
-                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Materials", element.Properties[1].Value));
-                }
-
                 var parts = new List<ModelMeshPart>();
 
-                var materialGroups = faces.GroupBy(f => f.MaterialID);
-
-                int processedFaceCount = 0,
-                    processedGroupCount = 0;
-
-                foreach (var materialGroup in materialGroups)
+                if (!bNeedsTriangulating)
                 {
-                    var smoothingGroups = materialGroup.GroupBy(f => f.SmoothingGroup);
+                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Faces", element.Properties[1].Value));
 
-                    foreach (var smoothingGroup in smoothingGroups)
+                    var elemMaterial = element.Children.Find(e => e.ID == "LayerElementMaterial");
+                    if (elemMaterial != null)
                     {
-                        var meshpart = new ModelMeshPart { PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles };
-                        processedFaceCount = 0;
-
-                        foreach (var groupface in smoothingGroup)
+                        var faceMaterials = (int[])elemMaterial.Children.Find(e => e.ID == "Materials").Properties[0].Value;
+                        for (int i = 0; i < faceMaterials.Length; i++)
                         {
-                            foreach (var vert in groupface.Vertices)
-                            {
-                                meshpart.AddVertex(vert.Position, vert.Normal, vert.UV, vert.Colour);
-                            }
-
-                            processedFaceCount++;
-
-                            if (processedFaceCount % 250 == 0) { SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart[{1}]->Face[{2}]", element.Properties[1].Value, processedGroupCount, processedFaceCount)); }
+                            faces[i].MaterialID = faceMaterials[i];
                         }
 
-                        meshpart.Key = materialGroup.Key;
+                        SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Materials", element.Properties[1].Value));
+                    }
 
-                        parts.Add(meshpart);
-                        SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart", element.Properties[1].Value));
 
-                        processedGroupCount++;
+                    var materialGroups = faces.GroupBy(f => f.MaterialID);
+
+                    int processedFaceCount = 0,
+                        processedGroupCount = 0;
+
+                    foreach (var materialGroup in materialGroups)
+                    {
+                        var smoothingGroups = materialGroup.GroupBy(f => f.SmoothingGroup);
+
+                        foreach (var smoothingGroup in smoothingGroups)
+                        {
+                            var meshpart = new ModelMeshPart { PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles };
+                            processedFaceCount = 0;
+
+                            foreach (var groupface in smoothingGroup)
+                            {
+                                foreach (var vert in groupface.Vertices)
+                                {
+                                    meshpart.AddVertex(vert.Position, vert.Normal, vert.UV, vert.Colour);
+                                }
+
+                                processedFaceCount++;
+
+                                if (processedFaceCount % 250 == 0) { SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart[{1}]->Face[{2}]", element.Properties[1].Value, processedGroupCount, processedFaceCount)); }
+                            }
+
+                            meshpart.Key = materialGroup.Key;
+
+                            parts.Add(meshpart);
+                            SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart", element.Properties[1].Value));
+
+                            processedGroupCount++;
+                        }
                     }
                 }
 
@@ -530,6 +539,11 @@ namespace Flummery.ContentPipeline.Core
                         case "System.Collections.Generic.List`1[Flummery.ModelMeshPart]":
                             if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.ModelMesh")
                             {
+                                if (triangulationErrors.ContainsKey(keyA))
+                                {
+                                    triangulationErrors[keyA] += " (geometry of " + ((ModelMesh)components[keyB]).Name + ")";
+                                }
+
                                 foreach (var part in (List<ModelMeshPart>)components[keyA])
                                 {
                                     ((ModelMesh)components[keyB]).AddModelMeshPart(part);
@@ -563,11 +577,28 @@ namespace Flummery.ContentPipeline.Core
                 }
             }
 
-            SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", name));
+            if (triangulationErrors.Count > 0)
+            {
+                SceneManager.Current.UpdateProgress(string.Format("Failed to load {0}", name));
 
-            model.Santise();
+                string error = string.Format("File \"{0}\" has part{1} that need been triangulating!  Please triangulate the following:", name, (triangulationErrors.Count > 1 ? "s" : ""));
+                foreach (var kvp in triangulationErrors)
+                {
+                    error += "\r\n" + kvp.Value;
+                }
 
-            return model;
+                SceneManager.Current.RaiseError(error);
+
+                return null;
+            }
+            else
+            {
+                SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", name));
+
+                model.Santise();
+
+                return model;
+            }
         }
 
         public Quaternion MakeQuaternion(Single x, Single y, Single z, RotationOrder order)
