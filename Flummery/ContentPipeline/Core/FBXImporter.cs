@@ -52,10 +52,15 @@ namespace Flummery.ContentPipeline.Core
                 Console.WriteLine("Added material \"{0}\" ({1})", matName, material.Properties[0].Value);
             }
 
-            foreach (var texture in objects.Children.Where(e => e.ID == "Texture"))
+            var textures = objects.Children.Where(e => e.ID == "Texture");
+            foreach (var texture in textures)
             {
                 Texture t = null;
-                string file = Path.GetFileName(texture.Children.Find(e => e.ID == "FileName").Properties[0].Value.ToString());
+                string fullFile = texture.Children.Find(e => e.ID == "FileName").Properties[0].Value.ToString();
+
+                if (fullFile.IndexOf('.') == -1) { continue; }
+
+                string file = Path.GetFileName(fullFile);
 
                 switch (Path.GetExtension(file))
                 {
