@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using Flummery.ContentPipeline.Stainless;
+using ToxicRagers.CarmageddonReincarnation.Formats;
 using OpenTK;
 
 namespace Flummery
@@ -63,11 +64,31 @@ namespace Flummery
                 }
             }
 
-            var cx = new CNTExporter();
-            cx.Export(SceneManager.Current.Models[0], txtPath.Text + "car.cnt");
+            new CNTExporter().Export(SceneManager.Current.Models[0], txtPath.Text + "car.cnt");
+            new MDLExporter().Export(SceneManager.Current.Models[0], txtPath.Text);
 
-            var mx = new MDLExporter();
-            mx.Export(SceneManager.Current.Models[0], txtPath.Text);
+            if (!File.Exists(txtPath.Text + "setup.lol"))
+            {
+                var sx = new SetupLOLExporter();
+                sx.ExportSettings.AddSetting("Context", SetupContext.Vehicle);
+                sx.Export(SceneManager.Current.Models[0], txtPath.Text);
+            }
+
+            if (!File.Exists(txtPath.Text + "Structure.xml"))
+            {
+                new StructureXMLExporter().Export(SceneManager.Current.Models[0], txtPath.Text);
+            }
+
+            if (!File.Exists(txtPath.Text + "SystemsDamage.xml"))
+            {
+                new SystemsDamageXMLExporter().Export(SceneManager.Current.Models[0], txtPath.Text);
+            }
+
+            if (!File.Exists(txtPath.Text + "vehicle_setup.cfg"))
+            {
+                new VehicleSetupCFGExporter().Export(SceneManager.Current.Models[0], txtPath.Text);
+            }
+
             this.Close();
         }
     }
