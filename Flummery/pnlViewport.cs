@@ -202,6 +202,11 @@ namespace Flummery
 
             viewman.Draw();
 
+            if (Control == null)
+            {
+                Console.WriteLine();
+            }
+
             Control.SwapBuffers();
 
             bRendered = true;

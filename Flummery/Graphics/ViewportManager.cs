@@ -230,6 +230,8 @@ namespace Flummery
 
         public void Frame()
         {
+            if (SceneManager.Current.Models.Count == 0) { return; }
+
             var mesh = SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag as ModelMesh;
 
             if (mesh != null)
@@ -260,8 +262,6 @@ namespace Flummery
                 viewport.Draw(SceneManager.Current);
                 viewport.DrawOverlay();
             }
-
-            SceneManager.Current.UpdateProgress(active.Camera.Zoom.ToString());
         }
     }
 

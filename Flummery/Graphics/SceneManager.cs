@@ -86,10 +86,11 @@ namespace Flummery
 
         public SceneManager(bool bUseVertexBuffer = true)
         {
+            Current = this;
+
             content = new ContentManager();
 
             bVertexBuffer = bUseVertexBuffer;
-            Current = this;
 
             node = new Entity
             {
