@@ -38,6 +38,27 @@ namespace Flummery
             this.TabText = "Untitled";
             this.CloseButton = false;
             this.CloseButtonVisible = false;
+
+            UpdateKeyboardShortcuts();
+        }
+
+        public void RegisterEventHandlers()
+        {
+            InputManager.Current.OnBindingsChanged += input_OnBindingsChanged;
+        }
+
+        void input_OnBindingsChanged(object sender, EventArgs e)
+        {
+            UpdateKeyboardShortcuts();
+        }
+
+        public void UpdateKeyboardShortcuts()
+        {
+            this.tsbSelect.ToolTipText = string.Format("{0} ({1})", this.tsbSelect.Text, Properties.Settings.Default.KeysCameraSelect);
+            this.tsbPan.ToolTipText = string.Format("{0} ({1})", this.tsbPan.Text, Properties.Settings.Default.KeysCameraPan);
+            this.tsbZoom.ToolTipText = string.Format("{0} ({1})", this.tsbZoom.Text, Properties.Settings.Default.KeysCameraZoom);
+            this.tsbRotate.ToolTipText = string.Format("{0} ({1})", this.tsbRotate.Text, Properties.Settings.Default.KeysCameraRotate);
+            this.tsbFrame.ToolTipText = string.Format("{0} ({1})", this.tsbFrame.Text, Properties.Settings.Default.KeysCameraFrame);
         }
 
         private void pnlViewport_Load(object sender, EventArgs e)
@@ -69,6 +90,11 @@ namespace Flummery
             Application.Idle += new EventHandler(Application_Idle);
 
             viewman.Initialise();
+
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraSelect, KeyBinding.KeysCameraSelect, SetModeSelect);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraPan, KeyBinding.KeysCameraPan, SetModePan);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraZoom, KeyBinding.KeysCameraZoom, SetModeZoom);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraRotate, KeyBinding.KeysCameraRotate, SetModeRotate);
         }
 
         private void GLControlInit()
@@ -229,6 +255,37 @@ namespace Flummery
             tsbRotate.Checked = true;
 
             viewman.Mode = MouseMode.Rotate;
+        }
+
+        public void SetModeSelect()
+        {
+            SetMode(MouseMode.Select);
+        }
+
+        public void SetModePan()
+        {
+            SetMode(MouseMode.Pan);
+        }
+
+        public void SetModeZoom()
+        {
+            SetMode(MouseMode.Zoom);
+        }
+
+        public void SetModeRotate()
+        {
+            SetMode(MouseMode.Rotate);
+        }
+
+        private void SetMode(MouseMode mode)
+        {
+            tsbSelect.Checked = false;
+            tsbPan.Checked = false;
+            tsbZoom.Checked = false;
+            tsbRotate.Checked = false;
+
+            viewman.Mode = mode;
+            ((ToolStripButton)this.tsStatic.Items.Find("tsb" + mode.ToString(), true)[0]).Checked = true;
         }
 
         private void tsbFrame_Click(object sender, EventArgs e)

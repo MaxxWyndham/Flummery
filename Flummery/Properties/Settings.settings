@@ -20,8 +20,38 @@
     <Setting Name="PathCarmageddon1" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="KeysCameraSelect" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">V</Value>
+    </Setting>
+    <Setting Name="KeysCameraPan" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">X</Value>
+    </Setting>
+    <Setting Name="KeysCameraZoom" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">Z</Value>
+    </Setting>
+    <Setting Name="KeysCameraRotate" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">C</Value>
+    </Setting>
+    <Setting Name="KeysCameraFrame" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">F</Value>
+    </Setting>
     <Setting Name="CheckForUpdates" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="KeysActionScaleUp" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">*</Value>
+    </Setting>
+    <Setting Name="KeysActionScaleDown" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">/</Value>
+    </Setting>
+    <Setting Name="KeysClearSelection" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">D</Value>
+    </Setting>
+    <Setting Name="KeysRenderMode" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">W</Value>
+    </Setting>
+    <Setting Name="KeysCoordinateSystem" Type="System.Char" Scope="User">
+      <Value Profile="(Default)">P</Value>
     </Setting>
   </Settings>
 </SettingsFile>

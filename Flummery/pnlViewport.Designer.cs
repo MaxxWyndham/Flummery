@@ -234,6 +234,7 @@
             this.tsbSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbSelect.Name = "tsbSelect";
             this.tsbSelect.Size = new System.Drawing.Size(23, 22);
+            this.tsbSelect.Text = "Select";
             this.tsbSelect.ToolTipText = "Select (V)";
             this.tsbSelect.Click += new System.EventHandler(this.tsbSelect_Click);
             // 
@@ -244,6 +245,7 @@
             this.tsbPan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbPan.Name = "tsbPan";
             this.tsbPan.Size = new System.Drawing.Size(23, 22);
+            this.tsbPan.Text = "Pan";
             this.tsbPan.ToolTipText = "Pan (X)";
             this.tsbPan.Click += new System.EventHandler(this.tsbPan_Click);
             // 
@@ -254,6 +256,7 @@
             this.tsbZoom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbZoom.Name = "tsbZoom";
             this.tsbZoom.Size = new System.Drawing.Size(23, 22);
+            this.tsbZoom.Text = "Zoom";
             this.tsbZoom.ToolTipText = "Zoom (Z)";
             this.tsbZoom.Click += new System.EventHandler(this.tsbZoom_Click);
             // 
@@ -264,6 +267,7 @@
             this.tsbRotate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbRotate.Name = "tsbRotate";
             this.tsbRotate.Size = new System.Drawing.Size(23, 22);
+            this.tsbRotate.Text = "Rotate";
             this.tsbRotate.ToolTipText = "Rotate (C)";
             this.tsbRotate.Click += new System.EventHandler(this.tsbRotate_Click);
             // 
@@ -279,7 +283,8 @@
             this.tsbFrame.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFrame.Name = "tsbFrame";
             this.tsbFrame.Size = new System.Drawing.Size(23, 22);
-            this.tsbFrame.ToolTipText = "Zoom extents (F)";
+            this.tsbFrame.Text = "Frame";
+            this.tsbFrame.ToolTipText = "Frame (F)";
             this.tsbFrame.Click += new System.EventHandler(this.tsbFrame_Click);
             // 
             // pnlViewport

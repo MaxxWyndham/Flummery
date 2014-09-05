@@ -31,6 +31,8 @@ namespace Flummery
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            var inputManager = new InputManager();
+
             var overview = new pnlOverview();
             var viewport = new pnlViewport();
             var materials = new pnlMaterialList();
@@ -47,6 +49,7 @@ namespace Flummery
             this.Text += " v" + Flummery.Version;
 
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
+            viewport.RegisterEventHandlers();
             overview.RegisterEventHandlers();
             materials.RegisterEventHandlers();
             settings.RegisterEventHandlers();
@@ -100,8 +103,7 @@ namespace Flummery
 
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            e.Handled = ViewportManager.Current.KeyPress(sender, e);
-            if (!e.Handled) { e.Handled = SceneManager.Current.HandleInput(sender, e); }
+            e.Handled = InputManager.Current.HandleInput(sender, e);
         }
 
         private void BuildMenu()
@@ -673,7 +675,10 @@ namespace Flummery
             {
                 case "Preferences":
                     var prefs = new frmPreferences();
-                    prefs.Show();
+                    if (prefs.ShowDialog(this) == DialogResult.OK)
+                    {
+                        InputManager.Current.ReloadBindings();
+                    }
                     break;
             }
         }

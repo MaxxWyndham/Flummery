@@ -94,6 +94,67 @@ namespace Flummery.Properties {
                 this["PathCarmageddon1"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("V")]
+        public char KeysCameraSelect {
+            get {
+                return ((char)(this["KeysCameraSelect"]));
+            }
+            set {
+                this["KeysCameraSelect"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("X")]
+        public char KeysCameraPan {
+            get {
+                return ((char)(this["KeysCameraPan"]));
+            }
+            set {
+                this["KeysCameraPan"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Z")]
+        public char KeysCameraZoom {
+            get {
+                return ((char)(this["KeysCameraZoom"]));
+            }
+            set {
+                this["KeysCameraZoom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C")]
+        public char KeysCameraRotate {
+            get {
+                return ((char)(this["KeysCameraRotate"]));
+            }
+            set {
+                this["KeysCameraRotate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F")]
+        public char KeysCameraFrame {
+            get {
+                return ((char)(this["KeysCameraFrame"]));
+            }
+            set {
+                this["KeysCameraFrame"] = value;
+            }
+        }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -106,5 +167,64 @@ namespace Flummery.Properties {
             }
         }
         
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("*")]
+        public char KeysActionScaleUp {
+            get {
+                return ((char)(this["KeysActionScaleUp"]));
+            }
+            set {
+                this["KeysActionScaleUp"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/")]
+        public char KeysActionScaleDown {
+            get {
+                return ((char)(this["KeysActionScaleDown"]));
+            }
+            set {
+                this["KeysActionScaleDown"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D")]
+        public char KeysClearSelection {
+            get {
+                return ((char)(this["KeysClearSelection"]));
+            }
+            set {
+                this["KeysClearSelection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W")]
+        public char KeysRenderMode {
+            get {
+                return ((char)(this["KeysRenderMode"]));
+            }
+            set {
+                this["KeysRenderMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("P")]
+        public char KeysCoordinateSystem {
+            get {
+                return ((char)(this["KeysCoordinateSystem"]));
+            }
+            set {
+                this["KeysCoordinateSystem"] = value;
+            }
+        }
     }
 }

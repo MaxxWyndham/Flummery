@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using OpenTK;
-using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
@@ -53,7 +52,7 @@ namespace Flummery
 
         bool bVertexBuffer;
         ContentManager content;
-        KeyboardState lastState;
+        
 
         float dt;
 
@@ -101,6 +100,10 @@ namespace Flummery
             };
 
             ((Model)node.Asset).AddMesh(new Sphere(0.125f, 7, 7));
+
+            InputManager.Current.RegisterBinding('d', KeyBinding.KeysClearSelection, ClearBoundingBox);
+            InputManager.Current.RegisterBinding('w', KeyBinding.KeysRenderMode, CycleRenderMode);
+            InputManager.Current.RegisterBinding('p', KeyBinding.KeysCoordinateSystem, ToggleCoordinateSystem);
         }
 
         public Asset Add(Asset asset)
@@ -127,6 +130,11 @@ namespace Flummery
         public void Change(ChangeType type, int index, object additionalInfo = null) 
         { 
             if (OnChange != null) { OnChange(this, new ChangeEventArgs(type, index, additionalInfo)); } 
+        }
+
+        public void ClearBoundingBox()
+        {
+            SetBoundingBox(null);
         }
 
         public void SetBoundingBox(BoundingBox bb)
@@ -157,6 +165,24 @@ namespace Flummery
             }
         }
 
+        public void ToggleCoordinateSystem()
+        {
+            if (coords == CoordinateSystem.LeftHanded)
+            {
+                SetCoordinateSystem(CoordinateSystem.RightHanded);
+            }
+            else
+            {
+                SetCoordinateSystem(CoordinateSystem.LeftHanded);
+            }
+        }
+
+        public void CycleRenderMode()
+        {
+            renderMode = (RenderMeshMode)((int)renderMode + 1);
+            if (renderMode == RenderMeshMode.Count) { renderMode = RenderMeshMode.Solid; }
+        }
+
         public void Reset()
         {
             content.Reset();
@@ -168,36 +194,6 @@ namespace Flummery
             entities.Add(node);
 
             if (OnReset != null) { OnReset(this, new ResetEventArgs()); }
-        }
-
-        public bool HandleInput(object sender, System.Windows.Forms.KeyPressEventArgs e)
-        {
-            var state = Keyboard.GetState();
-            var bHandled = false;
-
-            if (state[Key.W] && !lastState[Key.W])
-            {
-                renderMode = (RenderMeshMode)((int)renderMode + 1);
-                if (renderMode == RenderMeshMode.Count) { renderMode = RenderMeshMode.Solid; }
-
-                bHandled = true;
-            }
-
-            if (state[Key.P] && !lastState[Key.P])
-            {
-                if (coords == CoordinateSystem.LeftHanded)
-                {
-                    SetCoordinateSystem(CoordinateSystem.RightHanded);
-                }
-                else
-                {
-                    SetCoordinateSystem(CoordinateSystem.LeftHanded);
-                }
-
-                bHandled = true;
-            }
-
-            return bHandled;
         }
 
         public void Update(float dt)

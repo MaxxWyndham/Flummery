@@ -14,6 +14,8 @@ namespace Flummery
             txtC2Path.Text = Properties.Settings.Default.PathCarmageddon2;
             txtC1Path.Text = Properties.Settings.Default.PathCarmageddon1;
 
+            pgShortcuts.SelectedObject = InputManager.Current.GetKeyboardShortcuts();
+
             chkCheckForUpdates.Checked = Properties.Settings.Default.CheckForUpdates;
         }
 
@@ -75,6 +77,9 @@ namespace Flummery
             Properties.Settings.Default.PathCarmageddon2 = txtC2Path.Text;
             Properties.Settings.Default.PathCarmageddon1 = txtC1Path.Text;
 
+            // Keys
+            // automatic
+
             // Misc
             Properties.Settings.Default.CheckForUpdates = chkCheckForUpdates.Checked;
 
@@ -107,6 +112,16 @@ namespace Flummery
             }
 
             e.Handled = true;
+        }
+
+        private void pgShortcuts_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            if (!InputManager.Current.UpdateBinding((char)e.OldValue, (char)e.ChangedItem.Value))
+            {
+                //e.ChangedItem.
+            }
+
+            pgShortcuts.Refresh();
         }
     }
 }

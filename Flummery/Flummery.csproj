@@ -189,6 +189,7 @@
     <Compile Include="Graphics\ContentManager.cs" />
     <Compile Include="Graphics\Entity.cs" />
     <Compile Include="Graphics\IndexBuffer.cs" />
+    <Compile Include="Graphics\InputManager.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\ModelBone.cs" />
     <Compile Include="frmMain.cs">
