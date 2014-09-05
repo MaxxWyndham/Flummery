@@ -106,6 +106,7 @@ namespace Flummery.ContentPipeline.Stainless
             {
                 var weld = new StructureWeld();
                 weld.Partner = parent.Name;
+                weld.WeldSettings.SetParametersForMethod("PartSpaceVertex", "X", 0, "Y", 0, "Z", 0);
 
                 part.Welds.Add(weld);
 
