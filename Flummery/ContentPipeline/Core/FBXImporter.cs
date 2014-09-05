@@ -280,6 +280,9 @@ namespace Flummery.ContentPipeline.Core
                 bool bColours = true;
                 bool bUseIndexNorm = false;
 
+                string geometryName = element.Properties[1].Value.ToString();
+                geometryName = geometryName.Substring(0, geometryName.IndexOf("::"));
+
                 var verts = new List<OpenTK.Vector3>();
                 var norms = new List<OpenTK.Vector3>();
                 var uvs = new List<OpenTK.Vector2>();
@@ -398,7 +401,7 @@ namespace Flummery.ContentPipeline.Core
                     {
                         if (j > 3)
                         {
-                            SceneManager.Current.RaiseError(string.Format("File \"{0}\" has not been triangulated!  Please triangulate and try again.", name));
+                            SceneManager.Current.RaiseError(string.Format("File \"{0}\", part \"{1}\" has not been triangulated!  Please triangulate and try again.", name, geometryName));
                             return null;
                         }
 
