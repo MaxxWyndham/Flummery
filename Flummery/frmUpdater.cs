@@ -82,6 +82,7 @@ namespace Flummery
             }
 
             this.txtChangelog.Text = changelog;
+            this.txtChangelog.Select(0, 0);
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
