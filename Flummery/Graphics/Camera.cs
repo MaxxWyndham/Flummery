@@ -95,7 +95,7 @@ namespace Flummery
             pitch = 0.0f;
             roll = 0.0f;
 
-            position = target - (cameraRotation.Forward() * zoom);
+            position = target - (cameraRotation.Forward() * (projectionMode == Projection.Perspective ? zoom : 25));
 
             viewMatrix = Matrix4.LookAt(position, target, cameraRotation.Up());
         }

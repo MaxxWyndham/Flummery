@@ -65,7 +65,11 @@ namespace Flummery
         public Projection ProjectionMode
         {
             get { return mode; }
-            set { mode = value; }
+            set 
+            { 
+                mode = value;
+                camera.ProjectionMode = mode;
+            }
         }
 
         public Quadrant Position
