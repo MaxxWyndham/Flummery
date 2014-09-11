@@ -78,7 +78,7 @@ namespace Flummery
             {
                 case ChangeType.Add:
                     FindNode((int)e.AdditionalInformation, tvNodes.Nodes[0].Nodes[0], out node);
-                    node.Nodes.Add(CreateNode("[" + e.Index + "] " + SceneManager.Current.Models[0].Bones[e.Index].Name, e.Index, (SceneManager.Current.Models[0].Bones[e.Index].Tag == null ? 0 : 1)));
+                    node.Nodes.Add(CreateNode(SceneManager.Current.Models[0].Bones[e.Index].Name, e.Index, (SceneManager.Current.Models[0].Bones[e.Index].Tag == null ? 0 : 1)));
                     ReindexTree();
                     node.Expand();
                     break;
