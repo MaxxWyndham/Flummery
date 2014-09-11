@@ -72,6 +72,8 @@ namespace Flummery
 
             if (content != null)
             {
+                Console.WriteLine("Loaded {0}", assetName);
+
                 assets[key] = content;
                 if (bAddToScene) { SceneManager.Current.Add(content); }
 

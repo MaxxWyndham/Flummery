@@ -123,7 +123,7 @@ namespace Flummery
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 
-            perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 100);
+            perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 1000);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perspective);
 

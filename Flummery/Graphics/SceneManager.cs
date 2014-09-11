@@ -66,6 +66,16 @@ namespace Flummery
 
         public Matrix4 Transform { get { return sceneTransform; } }
 
+        public Model SelectedModel
+        {
+            get
+            {
+                if (models.Count == 0 || models.Count < selectedModelIndex) { return null; }
+                if (models[selectedModelIndex].Bones.Count < selectedBoneIndex) { return null; }
+                return models[selectedModelIndex];
+            }
+        }
+
         public int SelectedModelIndex { get { return selectedModelIndex; } }
         public int SelectedBoneIndex { get { return selectedBoneIndex; } }
         public float DeltaTime { get { return dt; } }
