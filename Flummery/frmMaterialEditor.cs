@@ -96,7 +96,7 @@ namespace Flummery
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga";
+            ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga;*.bmp|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga|BMP (*.bmp)|*.bmp";
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
@@ -115,6 +115,10 @@ namespace Flummery
 
             switch (fi.Extension)
             {
+                case ".bmp":
+                    m.Texture = SceneManager.Current.Content.Load<Texture, BMPImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
+                    break;
+
                 case ".jpg":
                     m.Texture = SceneManager.Current.Content.Load<Texture, JPGImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
                     break;

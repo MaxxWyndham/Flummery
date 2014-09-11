@@ -81,6 +81,7 @@
     <Compile Include="ContentPipeline\BurnoutParadise\BOMImporter.cs" />
     <Compile Include="ContentPipeline\ContentExporter.cs" />
     <Compile Include="ContentPipeline\ContentImporter.cs" />
+    <Compile Include="ContentPipeline\Core\BMPImporter.cs" />
     <Compile Include="ContentPipeline\Core\FBXExporter.cs" />
     <Compile Include="ContentPipeline\Core\FBXImporter.cs" />
     <Compile Include="ContentPipeline\Core\JPGImporter.cs" />
