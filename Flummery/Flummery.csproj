@@ -88,12 +88,14 @@
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
     <Compile Include="ContentPipeline\ExportSettings.cs" />
     <Compile Include="ContentPipeline\Stainless\ACTImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\C1CarImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\DATImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MaterialImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\PIXImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\SetupLOLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\StructureXMLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\SystemsDamageXMLExporter.cs" />
@@ -203,6 +205,7 @@
     </Compile>
     <Compile Include="Graphics\Model.cs" />
     <Compile Include="Graphics\ModelBoneCollection.cs" />
+    <Compile Include="Graphics\ModelManipulator.cs" />
     <Compile Include="Graphics\ModelMesh.cs" />
     <Compile Include="Graphics\ModelMeshPart.cs" />
     <Compile Include="Graphics\Primitive.cs" />

@@ -7,7 +7,7 @@ namespace Flummery
 {
     public class ContentManager
     {
-        Dictionary<string, Asset> assets = new Dictionary<string, Asset>();
+        Dictionary<string, Asset> assets = new Dictionary<string, Asset>(StringComparer.InvariantCultureIgnoreCase);
         public static string Hints = "";
 
         public static bool LoadOrDefaultFile(string Filename, string FileExtension, out string FilePath)

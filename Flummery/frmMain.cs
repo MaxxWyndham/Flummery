@@ -115,6 +115,7 @@ namespace Flummery
             menu.MenuItems[0].MenuItems.Add("&Open...");
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon / Splat Pack");
             menu.MenuItems[0].MenuItems[1].MenuItems[0].MenuItems.Add("Actor", menuCarmageddonClick);
+            menu.MenuItems[0].MenuItems[1].MenuItems[0].MenuItems.Add("Car", menuCarmageddonClick);
 
             menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon 2");
             menu.MenuItems[0].MenuItems[1].MenuItems[1].MenuItems.Add("Actor", menuCarmageddon2Click);
@@ -188,6 +189,7 @@ namespace Flummery
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Structure.xml files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("SystemsDamage.xml files", menuCarmageddonReincarnationClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Setup.lol files", menuCarmageddonReincarnationClick);
+            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("TXT files (C1 Car)", menuCarmageddonClick);
             menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
             menu.MenuItems[3].MenuItems.Add("Carma 2");
             menu.MenuItems[3].MenuItems[1].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
@@ -338,6 +340,19 @@ namespace Flummery
                     {
                         scene.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
+                    break;
+
+                case "Car":
+                    ofdBrowse.Filter = "Carmageddon CAR (*.txt)|*.txt";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                    }
+                    break;
+
+                case "TXT files (C1 Car)":
+                    processAll(mi.Text);
                     break;
             }
         }
@@ -631,6 +646,10 @@ namespace Flummery
 
                             case "setup.lol":
                                 result = ToxicRagers.CarmageddonReincarnation.Formats.Setup.Load(fi.FullName);
+                                break;
+
+                            case "txt":
+                                result = ToxicRagers.Carmageddon.Formats.Car.Load(fi.FullName);
                                 break;
                         }
 

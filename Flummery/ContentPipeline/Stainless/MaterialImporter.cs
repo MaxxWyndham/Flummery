@@ -76,13 +76,26 @@ namespace Flummery.ContentPipeline.Stainless
 
             foreach (var material in mat.Materials)
             {
-                materials.Entries.Add(
-                    new Material
-                    {
-                        Name = material.Name,
-                        Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(material.Texture, Path.GetDirectoryName(path))
-                    }
-                );
+                if (material.Texture == Path.GetFileNameWithoutExtension(material.Texture))
+                {
+                    materials.Entries.Add(
+                        new Material
+                        {
+                            Name = material.Name,
+                            Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(material.Texture, Path.GetDirectoryName(path))
+                        }
+                    );
+                }
+                else
+                {
+                    materials.Entries.Add(
+                        new Material
+                        {
+                            Name = material.Name,
+                            Texture = SceneManager.Current.Content.Load<Texture, PIXImporter>(material.Texture, Path.GetDirectoryName(path))
+                        }
+                    );
+                }
             }
 
             return materials;

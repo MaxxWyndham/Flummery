@@ -99,4 +99,6 @@ namespace Flummery
             return new Bitmap(64, 64);
         }
     }
+
+    public class TextureList : AssetList { }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+
 using ToxicRagers.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
 using OpenTK;
@@ -8,6 +10,18 @@ namespace Flummery.ContentPipeline.Stainless
     class ACTImporter : ContentImporter
     {
         public override string GetExtension() { return "act"; }
+
+        public override string GetHints(string currentPath)
+        {
+            string hints = (currentPath != null ? currentPath + ";" : "");
+
+            if (Properties.Settings.Default.PathCarmageddon1 != null && currentPath.Contains(Properties.Settings.Default.PathCarmageddon1))
+            {
+                if (Directory.Exists(Properties.Settings.Default.PathCarmageddon1 + "DATA\\ACTORS\\")) { hints += Properties.Settings.Default.PathCarmageddon1 + "DATA\\ACTORS\\;"; }
+            }
+
+            return hints;
+        }
 
         public override Asset Import(string path)
         {
