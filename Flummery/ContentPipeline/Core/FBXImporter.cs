@@ -239,7 +239,9 @@ namespace Flummery.ContentPipeline.Core
 
                 if (bRotationActive)
                 {
+                    m *= worldMatrix;
                     m *= Matrix4.CreateFromQuaternion((postRotation * lclRotation * preRotation).Normalized());
+                    
                 }
                 else
                 {
@@ -248,7 +250,7 @@ namespace Flummery.ContentPipeline.Core
 
                 m *= Matrix4.CreateTranslation(lclTranslation + rotationOffset + rotationPivot);
 
-                //m *= worldMatrix;
+                
 
                 //property = properties.Children.GetProperty("GeometricTranslation");
                 //if (property != null)
@@ -296,6 +298,7 @@ namespace Flummery.ContentPipeline.Core
                 for (int i = 0; i < vertParts.Length; i += 3) 
                 {
                     verts.Add(OpenTK.Vector3.Transform(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2]), worldMatrix)); 
+                    //verts.Add(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2])); 
                 }
 
                 SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Vertices", element.Properties[1].Value));
@@ -307,6 +310,7 @@ namespace Flummery.ContentPipeline.Core
                     for (int i = 0; i < normParts.Length; i += 3)
                     {
                         norms.Add(OpenTK.Vector3.Transform(new OpenTK.Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]), worldMatrix));
+                        //norms.Add(new OpenTK.Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]));
                     }
 
                     bUseIndexNorm = (normElem.Children.Find(e => e.ID == "MappingInformationType").Properties[0].Value.ToString() == "ByVertice");
@@ -355,7 +359,7 @@ namespace Flummery.ContentPipeline.Core
                     if (uvReferenceType.Properties[0].Value.ToString() == "IndexToDirect")
                     {
                         var luvs = new List<OpenTK.Vector2>();
-                        for (int i = 0; i < uvParts.Length; i += 2) { luvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], -(float)uvParts[i + 1])); }
+                        for (int i = 0; i < uvParts.Length; i += 2) { luvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], (float)uvParts[i + 1])); }
 
                         var uvindicies = (int[])uvElem.Children.Find(e => e.ID == "UVIndex").Properties[0].Value;
                         for (int i = 0; i < uvindicies.Length; i++)
@@ -372,7 +376,7 @@ namespace Flummery.ContentPipeline.Core
                     }
                     else
                     {
-                        for (int i = 0; i < uvParts.Length; i += 2) { uvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], -(float)uvParts[i + 1])); }
+                        for (int i = 0; i < uvParts.Length; i += 2) { uvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], (float)uvParts[i + 1])); }
                     }
 
                     SceneManager.Current.UpdateProgress(string.Format("Processed {0}->UVs", element.Properties[1].Value));
@@ -615,14 +619,14 @@ namespace Flummery.ContentPipeline.Core
                            Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, radZ);
 
                 case RotationOrder.OrderYZX:
-                    return Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, radY) *
-                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, radZ) *
-                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, radX);
+                    return Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, radX) *
+                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, radY) *
+                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, radZ);
 
                 case RotationOrder.OrderZYX:
-                    return Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, radZ) *
+                    return Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, radX) *
                            Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, radY) *
-                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, radX);
+                           Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, radZ);
 
                 default:
                     throw new NotImplementedException(string.Format("Unhandled RotationOrder: {0}", order.ToString()));
@@ -713,15 +717,11 @@ namespace Flummery.ContentPipeline.Core
             {
                 case CoordinateSystem.nYpZpX:
                     order = RotationOrder.OrderYZX;
-                    return Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-90)) * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180));
-
-                case CoordinateSystem.nZpYpX:
-                    order = RotationOrder.OrderZYX;
-                    return Matrix4.Identity;
+                    return Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(180)) * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-90));
 
                 case CoordinateSystem.pZpYpX:
                     order = RotationOrder.OrderZYX;
-                    return Matrix4.Identity;//CreateRotationY(MathHelper.DegreesToRadians(180));
+                    return Matrix4.Identity;
 
                 default:
                     throw new NotImplementedException(string.Format("Unsupported World Transformation Matrix: {0}", coords));
