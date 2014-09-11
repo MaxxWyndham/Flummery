@@ -46,6 +46,20 @@ namespace Flummery
             data[index] = v;
         }
 
+        public void ModifyVertexUVs(int index, Vector4 uv)
+        {
+            var v = data[index];
+            v.UV = uv;
+            data[index] = v;
+        }
+
+        public void ModifyVertexColour(int index, Color4 colour)
+        {
+            var v = data[index];
+            v.Colour = colour;
+            data[index] = v;
+        }
+
         public void Initialise(List<Vertex> data = null)
         {
             if (data != null) { this.data = data; }
