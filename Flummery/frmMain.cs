@@ -173,6 +173,8 @@ namespace Flummery
             menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
             menu.MenuItems[2].MenuItems.Add("-");
             menu.MenuItems[2].MenuItems.Add("Flatten hierarchy...", menuObjectClick);
+            menu.MenuItems[2].MenuItems.Add("-");
+            menu.MenuItems[2].MenuItems.Add("Invert texture 'v' coordinates", menuObjectClick);
 
             menu.MenuItems.Add("&Tools");
             menu.MenuItems[3].MenuItems.Add("General");
@@ -247,7 +249,9 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded); // RightHanded == Everything but C:R
+                        var m = scene.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        ModelManipulator.FlipAxis((ModelMesh)m.Root.Tag, Axis.Z, true);
                     }
                     break;
 
@@ -779,6 +783,10 @@ namespace Flummery
 
                 case "Flatten hierarchy...":
 
+                    break;
+
+                case "Invert texture 'v' coordinates":
+                    ModelManipulator.FlipUVs((ModelMesh)SceneManager.Current.SelectedModel.Bones[SceneManager.Current.SelectedBoneIndex].Tag);
                     break;
             }
         }

@@ -125,68 +125,7 @@ namespace Flummery
             {
                 if (rdoInvert.Checked)
                 {
-                    foreach (var bone in bones)
-                    {
-                        var mesh = (ModelMesh)bone.Tag;
-
-                        if (mesh != null && !processed.Contains(mesh.Name))
-                        {
-                            foreach (var meshpart in mesh.MeshParts)
-                            {
-                                for (int i = 0; i < meshpart.VertexCount; i++)
-                                {
-                                    var position = meshpart.VertexBuffer.Data[i].Position;
-                                    var normal = meshpart.VertexBuffer.Data[i].Normal;
-
-                                    switch (cboInvertAxis.SelectedItem.ToString())
-                                    {
-                                        case "X":
-                                            position.X = -position.X;
-                                            normal.X = -normal.X;
-                                            break;
-
-                                        case "Y":
-                                            position.Y = -position.Y;
-                                            normal.Y = -normal.Y;
-                                            break;
-
-                                        case "Z":
-                                            position.Z = -position.Z;
-                                            normal.Z = -normal.Z;
-                                            break;
-
-                                    }
-
-                                    meshpart.VertexBuffer.ModifyVertexPosition(i, position);
-                                    //meshpart.VertexBuffer.ModifyVertexNormal(i, normal);
-                                }
-
-                                for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
-                                {
-                                    meshpart.IndexBuffer.SwapIndices(i + 1, i + 2);
-                                }
-
-                                meshpart.IndexBuffer.Initialise();
-                                meshpart.VertexBuffer.Initialise();
-                            }
-
-                            mesh.BoundingBox.Calculate(mesh);
-
-                            processed.Add(mesh.Name);
-                        }
-
-                        if (chkHierarchy.Checked)
-                        {
-                            var transform = bone.Transform;
-                            var position = transform.ExtractTranslation();
-
-                            transform.M41 = (cboInvertAxis.SelectedItem.ToString() == "X" ? -position.X : position.X);
-                            transform.M42 = (cboInvertAxis.SelectedItem.ToString() == "Y" ? -position.Y : position.Y);
-                            transform.M43 = (cboInvertAxis.SelectedItem.ToString() == "Z" ? -position.Z : position.Z);
-
-                            bone.Transform = transform;
-                        }
-                    }
+                    ModelManipulator.FlipAxis((ModelMesh)SceneManager.Current.Models[modelIndex].Bones[boneIndex].Tag, cboInvertAxis.SelectedItem.ToString().ToEnum<Axis>(), chkHierarchy.Checked);
                 }
 
                 if (rdoMeshBoneSwap.Checked)
