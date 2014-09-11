@@ -5,6 +5,12 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
+    public enum RenderStyle
+    {
+        Scene,      // SceneManager sets the rules
+        Wireframe   // Bright green, wireframe, ignores depth
+    }
+
     public class Model : Asset
     {
         ModelBoneCollection bones;
@@ -33,6 +39,17 @@ namespace Flummery
             }
 
             return m;
+        }
+
+        public void SetRenderStyle(RenderStyle style)
+        {
+            foreach (var mesh in meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    part.RenderStyle = style;
+                }
+            }
         }
 
         public void CopyAbsoluteBoneTransformsTo(Matrix4[] destinationBoneTransforms) 

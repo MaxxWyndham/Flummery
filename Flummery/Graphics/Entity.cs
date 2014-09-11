@@ -85,6 +85,7 @@ namespace Flummery
             if (Linked)
             {
                 var parentTransform = ((ModelBone)link).CombinedTransform;
+
                 if (linkType == LinkType.All)
                 {
                     transform = parentTransform;
@@ -92,6 +93,12 @@ namespace Flummery
                 else
                 {
                     transform = Matrix4.Identity;
+
+                    var v = parentTransform.ExtractTranslation();
+                    parentTransform.Normalize();
+                    parentTransform.M41 = v.X;
+                    parentTransform.M42 = v.Y;
+                    parentTransform.M43 = v.Z;
 
                     if ((linkType & LinkType.Rotation) == LinkType.Rotation) { transform *= Matrix4.CreateFromQuaternion(parentTransform.ExtractRotation()); }
                     if ((linkType & LinkType.Scale)    == LinkType.Scale)    { transform *= Matrix4.CreateScale(parentTransform.ExtractScale()); }

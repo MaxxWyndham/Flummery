@@ -15,9 +15,16 @@ namespace Flummery
         Material material;
 
         PrimitiveType primitiveType = PrimitiveType.Triangles;
+        RenderStyle renderStyle = RenderStyle.Scene;
 
         public IndexBuffer IndexBuffer { get { return indexBuffer; } }
         public VertexBuffer VertexBuffer { get { return vertexBuffer; } }
+
+        public RenderStyle RenderStyle
+        {
+            get { return renderStyle; }
+            set { renderStyle = value; }
+        }
 
         public object Key
         {
@@ -172,34 +179,47 @@ namespace Flummery
 
             if (SceneManager.Current.CanUseVertexBuffer)
             {
-                switch (SceneManager.Current.RenderMode)
+                switch (renderStyle)
                 {
-                    case SceneManager.RenderMeshMode.Solid:
-                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+                    case RenderStyle.Scene:
+                        switch (SceneManager.Current.RenderMode)
+                        {
+                            case SceneManager.RenderMeshMode.Solid:
+                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+                                break;
+
+                            case SceneManager.RenderMeshMode.Wireframe:
+                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+                                break;
+
+                            case SceneManager.RenderMeshMode.SolidWireframe:
+                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+                                vertexBuffer.Draw(indexBuffer, primitiveType);
+                                GL.PolygonOffset(1.0f, 2);
+                                GL.Disable(EnableCap.Texture2D);
+                                GL.Color4(Color.White);
+                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+                                break;
+
+                            case SceneManager.RenderMeshMode.VertexColour:
+                                GL.Disable(EnableCap.Texture2D);
+                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+                                vertexBuffer.Draw(indexBuffer, primitiveType);
+
+                                GL.Disable(EnableCap.Lighting);
+                                GL.Disable(EnableCap.Light0);
+                                GL.PolygonOffset(1.0f, 2);
+                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Point);
+                                break;
+                        }
                         break;
 
-                    case SceneManager.RenderMeshMode.Wireframe:
-                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
-                        break;
-
-                    case SceneManager.RenderMeshMode.SolidWireframe:
-                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
-                        vertexBuffer.Draw(indexBuffer, primitiveType);
-                        GL.PolygonOffset(1.0f, 2);
+                    case RenderStyle.Wireframe:
+                        GL.Disable(EnableCap.DepthTest);
                         GL.Disable(EnableCap.Texture2D);
-                        GL.Color4(Color.White);
-                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
-                        break;
-
-                    case SceneManager.RenderMeshMode.VertexColour:
-                        GL.Disable(EnableCap.Texture2D);
-                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
-                        vertexBuffer.Draw(indexBuffer, primitiveType);
-
-                        GL.Disable(EnableCap.Lighting);
-                        GL.Disable(EnableCap.Light0);
-                        GL.PolygonOffset(1.0f, 2);
-                        GL.PolygonMode(MaterialFace.Front, PolygonMode.Point);
+                                                        GL.Disable(EnableCap.Lighting);
+                                GL.Disable(EnableCap.Light0);
+                        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
                         break;
                 }
 
@@ -221,6 +241,7 @@ namespace Flummery
                 GL.End();
             }
 
+            GL.Enable(EnableCap.DepthTest);
             GL.Disable(EnableCap.Blend);
 
             bool bViewNormals = false;

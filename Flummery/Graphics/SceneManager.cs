@@ -100,7 +100,11 @@ namespace Flummery
                 Asset = new Model()
             };
 
-            ((Model)node.Asset).AddMesh(new Sphere(0.125f, 7, 7));
+            var sphere = new Sphere(0.125f, 7, 7);
+            ModelManipulator.SetVertexColour(sphere, 0, 255, 0, 255);
+            ((Model)node.Asset).AddMesh(sphere);
+            ((Model)node.Asset).SetRenderStyle(RenderStyle.Wireframe);
+            entities.Add(node);
 
             InputManager.Current.RegisterBinding('d', KeyBinding.KeysClearSelection, ClearBoundingBox);
             InputManager.Current.RegisterBinding('w', KeyBinding.KeysRenderMode, CycleRenderMode);
