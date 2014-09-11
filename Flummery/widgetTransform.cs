@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Forms;
 
 using OpenTK;
 using ToxicRagers.Helpers;
@@ -14,15 +19,32 @@ namespace Flummery
             Absolute
         }
 
-        Matrix4 bone;
+        ModelBone bone;
         int defaultWidth = 190;
-        Relativity relativity = Relativity.Relative;
+        Relativity relativity = Relativity.Absolute;
+        GangedInput gang = new GangedInput();
+        bool bMouseDown;
+        Point dragStart;
 
         public int DefaultWidth { get { return defaultWidth; } }
 
         public widgetTransform()
         {
             InitializeComponent();
+
+            this.gbPosition.MouseDown += gbGroup_MouseDown;
+            this.gbRotation.MouseDown += gbGroup_MouseDown;
+            this.gbScale.MouseDown    += gbGroup_MouseDown;
+
+            this.gbPosition.MouseMove += gbGroup_MouseMove;
+            this.gbRotation.MouseMove += gbGroup_MouseMove;
+            this.gbScale.MouseMove    += gbGroup_MouseMove;
+
+            this.gbPosition.MouseUp += gbGroup_MouseUp;
+            this.gbRotation.MouseUp += gbGroup_MouseUp;
+            this.gbScale.MouseUp    += gbGroup_MouseUp;
+
+            resetWidget();
         }
 
         public void RegisterEventHandlers()
@@ -32,62 +54,52 @@ namespace Flummery
 
         void scene_OnSelect(object sender, SelectEventArgs e)
         {
-            var b = (e.Item as ModelBone);
-
-            if (b != null)
-            { 
-                bone = b.Transform;
-                resetWidget();
-            }
-        }
-
-        private void btnFreeze_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            var mS = Matrix4.CreateScale(txtScaleX.Text.ToSingle() / 100.0f, txtScaleY.Text.ToSingle() / 100.0f, txtScaleZ.Text.ToSingle() / 100.0f);
-            var mRx = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(txtRotationX.Text.ToSingle()));
-            var mRy = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(txtRotationY.Text.ToSingle()));
-            var mRz = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(txtRotationZ.Text.ToSingle()));
-            var vP = new OpenTK.Vector3(txtPositionX.Text.ToSingle(), txtPositionY.Text.ToSingle(), txtPositionZ.Text.ToSingle());
-
-            var transform = mS * mRx * mRy * mRz;
-            transform.M41 = vP.X;
-            transform.M42 = vP.Y;
-            transform.M43 = vP.Z;
-
-            bone *= transform;
-
-            SceneManager.Current.Models[0].SetTransform(bone, SceneManager.Current.SelectedBoneIndex);
-            SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
-
+            bone = (e.Item as ModelBone);
             resetWidget();
-        }
-
-        private void btnSet_Click(object sender, EventArgs e)
-        {
-            var mS = Matrix4.CreateScale(txtScaleX.Text.ToSingle(), txtScaleY.Text.ToSingle(), txtScaleZ.Text.ToSingle());
-            var mRx = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(txtRotationX.Text.ToSingle()));
-            var mRy = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(txtRotationY.Text.ToSingle()));
-            var mRz = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(txtRotationZ.Text.ToSingle()));
-            var vP = new OpenTK.Vector3(txtPositionX.Text.ToSingle(), txtPositionY.Text.ToSingle(), txtPositionZ.Text.ToSingle());
-
-            var transform = mS * mRx * mRy * mRz;
-            transform.M41 = vP.X;
-            transform.M42 = vP.Y;
-            transform.M43 = vP.Z;
-
-            bone = transform;
-
-            SceneManager.Current.Models[0].SetTransform(bone, SceneManager.Current.SelectedBoneIndex);
-            SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
         }
 
         private void resetWidget()
         {
+            if (bone == null)
+            {
+                txtPositionX.Text = "-";
+                txtPositionY.Text = "-";
+                txtPositionZ.Text = "-";
+                txtRotationX.Text = "-";
+                txtRotationY.Text = "-";
+                txtRotationZ.Text = "-";
+                txtScaleX.Text = "-";
+                txtScaleY.Text = "-";
+                txtScaleZ.Text = "-";
+
+                txtPositionX.Enabled = false;
+                txtPositionY.Enabled = false;
+                txtPositionZ.Enabled = false;
+                txtRotationX.Enabled = false;
+                txtRotationY.Enabled = false;
+                txtRotationZ.Enabled = false;
+                txtScaleX.Enabled = false;
+                txtScaleY.Enabled = false;
+                txtScaleZ.Enabled = false;
+
+                return;
+            }
+
+            resetLinks();
+            gang.Reset();
+
+            txtPositionX.Enabled = true;
+            txtPositionY.Enabled = true;
+            txtPositionZ.Enabled = true;
+            txtRotationX.Enabled = true;
+            txtRotationY.Enabled = true;
+            txtRotationZ.Enabled = true;
+            txtScaleX.Enabled = true;
+            txtScaleY.Enabled = true;
+            txtScaleZ.Enabled = true;
+
+            relativity = (rdoRelative.Checked ? Relativity.Relative : Relativity.Absolute);
+
             if (relativity == Relativity.Relative)
             {
                 txtPositionX.Text = "0.00";
@@ -99,12 +111,20 @@ namespace Flummery
                 txtScaleX.Text = "100";
                 txtScaleY.Text = "100";
                 txtScaleZ.Text = "100";
+
+                btnFreezePosition.Enabled = false;
+                btnFreezeRotation.Enabled = false;
+                btnFreezeScale.Enabled = false;
             }
             else
             {
-                var p = bone.ExtractTranslation();
-                var r = bone.ExtractRotation().ToAxisAngle();
-                var s = bone.ExtractScale();
+                btnFreezePosition.Enabled = true;
+                btnFreezeRotation.Enabled = true;
+                btnFreezeScale.Enabled = true;
+
+                var p = bone.Transform.ExtractTranslation();
+                var r = bone.Transform.ExtractRotation().ToAxisAngle();
+                var s = bone.Transform.ExtractScale();
 
                 if (Math.Abs(r.X) < 0.0001f) { r.X = 0; }
                 if (Math.Abs(r.Y) < 0.0001f) { r.Y = 0; }
@@ -128,26 +148,186 @@ namespace Flummery
 
         private void rdoRelativity_CheckedChanged(object sender, EventArgs e)
         {
-            if (rdoRelative.Checked)
+            resetWidget();
+        }
+
+        private void btnFreezePosition_Click(object sender, EventArgs e)
+        {
+            ModelManipulator.Freeze((ModelMesh)SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag, FreezeComponents.Position);
+
+            txtPositionX.Text = "0.00";
+            txtPositionY.Text = "0.00";
+            txtPositionZ.Text = "0.00";
+        }
+
+        private void btnFreezeRotation_Click(object sender, EventArgs e)
+        {
+            ModelManipulator.Freeze((ModelMesh)SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag, FreezeComponents.Rotation);
+
+            txtRotationX.Text = "0";
+            txtRotationY.Text = "0";
+            txtRotationZ.Text = "0";
+        }
+
+        private void btnFreezeScale_Click(object sender, EventArgs e)
+        {
+            ModelManipulator.Freeze((ModelMesh)SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag, FreezeComponents.Scale);
+
+            txtScaleX.Text = "1";
+            txtScaleY.Text = "1";
+            txtScaleZ.Text = "1";
+        }
+
+        void resetLinks()
+        {
+            lblPositionXUnits.BackColor = SystemColors.ActiveBorder;
+            lblPositionYUnits.BackColor = SystemColors.ActiveBorder;
+            lblPositionZUnits.BackColor = SystemColors.ActiveBorder;
+            lblRotationXUnits.BackColor = SystemColors.ActiveBorder;
+            lblRotationYUnits.BackColor = SystemColors.ActiveBorder;
+            lblRotationZUnits.BackColor = SystemColors.ActiveBorder;
+            lblScaleXUnits.BackColor = SystemColors.ActiveBorder;
+            lblScaleYUnits.BackColor = SystemColors.ActiveBorder;
+            lblScaleZUnits.BackColor = SystemColors.ActiveBorder;
+        }
+
+        void gbGroup_MouseDown(object sender, MouseEventArgs e)
+        {
+            bMouseDown = true;
+
+            var gb = (GroupBox)sender;
+
+            dragStart = PointToClient(MousePosition);
+            dragStart.X -= gb.Location.X;
+            dragStart.Y -= gb.Location.Y;
+        }
+
+        void gbGroup_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!bMouseDown) { return; }
+
+            var gb = (GroupBox)sender;
+
+            var p = PointToClient(MousePosition);
+            p.X -= ((Control)sender).Location.X;
+            p.Y -= ((Control)sender).Location.Y;
+            var min = new Point(Math.Min(dragStart.X, p.X), Math.Min(dragStart.Y, p.Y));
+            var max = new Point(Math.Max(dragStart.X, p.X), Math.Max(dragStart.Y, p.Y));
+
+            var r = new Rectangle(min.X, min.Y, max.X - min.X, max.Y - min.Y);
+
+            foreach (var box in gb.Controls.OfType<TextBox>())
             {
-                relativity = Relativity.Relative;
-                btnSet.Visible = false;
-                btnAdd.Visible = true;
-                btnFreeze.Visible = true;
-                btnReset.Visible = true;
-                btnZero.Visible = true;
+                gb.Controls.Find(box.Name.Replace("txt", "lbl") + "Units", false)[0].BackColor = (box.Enabled && r.IntersectsWith(box.Bounds) ? SystemColors.Highlight : SystemColors.ActiveBorder);
+            }
+        }
+
+        void gbGroup_MouseUp(object sender, MouseEventArgs e)
+        {
+            var gb = (GroupBox)sender;
+
+            bMouseDown = false;
+
+            foreach (var label in gb.Controls.OfType<Label>())
+            {
+                if (label.BackColor == SystemColors.Highlight)
+                {
+                    gang.AddBox((TextBox)gb.Controls.Find(label.Name.Replace("lbl", "txt").Replace("Units", ""), false)[0]);
+                }
+            }
+        }
+
+        private void txtBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var box = (TextBox)sender;
+            Single s = 0;
+
+            if (Single.TryParse(box.Text, NumberStyles.Number, Flummery.Culture, out s))
+            {
+                box.Text = s.ToString();
+                box.Tag = s;
             }
             else
             {
-                relativity = Relativity.Absolute;
-                btnSet.Visible = true;
-                btnAdd.Visible = false;
-                btnFreeze.Visible = false;
-                btnReset.Visible = false;
-                btnZero.Visible = false;
+                box.Text = box.Tag.ToString();
+            }
+           
+            Single divisor = (rdoAbsolute.Checked ? 1.0f : 100.0f);
+
+            var mS = Matrix4.CreateScale(txtScaleX.Text.ToSingle() / divisor, txtScaleY.Text.ToSingle() / divisor, txtScaleZ.Text.ToSingle() / divisor);
+            var mRx = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(txtRotationX.Text.ToSingle()));
+            var mRy = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(txtRotationY.Text.ToSingle()));
+            var mRz = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(txtRotationZ.Text.ToSingle()));
+            var vP = new OpenTK.Vector3(txtPositionX.Text.ToSingle(), txtPositionY.Text.ToSingle(), txtPositionZ.Text.ToSingle());
+
+            var transform = mS * mRx * mRy * mRz;
+            transform.M41 = vP.X;
+            transform.M42 = vP.Y;
+            transform.M43 = vP.Z;
+
+            if (rdoAbsolute.Checked)
+            {
+                bone.Transform = transform;
+            }
+            else
+            {
+                bone.Transform *= transform;
             }
 
+            SceneManager.Current.Models[0].SetTransform(bone.Transform, SceneManager.Current.SelectedBoneIndex);
+            SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
+
             resetWidget();
+        }
+
+        private void txtBox_Click(object sender, EventArgs e)
+        {
+            gang.SetPrimary((TextBox)sender);
+        }
+
+        private void txtBox_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                this.Validate();
+                e.Handled = true;
+            }
+            else
+            {
+                gang.UpdateBoxes();
+            }
+        }
+    }
+
+    public class GangedInput
+    {
+        List<TextBox> boxes = new List<TextBox>();
+
+        public void SetPrimary(TextBox box)
+        {
+            if (boxes.Contains(box))
+            {
+                boxes.Remove(box);
+                boxes.Insert(0, box);
+            }
+        }
+
+        public void AddBox(TextBox box)
+        {
+            boxes.Add(box);
+        }
+
+        public void Reset()
+        {
+            boxes.Clear();
+        }
+
+        public void UpdateBoxes()
+        {
+            for (int i = 1; i < boxes.Count; i++)
+            {
+                boxes[i].Text = boxes[0].Text;
+            }
         }
     }
 }
