@@ -81,12 +81,17 @@
     <Compile Include="ContentPipeline\BurnoutParadise\BOMImporter.cs" />
     <Compile Include="ContentPipeline\ContentExporter.cs" />
     <Compile Include="ContentPipeline\ContentImporter.cs" />
+    <Compile Include="ContentPipeline\Core\BMPExporter.cs" />
     <Compile Include="ContentPipeline\Core\BMPImporter.cs" />
     <Compile Include="ContentPipeline\Core\FBXExporter.cs" />
     <Compile Include="ContentPipeline\Core\FBXImporter.cs" />
+    <Compile Include="ContentPipeline\Core\JPGExporter.cs" />
     <Compile Include="ContentPipeline\Core\JPGImporter.cs" />
+    <Compile Include="ContentPipeline\Core\PNGExporter.cs" />
     <Compile Include="ContentPipeline\Core\PNGImporter.cs" />
+    <Compile Include="ContentPipeline\Core\TGAExporter.cs" />
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
+    <Compile Include="ContentPipeline\Core\TIFExporter.cs" />
     <Compile Include="ContentPipeline\ExportSettings.cs" />
     <Compile Include="ContentPipeline\Stainless\ACTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\C1CarImporter.cs" />
