@@ -54,8 +54,6 @@ namespace Flummery
             materials.RegisterEventHandlers();
             settings.RegisterEventHandlers();
 
-            BuildMenu();
-
             ToxicRagers.Helpers.Logger.ResetLog();
 
             SetActionScalingText("Action Scaling: 1.000");
@@ -106,125 +104,14 @@ namespace Flummery
             e.Handled = InputManager.Current.HandleInput(sender, e);
         }
 
-        private void BuildMenu()
-        {
-            MainMenu menu = new MainMenu();
-            menu.MenuItems.Add("&File");
-            menu.MenuItems[0].MenuItems.Add("&New", menuClick);
-            menu.MenuItems[0].MenuItems[0].Shortcut = Shortcut.CtrlN;
-            menu.MenuItems[0].MenuItems.Add("&Open...");
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon / Splat Pack");
-            menu.MenuItems[0].MenuItems[1].MenuItems[0].MenuItems.Add("Actor", menuCarmageddonClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[0].MenuItems.Add("Car", menuCarmageddonClick);
-
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon 2");
-            menu.MenuItems[0].MenuItems[1].MenuItems[1].MenuItems.Add("Actor", menuCarmageddon2Click);
-
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon Mobile");
-            menu.MenuItems[0].MenuItems[1].MenuItems[2].MenuItems.Add("Vehicle", menuCarmageddonMobileClick);
-
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Accessory", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Environment", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Pedestrian", menuCarmageddonReincarnationClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[3].MenuItems.Add("Vehicle", menuCarmageddonReincarnationClick);
-
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("Novadrome");
-            menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Environment", menuNovadromeClick);
-            menu.MenuItems[0].MenuItems[1].MenuItems[4].MenuItems.Add("Vehicle", menuNovadromeClick);
-
-            menu.MenuItems[0].MenuItems[1].MenuItems.Add("TDR2000");
-            menu.MenuItems[0].MenuItems[1].MenuItems[5].MenuItems.Add("Hierarchy", menuTDR2000Click);
-
-            menu.MenuItems[0].MenuItems.Add("&Import");
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Autodesk FBX File...", menuImportClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender ACT File...", menuImportClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("BRender DAT File...", menuImportClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless CNT File...", menuImportClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Stainless MDL File...", menuImportClick);
-            menu.MenuItems[0].MenuItems[2].MenuItems.Add("Torus MSHS File...", menuImportClick);
-
-            menu.MenuItems[0].MenuItems.Add("-");
-            menu.MenuItems[0].MenuItems.Add("Save", menuClick);
-
-            menu.MenuItems[0].MenuItems.Add("Save As...");
-            menu.MenuItems[0].MenuItems[5].MenuItems.Add("Carmageddon Reincarnation");
-            menu.MenuItems[0].MenuItems[5].MenuItems[0].MenuItems.Add("Environment", menuSaveAsClick);
-            menu.MenuItems[0].MenuItems[5].MenuItems[0].MenuItems.Add("Vehicle", menuSaveAsClick);
-
-            menu.MenuItems[0].MenuItems.Add("&Export");
-            menu.MenuItems[0].MenuItems[6].MenuItems.Add("Autodesk FBX File...", menuExportClick);
-            menu.MenuItems[0].MenuItems[6].MenuItems.Add("Stainless CNT File...", menuExportClick);
-
-            menu.MenuItems[0].MenuItems.Add("-");
-            menu.MenuItems[0].MenuItems.Add("E&xit", menuClick);
-
-            menu.MenuItems.Add("&View");
-            menu.MenuItems[1].MenuItems.Add("Preferences", menuViewClick);
-
-            menu.MenuItems.Add("&Object");
-            menu.MenuItems[2].MenuItems.Add("New...", menuObjectClick);
-            menu.MenuItems[2].MenuItems.Add("Remove...", menuObjectClick);
-            menu.MenuItems[2].MenuItems.Add("-");
-            menu.MenuItems[2].MenuItems.Add("Modify model...");
-            menu.MenuItems[2].MenuItems[3].MenuItems.Add("Modify geometry...", menuObjectClick);
-            menu.MenuItems[2].MenuItems.Add("Modify actor...", menuObjectClick);
-            menu.MenuItems[2].MenuItems.Add("-");
-            menu.MenuItems[2].MenuItems.Add("Rename", menuObjectClick);
-            menu.MenuItems[2].MenuItems.Add("-");
-            menu.MenuItems[2].MenuItems.Add("Flatten hierarchy...", menuObjectClick);
-            menu.MenuItems[2].MenuItems.Add("-");
-            menu.MenuItems[2].MenuItems.Add("Invert texture 'v' coordinates", menuObjectClick);
-
-            menu.MenuItems.Add("&Tools");
-            menu.MenuItems[3].MenuItems.Add("General");
-            menu.MenuItems[3].MenuItems[0].MenuItems.Add("TDX Convertor", menuToolsClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems.Add("Process all...");
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("CNT files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("LIGHT files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("MDL files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("MTL files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("TDX files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Accessory.txt files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Routes.txt files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("vehicle_setup.cfg files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Structure.xml files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("SystemsDamage.xml files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("Setup.lol files", menuCarmageddonReincarnationClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("TXT files (C1 Car)", menuCarmageddonClick);
-            menu.MenuItems[3].MenuItems[0].MenuItems[1].MenuItems.Add("XT2 files", menuNovadromeClick);
-            menu.MenuItems[3].MenuItems.Add("Carma 2");
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Convert &&Actors to Entities", menuCarmageddon2Click);
-            menu.MenuItems[3].MenuItems[1].MenuItems.Add("Scale for C:R", menuCarmageddon2Click);
-            menu.MenuItems[3].MenuItems.Add("Reincarnation");
-            menu.MenuItems[3].MenuItems[2].MenuItems.Add("Wheel Preview", menuCarmageddonReincarnationClick);
-
-            menu.MenuItems.Add("&Help");
-            menu.MenuItems[4].MenuItems.Add("About Flummery", menuClick);
-
-            this.Menu = menu;
-        }
-
         private void menuClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
                 case "&New":
                     scene.Reset();
-                    break;
-
-                case "Save":
-                    sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
-                    if (sfdBrowse.ShowDialog() == DialogResult.OK)
-                    {
-                        var cx = new CNTExporter();
-                        cx.Export(scene.Models[0], sfdBrowse.FileName);
-
-                        var mx = new MDLExporter();
-                        mx.Export(scene.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\");
-                    }
                     break;
 
                 case "E&xit":
@@ -240,7 +127,7 @@ namespace Flummery
 
         private void menuImportClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
@@ -304,7 +191,7 @@ namespace Flummery
 
         private void menuExportClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
@@ -331,7 +218,7 @@ namespace Flummery
 
         private void menuCarmageddonClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.RightHanded);
 
@@ -363,7 +250,7 @@ namespace Flummery
 
         private void menuCarmageddon2Click(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.RightHanded);
 
@@ -428,14 +315,14 @@ namespace Flummery
                     SceneManager.Current.Change(ChangeType.Munge, -1);
                     break;
 
-                case "Scale for C:R":
+                case "Scale for Carmageddon Reincarnation":
                     break;
             }
         }
 
         private void menuCarmageddonMobileClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
@@ -459,7 +346,7 @@ namespace Flummery
 
         private void menuCarmageddonReincarnationClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
@@ -565,7 +452,7 @@ namespace Flummery
 
         private void menuNovadromeClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
@@ -671,7 +558,7 @@ namespace Flummery
 
         private void menuTDR2000Click(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
@@ -687,9 +574,29 @@ namespace Flummery
             }
         }
 
+        private void menuSaveForClick(object sender, EventArgs e)
+        {
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
+
+            switch (mi.Text)
+            {
+                case "Carmageddon Reincarnation":
+                    sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
+                    if (sfdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        var cx = new CNTExporter();
+                        cx.Export(scene.Models[0], sfdBrowse.FileName);
+
+                        var mx = new MDLExporter();
+                        mx.Export(scene.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\");
+                    }
+                    break;
+            }
+        }
+
         private void menuSaveAsClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
@@ -707,7 +614,7 @@ namespace Flummery
 
         private void menuViewClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
@@ -723,7 +630,7 @@ namespace Flummery
 
         private void menuObjectClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             int boneIndex = SceneManager.Current.SelectedBoneIndex;
             int modelIndex = SceneManager.Current.SelectedModelIndex;
@@ -793,7 +700,7 @@ namespace Flummery
 
         private void menuToolsClick(object sender, EventArgs e)
         {
-            MenuItem mi = (MenuItem)sender;
+            ToolStripMenuItem mi = (ToolStripMenuItem)sender;
 
             switch (mi.Text)
             {
