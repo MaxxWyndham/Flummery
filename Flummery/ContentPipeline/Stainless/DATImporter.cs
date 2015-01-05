@@ -53,13 +53,13 @@ namespace Flummery.ContentPipeline.Stainless
 
                     if (face.MaterialID > -1 && mesh.MeshParts[materialID].Material == null)
                     {
-                        var material = SceneManager.Current.Materials.Find(m => m.Name == datmesh.Mesh.Materials[face.MaterialID]);
+                        var material = SceneManager.Current.Materials.Entries.Find(m => m.Name == datmesh.Mesh.Materials[face.MaterialID]);
                         if (material == null)
                         { 
                             material = new Material() { Name = datmesh.Mesh.Materials[face.MaterialID] };
                             SceneManager.Current.Add(material);
                         }
-                        mesh.MeshParts[materialID].Material = material;
+                        mesh.MeshParts[materialID].Material = (Material)material;
                     }
 
                     mesh.MeshParts[materialID].AddFace(

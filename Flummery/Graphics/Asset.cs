@@ -68,7 +68,7 @@ namespace Flummery
 
     public abstract class AssetList
     {
-        List<Asset> assets;
+        protected List<Asset> assets;
 
         public List<Asset> Entries
         {
@@ -78,6 +78,14 @@ namespace Flummery
         public AssetList()
         {
             assets = new List<Asset>();
+        }
+
+        public virtual IEnumerator<T> GetEnumerator<T>() where T : Asset
+        {
+            foreach (T asset in assets)
+            {
+                yield return asset;
+            }
         }
     }
 }
