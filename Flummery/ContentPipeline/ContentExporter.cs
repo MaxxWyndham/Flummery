@@ -8,7 +8,11 @@ namespace Flummery.ContentPipeline
 
         public ExportSettings ExportSettings { get { return settings; } }
 
-        public virtual void Export(Asset asset, string Path)
+        public virtual void Export(Asset asset, string path)
+        {
+        }
+
+        public virtual void Export(AssetList asset, string path)
         {
         }
     }
