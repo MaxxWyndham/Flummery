@@ -42,7 +42,7 @@ namespace Flummery
         RenderMeshMode renderMode = RenderMeshMode.Solid;
         List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
-        List<Material> materials = new List<Material>();
+        MaterialList materials = new MaterialList();
 
         Matrix4 sceneTransform = Matrix4.Identity;
         CoordinateSystem coords = CoordinateSystem.LeftHanded;
@@ -62,7 +62,7 @@ namespace Flummery
 
         public List<Entity> Entities { get { return entities; } }
         public List<Model> Models { get { return models; } }
-        public List<Material> Materials { get { return materials; } }
+        public MaterialList Materials { get { return materials; } }
 
         public Matrix4 Transform { get { return sceneTransform; } }
 
@@ -133,8 +133,8 @@ namespace Flummery
             }
             else
             {
-                index = materials.Count;
-                materials.Add(asset as Material);
+                index = materials.Entries.Count;
+                materials.Entries.Add(asset as Material);
             }
 
             if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset, index)); }
@@ -203,7 +203,7 @@ namespace Flummery
             content.Reset();
             entities.Clear();
             models.Clear();
-            materials.Clear();
+            materials.Entries.Clear();
             bb = null;
 
             entities.Add(node);

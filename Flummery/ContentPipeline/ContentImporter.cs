@@ -30,12 +30,12 @@ namespace Flummery.ContentPipeline
             }
         }
 
-        public virtual Asset Import(string Path)
+        public virtual Asset Import(string path)
         {
             return default(Asset);
         }
 
-        public virtual AssetList ImportMany(string Path)
+        public virtual AssetList ImportMany(string path)
         {
             return default(AssetList);
         }

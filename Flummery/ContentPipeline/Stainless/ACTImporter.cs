@@ -46,7 +46,7 @@ namespace Flummery.ContentPipeline.Stainless
                         break;
 
                     case Section.Material:
-                        material = SceneManager.Current.Materials.Find(m => m.Name == section.Material);
+                        material = (Material)SceneManager.Current.Materials.Entries.Find(m => m.Name == section.Material);
                         if (material == null)
                         {
                             material = new Material() { Name = section.Material };

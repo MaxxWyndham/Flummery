@@ -95,12 +95,15 @@
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
     <Compile Include="ContentPipeline\Core\TIFExporter.cs" />
     <Compile Include="ContentPipeline\ExportSettings.cs" />
+    <Compile Include="ContentPipeline\Stainless\ACTExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\ACTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\C1CarImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\DATExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\DATImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MaterialImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\MATExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\PIXImporter.cs" />
