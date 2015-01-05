@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+using Flummery.ContentPipeline.Core;
+using Flummery.ContentPipeline.Stainless;
 using Flummery.Util;
 
 using OpenTK;
@@ -14,7 +16,6 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using WeifenLuo.WinFormsUI.Docking;
 using ToxicRagers.Carmageddon2.Formats;
-using Flummery.ContentPipeline.Stainless;
 
 namespace Flummery
 {
@@ -580,6 +581,37 @@ namespace Flummery
 
             switch (mi.Text)
             {
+                case "Carmageddon 2":
+                    sfdBrowse.Filter = "BRender ACT files (*.act)|*.act";
+
+                    if (sfdBrowse.ShowDialog() == DialogResult.OK)
+                    {
+                        string directory = Path.GetDirectoryName(sfdBrowse.FileName) + "\\";
+                        var textures = new HashSet<string>();
+                        if (!Directory.Exists(directory + "tiffrgb")) { Directory.CreateDirectory(directory + "tiffrgb"); }
+
+                        var ax = new ACTExporter();
+                        ax.Export(scene.Models[0], sfdBrowse.FileName);
+
+                        var dx = new DATExporter();
+                        dx.Export(scene.Models[0], directory + Path.GetFileNameWithoutExtension(sfdBrowse.FileName) + ".dat");
+
+                        var mx = new MATExporter();
+                        mx.Export(SceneManager.Current.Materials, directory + Path.GetFileNameWithoutExtension(sfdBrowse.FileName) + ".mat");
+
+                        foreach (var material in SceneManager.Current.Materials)
+                        {
+                            if (material.Texture.Name != null && textures.Add(material.Texture.Name))
+                            {
+                                var tx = new TIFExporter();
+                                tx.Export(material.Texture, directory + "tiffrgb\\" + material.Texture.Name + ".tif");
+                            }
+                        }
+
+                        SceneManager.Current.UpdateProgress(Path.GetFileName(sfdBrowse.FileName) + " saved successfully");
+                    }
+                    break;
+
                 case "Carmageddon Reincarnation":
                     sfdBrowse.Filter = "Stainless CNT files (*.cnt)|*.cnt";
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
