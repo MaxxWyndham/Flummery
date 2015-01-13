@@ -30,21 +30,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin4 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
-            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin4 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient10 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient22 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin4 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient4 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient23 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient11 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient24 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient4 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient25 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient26 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient12 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient27 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient28 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
+            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin1 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient1 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient2 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient3 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient4 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient5 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             this.ofdBrowse = new System.Windows.Forms.OpenFileDialog();
             this.sfdBrowse = new System.Windows.Forms.SaveFileDialog();
             this.tsslProgress = new System.Windows.Forms.ToolStripStatusLabel();
@@ -82,6 +82,8 @@
             this.tsmiFileImportTorusMSHSFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFileSaveFor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiFileSaveForCarmageddon2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiFileSaveForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSaveAsCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSaveAsCarmageddonReincarnationEnvironment = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,8 +132,8 @@
             this.tsmiToolsCarmageddonReincarnationWheelPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveForCarmageddon2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmsiToolsTDR2000 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmsiToolsTDR2000RemoveLODFromVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -177,52 +179,52 @@
             this.dockPanel.Location = new System.Drawing.Point(0, 24);
             this.dockPanel.Name = "dockPanel";
             this.dockPanel.Size = new System.Drawing.Size(1328, 594);
-            dockPanelGradient10.EndColor = System.Drawing.SystemColors.ControlLight;
-            dockPanelGradient10.StartColor = System.Drawing.SystemColors.ControlLight;
-            autoHideStripSkin4.DockStripGradient = dockPanelGradient10;
-            tabGradient22.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient22.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient22.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-            autoHideStripSkin4.TabGradient = tabGradient22;
-            autoHideStripSkin4.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            dockPanelSkin4.AutoHideStripSkin = autoHideStripSkin4;
-            tabGradient23.EndColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient23.StartColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient23.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripGradient4.ActiveTabGradient = tabGradient23;
-            dockPanelGradient11.EndColor = System.Drawing.SystemColors.Control;
-            dockPanelGradient11.StartColor = System.Drawing.SystemColors.Control;
-            dockPaneStripGradient4.DockStripGradient = dockPanelGradient11;
-            tabGradient24.EndColor = System.Drawing.SystemColors.ControlLight;
-            tabGradient24.StartColor = System.Drawing.SystemColors.ControlLight;
-            tabGradient24.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripGradient4.InactiveTabGradient = tabGradient24;
-            dockPaneStripSkin4.DocumentGradient = dockPaneStripGradient4;
-            dockPaneStripSkin4.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            tabGradient25.EndColor = System.Drawing.SystemColors.ActiveCaption;
-            tabGradient25.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient25.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
-            tabGradient25.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dockPaneStripToolWindowGradient4.ActiveCaptionGradient = tabGradient25;
-            tabGradient26.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient26.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient26.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripToolWindowGradient4.ActiveTabGradient = tabGradient26;
-            dockPanelGradient12.EndColor = System.Drawing.SystemColors.ControlLight;
-            dockPanelGradient12.StartColor = System.Drawing.SystemColors.ControlLight;
-            dockPaneStripToolWindowGradient4.DockStripGradient = dockPanelGradient12;
-            tabGradient27.EndColor = System.Drawing.SystemColors.InactiveCaption;
-            tabGradient27.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient27.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            tabGradient27.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
-            dockPaneStripToolWindowGradient4.InactiveCaptionGradient = tabGradient27;
-            tabGradient28.EndColor = System.Drawing.Color.Transparent;
-            tabGradient28.StartColor = System.Drawing.Color.Transparent;
-            tabGradient28.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-            dockPaneStripToolWindowGradient4.InactiveTabGradient = tabGradient28;
-            dockPaneStripSkin4.ToolWindowGradient = dockPaneStripToolWindowGradient4;
-            dockPanelSkin4.DockPaneStripSkin = dockPaneStripSkin4;
-            this.dockPanel.Skin = dockPanelSkin4;
+            dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
+            autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
+            tabGradient1.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient1.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient1.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            autoHideStripSkin1.TabGradient = tabGradient1;
+            autoHideStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            dockPanelSkin1.AutoHideStripSkin = autoHideStripSkin1;
+            tabGradient2.EndColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient2.StartColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient2.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripGradient1.ActiveTabGradient = tabGradient2;
+            dockPanelGradient2.EndColor = System.Drawing.SystemColors.Control;
+            dockPanelGradient2.StartColor = System.Drawing.SystemColors.Control;
+            dockPaneStripGradient1.DockStripGradient = dockPanelGradient2;
+            tabGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
+            tabGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
+            tabGradient3.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripGradient1.InactiveTabGradient = tabGradient3;
+            dockPaneStripSkin1.DocumentGradient = dockPaneStripGradient1;
+            dockPaneStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            tabGradient4.EndColor = System.Drawing.SystemColors.ActiveCaption;
+            tabGradient4.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient4.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
+            tabGradient4.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dockPaneStripToolWindowGradient1.ActiveCaptionGradient = tabGradient4;
+            tabGradient5.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient5.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient5.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripToolWindowGradient1.ActiveTabGradient = tabGradient5;
+            dockPanelGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
+            dockPaneStripToolWindowGradient1.DockStripGradient = dockPanelGradient3;
+            tabGradient6.EndColor = System.Drawing.SystemColors.InactiveCaption;
+            tabGradient6.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient6.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            tabGradient6.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
+            dockPaneStripToolWindowGradient1.InactiveCaptionGradient = tabGradient6;
+            tabGradient7.EndColor = System.Drawing.Color.Transparent;
+            tabGradient7.StartColor = System.Drawing.Color.Transparent;
+            tabGradient7.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            dockPaneStripToolWindowGradient1.InactiveTabGradient = tabGradient7;
+            dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
+            dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
+            this.dockPanel.Skin = dockPanelSkin1;
             this.dockPanel.TabIndex = 4;
             // 
             // menu
@@ -259,7 +261,7 @@
             // 
             this.tsmiFileNew.Name = "tsmiFileNew";
             this.tsmiFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tsmiFileNew.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileNew.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileNew.Text = "&New";
             this.tsmiFileNew.Click += new System.EventHandler(this.menuClick);
             // 
@@ -273,7 +275,7 @@
             this.tsmiFileOpenNovadrome,
             this.tsmiFileOpenTDR2000});
             this.tsmiFileOpen.Name = "tsmiFileOpen";
-            this.tsmiFileOpen.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileOpen.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileOpen.Text = "&Open...";
             // 
             // tsmiFileOpenCarmageddonSplatPack
@@ -416,7 +418,7 @@
             this.tsmiFileImportStainlessMDLFile,
             this.tsmiFileImportTorusMSHSFile});
             this.tsmiFileImport.Name = "tsmiFileImport";
-            this.tsmiFileImport.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileImport.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileImport.Text = "&Import";
             // 
             // tsmiFileImportAutodeskFBXFile
@@ -464,7 +466,7 @@
             // tsmiFileSeparator1
             // 
             this.tsmiFileSeparator1.Name = "tsmiFileSeparator1";
-            this.tsmiFileSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.tsmiFileSeparator1.Size = new System.Drawing.Size(138, 6);
             // 
             // tsmiFileSaveFor
             // 
@@ -472,15 +474,33 @@
             this.tsmiFileSaveForCarmageddon2,
             this.tsmiFileSaveForCarmageddonReincarnation});
             this.tsmiFileSaveFor.Name = "tsmiFileSaveFor";
-            this.tsmiFileSaveFor.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileSaveFor.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileSaveFor.Text = "Save For...";
+            // 
+            // tsmiFileSaveForCarmageddon2
+            // 
+            this.tsmiFileSaveForCarmageddon2.Name = "tsmiFileSaveForCarmageddon2";
+            this.tsmiFileSaveForCarmageddon2.Size = new System.Drawing.Size(226, 22);
+            this.tsmiFileSaveForCarmageddon2.Text = "Carmageddon 2";
+            this.tsmiFileSaveForCarmageddon2.ToolTipText = "This will save the current scene to the selected ACT file and generate all suppor" +
+    "ting MAT, DAT and TIF files automatically";
+            this.tsmiFileSaveForCarmageddon2.Click += new System.EventHandler(this.menuSaveForClick);
+            // 
+            // tsmiFileSaveForCarmageddonReincarnation
+            // 
+            this.tsmiFileSaveForCarmageddonReincarnation.Name = "tsmiFileSaveForCarmageddonReincarnation";
+            this.tsmiFileSaveForCarmageddonReincarnation.Size = new System.Drawing.Size(226, 22);
+            this.tsmiFileSaveForCarmageddonReincarnation.Text = "Carmageddon Reincarnation";
+            this.tsmiFileSaveForCarmageddonReincarnation.ToolTipText = "This will save the current scene to the selected CNT file and generate all suppor" +
+    "ting MDL files automatically";
+            this.tsmiFileSaveForCarmageddonReincarnation.Click += new System.EventHandler(this.menuSaveForClick);
             // 
             // tsmiFileSaveAs
             // 
             this.tsmiFileSaveAs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFileSaveAsCarmageddonReincarnation});
             this.tsmiFileSaveAs.Name = "tsmiFileSaveAs";
-            this.tsmiFileSaveAs.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileSaveAs.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileSaveAs.Text = "Save As...";
             // 
             // tsmiFileSaveAsCarmageddonReincarnation
@@ -512,7 +532,7 @@
             this.tsmiFileExportAutodeskFBXFile,
             this.tsmiFileExportStainlessCNTFile});
             this.tsmiFileExport.Name = "tsmiFileExport";
-            this.tsmiFileExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileExport.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileExport.Text = "&Export";
             // 
             // tsmiFileExportAutodeskFBXFile
@@ -532,12 +552,12 @@
             // tsmiFileSeparator2
             // 
             this.tsmiFileSeparator2.Name = "tsmiFileSeparator2";
-            this.tsmiFileSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.tsmiFileSeparator2.Size = new System.Drawing.Size(138, 6);
             // 
             // tsmiFileExit
             // 
             this.tsmiFileExit.Name = "tsmiFileExit";
-            this.tsmiFileExit.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileExit.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileExit.Text = "E&xit";
             this.tsmiFileExit.Click += new System.EventHandler(this.menuClick);
             // 
@@ -552,7 +572,7 @@
             // tsmiViewPreferences
             // 
             this.tsmiViewPreferences.Name = "tsmiViewPreferences";
-            this.tsmiViewPreferences.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewPreferences.Size = new System.Drawing.Size(135, 22);
             this.tsmiViewPreferences.Text = "Preferences";
             this.tsmiViewPreferences.Click += new System.EventHandler(this.menuViewClick);
             // 
@@ -656,7 +676,8 @@
             this.tsmiTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiToolsGeneral,
             this.tsmiToolsCarmageddon2,
-            this.tsmiToolsCarmageddonReincarnation});
+            this.tsmiToolsCarmageddonReincarnation,
+            this.tmsiToolsTDR2000});
             this.tsmiTools.Name = "tsmiTools";
             this.tsmiTools.Size = new System.Drawing.Size(48, 20);
             this.tsmiTools.Text = "&Tools";
@@ -841,23 +862,20 @@
             this.tsmiHelpAboutFlummery.Text = "About Flummery";
             this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
             // 
-            // tsmiFileSaveForCarmageddon2
+            // tmsiToolsTDR2000
             // 
-            this.tsmiFileSaveForCarmageddon2.Name = "tsmiFileSaveForCarmageddon2";
-            this.tsmiFileSaveForCarmageddon2.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileSaveForCarmageddon2.Text = "Carmageddon 2";
-            this.tsmiFileSaveForCarmageddon2.ToolTipText = "This will save the current scene to the selected ACT file and generate all suppor" +
-    "ting MAT, DAT and TIF files automatically";
-            this.tsmiFileSaveForCarmageddon2.Click += new System.EventHandler(this.menuSaveForClick);
+            this.tmsiToolsTDR2000.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tmsiToolsTDR2000RemoveLODFromVehicle});
+            this.tmsiToolsTDR2000.Name = "tmsiToolsTDR2000";
+            this.tmsiToolsTDR2000.Size = new System.Drawing.Size(226, 22);
+            this.tmsiToolsTDR2000.Text = "TDR2000";
             // 
-            // tsmiFileSaveForCarmageddonReincarnation
+            // tmsiToolsTDR2000RemoveLODFromVehicle
             // 
-            this.tsmiFileSaveForCarmageddonReincarnation.Name = "tsmiFileSaveForCarmageddonReincarnation";
-            this.tsmiFileSaveForCarmageddonReincarnation.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileSaveForCarmageddonReincarnation.Text = "Carmageddon Reincarnation";
-            this.tsmiFileSaveForCarmageddonReincarnation.ToolTipText = "This will save the current scene to the selected CNT file and generate all suppor" +
-    "ting MDL files automatically";
-            this.tsmiFileSaveForCarmageddonReincarnation.Click += new System.EventHandler(this.menuSaveForClick);
+            this.tmsiToolsTDR2000RemoveLODFromVehicle.Name = "tmsiToolsTDR2000RemoveLODFromVehicle";
+            this.tmsiToolsTDR2000RemoveLODFromVehicle.Size = new System.Drawing.Size(213, 22);
+            this.tmsiToolsTDR2000RemoveLODFromVehicle.Text = "Remove LOD from Vehicle";
+            this.tmsiToolsTDR2000RemoveLODFromVehicle.Click += new System.EventHandler(this.menuTDR2000Click);
             // 
             // frmMain
             // 
@@ -983,6 +1001,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiHelpAboutFlummery;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveForCarmageddon2;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveForCarmageddonReincarnation;
+        private System.Windows.Forms.ToolStripMenuItem tmsiToolsTDR2000;
+        private System.Windows.Forms.ToolStripMenuItem tmsiToolsTDR2000RemoveLODFromVehicle;
 
         //private CustomGLControl glcViewport;
 
