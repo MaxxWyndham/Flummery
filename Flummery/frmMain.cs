@@ -492,6 +492,25 @@ namespace Flummery
 
                         switch (extension)
                         {
+                            case "anm":
+                                // Content\Peds\animations
+                                break;
+
+                            case "bin":
+                                // Content\UI\assets\h1080_default\animation_binaries
+                                // Content\Vehicles\*\ui_assets
+                                break;
+
+                            case "bzn":
+                                // Content\Environments\
+                                break;
+
+                            case "rba":
+                                break;
+
+                            case "shp":
+                                break;
+
                             case "cnt":
                                 result = ToxicRagers.Stainless.Formats.CNT.Load(fi.FullName);
                                 break;
@@ -571,6 +590,22 @@ namespace Flummery
                         scene.Reset();
                         scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
+                    break;
+
+                case "Remove LOD from Vehicle":
+                    if (scene.Models.Count == 0) { return; }
+
+                    for (int i = scene.Models[0].Bones.Count - 1; i >= 0; i--)
+                    {
+                        var bone = scene.Models[0].Bones[i];
+
+                        if (bone.Name.Contains("LOD") && (bone.Name.Contains("23") || bone.Name.Contains("33")))
+                        {
+                            scene.Models[0].RemoveBone(bone.Index);
+                        }
+                    }
+
+                    SceneManager.Current.Change(ChangeType.Munge, -1);
                     break;
             }
         }
