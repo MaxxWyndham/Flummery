@@ -599,9 +599,13 @@ namespace Flummery
                     {
                         var bone = scene.Models[0].Bones[i];
 
-                        if (bone.Name.Contains("LOD") && (bone.Name.Contains("23") || bone.Name.Contains("33")))
+                        if (bone.Name.Contains("LOD"))
                         {
-                            scene.Models[0].RemoveBone(bone.Index);
+                            string name = bone.Name.Replace("_", "");
+                            if (name.Substring(name.IndexOf("LOD") + 3, 1) != "1")
+                            {
+                                scene.Models[0].RemoveBone(bone.Index);
+                            }
                         }
                     }
 

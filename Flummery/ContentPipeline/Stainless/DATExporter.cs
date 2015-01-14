@@ -35,7 +35,7 @@ namespace Flummery.ContentPipeline.Stainless
                             new Vector2(v0.UV.X, v0.UV.Y),
                             new Vector2(v1.UV.X, v1.UV.Y),
                             new Vector2(v2.UV.X, v2.UV.Y),
-                            m.Materials.Count
+                            m.Materials.Count - 1
                         );
                     }
                 }
