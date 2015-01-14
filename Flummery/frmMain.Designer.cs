@@ -130,10 +130,10 @@
             this.tsmiToolsCarmageddon2ScaleForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsCarmageddonReincarnationWheelPreview = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
             this.tmsiToolsTDR2000 = new System.Windows.Forms.ToolStripMenuItem();
             this.tmsiToolsTDR2000RemoveLODFromVehicle = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -696,7 +696,7 @@
             this.tsmiToolsGeneralTDXConvertor.Name = "tsmiToolsGeneralTDXConvertor";
             this.tsmiToolsGeneralTDXConvertor.Size = new System.Drawing.Size(152, 22);
             this.tsmiToolsGeneralTDXConvertor.Text = "TDX Convertor";
-            this.tsmiToolsGeneralTDXConvertor.Click += new System.EventHandler(this.menuObjectClick);
+            this.tsmiToolsGeneralTDXConvertor.Click += new System.EventHandler(this.menuToolsClick);
             // 
             // tsmiToolsGeneralProcessAll
             // 
@@ -847,21 +847,6 @@
             this.tsmiToolsCarmageddonReincarnationWheelPreview.Text = "Wheel Preview";
             this.tsmiToolsCarmageddonReincarnationWheelPreview.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
             // 
-            // tsmiHelp
-            // 
-            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiHelpAboutFlummery});
-            this.tsmiHelp.Name = "tsmiHelp";
-            this.tsmiHelp.Size = new System.Drawing.Size(44, 20);
-            this.tsmiHelp.Text = "&Help";
-            // 
-            // tsmiHelpAboutFlummery
-            // 
-            this.tsmiHelpAboutFlummery.Name = "tsmiHelpAboutFlummery";
-            this.tsmiHelpAboutFlummery.Size = new System.Drawing.Size(164, 22);
-            this.tsmiHelpAboutFlummery.Text = "About Flummery";
-            this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
-            // 
             // tmsiToolsTDR2000
             // 
             this.tmsiToolsTDR2000.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -876,6 +861,21 @@
             this.tmsiToolsTDR2000RemoveLODFromVehicle.Size = new System.Drawing.Size(213, 22);
             this.tmsiToolsTDR2000RemoveLODFromVehicle.Text = "Remove LOD from Vehicle";
             this.tmsiToolsTDR2000RemoveLODFromVehicle.Click += new System.EventHandler(this.menuTDR2000Click);
+            // 
+            // tsmiHelp
+            // 
+            this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiHelpAboutFlummery});
+            this.tsmiHelp.Name = "tsmiHelp";
+            this.tsmiHelp.Size = new System.Drawing.Size(44, 20);
+            this.tsmiHelp.Text = "&Help";
+            // 
+            // tsmiHelpAboutFlummery
+            // 
+            this.tsmiHelpAboutFlummery.Name = "tsmiHelpAboutFlummery";
+            this.tsmiHelpAboutFlummery.Size = new System.Drawing.Size(164, 22);
+            this.tsmiHelpAboutFlummery.Text = "About Flummery";
+            this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
             // 
             // frmMain
             // 
