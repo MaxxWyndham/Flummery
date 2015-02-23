@@ -125,6 +125,7 @@
             this.tsmiToolsGeneralProcessAllSetupLOLFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsGeneralProcessAllTXTFilesC1Car = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsGeneralProcessAllXT2Files = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiToolsGeneralProcessAllZADFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsCarmageddon2 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsCarmageddon2ConvertActorsToEntities = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsCarmageddon2ScaleForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,6 +135,7 @@
             this.tmsiToolsTDR2000RemoveLODFromVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -713,7 +715,8 @@
             this.tsmiToolsGeneralProcessAllSystemsDamageXMLFiles,
             this.tsmiToolsGeneralProcessAllSetupLOLFiles,
             this.tsmiToolsGeneralProcessAllTXTFilesC1Car,
-            this.tsmiToolsGeneralProcessAllXT2Files});
+            this.tsmiToolsGeneralProcessAllXT2Files,
+            this.tsmiToolsGeneralProcessAllZADFiles});
             this.tsmiToolsGeneralProcessAll.Name = "tsmiToolsGeneralProcessAll";
             this.tsmiToolsGeneralProcessAll.Size = new System.Drawing.Size(152, 22);
             this.tsmiToolsGeneralProcessAll.Text = "Process all...";
@@ -809,6 +812,13 @@
             this.tsmiToolsGeneralProcessAllXT2Files.Text = "XT2 files";
             this.tsmiToolsGeneralProcessAllXT2Files.Click += new System.EventHandler(this.menuNovadromeClick);
             // 
+            // tsmiToolsGeneralProcessAllZADFiles
+            // 
+            this.tsmiToolsGeneralProcessAllZADFiles.Name = "tsmiToolsGeneralProcessAllZADFiles";
+            this.tsmiToolsGeneralProcessAllZADFiles.Size = new System.Drawing.Size(207, 22);
+            this.tsmiToolsGeneralProcessAllZADFiles.Text = "ZAD files";
+            this.tsmiToolsGeneralProcessAllZADFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
+            // 
             // tsmiToolsCarmageddon2
             // 
             this.tsmiToolsCarmageddon2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -835,7 +845,8 @@
             // tsmiToolsCarmageddonReincarnation
             // 
             this.tsmiToolsCarmageddonReincarnation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiToolsCarmageddonReincarnationWheelPreview});
+            this.tsmiToolsCarmageddonReincarnationWheelPreview,
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD});
             this.tsmiToolsCarmageddonReincarnation.Name = "tsmiToolsCarmageddonReincarnation";
             this.tsmiToolsCarmageddonReincarnation.Size = new System.Drawing.Size(226, 22);
             this.tsmiToolsCarmageddonReincarnation.Text = "Carmageddon Reincarnation";
@@ -876,6 +887,13 @@
             this.tsmiHelpAboutFlummery.Size = new System.Drawing.Size(164, 22);
             this.tsmiHelpAboutFlummery.Text = "About Flummery";
             this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
+            // 
+            // tsmiToolsCarmageddonReincarnationBulkUnZAD
+            // 
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Name = "tsmiToolsCarmageddonReincarnationBulkUnZAD";
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Size = new System.Drawing.Size(152, 22);
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Text = "Bulk UnZAD";
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
             // 
             // frmMain
             // 
@@ -1003,6 +1021,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveForCarmageddonReincarnation;
         private System.Windows.Forms.ToolStripMenuItem tmsiToolsTDR2000;
         private System.Windows.Forms.ToolStripMenuItem tmsiToolsTDR2000RemoveLODFromVehicle;
+        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllZADFiles;
+        private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnationBulkUnZAD;
 
         //private CustomGLControl glcViewport;
 

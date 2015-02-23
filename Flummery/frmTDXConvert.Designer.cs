@@ -37,6 +37,7 @@
             this.cmdClose = new System.Windows.Forms.Button();
             this.ofdBrowse = new System.Windows.Forms.OpenFileDialog();
             this.sfdSave = new System.Windows.Forms.SaveFileDialog();
+            this.lblFile = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,7 +63,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(530, 80);
+            this.btnSave.Location = new System.Drawing.Point(530, 93);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(186, 23);
             this.btnSave.TabIndex = 4;
@@ -73,29 +74,32 @@
             // lblWidth
             // 
             this.lblWidth.AutoSize = true;
-            this.lblWidth.Location = new System.Drawing.Point(530, 38);
+            this.lblWidth.Location = new System.Drawing.Point(530, 51);
             this.lblWidth.Name = "lblWidth";
-            this.lblWidth.Size = new System.Drawing.Size(0, 13);
+            this.lblWidth.Size = new System.Drawing.Size(68, 13);
             this.lblWidth.TabIndex = 5;
             this.lblWidth.Tag = "Width: {0}";
+            this.lblWidth.Text = "[placeholder]";
             // 
             // lblHeight
             // 
             this.lblHeight.AutoSize = true;
-            this.lblHeight.Location = new System.Drawing.Point(530, 51);
+            this.lblHeight.Location = new System.Drawing.Point(530, 64);
             this.lblHeight.Name = "lblHeight";
-            this.lblHeight.Size = new System.Drawing.Size(0, 13);
+            this.lblHeight.Size = new System.Drawing.Size(68, 13);
             this.lblHeight.TabIndex = 6;
             this.lblHeight.Tag = "Height: {0}";
+            this.lblHeight.Text = "[placeholder]";
             // 
             // lblFileSize
             // 
             this.lblFileSize.AutoSize = true;
-            this.lblFileSize.Location = new System.Drawing.Point(530, 64);
+            this.lblFileSize.Location = new System.Drawing.Point(530, 77);
             this.lblFileSize.Name = "lblFileSize";
-            this.lblFileSize.Size = new System.Drawing.Size(0, 13);
+            this.lblFileSize.Size = new System.Drawing.Size(68, 13);
             this.lblFileSize.TabIndex = 7;
             this.lblFileSize.Tag = "Filesize: {0}";
+            this.lblFileSize.Text = "[placeholder]";
             // 
             // cmdClose
             // 
@@ -111,11 +115,22 @@
             // 
             this.ofdBrowse.FileName = "openFileDialog1";
             // 
+            // lblFile
+            // 
+            this.lblFile.AutoSize = true;
+            this.lblFile.Location = new System.Drawing.Point(530, 38);
+            this.lblFile.Name = "lblFile";
+            this.lblFile.Size = new System.Drawing.Size(68, 13);
+            this.lblFile.TabIndex = 9;
+            this.lblFile.Tag = "{0}";
+            this.lblFile.Text = "[placeholder]";
+            // 
             // frmTDXConvert
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(724, 536);
+            this.Controls.Add(this.lblFile);
             this.Controls.Add(this.cmdClose);
             this.Controls.Add(this.lblFileSize);
             this.Controls.Add(this.lblHeight);
@@ -128,6 +143,7 @@
             this.Name = "frmTDXConvert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TDX Convertor";
+            this.Load += new System.EventHandler(this.frmTDXConvert_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -145,5 +161,6 @@
         private System.Windows.Forms.Button cmdClose;
         private System.Windows.Forms.OpenFileDialog ofdBrowse;
         private System.Windows.Forms.SaveFileDialog sfdSave;
+        private System.Windows.Forms.Label lblFile;
     }
 }

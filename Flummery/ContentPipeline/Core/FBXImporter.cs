@@ -66,6 +66,10 @@ namespace Flummery.ContentPipeline.Core
 
                 switch (Path.GetExtension(file))
                 {
+                    case ".bmp":
+                        t = SceneManager.Current.Content.Load<Texture, BMPImporter>(Path.GetFileNameWithoutExtension(file));
+                        break;
+
                     case ".png":
                         t = SceneManager.Current.Content.Load<Texture, PNGImporter>(Path.GetFileNameWithoutExtension(file));
                         break;

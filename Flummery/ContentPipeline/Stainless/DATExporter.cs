@@ -40,6 +40,7 @@ namespace Flummery.ContentPipeline.Stainless
                     }
                 }
 
+                m.Optimise();
                 m.ProcessMesh();
 
                 dat.AddMesh(mesh.Name, 0, m);

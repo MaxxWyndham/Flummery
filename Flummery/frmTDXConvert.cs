@@ -17,6 +17,15 @@ namespace Flummery
             InitializeComponent();
         }
 
+
+        private void frmTDXConvert_Load(object sender, EventArgs e)
+        {
+            lblFile.Text = "";
+            lblWidth.Text = "";
+            lblHeight.Text = "";
+            lblFileSize.Text = "";
+        }
+
         private void btnOpen_Click(object sender, EventArgs e)
         {
             ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga;*.bmp;*.tdx|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga|BMP (*.bmp)|*.bmp|TDX (*.tdx)|*.tdx";
@@ -56,7 +65,8 @@ namespace Flummery
                 {
                     var b = t.GetBitmap();
 
-                    pbPreview.Image = t.GetThumbnail();
+                    pbPreview.Image = t.GetThumbnail(1024, false);
+                    lblFile.Text = string.Format(lblFile.Tag.ToString(), fi.Name);
                     lblWidth.Text = string.Format(lblWidth.Tag.ToString(), b.Width);
                     lblHeight.Text = string.Format(lblHeight.Tag.ToString(), b.Height);
                     lblFileSize.Text = string.Format(lblFileSize.Tag.ToString(), fi.Length);

@@ -88,13 +88,13 @@ namespace Flummery
             return new Bitmap(64, 64);
         }
 
-        public Bitmap GetThumbnail()
+        public Bitmap GetThumbnail(int maxWidth = 128, bool suppressAlpha = true)
         {
             var bmp = this.supportingDocuments["Source"] as Bitmap;
             if (bmp != null) { return bmp; }
 
             var tdx = this.supportingDocuments["Source"] as ToxicRagers.CarmageddonReincarnation.Formats.TDX;
-            if (tdx != null) { return tdx.Decompress(tdx.GetMipLevelForSize(128), true); }
+            if (tdx != null) { return tdx.Decompress(tdx.GetMipLevelForSize(maxWidth), suppressAlpha); }
 
             return new Bitmap(64, 64);
         }
