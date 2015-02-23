@@ -425,6 +425,7 @@ namespace Flummery
                 case "Structure.xml files":
                 case "SystemsDamage.xml files":
                 case "Setup.lol files":
+                case "ZAD files":
                     processAll(mi.Text);
                     break;
 
@@ -446,6 +447,57 @@ namespace Flummery
                                 }
                             }
                             break;
+                    }
+                    break;
+
+                case "Bulk UnZAD":
+                    if (MessageBox.Show(string.Format("Are you entirely sure?  This will extra ALL ZAD files in and under\r\n{0}\r\nThis will require at least 30gb of free space", Properties.Settings.Default.PathCarmageddonReincarnation), "Totes sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation))
+                        {
+                            int success = 0;
+                            int fail = 0;
+
+                            ToxicRagers.Helpers.IO.LoopDirectoriesIn(Properties.Settings.Default.PathCarmageddonReincarnation, (d) =>
+                            {
+                                foreach (FileInfo fi in d.GetFiles("*.zad"))
+                                {
+                                    var zad = ToxicRagers.Stainless.Formats.ZAD.Load(fi.FullName);
+                                    int i = 0;
+
+                                    if (zad != null)
+                                    {
+                                        if (!zad.IsVT)
+                                        {
+                                            foreach (var entry in zad.Contents)
+                                            {
+                                                i++;
+
+                                                zad.Extract(entry, Properties.Settings.Default.PathCarmageddonReincarnation);
+
+                                                if (i % 25 == 0)
+                                                {
+                                                    tsslProgress.Text = string.Format("[{0}/{1}] {2} -> {3}", success, fail, fi.Name, entry.Name);
+                                                    Application.DoEvents();
+                                                }
+                                            }
+
+                                            success++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        fail++; 
+                                    }
+
+                                    tsslProgress.Text = string.Format("[{0}/{1}] {2}", success, fail, fi.FullName.Replace(Properties.Settings.Default.PathCarmageddonReincarnation, ""));
+                                    Application.DoEvents();
+                                }
+                            }
+                            );
+
+                            tsslProgress.Text = string.Format("unZADing complete. {0} success {1} fail", success, fail);
+                        }
                     }
                     break;
             }
@@ -561,6 +613,10 @@ namespace Flummery
 
                             case "txt":
                                 result = ToxicRagers.Carmageddon.Formats.Car.Load(fi.FullName);
+                                break;
+
+                            case "zad":
+                                result = ToxicRagers.Stainless.Formats.ZAD.Load(fi.FullName);
                                 break;
                         }
 
