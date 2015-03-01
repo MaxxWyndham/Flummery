@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+
+using OpenTK;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
 using ToxicRagers.Helpers;
 using ToxicRagers.Stainless.Formats;
-using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {

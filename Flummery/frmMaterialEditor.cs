@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline.Core;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline.Core;
 
 namespace Flummery
 {

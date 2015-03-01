@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 using Flummery.ContentPipeline.Stainless;
 using OpenTK;
+using thatGameEngine;
 
 namespace Flummery
 {

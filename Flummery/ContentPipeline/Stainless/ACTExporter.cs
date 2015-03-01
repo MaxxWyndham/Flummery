@@ -1,4 +1,7 @@
 ﻿using System;
+
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
 using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.Helpers;
 

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ToxicRagers.Stainless.Formats;
+
 using OpenTK;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
+using ToxicRagers.Stainless.Formats;
 
 namespace Flummery.ContentPipeline.Stainless
 {

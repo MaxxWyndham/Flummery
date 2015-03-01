@@ -7,15 +7,16 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline.Core;
 using Flummery.ContentPipeline.Stainless;
 using Flummery.Util;
 
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using WeifenLuo.WinFormsUI.Docking;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline.Core;
 using ToxicRagers.Carmageddon2.Formats;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
 {
@@ -95,14 +96,21 @@ namespace Flummery
             Application.DoEvents();
         }
 
-        void scene_OnError(object sender, ErrorEventArgs e)
+        void scene_OnError(object sender, thatGameEngine.ErrorEventArgs e)
         {
             MessageBox.Show(e.Message);
         }
 
         void frmMain_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            e.Handled = InputManager.Current.HandleInput(sender, e);
+            if (!Flummery.Active)
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = InputManager.Current.HandleInput(e.KeyChar);
+            }
         }
 
         private void menuClick(object sender, EventArgs e)
@@ -749,7 +757,7 @@ namespace Flummery
                     var prefs = new frmPreferences();
                     if (prefs.ShowDialog(this) == DialogResult.OK)
                     {
-                        InputManager.Current.ReloadBindings();
+                        //InputManager.Current.ReloadBindings();
                     }
                     break;
             }

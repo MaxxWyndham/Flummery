@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
 using ToxicRagers.Carmageddon.Formats;
 
 namespace Flummery.ContentPipeline.Stainless

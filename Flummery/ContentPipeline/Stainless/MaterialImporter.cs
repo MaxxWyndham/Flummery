@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 
-using Flummery.ContentPipeline.Core;
+using OpenTK;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
+using thatGameEngine.ContentPipeline.Core;
 using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
 using ToxicRagers.Stainless.Formats;
-using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {
@@ -35,7 +37,7 @@ namespace Flummery.ContentPipeline.Stainless
         public override Asset Import(string path)
         {
             string name = Path.GetFileNameWithoutExtension(path);
-            ToxicRagers.Helpers.Material m = null;
+            ToxicRagers.Generics.Material m = null;
 
             switch (Path.GetExtension(path).ToLower())
             {

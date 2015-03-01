@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using thatGameEngine;
+
 namespace Flummery
 {
     public partial class frmRename : Form

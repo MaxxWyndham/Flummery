@@ -2,7 +2,11 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
 using ToxicRagers.CarmageddonReincarnation.Formats;
+using ToxicRagers.Generics;
 using ToxicRagers.Helpers;
 
 namespace Flummery.ContentPipeline.Stainless
@@ -12,7 +16,7 @@ namespace Flummery.ContentPipeline.Stainless
         public override void Export(Asset asset, string Path)
         {
             Stopwatch sw = new Stopwatch();
-            var texture = (asset as Texture);
+            var texture = (asset as thatGameEngine.Texture);
             var tdx = new TDX();
             var b = (texture.SupportingDocuments["Source"] as Bitmap);
 

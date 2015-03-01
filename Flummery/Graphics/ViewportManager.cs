@@ -5,6 +5,7 @@ using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using thatGameEngine;
 
 namespace Flummery
 {
@@ -66,9 +67,9 @@ namespace Flummery
 
             active = threedee;
 
-            InputManager.Current.RegisterBinding('*', KeyBinding.KeysActionScaleUp, ActionScaleUp);
-            InputManager.Current.RegisterBinding('/', KeyBinding.KeysActionScaleDown, ActionScaleDown);
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraFrame, KeyBinding.KeysCameraFrame, Frame);
+            InputManager.Current.RegisterBinding('*', "KeysActionScaleUp", ActionScaleUp);
+            InputManager.Current.RegisterBinding('/', "KeysActionScaleDown", ActionScaleDown);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraFrame, "KeysCameraFrame", Frame);
 
             Current = this;
         }

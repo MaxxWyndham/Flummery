@@ -2,8 +2,9 @@
 using System.IO;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline;
-using Flummery.ContentPipeline.Core;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
+using thatGameEngine.ContentPipeline.Core;
 using Flummery.ContentPipeline.Stainless;
 
 namespace Flummery

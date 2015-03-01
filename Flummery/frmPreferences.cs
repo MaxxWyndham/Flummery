@@ -2,6 +2,8 @@
 using System.IO;
 using System.Windows.Forms;
 
+using thatGameEngine;
+
 namespace Flummery
 {
     public partial class frmPreferences : Form

@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 
 using OpenTK;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
 using ToxicRagers.Stainless.Formats;
 
 namespace Flummery.ContentPipeline.Stainless

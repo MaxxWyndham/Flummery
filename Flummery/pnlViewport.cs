@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using thatGameEngine;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
@@ -91,10 +92,10 @@ namespace Flummery
 
             viewman.Initialise();
 
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraSelect, KeyBinding.KeysCameraSelect, SetModeSelect);
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraPan, KeyBinding.KeysCameraPan, SetModePan);
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraZoom, KeyBinding.KeysCameraZoom, SetModeZoom);
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraRotate, KeyBinding.KeysCameraRotate, SetModeRotate);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraSelect, "KeysCameraSelect", SetModeSelect);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraPan, "KeysCameraPan", SetModePan);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraZoom, "KeysCameraZoom", SetModeZoom);
+            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraRotate, "KeysCameraRotate", SetModeRotate);
         }
 
         private void GLControlInit()

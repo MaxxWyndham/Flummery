@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using Flummery.ContentPipeline.Stainless;
+using thatGameEngine;
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using OpenTK;
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
 using ToxicRagers.CarmageddonReincarnation.Formats;
 
 namespace Flummery.ContentPipeline.Stainless

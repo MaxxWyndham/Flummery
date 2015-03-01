@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ToxicRagers.Core.Formats;
+
 using OpenTK;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
+using ToxicRagers.Core.Formats;
 
 namespace Flummery.ContentPipeline.Core
 {

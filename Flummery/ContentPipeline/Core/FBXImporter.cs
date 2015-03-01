@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using OpenTK;
+using thatGameEngine;
+using thatGameEngine.ContentPipeline;
+using thatGameEngine.ContentPipeline.Core;
 using ToxicRagers.Helpers;
 using ToxicRagers.Core.Formats;
-using OpenTK;
 
 namespace Flummery.ContentPipeline.Core
 {
