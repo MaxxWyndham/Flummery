@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using thatGameEngine;
+using thatGameEngine.Collision;
 
 namespace Flummery
 {
@@ -239,6 +240,8 @@ namespace Flummery
             GL.Viewport(x, y, vw, vh);
             GL.Scissor(offsetX, offsetY, scissorWidth, scissorHeight);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            SceneManager.Current.Frustum = new BoundingFrustum(camera.viewMatrix * perspective);
 
             scene.Draw(camera);
         }

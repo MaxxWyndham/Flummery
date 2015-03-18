@@ -128,6 +128,14 @@ namespace Flummery
 
                 cmsViewport.Show(Cursor.Position);
             }
+
+            Vector3 vertex1, vertex2, vertex3;
+            bool insideBoundingSphere;
+            ModelMeshPart intersectsWithPart;
+            ModelMesh intersectsWith;
+
+            var ray = new thatGameEngine.Collision.Ray(viewman.Active.ConvertScreenToWorldCoords(mouse.X, mouse.Y), viewman.Active.Camera.CameraDirection);
+            thatGameEngine.Collision.CollisionHelpers.RayIntersectsModel(ray, SceneManager.Current.Models[0], Matrix4.Identity, out insideBoundingSphere, out vertex1, out vertex2, out vertex3, out intersectsWithPart, out intersectsWith);
         }
 
         void glcViewport_MouseMove(object sender, MouseEventArgs e)
