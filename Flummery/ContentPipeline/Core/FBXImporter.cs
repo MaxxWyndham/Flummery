@@ -363,7 +363,7 @@ namespace Flummery.ContentPipeline.Core
                     if (uvReferenceType.Properties[0].Value.ToString() == "IndexToDirect")
                     {
                         var luvs = new List<OpenTK.Vector2>();
-                        for (int i = 0; i < uvParts.Length; i += 2) { luvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], (float)uvParts[i + 1])); }
+                        for (int i = 0; i < uvParts.Length; i += 2) { luvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], 1 - (float)uvParts[i + 1])); }
 
                         var uvindicies = (int[])uvElem.Children.Find(e => e.ID == "UVIndex").Properties[0].Value;
                         for (int i = 0; i < uvindicies.Length; i++)

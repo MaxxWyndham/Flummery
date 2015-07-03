@@ -34,7 +34,7 @@ namespace Flummery.ContentPipeline.Stainless
                     break;
             }
 
-            var mip = new MipMap();
+            var mip = new ToxicRagers.Generics.MipMap();
             mip.Width = b.Width;
             mip.Height = b.Height;
 

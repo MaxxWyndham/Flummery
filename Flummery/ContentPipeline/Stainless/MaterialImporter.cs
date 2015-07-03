@@ -35,7 +35,7 @@ namespace Flummery.ContentPipeline.Stainless
         public override Asset Import(string path)
         {
             string name = Path.GetFileNameWithoutExtension(path);
-            ToxicRagers.Helpers.Material m = null;
+            ToxicRagers.Generics.Material m = null;
 
             switch (Path.GetExtension(path).ToLower())
             {
