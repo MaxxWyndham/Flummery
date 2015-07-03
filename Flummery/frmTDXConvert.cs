@@ -34,7 +34,7 @@ namespace Flummery
             {
                 var fi = new FileInfo(ofdBrowse.FileName);
 
-                switch (fi.Extension)
+                switch (fi.Extension.ToLower())
                 {
                     case ".bmp":
                         t = SceneManager.Current.Content.Load<Texture, BMPImporter>(fi.Name, fi.DirectoryName);
@@ -106,6 +106,7 @@ namespace Flummery
 
                     case ".tdx":
                         cx = new TDXExporter();
+                        cx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
                         break;
                 }
 

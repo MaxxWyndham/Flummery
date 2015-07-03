@@ -9,7 +9,7 @@ namespace Flummery.ContentPipeline.Stainless
 {
     class TDXExporter : ContentExporter
     {
-        public override void Export(Asset asset, string Path)
+        public override void Export(Asset asset, string path)
         {
             Stopwatch sw = new Stopwatch();
             var texture = (asset as Texture);
@@ -67,7 +67,7 @@ namespace Flummery.ContentPipeline.Stainless
             Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
 
             tdx.MipMaps.Add(mip);
-            tdx.Save(Path + "\\" + texture.Name + ".tdx");
+            tdx.Save(Path.GetDirectoryName(path) + "\\" + texture.Name + ".tdx");
 
             Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
         }
