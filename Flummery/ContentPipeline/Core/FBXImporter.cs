@@ -766,7 +766,7 @@ namespace Flummery.ContentPipeline.Core
             var v = new Vertex();
             v.Position = position;
             v.Normal = normal;
-            v.UV = v.UV = new OpenTK.Vector4(texcoords.X, texcoords.Y, texcoords.X, texcoords.Y);
+            v.UV = new OpenTK.Vector4(texcoords.X, texcoords.Y, 0, 0);
             v.Colour = colour;
 
             verts.Add(v);

@@ -54,7 +54,7 @@ namespace Flummery
 
         public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, bool bAddIndex = true)
         {
-            AddVertex(position, normal, texcoords, Vector2.One, Color.White, bAddIndex);
+            AddVertex(position, normal, texcoords, Vector2.Zero, Color.White, bAddIndex);
         }
 
         public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, Vector2 texcoords2, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
