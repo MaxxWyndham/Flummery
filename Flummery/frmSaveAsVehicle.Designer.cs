@@ -35,11 +35,14 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.chkMaterials = new System.Windows.Forms.CheckBox();
+            this.txtCarName = new System.Windows.Forms.TextBox();
+            this.lblCarName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnPath
             // 
-            this.btnPath.Location = new System.Drawing.Point(657, 4);
+            this.btnPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPath.Location = new System.Drawing.Point(491, 4);
             this.btnPath.Name = "btnPath";
             this.btnPath.Size = new System.Drawing.Size(29, 23);
             this.btnPath.TabIndex = 11;
@@ -49,8 +52,9 @@
             // 
             // txtPath
             // 
+            this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPath.Enabled = false;
-            this.txtPath.Location = new System.Drawing.Point(318, 6);
+            this.txtPath.Location = new System.Drawing.Point(152, 6);
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(333, 20);
             this.txtPath.TabIndex = 10;
@@ -68,7 +72,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(611, 226);
+            this.btnOK.Location = new System.Drawing.Point(445, 62);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 25;
@@ -80,28 +84,50 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(530, 226);
+            this.btnCancel.Location = new System.Drawing.Point(364, 62);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 24;
             this.btnCancel.Text = "cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // chkMaterials
             // 
+            this.chkMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkMaterials.AutoSize = true;
-            this.chkMaterials.Location = new System.Drawing.Point(323, 205);
+            this.chkMaterials.Location = new System.Drawing.Point(152, 66);
             this.chkMaterials.Name = "chkMaterials";
             this.chkMaterials.Size = new System.Drawing.Size(107, 17);
             this.chkMaterials.TabIndex = 23;
             this.chkMaterials.Text = "process materials";
             this.chkMaterials.UseVisualStyleBackColor = true;
             // 
+            // txtCarName
+            // 
+            this.txtCarName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCarName.Location = new System.Drawing.Point(152, 32);
+            this.txtCarName.Name = "txtCarName";
+            this.txtCarName.ReadOnly = true;
+            this.txtCarName.Size = new System.Drawing.Size(333, 20);
+            this.txtCarName.TabIndex = 27;
+            // 
+            // lblCarName
+            // 
+            this.lblCarName.AutoSize = true;
+            this.lblCarName.Location = new System.Drawing.Point(12, 35);
+            this.lblCarName.Name = "lblCarName";
+            this.lblCarName.Size = new System.Drawing.Size(54, 13);
+            this.lblCarName.TabIndex = 26;
+            this.lblCarName.Text = "Car Name";
+            // 
             // frmSaveAsVehicle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(694, 261);
+            this.ClientSize = new System.Drawing.Size(528, 97);
+            this.Controls.Add(this.txtCarName);
+            this.Controls.Add(this.lblCarName);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.chkMaterials);
@@ -128,5 +154,7 @@
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox chkMaterials;
+        private System.Windows.Forms.TextBox txtCarName;
+        private System.Windows.Forms.Label lblCarName;
     }
 }

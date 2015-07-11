@@ -49,36 +49,23 @@ namespace Flummery.ContentPipeline.Stainless
                 vehicleSetup.Attachments.Add(
                     new VehicleAttachment
                     {
-                        Type = VehicleAttachment.AttachmentType.ComplicatedWheels,
-                        Wheels = new VehicleAttachmentComplicatedWheels
-                        {
-                            FLWheel = "default_greybox",
-                            FRWheel = "default_greybox",
-                            RLWheel = "default_greybox",
-                            RRWheel = "default_greybox"
-                        }
-                    }
-                );
-
-                vehicleSetup.Attachments.Add(
-                    new VehicleAttachment
-                    {
-                        Type = VehicleAttachment.AttachmentType.DynamicsFmodEngine,
-                        FModEngine = new VehicleAttachmentFModEngine
-                        {
-                            Engine = "maserati",
-                            RPMSmooth = 0.35f,
-                            OnLoadSmooth = 0.0045f,
-                            OffLoadSmooth = 0.15f
-                        }
-                    }
-                );
-
-                vehicleSetup.Attachments.Add(
-                    new VehicleAttachment
-                    {
                         Type = VehicleAttachment.AttachmentType.Horn,
                         Horn = "generic02_horn"
+                    }
+                );
+
+                vehicleSetup.WheelMaps.Add(
+                    new VehicleWheelMap
+                    {
+                        Name = "default",
+                        Localisation = string.Format("FE_CAR_{0}_RIM_DEFAULT", this.ExportSettings.GetSetting<string>("VehicleName")),
+                        Wheels = new VehicleAttachmentComplicatedWheels
+                        {
+                            FLWheel = "default_eagle_R",
+                            FRWheel = "default_eagle_R",
+                            RLWheel = "default_eagle_R",
+                            RRWheel = "default_eagle_R"
+                        }
                     }
                 );
 

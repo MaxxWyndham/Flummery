@@ -11,6 +11,9 @@ namespace Flummery
 {
     public partial class frmSaveAsVehicle : Form
     {
+        FlumpFile flump;
+        string car;
+
         public frmSaveAsVehicle()
         {
             InitializeComponent();
@@ -27,14 +30,26 @@ namespace Flummery
                 if (!Directory.Exists(fbdBrowse.SelectedPath)) { Directory.CreateDirectory(fbdBrowse.SelectedPath); }
                 txtPath.Text = fbdBrowse.SelectedPath + "\\";
 
+                setCar();
+
                 Properties.Settings.Default.SaveAsVehiclePath = txtPath.Text;
                 Properties.Settings.Default.Save();
             }
         }
 
+        void setCar()
+        {
+            if (txtPath.Text.Length == 0) { return; }
+
+            car = Path.GetFileName(Path.GetDirectoryName(txtPath.Text));
+            txtCarName.Text = car;
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (!Directory.Exists(txtPath.Text)) { Directory.CreateDirectory(txtPath.Text); }
+
+            flump.Settings["car"] = car;
 
             if (chkMaterials.Checked)
             {
@@ -86,9 +101,17 @@ namespace Flummery
 
             if (!File.Exists(txtPath.Text + "vehicle_setup.cfg"))
             {
-                new VehicleSetupCFGExporter().Export(SceneManager.Current.Models[0], txtPath.Text);
+                var cfgx = new VehicleSetupCFGExporter();
+                cfgx.ExportSettings.AddSetting("VehicleName", SetupContext.Vehicle);
+                cfgx.Export(SceneManager.Current.Models[0], txtPath.Text);
             }
 
+            flump.Save(txtPath.Text + "car.flump");
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
             this.Close();
         }
     }
