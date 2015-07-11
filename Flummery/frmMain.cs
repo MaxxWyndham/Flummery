@@ -47,8 +47,7 @@ namespace Flummery
             dockPanel.DockRightPortion = settings.DefaultWidth;
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v" + Flummery.Version;
-
+            this.Text += " v" + FlummeryApplication.Version;
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
             viewport.RegisterEventHandlers();
             overview.RegisterEventHandlers();
@@ -70,12 +69,12 @@ namespace Flummery
 
             if (Properties.Settings.Default.CheckForUpdates) { checkUpdate(); }
 
-            Flummery.UI = this;
+            FlummeryApplication.UI = this;
         }
 
         public void checkUpdate()
         {
-            new Updater().Check(Flummery.Version, finishRequest);
+            new Updater().Check(FlummeryApplication.Version, finishRequest);
         }
 
         private void finishRequest(bool result, Updater.Update[] updates)
@@ -845,17 +844,17 @@ namespace Flummery
 
         private void frmMain_Activated(object sender, EventArgs e)
         {
-            Flummery.Active = true;
+            FlummeryApplication.Active = true;
         }
 
         private void frmMain_Deactivate(object sender, EventArgs e)
         {
-            Flummery.Active = false;
+            FlummeryApplication.Active = false;
         }
 
         private void frmMain_Resize(object sender, EventArgs e)
         {
-            Flummery.Active = (WindowState != FormWindowState.Minimized);
+            FlummeryApplication.Active = (WindowState != FormWindowState.Minimized);
         }
     }
 }

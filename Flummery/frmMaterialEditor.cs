@@ -161,7 +161,7 @@ namespace Flummery
         {
             var preview = new pnlTexturePreview();
             preview.SetImage(m.Texture.GetBitmap());
-            preview.Show(Flummery.UI.DockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Float);
+            preview.Show(FlummeryApplication.UI.DockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Float);
         }
     }
 }

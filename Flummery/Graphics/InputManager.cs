@@ -99,7 +99,7 @@ namespace Flummery
 
         public bool HandleInput(object sender, KeyPressEventArgs e)
         {
-            if (!Flummery.Active) { return true; }
+            if (!FlummeryApplication.Active) { return true; }
 
             var key = char.ToUpper(e.KeyChar);
 

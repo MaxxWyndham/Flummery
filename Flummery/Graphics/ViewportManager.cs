@@ -77,7 +77,7 @@ namespace Flummery
 
         public void Initialise()
         {
-            if (!Flummery.Active) { return; }
+            if (!FlummeryApplication.Active) { return; }
             foreach (var viewport in viewports) { viewport.Resize(); }
         }
 
@@ -109,7 +109,7 @@ namespace Flummery
             {
                 actionScaling++;
                 SetActionScale(actionScales[actionScaling]);
-                Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                FlummeryApplication.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
             }
         }
 
@@ -119,7 +119,7 @@ namespace Flummery
             {
                 actionScaling--;
                 SetActionScale(actionScales[actionScaling]);
-                Flummery.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                FlummeryApplication.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
             }
         }
 

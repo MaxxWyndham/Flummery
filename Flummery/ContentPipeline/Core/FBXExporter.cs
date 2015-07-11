@@ -40,7 +40,7 @@ namespace Flummery.ContentPipeline.Core
                                 new FBXElem { ID = "Millisecond", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Millisecond } } }
                             }
                         },
-                        new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "Flummery v" + Flummery.Version } } },
+                        new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "Flummery v" + FlummeryApplication.Version } } },
                         new FBXElem { ID = "SceneInfo",                    
                             Properties = 
                             {
@@ -71,13 +71,13 @@ namespace Flummery.ContentPipeline.Core
                                         FBXPropertyElement(FBXPropertyType.String, "Original", "Compound", "", ""),
                                         FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationVendor", "KString", "", "", "Toxic Ragers"),
                                         FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationName", "KString", "", "", "Flummery"),
-                                        FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationVersion", "KString", "", "", Flummery.Version),
+                                        FBXPropertyElement(FBXPropertyType.String, "Original|ApplicationVersion", "KString", "", "", FlummeryApplication.Version),
                                         FBXPropertyElement(FBXPropertyType.String, "Original|DateTime_GMT", "DateTime", "", "", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff")),
                                         FBXPropertyElement(FBXPropertyType.String, "Original|FileName", "KString", "", "", path.Replace(@"\", "/")),
                                         FBXPropertyElement(FBXPropertyType.String, "LastSaved", "Compound", "", ""),
                                         FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationVendor", "KString", "", "", "Toxic Ragers"),
                                         FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationName", "KString", "", "", "Flummery"),
-                                        FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationVersion", "KString", "", "", Flummery.Version),
+                                        FBXPropertyElement(FBXPropertyType.String, "LastSaved|ApplicationVersion", "KString", "", "", FlummeryApplication.Version),
                                         FBXPropertyElement(FBXPropertyType.String, "LastSaved|DateTime_GMT", "DateTime", "", "", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff"))
                                     }
                                 }
@@ -89,7 +89,7 @@ namespace Flummery.ContentPipeline.Core
 
             fbx.Elements.Add(new FBXElem { ID = "FileId", Properties = { new FBXProperty { Type = 82, Value = new byte[] { 0x28, 0xb3, 0x2a, 0xeb, 0xb6, 0x24, 0xcc, 0xc2, 0xbf, 0xc8, 0xb0, 0x2a, 0xa9, 0x2b, 0xfc, 0xf1 } } } });
             fbx.Elements.Add(new FBXElem { ID = "CreationTime", Properties = { new FBXProperty { Type = 83, Value = "1970-01-01 10:00:00:000" } } });
-            fbx.Elements.Add(new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "Flummery v" + Flummery.Version } } });
+            fbx.Elements.Add(new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "Flummery v" + FlummeryApplication.Version } } });
 
             fbx.Elements.Add(
                 new FBXElem

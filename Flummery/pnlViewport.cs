@@ -182,7 +182,7 @@ namespace Flummery
 
         void Application_Idle(object sender, EventArgs e)
         {
-            if (!Flummery.Active) { return; }
+            if (!FlummeryApplication.Active) { return; }
 
             double milliseconds = dt;
 

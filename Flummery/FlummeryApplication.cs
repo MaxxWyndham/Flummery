@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Flummery
 {
-    public static class Flummery
+    public static class FlummeryApplication
     {
         public static frmMain UI;
         public static bool Active;

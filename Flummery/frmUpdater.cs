@@ -33,7 +33,7 @@ namespace Flummery
         }
 
         public void checkUpdate() {
-            new Updater().Check(Flummery.Version, finishRequest);
+            new Updater().Check(FlummeryApplication.Version, finishRequest);
         }
 
         private void finishRequest(bool result, Updater.Update[] updates)

@@ -118,7 +118,7 @@
     <Compile Include="ContentPipeline\TDR2000\MSHSImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\TXImporter.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Flummery.cs" />
+    <Compile Include="FlummeryApplication.cs" />
     <Compile Include="FlumpFile.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
