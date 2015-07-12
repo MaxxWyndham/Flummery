@@ -41,6 +41,8 @@ namespace Flummery
         {
             if (txtPath.Text.Length == 0) { return; }
 
+            flump = FlumpFile.Load(txtPath.Text + "car.flump");
+
             car = Path.GetFileName(Path.GetDirectoryName(txtPath.Text));
             txtCarName.Text = car;
         }
@@ -102,7 +104,7 @@ namespace Flummery
             if (!File.Exists(txtPath.Text + "vehicle_setup.cfg"))
             {
                 var cfgx = new VehicleSetupCFGExporter();
-                cfgx.ExportSettings.AddSetting("VehicleName", SetupContext.Vehicle);
+                cfgx.ExportSettings.AddSetting("VehicleName", txtCarName.Text);
                 cfgx.Export(SceneManager.Current.Models[0], txtPath.Text);
             }
 

@@ -826,8 +826,18 @@ namespace Flummery
                     }
                     break;
 
-                case "Flatten hierarchy...":
+                case "Optimise":
+                    foreach (ModelMesh mesh in SceneManager.Current.SelectedModel.Meshes)
+                    {
+                        foreach (ModelMeshPart part in mesh.MeshParts)
+                        {
+                            part.Optimise();
+                        }
+                    }
+                    break;
 
+                case "Flatten hierarchy...":
+                    SceneManager.Current.UpdateProgress("TODO: Code \"Flatten hierarchy...\"");
                     break;
 
                 case "Invert texture 'v' coordinates":

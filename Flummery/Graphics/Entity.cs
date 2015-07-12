@@ -128,15 +128,15 @@ namespace Flummery
                     if (asset == null)
                     {
                         var sprite = new ModelMeshPart();
-                        sprite.AddVertex(new Vector3(-0.5f, -0.5f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
-                        sprite.AddVertex(new Vector3(-0.5f,  0.5f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
-                        sprite.AddVertex(new Vector3( 0.5f,  0.5f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
-                        sprite.AddVertex(new Vector3( 0.5f, -0.5f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
+                        sprite.AddVertex(new Vector3(-0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
+                        sprite.AddVertex(new Vector3(-0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
+                        sprite.AddVertex(new Vector3( 0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
+                        sprite.AddVertex(new Vector3( 0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
 
-                        sprite.AddVertex(new Vector3( 0.5f, -0.5f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
-                        sprite.AddVertex(new Vector3( 0.5f,  0.5f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
-                        sprite.AddVertex(new Vector3(-0.5f,  0.5f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
-                        sprite.AddVertex(new Vector3(-0.5f, -0.5f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
+                        sprite.AddVertex(new Vector3( 0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
+                        sprite.AddVertex(new Vector3( 0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
+                        sprite.AddVertex(new Vector3(-0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
+                        sprite.AddVertex(new Vector3(-0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
                         sprite.IndexBuffer.Initialise();
                         sprite.VertexBuffer.Initialise();
                         sprite.Material = new Material { Name = "Entity.Asset", Texture = SceneManager.Current.Content.Load<Texture, PNGImporter>("entity_" + entityType.ToString().ToLower(), Path.GetDirectoryName(Application.ExecutablePath) + @"\data\icons\") };

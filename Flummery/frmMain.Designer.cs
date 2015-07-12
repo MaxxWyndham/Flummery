@@ -132,11 +132,12 @@
             this.tsmiToolsCarmageddon2ScaleForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsCarmageddonReincarnationWheelPreview = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD = new System.Windows.Forms.ToolStripMenuItem();
             this.tmsiToolsTDR2000 = new System.Windows.Forms.ToolStripMenuItem();
             this.tmsiToolsTDR2000RemoveLODFromVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiObjectOptimise = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -598,6 +599,7 @@
             this.tsmiObjectSeparator2,
             this.tsmiObjectRename,
             this.tsmiObjectSeparator3,
+            this.tsmiObjectOptimise,
             this.tsmiObjectFlattenHierarchy,
             this.tsmiObjectSeparator4,
             this.tsmiObjectInvertTextureVCoordinates});
@@ -863,9 +865,16 @@
             // tsmiToolsCarmageddonReincarnationWheelPreview
             // 
             this.tsmiToolsCarmageddonReincarnationWheelPreview.Name = "tsmiToolsCarmageddonReincarnationWheelPreview";
-            this.tsmiToolsCarmageddonReincarnationWheelPreview.Size = new System.Drawing.Size(152, 22);
+            this.tsmiToolsCarmageddonReincarnationWheelPreview.Size = new System.Drawing.Size(151, 22);
             this.tsmiToolsCarmageddonReincarnationWheelPreview.Text = "Wheel Preview";
             this.tsmiToolsCarmageddonReincarnationWheelPreview.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
+            // 
+            // tsmiToolsCarmageddonReincarnationBulkUnZAD
+            // 
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Name = "tsmiToolsCarmageddonReincarnationBulkUnZAD";
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Size = new System.Drawing.Size(151, 22);
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Text = "Bulk UnZAD";
+            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
             // 
             // tmsiToolsTDR2000
             // 
@@ -897,12 +906,12 @@
             this.tsmiHelpAboutFlummery.Text = "About Flummery";
             this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
             // 
-            // tsmiToolsCarmageddonReincarnationBulkUnZAD
+            // tsmiObjectOptimise
             // 
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Name = "tsmiToolsCarmageddonReincarnationBulkUnZAD";
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Size = new System.Drawing.Size(152, 22);
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Text = "Bulk UnZAD";
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
+            this.tsmiObjectOptimise.Name = "tsmiObjectOptimise";
+            this.tsmiObjectOptimise.Size = new System.Drawing.Size(223, 22);
+            this.tsmiObjectOptimise.Text = "Optimise";
+            this.tsmiObjectOptimise.Click += new System.EventHandler(this.menuObjectClick);
             // 
             // frmMain
             // 
@@ -1033,6 +1042,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllZADFiles;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnationBulkUnZAD;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessLIGHTFile;
+        private System.Windows.Forms.ToolStripMenuItem tsmiObjectOptimise;
 
         //private CustomGLControl glcViewport;
 
