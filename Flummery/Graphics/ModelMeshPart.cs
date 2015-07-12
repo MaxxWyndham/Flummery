@@ -52,26 +52,29 @@ namespace Flummery
             indexBuffer = new IndexBuffer();
         }
 
-        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, bool bAddIndex = true)
+        public int AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, bool bAddIndex = true)
         {
-            AddVertex(position, normal, texcoords, Vector2.Zero, Color.White, bAddIndex);
+            return AddVertex(position, normal, texcoords, new Vector2(0, 1), Color.White, bAddIndex);
         }
 
-        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, Vector2 texcoords2, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
+        public int AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, Vector2 texcoords2, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
         {
-            AddVertex(position, normal, new Vector4(texcoords.X, texcoords.Y, texcoords2.X, texcoords2.Y), colour, bAddIndex);
+            return AddVertex(position, normal, new Vector4(texcoords.X, texcoords.Y, texcoords2.X, texcoords2.Y), colour, bAddIndex);
         }
 
-        public void AddVertex(Vector3 position, Vector3 normal, Vector4 texcoords, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
+        public int AddVertex(Vector3 position, Vector3 normal, Vector4 texcoords, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
         {
-            var v = new Vertex();
-            v.Position = position;
-            v.Normal = normal;
-            v.UV = texcoords;
-            v.Colour = colour;
+            var v = new Vertex {
+                Position = position,
+                Normal = normal,
+                UV = texcoords,
+                Colour = colour
+            };
 
-            int i = vertexBuffer.AddVertex(v);
-            if (bAddIndex) { indexBuffer.AddIndex(vertexBuffer.AddVertex(v)); }
+            int index = vertexBuffer.AddVertex(v);
+            if (bAddIndex) { indexBuffer.AddIndex(index); }
+
+            return index;
         }
 
         public void AddFace(int v1, int v2, int v3)
@@ -88,9 +91,7 @@ namespace Flummery
                 var v = new Vertex();
                 v.Position = positions[i];
                 v.Normal = normals[i];
-                v.UV = new Vector4(texcoords[i].X, texcoords[i].Y, texcoords[i].X, texcoords[i].Y);
-
-                //int index = -1;
+                v.UV = new Vector4(texcoords[i].X, texcoords[i].Y, 0, 1);
 
                 int index = vertexBuffer.Data.FindIndex(vert =>
                     vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
@@ -100,18 +101,15 @@ namespace Flummery
                     vert.Normal.Y.GetHashCode() == v.Normal.Y.GetHashCode() &&
                     vert.Normal.Z.GetHashCode() == v.Normal.Z.GetHashCode() &&
                     vert.UV.X.GetHashCode() == v.UV.X.GetHashCode() &&
-                    vert.UV.Y.GetHashCode() == v.UV.Y.GetHashCode()
+                    vert.UV.Y.GetHashCode() == v.UV.Y.GetHashCode() &&
+                    vert.UV.Z.GetHashCode() == v.UV.Z.GetHashCode() &&
+                    vert.UV.W.GetHashCode() == v.UV.W.GetHashCode() &&
+                    vert.Colour == v.Colour
                 );
 
-                if (index == -1)
-                {
-                    vertexBuffer.AddVertex(v);
-                    indexBuffer.AddIndex(vertexBuffer.Length - 1);
-                }
-                else
-                {
-                    indexBuffer.AddIndex(index);
-                }
+                if (index == -1) { index = vertexBuffer.AddVertex(v); }
+
+                indexBuffer.AddIndex(index);
             }
         }
 
@@ -141,15 +139,9 @@ namespace Flummery
                     vert.Colour == v.Colour
                 );
 
-                if (index == -1)
-                {
-                    vertexBuffer.AddVertex(v);
-                    indexBuffer.AddIndex(vertexBuffer.Length - 1);
-                }
-                else
-                {
-                    indexBuffer.AddIndex(index);
-                }
+                if (index == -1) { index = vertexBuffer.AddVertex(v); }
+
+                indexBuffer.AddIndex(index);
             }
 
             indexBuffer.Initialise();

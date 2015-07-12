@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 
 using OpenTK;
+
 using ToxicRagers.Stainless.Formats;
 
 namespace Flummery.ContentPipeline.Stainless
@@ -25,111 +26,81 @@ namespace Flummery.ContentPipeline.Stainless
 
                 foreach (var meshpart in mesh.MeshParts.OrderByDescending(m => m.VertexCount).ToList())
                 {
-                    meshpart.Optimise();
+                    var mdlmesh = new MDLMaterialGroup(materialIndex, (meshpart.Material != null ? meshpart.Material.Name : "DEFAULT"));
 
-                    var mdlmesh = new MDLMaterialGroup((meshpart.Material != null ? meshpart.Material.Name : "DEFAULT"));
-                    bool bUseTrianglestrips = false;
+                    int masterVertOffset = mdl.Vertices.Count;
 
-                    if (bUseTrianglestrips)
+                    foreach (var v in meshpart.VertexBuffer.Data)
                     {
-                        int masterVertOffset = mdl.Vertices.Count;
-
-                        foreach (var v in meshpart.VertexBuffer.Data)
-                        {
-                            mdl.Vertices.Add(
-                                new MDLVertex(
-                                    v.Position.X, v.Position.Y, v.Position.Z,
-                                    v.Normal.X, v.Normal.Y, v.Normal.Z,
-                                    v.UV.X, v.UV.Y,
-                                    v.UV.Z, v.UV.W,
-                                    (byte)(v.Colour.R * 255), (byte)(v.Colour.G * 255), (byte)(v.Colour.B * 255), (byte)(v.Colour.A * 255)
-                                )
-                            );
-                        }
-
-                        // Normalise input triangles
-                        for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
-                        {
-                            var n = Vector3.Cross(
-                                meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 1]].Position - meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 0]].Position,
-                                meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 2]].Position - meshpart.VertexBuffer.Data[meshpart.IndexBuffer.Data[i + 0]].Position
-                            ).Normalized();
-
-                            if (n.X < 0 || n.Y < 0 || n.Z < 0)
-                            {
-                                int t = meshpart.IndexBuffer.Data[i + 1];
-                                meshpart.IndexBuffer.Data[i + 1] = meshpart.IndexBuffer.Data[i + 2];
-                                meshpart.IndexBuffer.Data[i + 2] = t;
-                            }
-                        }
-
-                        var stripper = new Stripper.Stripper(meshpart.IndexBuffer.Data.Count / 3, meshpart.IndexBuffer.Data.ToArray());
-                        stripper.OneSided = true;
-                        stripper.ConnectAllStrips = true;
-                        stripper.ShakeItBaby();
-
-                        if (stripper.Strips[0].Count > 3)
-                        {
-                            var strip = stripper.Strips[0];
-
-                            mdlmesh.StripOffset = masterVertOffset;
-                            mdlmesh.StripList.Add(new MDLPoint(strip[0], false));
-                            mdlmesh.StripList.Add(new MDLPoint(strip[1], false));
-                            for (int i = 2; i < strip.Count; i++)
-                            {
-                                var point = new MDLPoint(strip[i], (strip.GetRange(i - 2, 3).Distinct().Count() != 3));
-
-                                mdlmesh.StripList.Add(point);
-
-                                if (!point.Degenerate) { mdl.Faces.Add(new MDLFace(materialIndex, 0, mdlmesh.StripOffset + strip[i - 2], mdlmesh.StripOffset + strip[i - 1], mdlmesh.StripOffset + strip[i - 0])); }
-                            }
-
-                            mdlmesh.StripVertCount = 0;
-                        }
-
-                        for (int i = 1; i < stripper.Strips.Count; i++)
-                        {
-                            var patchOffset = 0;
-                            var patch = stripper.Strips[i];
-
-                            if (i == 1) { patchOffset = Math.Min(patch[0], Math.Min(patch[1], patch[2])); }
-
-                            mdlmesh.TriListOffset = masterVertOffset + patchOffset;
-                            for (int j = 0; j < 3; j++) { mdlmesh.TriList.Add(new MDLPoint(patch[j] - patchOffset)); }
-                            mdl.Faces.Add(new MDLFace(materialIndex, 0, patch[0], patch[1], patch[2]));
-                        }
+                        mdl.Vertices.Add(
+                            new MDLVertex(
+                                v.Position.X, v.Position.Y, v.Position.Z,
+                                v.Normal.X, v.Normal.Y, v.Normal.Z,
+                                v.UV.X, v.UV.Y,
+                                v.UV.Z, v.UV.W,
+                                (byte)(v.Colour.R * 255), (byte)(v.Colour.G * 255), (byte)(v.Colour.B * 255), (byte)(v.Colour.A * 255)
+                            )
+                        );
                     }
-                    else
+
+                    for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
                     {
-                        var data = meshpart.IndexBuffer.Data;
+                        mdl.Faces.Add(new MDLFace(materialIndex, 0, masterVertOffset + meshpart.IndexBuffer.Data[i + 0], masterVertOffset + meshpart.IndexBuffer.Data[i + 1], masterVertOffset + meshpart.IndexBuffer.Data[i + 2]));
+                    }
 
-                        mdlmesh.TriListOffset = mdl.Vertices.Count;
+                    var stripper = new Stripper.Stripper(meshpart.IndexBuffer.Data.Count / 3, meshpart.IndexBuffer.Data.ToArray());
+                    stripper.OneSided = true;
+                    stripper.ConnectAllStrips = true;
+                    stripper.ShakeItBaby();
 
-                        for (int i = 0; i < data.Count; i += 3)
+                    if (stripper.Strips[0].Count > 3)
+                    {
+                        var strip = stripper.Strips[0];
+
+                        if ((strip.Count & 1) == 1)
                         {
-                            mdl.Faces.Add(new MDLFace(materialIndex, 0, mdlmesh.TriListOffset + data[i + 0], mdlmesh.TriListOffset + data[i + 1], mdlmesh.TriListOffset + data[i + 2]));
-
-                            mdlmesh.TriList.Add(new MDLPoint(data[i + 0]));
-                            mdlmesh.TriList.Add(new MDLPoint(data[i + 1]));
-                            mdlmesh.TriList.Add(new MDLPoint(data[i + 2]));
+                            strip.Reverse();
+                        }
+                        else
+                        {
+                            strip.Insert(0, strip[0]);
                         }
 
-                        for (int i = 0; i < meshpart.VertexBuffer.Data.Count; i++)
-                        {
-                            var v = meshpart.VertexBuffer.Data[i];
+                        HashSet<int> uniqueVerts = new HashSet<int> { strip[0], strip[1] };
 
-                            mdl.Vertices.Add(
-                                new MDLVertex(
-                                    v.Position.X, v.Position.Y, v.Position.Z,
-                                    v.Normal.X, v.Normal.Y, v.Normal.Z,
-                                    v.UV.X, v.UV.Y,
-                                    v.UV.Z, v.UV.W,
-                                    (byte)(v.Colour.R * 255), (byte)(v.Colour.G * 255), (byte)(v.Colour.B * 255), (byte)(v.Colour.A * 255)
-                                )
-                            );
+                        mdlmesh.StripOffset = masterVertOffset;
+                        mdlmesh.StripList.Add(new MDLPoint(strip[0], false));
+                        mdlmesh.StripList.Add(new MDLPoint(strip[1], false));
+
+                        for (int i = 2; i < strip.Count; i++)
+                        {
+                            uniqueVerts.Add(strip[i]);
+
+                            var point = new MDLPoint(strip[i], (strip.GetRange(i - 2, 3).Distinct().Count() != 3));
+
+                            mdlmesh.StripList.Add(point);
                         }
 
-                        mdlmesh.TriListVertCount = mdl.Vertices.Count - mdlmesh.TriListOffset;
+                        mdlmesh.StripVertCount = uniqueVerts.Count;
+                    }
+
+                    int patchOffset = int.MaxValue;
+
+                    for (int i = 1; i < stripper.Strips.Count; i++) { patchOffset = Math.Min(patchOffset, stripper.Strips[i].Min()); }
+
+                    for (int i = 1; i < stripper.Strips.Count; i++)
+                    {
+                        var patch = stripper.Strips[i];
+
+                        mdlmesh.TriListOffset = masterVertOffset + patchOffset;
+
+                        for (int j = 2; j >= 0; j--)
+                        {
+                            int index = patch[j] - patchOffset;
+
+                            mdlmesh.TriList.Add(new MDLPoint(index));
+                            mdlmesh.TriListVertCount = Math.Max(mdlmesh.TriListVertCount, index + 1);
+                        }
                     }
 
                     mdlmesh.CalculateExtents(mdl.Vertices);
