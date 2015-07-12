@@ -30,7 +30,7 @@ namespace Flummery
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            var model = SceneManager.Current.Models[modelIndex];
+            var model = (SceneManager.Current.Models.Count > 0 ? SceneManager.Current.Models[modelIndex] : (Model)SceneManager.Current.Add(new Model()));
             newBoneKey = model.AddMesh(null, boneIndex);
             model.SetName(txtName.Text, newBoneKey);
             newBoneKey = ModelBone.GetModelBoneKey(modelIndex, newBoneKey);

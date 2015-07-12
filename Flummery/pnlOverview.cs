@@ -113,7 +113,7 @@ namespace Flummery
 
         protected void FindNode(int index, TreeNode root, out TreeNode node)
         {
-            if (root.Tag != null && (int)root.Tag == index)
+            if ((index == 0 && root.Text == "Scene" && root.Nodes.Count == 0) || (root.Tag != null && (int)root.Tag == index))
             {
                 node = root;
             }
