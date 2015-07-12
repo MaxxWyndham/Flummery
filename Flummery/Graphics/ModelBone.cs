@@ -5,6 +5,16 @@ using OpenTK;
 
 namespace Flummery
 {
+    // These values correspond with the index of icons in ilNodeIcons
+    public enum BoneType
+    {
+        Null = 0,
+        Mesh,
+        VFX,
+        Light,
+        Driver
+    }
+
     [DebuggerDisplay("Name {name} Index {index} Children {children.Count}")]
     public class ModelBone
     {
@@ -13,7 +23,9 @@ namespace Flummery
         string name;
         ModelBone parent;
         Matrix4 transform;
-        object tag;
+
+        BoneType boneType = BoneType.Null;
+        Object attachment = null;
 
         public int Index
         {
@@ -62,11 +74,19 @@ namespace Flummery
             }
         }
 
-        public object Tag
+        public BoneType Type
         {
-            get { return tag; }
-            set { tag = value; }
+            get { return boneType; }
+            set { boneType = value; }
         }
+
+        public Object Attachment
+        {
+            get { return attachment; }
+            set { attachment = value; }
+        }
+
+        public ModelMesh Mesh { get { return attachment as ModelMesh; } }
 
         public ModelBone()
         {
@@ -83,7 +103,8 @@ namespace Flummery
             b.name = this.name;
             b.parent = this.parent;
             b.transform = this.transform;
-            b.tag = this.tag;
+            b.boneType = this.boneType;
+            b.attachment = this.attachment;
 
             foreach (var child in this.children)
             {

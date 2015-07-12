@@ -102,6 +102,7 @@
     <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\DATExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\DATImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\LIGHTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MaterialImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MATExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MDLExporter.cs" />
@@ -393,6 +394,9 @@
     <None Include="data\icons\interface_zoom_borderless_16x16.png" />
     <None Include="data\icons\interface_rotate_borderless_16x16.png" />
     <None Include="data\icons\interface_frame_borderless_16x16.png" />
+    <None Include="data\icons\interface_light_16x16.png" />
+    <None Include="data\icons\interface_driver_16x16.png" />
+    <None Include="data\icons\interface_vfx_16x16.png" />
     <Content Include="data\test.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

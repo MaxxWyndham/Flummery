@@ -27,7 +27,7 @@ namespace Flummery
             var model = SceneManager.Current.Models[modelIndex];
 
             if (chkActors.Checked) { model.SetName(txtName.Text, boneIndex); }
-            if (chkModels.Checked && model.Bones[boneIndex].Tag != null) { ((ModelMesh)model.Bones[boneIndex].Tag).Name = txtName.Text; }
+            if (chkModels.Checked && model.Bones[boneIndex].Type == BoneType.Mesh && model.Bones[boneIndex].Mesh != null) { model.Bones[boneIndex].Mesh.Name = txtName.Text; }
 
             newName = txtName.Text;
 

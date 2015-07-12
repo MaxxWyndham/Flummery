@@ -31,14 +31,26 @@ namespace Flummery.ContentPipeline.Stainless
                                 bone.Transform.M41, bone.Transform.M42, bone.Transform.M43
                             );
 
-            if (bone.Tag != null)
+            switch (bone.Type)
             {
-                cnt.Section = "MODL";
-                cnt.Model = ((ModelMesh)bone.Tag).Name;
-            }
-            else
-            {
-                cnt.Section = "NULL";
+                case BoneType.Mesh:
+                    cnt.Section = CNT.NodeType.MODL;
+                    cnt.Model = bone.Mesh.Name;
+                    break;
+
+                case BoneType.Light:
+                    cnt.Section = CNT.NodeType.LITg;
+                    cnt.Light = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT)bone.Attachment;
+                    break;
+
+                case BoneType.VFX:
+                    cnt.Section = CNT.NodeType.VFXI;
+                    cnt.VFXFile = bone.Attachment.ToString();
+                    break;
+
+                default:
+                    cnt.Section = CNT.NodeType.NULL;
+                    break;
             }
             
             foreach (var b in bone.Children)

@@ -50,9 +50,7 @@ namespace Flummery
                 var key = ModelBone.GetModelBoneKey(index, i);
 
                 while (ParentNode != null && ParentNode.Tag != null && (int)ParentNode.Tag != ModelBone.GetModelBoneKey(index, bone.Parent.Index)) { ParentNode = ParentNode.Parent; }
-                ParentNode = ParentNode.Nodes.Add(bone.Name);
-                ParentNode.Tag = key;
-                ParentNode.ImageIndex = (bone.Tag == null ? 0 : 1);
+                ParentNode = ParentNode.Nodes[ParentNode.Nodes.Add(CreateNode(bone, key))];
             }
 
             tvNodes.Nodes[0].Expand();
@@ -78,7 +76,7 @@ namespace Flummery
             {
                 case ChangeType.Add:
                     FindNode((int)e.AdditionalInformation, tvNodes.Nodes[0].Nodes[0], out node);
-                    node.Nodes.Add(CreateNode(SceneManager.Current.Models[0].Bones[e.Index].Name, e.Index, (SceneManager.Current.Models[0].Bones[e.Index].Tag == null ? 0 : 1)));
+                    node.Nodes.Add(CreateNode(SceneManager.Current.Models[0].Bones[e.Index], e.Index));
                     ReindexTree();
                     node.Expand();
                     break;
@@ -152,11 +150,24 @@ namespace Flummery
             return boneIndex;
         }
 
-        protected TreeNode CreateNode(string name, int index, int image)
+        protected TreeNode CreateNode(ModelBone bone, int index)
         {
+            string name = bone.Name;
+
+            switch (bone.Type)
+            {
+                case BoneType.Mesh:
+                    if (bone.Mesh != null) { name += " - " + bone.Mesh.Name; }
+                    break;
+
+                case BoneType.Light:
+                    name += " - " + (bone.Attachment as ToxicRagers.CarmageddonReincarnation.Formats.LIGHT).Name;
+                    break;
+            }
+            
             var node = new TreeNode(name);
             node.Tag = index;
-            node.ImageIndex = image;
+            node.ImageIndex = (int)bone.Type;
             return node;
         }
 
@@ -175,10 +186,10 @@ namespace Flummery
                 SceneManager.Current.SetSelectedBone(mI, bI);
 
                 var bone = SceneManager.Current.Models[mI].Bones[bI];
-                var mesh = (bone.Tag as ModelMesh);
-                if (mesh != null)
+
+                if (bone.Type == BoneType.Mesh)
                 {
-                    SceneManager.Current.SetBoundingBox(mesh.BoundingBox);
+                    SceneManager.Current.SetBoundingBox(bone.Mesh.BoundingBox);
                 }
                 else
                 {

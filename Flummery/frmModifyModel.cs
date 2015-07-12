@@ -90,10 +90,10 @@ namespace Flummery
 
                 foreach (var bone in bones)
                 {
-                    var mesh = (ModelMesh)bone.Tag;
-
-                    if (mesh != null && !processed.Contains(mesh.Name))
+                    if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                     {
+                        var mesh = bone.Mesh;
+
                         foreach (var meshpart in mesh.MeshParts)
                         {
                             for (int i = 0; i < meshpart.VertexCount; i++)
@@ -125,7 +125,7 @@ namespace Flummery
             {
                 if (rdoInvert.Checked)
                 {
-                    ModelManipulator.FlipAxis((ModelMesh)SceneManager.Current.Models[modelIndex].Bones[boneIndex].Tag, cboInvertAxis.SelectedItem.ToString().ToEnum<Axis>(), chkHierarchy.Checked);
+                    ModelManipulator.FlipAxis(SceneManager.Current.Models[modelIndex].Bones[boneIndex].Mesh, cboInvertAxis.SelectedItem.ToString().ToEnum<Axis>(), chkHierarchy.Checked);
                 }
 
                 if (rdoMeshBoneSwap.Checked)
@@ -134,10 +134,9 @@ namespace Flummery
 
                     foreach (var bone in bones)
                     {
-                        var mesh = (ModelMesh)bone.Tag;
-
-                        if (mesh != null && !processed.Contains(mesh.Name))
+                        if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                         {
+                            var mesh = bone.Mesh;
                             var meshoffset = mesh.BoundingBox.Centre;
 
                             foreach (var meshpart in mesh.MeshParts)
@@ -167,10 +166,10 @@ namespace Flummery
                 {
                     foreach (var bone in bones)
                     {
-                        var mesh = (ModelMesh)bone.Tag;
-
-                        if (mesh != null && !processed.Contains(mesh.Name))
+                        if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                         {
+                            var mesh = bone.Mesh;
+
                             foreach (var meshpart in mesh.MeshParts)
                             {
                                 for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)

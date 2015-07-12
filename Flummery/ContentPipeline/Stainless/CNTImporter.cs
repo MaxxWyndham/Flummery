@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ToxicRagers.Stainless.Formats;
 using OpenTK;
 
@@ -16,7 +17,7 @@ namespace Flummery.ContentPipeline.Stainless
             CNT cnt = CNT.Load(path);
             Model model = new Model();
 
-            rootPath = path.Substring(0, path.LastIndexOf('\\') + 1);
+            rootPath = Path.GetDirectoryName(path);
 
             ProcessCNT(cnt, model);
 
@@ -31,7 +32,7 @@ namespace Flummery.ContentPipeline.Stainless
 
             SceneManager.Current.UpdateProgress(string.Format("Processing {0}", cnt.Name));
 
-            if (cnt.Model != null)
+            if (cnt.Section == CNT.NodeType.MODL || cnt.Section == CNT.NodeType.SKIN)
             {
                 var m = SceneManager.Current.Content.Load<Model, MDLImporter>(cnt.Model, rootPath);
                 boneIndex = model.AddMesh(m.Meshes[0], ParentBoneIndex);
@@ -39,6 +40,19 @@ namespace Flummery.ContentPipeline.Stainless
             else
             {
                 boneIndex = model.AddMesh(null, ParentBoneIndex);
+
+                switch (cnt.Section)
+                {
+                    case CNT.NodeType.LITg:
+                        model.Bones[boneIndex].Type = BoneType.Light;
+                        model.Bones[boneIndex].Attachment = (cnt.Light != null ? cnt.Light : SceneManager.Current.Content.Load<Model, LIGHTImporter>(cnt.LightName, rootPath).Bones[0].Attachment);
+                        break;
+
+                    case CNT.NodeType.VFXI:
+                        model.Bones[boneIndex].Type = BoneType.VFX;
+                        model.Bones[boneIndex].Attachment = cnt.VFXFile;
+                        break;
+                }
             }
 
             model.SetName(cnt.Name, boneIndex);

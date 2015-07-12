@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
+using ToxicRagers.Helpers;
+
 namespace Flummery
 {
     public enum ChangeType
@@ -130,6 +132,26 @@ namespace Flummery
             {
                 index = models.Count;
                 models.Add(m);
+
+                foreach (ModelBone bone in m.Bones)
+                {
+                    switch (bone.Type)
+                    {
+                        case BoneType.Light:
+                        case BoneType.Driver:
+                        case BoneType.VFX:
+                                var entity = new Entity
+                                {
+                                    Name = bone.Name,
+                                    EntityType = bone.Type.ToString().ToEnum<EntityType>(),
+                                    AssetType = AssetType.Sprite
+                                };
+                                entity.LinkWith(bone);
+
+                                entities.Add(entity);
+                            break;
+                    }
+                }
             }
             else
             {

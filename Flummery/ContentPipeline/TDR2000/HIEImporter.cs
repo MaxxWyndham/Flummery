@@ -101,7 +101,7 @@ namespace Flummery.ContentPipeline.TDR2000
                     int index = node.Index;
                     mshses.Meshes[index].MeshParts[0].Material = material;
 
-                    if (model.Bones[ParentBoneIndex].Tag == null)
+                    if (model.Bones[ParentBoneIndex].Mesh == null)
                     {
                         model.SetMesh(mshses.Meshes[index], boneIndex);
                         //exit = true;

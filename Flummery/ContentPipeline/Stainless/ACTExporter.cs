@@ -19,8 +19,8 @@ namespace Flummery.ContentPipeline.Stainless
         public static void TravelTree(ModelBone bone, ref ACT act, bool root = false)
         {
             act.AddActor(
-                bone.Name, 
-                (bone.Tag != null ? ((ModelMesh)bone.Tag).Name : null),
+                bone.Name,
+                (bone.Type == BoneType.Mesh && bone.Mesh != null ? bone.Mesh.Name : null),
                 new Matrix3D(
                     bone.Transform.M11, bone.Transform.M21, bone.Transform.M31,
                     bone.Transform.M12, bone.Transform.M22, bone.Transform.M32,

@@ -30,7 +30,7 @@ namespace Flummery
         {
             var m = new Model();
 
-            //m.bones = new ModelBoneCollection(this.bones);
+            m.bones = new ModelBoneCollection(this.bones);
             m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));
 
             foreach (var kvp in this.supportingDocuments)
@@ -106,7 +106,8 @@ namespace Flummery
 
             if (mesh != null)
             {
-                b.Tag = mesh;
+                b.Type = BoneType.Mesh;
+                b.Attachment = mesh;
                 mesh.Parent = bones[b.Index];
                 meshes.Add(mesh);
             }
@@ -139,9 +140,10 @@ namespace Flummery
             for (int i = 0; i < boneList.Count; i++)
             {
                 bones.Insert(parentBoneIndex + i + 1, boneList[i]);
-                if (boneList[i].Tag != null)
-                { 
-                    var mesh = boneList[i].Tag as ModelMesh;
+
+                if (boneList[i].Mesh != null)
+                {
+                    var mesh = boneList[i].Mesh;
                     mesh.Parent = boneList[i];
                     meshes.Add(mesh); 
                 }
@@ -190,7 +192,7 @@ namespace Flummery
 
             for (int i = BoneIndex + 1; i < bones.Count; i++) { bones[i].Index--; }
             if (bones[BoneIndex].Parent != null) { bones[BoneIndex].Parent.Children.Remove(bones[BoneIndex]); }
-            meshes.Remove((ModelMesh)bones[BoneIndex].Tag);
+            meshes.Remove(bones[BoneIndex].Mesh);
 
             bones.RemoveAt(BoneIndex);
             Console.WriteLine("Removing bone at {0}, bones.Count = {1}", BoneIndex, bones.Count);
@@ -220,15 +222,17 @@ namespace Flummery
 
         public void SetMesh(ModelMesh mesh, int BoneIndex = 0)
         {
-            bones[BoneIndex].Tag = mesh;
+            bones[BoneIndex].Type = BoneType.Mesh;
+            bones[BoneIndex].Attachment = mesh;
             mesh.Parent = bones[BoneIndex];
             meshes.Add(mesh);
         }
 
         public void ClearMesh(int BoneIndex)
         {
-            meshes.Remove((ModelMesh)bones[BoneIndex].Tag);
-            bones[BoneIndex].Tag = null;
+            bones[BoneIndex].Type = BoneType.Null;
+            meshes.Remove(bones[BoneIndex].Mesh);
+            bones[BoneIndex].Attachment = null;
         }
 
         public List<Material> GetMaterials()

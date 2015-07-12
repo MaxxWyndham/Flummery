@@ -52,10 +52,10 @@ namespace Flummery
 
             foreach (var bone in bones)
             {
-                var mesh = (ModelMesh)bone.Tag;
-
-                if (mesh != null && !processed.Contains(mesh.Name))
+                if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                 {
+                    var mesh = bone.Mesh;
+
                     foreach (var meshpart in mesh.MeshParts)
                     {
                         for (int i = 0; i < meshpart.VertexCount; i++)

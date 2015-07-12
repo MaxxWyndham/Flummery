@@ -232,7 +232,7 @@ namespace Flummery
         {
             if (SceneManager.Current.Models.Count == 0) { return; }
 
-            var mesh = SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag as ModelMesh;
+            var mesh = SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Mesh;
 
             if (mesh != null)
             {

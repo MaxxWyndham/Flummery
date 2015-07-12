@@ -138,7 +138,7 @@ namespace Flummery
                     {
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded); // RightHanded == Everything but C:R
                         var m = scene.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
-                        ModelManipulator.FlipAxis((ModelMesh)m.Root.Tag, Axis.Z, true);
+                        ModelManipulator.FlipAxis(m.Root.Mesh, Axis.Z, true);
                     }
                     break;
 
@@ -175,6 +175,15 @@ namespace Flummery
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
                         scene.Content.Load<Model, MDLImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                    }
+                    break;
+
+                case "Stainless LIGHT File...":
+                    ofdBrowse.Filter = "Stainless LIGHT files (*.light)|*.light";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        scene.Content.Load<Model, LIGHTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
@@ -301,7 +310,7 @@ namespace Flummery
                                 // accessory
                                 entity.UniqueIdentifier = "errol_HEAD00" + bone.Name.Substring(1, 2) + "_" + i.ToString("000");
                                 entity.EntityType = EntityType.Accessory;
-                                entity.Name = "C2_" + ((ModelMesh)bone.Tag).Name.Substring(3);
+                                entity.Name = "C2_" + bone.Mesh.Name.Substring(3);
                             }
 
                             entity.Transform = bone.CombinedTransform;
@@ -819,7 +828,7 @@ namespace Flummery
                     break;
 
                 case "Invert texture 'v' coordinates":
-                    ModelManipulator.FlipUVs((ModelMesh)SceneManager.Current.SelectedModel.Bones[SceneManager.Current.SelectedBoneIndex].Tag);
+                    ModelManipulator.FlipUVs(SceneManager.Current.SelectedModel.Bones[SceneManager.Current.SelectedBoneIndex].Mesh);
                     break;
             }
         }
