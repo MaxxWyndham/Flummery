@@ -333,18 +333,23 @@ namespace Flummery.ContentPipeline.Core
 
                     var colourReferenceType = colourElem.Children.Find(e => e.ID == "ReferenceInformationType");
 
-                    if (colourReferenceType.Properties[0].Value.ToString() == "IndexToDirect")
+                    switch (colourReferenceType.Properties[0].Value.ToString())
                     {
-                        var colourIndicies = (int[])colourElem.Children.Find(e => e.ID == "ColorIndex").Properties[0].Value;
-                        for (int i = 0; i < colourIndicies.Length; i++)
-                        {
-                            int offset = colourIndicies[i] * 4;
-                            colours.Add(new OpenTK.Graphics.Color4((float)colourParts[offset + 0], (float)colourParts[offset + 1], (float)colourParts[offset + 2], (float)colourParts[offset + 3]));
-                        }
-                    }
-                    else
-                    {
-                        throw new NotImplementedException("Unsupported Colour Reference Type: " + colourReferenceType.Properties[0].Value.ToString());
+                        case "IndexToDirect":
+                            var colourIndicies = (int[])colourElem.Children.Find(e => e.ID == "ColorIndex").Properties[0].Value;
+                            for (int i = 0; i < colourIndicies.Length; i++)
+                            {
+                                int offset = colourIndicies[i] * 4;
+                                colours.Add(new OpenTK.Graphics.Color4((float)colourParts[offset + 0], (float)colourParts[offset + 1], (float)colourParts[offset + 2], (float)colourParts[offset + 3]));
+                            }
+                            break;
+
+                        case "Direct":
+                            bColours = false;
+                            break;
+
+                        default:
+                            throw new NotImplementedException("Unsupported Colour Reference Type: " + colourReferenceType.Properties[0].Value.ToString());
                     }
 
                     SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Colours", element.Properties[1].Value));
