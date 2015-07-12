@@ -91,6 +91,7 @@ namespace Flummery
                     else
                     {
                         node.ImageIndex = 0;
+                        node.SelectedImageIndex = node.ImageIndex;
                     }
                     break;
 
@@ -168,6 +169,7 @@ namespace Flummery
             var node = new TreeNode(name);
             node.Tag = index;
             node.ImageIndex = (int)bone.Type;
+            node.SelectedImageIndex = node.ImageIndex;
             return node;
         }
 
