@@ -170,6 +170,8 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (var mesh in model.Meshes)
             {
+                SceneManager.Current.UpdateProgress(string.Format("Pre-processing {0}", mesh.Name));
+
                 var vects = new List<Vertex>();
                 var verts = new List<Vector3>();
                 var norms = new List<Vector3>();
@@ -473,6 +475,8 @@ namespace Flummery.ContentPipeline.Core
                     );
                 }
 
+                SceneManager.Current.UpdateProgress(string.Format("Exporting {0}", mesh.Name));
+
                 fbxObjects.Children.Add(
                     new FBXElem
                     {
@@ -565,6 +569,8 @@ namespace Flummery.ContentPipeline.Core
                 var tdx = (material.Texture.SupportingDocuments["Source"] as ToxicRagers.CarmageddonReincarnation.Formats.TDX);
                 if (tdx != null)
                 {
+                    SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(ddsPath)));
+
                     tdx.SaveAsDDS(ddsPath);
                     ddsPath += ".dds";
 

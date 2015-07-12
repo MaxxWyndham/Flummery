@@ -142,10 +142,14 @@ namespace Flummery
                 if (index == -1) { index = vertexBuffer.AddVertex(v); }
 
                 indexBuffer.AddIndex(index);
+
+                if (i % 2500 == 0) { SceneManager.Current.UpdateProgress(string.Format("Optimising: {0:0.00}% complete", (i * 100.0f) / ib.Count)); }
             }
 
             indexBuffer.Initialise();
             vertexBuffer.Initialise();
+
+            SceneManager.Current.UpdateProgress(string.Format("Optimisation complete! {0} vert(s) removed.", vb.Count - vertexBuffer.Data.Count));
         }
 
         public void Finalise()
