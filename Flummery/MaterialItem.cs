@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Flummery
+namespace Flummery.Controls
 {
     public partial class MaterialItem : UserControl
     {

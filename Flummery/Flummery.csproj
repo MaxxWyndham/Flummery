@@ -227,11 +227,18 @@
     <Compile Include="Graphics\TextWriter.cs" />
     <Compile Include="Graphics\Viewport.cs" />
     <Compile Include="Graphics\ViewportManager.cs" />
+    <Compile Include="IWidget.cs" />
     <Compile Include="MaterialItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MaterialItem.Designer.cs">
       <DependentUpon>MaterialItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pnlDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pnlDetails.Designer.cs">
+      <DependentUpon>pnlDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="pnlMaterialList.cs">
       <SubType>Form</SubType>
@@ -245,12 +252,21 @@
     <Compile Include="pnlOverview.Designer.cs">
       <DependentUpon>pnlOverview.cs</DependentUpon>
     </Compile>
-    <Compile Include="Util\Updater.cs" />
-    <Compile Include="widgetTransform.cs">
-      <SubType>Form</SubType>
+    <Compile Include="PowerOfTwoUpDown.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="widgetTransform.Designer.cs">
-      <DependentUpon>widgetTransform.cs</DependentUpon>
+    <Compile Include="Util\Updater.cs" />
+    <Compile Include="Widgets\Lighting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Widgets\Lighting.Designer.cs">
+      <DependentUpon>Lighting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Widgets\Transform.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Widgets\Transform.Designer.cs">
+      <DependentUpon>Transform.cs</DependentUpon>
     </Compile>
     <Compile Include="pnlTexturePreview.cs">
       <SubType>Form</SubType>
@@ -315,14 +331,14 @@
     <EmbeddedResource Include="MaterialItem.resx">
       <DependentUpon>MaterialItem.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pnlDetails.resx">
+      <DependentUpon>pnlDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pnlMaterialList.resx">
       <DependentUpon>pnlMaterialList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pnlOverview.resx">
       <DependentUpon>pnlOverview.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="widgetTransform.resx">
-      <DependentUpon>widgetTransform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pnlTexturePreview.resx">
       <DependentUpon>pnlTexturePreview.cs</DependentUpon>
@@ -340,6 +356,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Widgets\Lighting.resx">
+      <DependentUpon>Lighting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Widgets\Transform.resx">
+      <DependentUpon>Transform.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

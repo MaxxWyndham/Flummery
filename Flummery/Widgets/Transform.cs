@@ -6,18 +6,20 @@ using System.Linq;
 using System.Windows.Forms;
 
 using OpenTK;
-using ToxicRagers.Helpers;
-using WeifenLuo.WinFormsUI.Docking;
 
-namespace Flummery
+using ToxicRagers.Helpers;
+
+namespace Flummery.Controls
 {
-    public partial class widgetTransform : DockContent
+    public partial class Transform : UserControl, IWidget
     {
         public enum Relativity
         {
             Relative,
             Absolute
         }
+
+        bool bExpanded = true;
 
         ModelBone bone;
         int defaultWidth = 190;
@@ -28,9 +30,13 @@ namespace Flummery
 
         public int DefaultWidth { get { return defaultWidth; } }
 
-        public widgetTransform()
+        public Transform()
         {
             InitializeComponent();
+
+            this.Dock = DockStyle.Top;
+            this.AutoSize = true;
+            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             this.gbPosition.MouseDown += gbGroup_MouseDown;
             this.gbRotation.MouseDown += gbGroup_MouseDown;
@@ -126,13 +132,21 @@ namespace Flummery
                 var r = bone.Transform.ExtractRotation().ToAxisAngle();
                 var s = bone.Transform.ExtractScale();
 
-                if (Math.Abs(r.X) < 0.0001f) { r.X = 0; }
-                if (Math.Abs(r.Y) < 0.0001f) { r.Y = 0; }
-                if (Math.Abs(r.Z) < 0.0001f) { r.Z = 0; }
-
                 r.X *= MathHelper.RadiansToDegrees(r.W);
                 r.Y *= MathHelper.RadiansToDegrees(r.W);
                 r.Z *= MathHelper.RadiansToDegrees(r.W);
+
+                p.X = (float)Math.Round(p.X, 3, MidpointRounding.AwayFromZero);
+                p.Y = (float)Math.Round(p.Y, 3, MidpointRounding.AwayFromZero);
+                p.Z = (float)Math.Round(p.Z, 3, MidpointRounding.AwayFromZero);
+
+                r.X = (float)Math.Round(r.X, 3, MidpointRounding.AwayFromZero);
+                r.Y = (float)Math.Round(r.Y, 3, MidpointRounding.AwayFromZero);
+                r.Z = (float)Math.Round(r.Z, 3, MidpointRounding.AwayFromZero);
+
+                s.X = (float)Math.Round(s.X, 3, MidpointRounding.AwayFromZero);
+                s.Y = (float)Math.Round(s.Y, 3, MidpointRounding.AwayFromZero);
+                s.Z = (float)Math.Round(s.Z, 3, MidpointRounding.AwayFromZero);
 
                 txtPositionX.Text = p.X.ToString();
                 txtPositionY.Text = p.Y.ToString();
@@ -153,7 +167,7 @@ namespace Flummery
 
         private void btnFreezePosition_Click(object sender, EventArgs e)
         {
-            ModelManipulator.Freeze((ModelMesh)SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag, FreezeComponents.Position);
+            ModelManipulator.Freeze(SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Mesh, FreezeComponents.Position);
 
             txtPositionX.Text = "0.00";
             txtPositionY.Text = "0.00";
@@ -162,7 +176,7 @@ namespace Flummery
 
         private void btnFreezeRotation_Click(object sender, EventArgs e)
         {
-            ModelManipulator.Freeze((ModelMesh)SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag, FreezeComponents.Rotation);
+            ModelManipulator.Freeze(SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Mesh, FreezeComponents.Rotation);
 
             txtRotationX.Text = "0";
             txtRotationY.Text = "0";
@@ -171,7 +185,7 @@ namespace Flummery
 
         private void btnFreezeScale_Click(object sender, EventArgs e)
         {
-            ModelManipulator.Freeze((ModelMesh)SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Tag, FreezeComponents.Scale);
+            ModelManipulator.Freeze(SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Mesh, FreezeComponents.Scale);
 
             txtScaleX.Text = "1";
             txtScaleY.Text = "1";
@@ -242,7 +256,7 @@ namespace Flummery
             var box = (TextBox)sender;
             Single s = 0;
 
-            if (Single.TryParse(box.Text, NumberStyles.Number, Flummery.Culture, out s))
+            if (Single.TryParse(box.Text, NumberStyles.Number, FlummeryApplication.Culture, out s))
             {
                 box.Text = s.ToString();
                 box.Tag = s;
@@ -289,13 +303,29 @@ namespace Flummery
         {
             if (e.KeyCode == Keys.Return)
             {
-                this.Validate();
                 e.Handled = true;
             }
             else
             {
                 gang.UpdateBoxes();
             }
+        }
+
+        private void btnPanelTitle_Click(object sender, EventArgs e)
+        {
+            if (bExpanded)
+            {
+                pnlPanel.Tag = pnlPanel.Height;
+                pnlPanel.Height = 0;
+            }
+            else
+            {
+                pnlPanel.Height = (int)pnlPanel.Tag;
+            }
+
+            bExpanded = !bExpanded;
+
+            pnlPanel.Visible = bExpanded;
         }
     }
 

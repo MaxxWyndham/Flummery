@@ -1,4 +1,4 @@
-﻿namespace Flummery
+﻿namespace Flummery.Controls
 {
     partial class MaterialItem
     {

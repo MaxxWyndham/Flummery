@@ -37,22 +37,25 @@ namespace Flummery
             var overview = new pnlOverview();
             var viewport = new pnlViewport();
             var materials = new pnlMaterialList();
-            var settings = new widgetTransform();
+            var details = new pnlDetails();
 
             viewport.Show(dockPanel, DockState.Document);
-            overview.Show(dockPanel, DockState.DockLeft);
-            settings.Show(dockPanel, DockState.DockRight);
             materials.Show(dockPanel, DockState.DockBottom);
-
-            dockPanel.DockRightPortion = settings.DefaultWidth;
+            overview.Show(dockPanel, DockState.DockLeft);
+            details.Show(dockPanel, DockState.DockRight);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
             this.Text += " v" + FlummeryApplication.Version;
             scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
+
+            dockPanel.DockLeftPortion = 300;
+            dockPanel.DockRightPortion = 240;
+            dockPanel.DockBottomPortion = 105;
+
             viewport.RegisterEventHandlers();
             overview.RegisterEventHandlers();
             materials.RegisterEventHandlers();
-            settings.RegisterEventHandlers();
+            details.RegisterEventHandlers();
 
             ToxicRagers.Helpers.Logger.ResetLog();
 

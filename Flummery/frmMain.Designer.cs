@@ -79,6 +79,7 @@
             this.tsmiFileImportBRenderDATFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileImportStainlessCNTFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileImportStainlessMDLFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiFileImportStainlessLIGHTFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileImportTorusMSHSFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFileSaveFor = new System.Windows.Forms.ToolStripMenuItem();
@@ -418,6 +419,7 @@
             this.tsmiFileImportBRenderDATFile,
             this.tsmiFileImportStainlessCNTFile,
             this.tsmiFileImportStainlessMDLFile,
+            this.tsmiFileImportStainlessLIGHTFile,
             this.tsmiFileImportTorusMSHSFile});
             this.tsmiFileImport.Name = "tsmiFileImport";
             this.tsmiFileImport.Size = new System.Drawing.Size(141, 22);
@@ -426,42 +428,49 @@
             // tsmiFileImportAutodeskFBXFile
             // 
             this.tsmiFileImportAutodeskFBXFile.Name = "tsmiFileImportAutodeskFBXFile";
-            this.tsmiFileImportAutodeskFBXFile.Size = new System.Drawing.Size(177, 22);
+            this.tsmiFileImportAutodeskFBXFile.Size = new System.Drawing.Size(185, 22);
             this.tsmiFileImportAutodeskFBXFile.Text = "Autodesk FBX File...";
             this.tsmiFileImportAutodeskFBXFile.Click += new System.EventHandler(this.menuImportClick);
             // 
             // tsmiFileImportBRenderACTFile
             // 
             this.tsmiFileImportBRenderACTFile.Name = "tsmiFileImportBRenderACTFile";
-            this.tsmiFileImportBRenderACTFile.Size = new System.Drawing.Size(177, 22);
+            this.tsmiFileImportBRenderACTFile.Size = new System.Drawing.Size(185, 22);
             this.tsmiFileImportBRenderACTFile.Text = "BRender ACT File...";
             this.tsmiFileImportBRenderACTFile.Click += new System.EventHandler(this.menuImportClick);
             // 
             // tsmiFileImportBRenderDATFile
             // 
             this.tsmiFileImportBRenderDATFile.Name = "tsmiFileImportBRenderDATFile";
-            this.tsmiFileImportBRenderDATFile.Size = new System.Drawing.Size(177, 22);
+            this.tsmiFileImportBRenderDATFile.Size = new System.Drawing.Size(185, 22);
             this.tsmiFileImportBRenderDATFile.Text = "BRender DAT File...";
             this.tsmiFileImportBRenderDATFile.Click += new System.EventHandler(this.menuImportClick);
             // 
             // tsmiFileImportStainlessCNTFile
             // 
             this.tsmiFileImportStainlessCNTFile.Name = "tsmiFileImportStainlessCNTFile";
-            this.tsmiFileImportStainlessCNTFile.Size = new System.Drawing.Size(177, 22);
+            this.tsmiFileImportStainlessCNTFile.Size = new System.Drawing.Size(185, 22);
             this.tsmiFileImportStainlessCNTFile.Text = "Stainless CNT File...";
             this.tsmiFileImportStainlessCNTFile.Click += new System.EventHandler(this.menuImportClick);
             // 
             // tsmiFileImportStainlessMDLFile
             // 
             this.tsmiFileImportStainlessMDLFile.Name = "tsmiFileImportStainlessMDLFile";
-            this.tsmiFileImportStainlessMDLFile.Size = new System.Drawing.Size(177, 22);
+            this.tsmiFileImportStainlessMDLFile.Size = new System.Drawing.Size(185, 22);
             this.tsmiFileImportStainlessMDLFile.Text = "Stainless MDL File...";
             this.tsmiFileImportStainlessMDLFile.Click += new System.EventHandler(this.menuImportClick);
+            // 
+            // tsmiFileImportStainlessLIGHTFile
+            // 
+            this.tsmiFileImportStainlessLIGHTFile.Name = "tsmiFileImportStainlessLIGHTFile";
+            this.tsmiFileImportStainlessLIGHTFile.Size = new System.Drawing.Size(185, 22);
+            this.tsmiFileImportStainlessLIGHTFile.Text = "Stainless LIGHT File...";
+            this.tsmiFileImportStainlessLIGHTFile.Click += new System.EventHandler(this.menuImportClick);
             // 
             // tsmiFileImportTorusMSHSFile
             // 
             this.tsmiFileImportTorusMSHSFile.Name = "tsmiFileImportTorusMSHSFile";
-            this.tsmiFileImportTorusMSHSFile.Size = new System.Drawing.Size(177, 22);
+            this.tsmiFileImportTorusMSHSFile.Size = new System.Drawing.Size(185, 22);
             this.tsmiFileImportTorusMSHSFile.Text = "Torus MSHS File...";
             this.tsmiFileImportTorusMSHSFile.Click += new System.EventHandler(this.menuImportClick);
             // 
@@ -1023,6 +1032,7 @@
         private System.Windows.Forms.ToolStripMenuItem tmsiToolsTDR2000RemoveLODFromVehicle;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllZADFiles;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnationBulkUnZAD;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessLIGHTFile;
 
         //private CustomGLControl glcViewport;
 

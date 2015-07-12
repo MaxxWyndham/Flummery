@@ -1,4 +1,7 @@
 ﻿using System;
+
+using Flummery.Controls;
+
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
