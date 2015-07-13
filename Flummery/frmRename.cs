@@ -20,6 +20,9 @@ namespace Flummery
         {
             modelIndex = modelID;
             boneIndex = boneID;
+
+            chkModels.Enabled = (SceneManager.Current.Models[modelIndex].Bones[boneIndex].Type == BoneType.Mesh);
+            chkModels.Checked = chkModels.Enabled;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

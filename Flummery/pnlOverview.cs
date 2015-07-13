@@ -107,7 +107,7 @@ namespace Flummery
 
                 case ChangeType.Rename:
                     FindNode(e.Index, tvNodes.Nodes[0].Nodes[0], out node);
-                    node.Text = e.AdditionalInformation.ToString();
+                    node.Text = getNodeText(SceneManager.Current.Models[0].Bones[e.Index]);
                     break;
             }
         }
@@ -153,6 +153,17 @@ namespace Flummery
 
         protected TreeNode CreateNode(ModelBone bone, int index)
         {
+            var node = new TreeNode(getNodeText(bone));
+
+            node.Tag = index;
+            node.ImageIndex = (int)bone.Type;
+            node.SelectedImageIndex = node.ImageIndex;
+
+            return node;
+        }
+
+        private string getNodeText(ModelBone bone)
+        {
             string name = bone.Name;
 
             switch (bone.Type)
@@ -164,13 +175,13 @@ namespace Flummery
                 case BoneType.Light:
                     name += " - " + (bone.Attachment as ToxicRagers.CarmageddonReincarnation.Formats.LIGHT).Name;
                     break;
+
+                case BoneType.VFX:
+                    name += " - " + bone.AttachmentFile;
+                    break;
             }
-            
-            var node = new TreeNode(name);
-            node.Tag = index;
-            node.ImageIndex = (int)bone.Type;
-            node.SelectedImageIndex = node.ImageIndex;
-            return node;
+
+            return name;
         }
 
         void scene_OnReset(object sender, ResetEventArgs e)

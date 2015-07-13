@@ -26,6 +26,7 @@ namespace Flummery
 
         BoneType boneType = BoneType.Null;
         Object attachment = null;
+        string attachmentFile = null;
 
         public int Index
         {
@@ -86,6 +87,12 @@ namespace Flummery
             set { attachment = value; }
         }
 
+        public string AttachmentFile
+        {
+            get { return attachmentFile; }
+            set { attachmentFile = value; }
+        }
+
         public ModelMesh Mesh { get { return attachment as ModelMesh; } }
 
         public ModelBone()
@@ -103,8 +110,10 @@ namespace Flummery
             b.name = this.name;
             b.parent = this.parent;
             b.transform = this.transform;
+
             b.boneType = this.boneType;
             b.attachment = this.attachment;
+            b.attachmentFile = this.attachmentFile;
 
             foreach (var child in this.children)
             {
