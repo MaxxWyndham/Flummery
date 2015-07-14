@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
 
@@ -11,7 +11,6 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string path)
         {
-            Stopwatch sw = new Stopwatch();
             var texture = (asset as Texture);
             var tdx = new TDX();
             var b = (texture.SupportingDocuments["Source"] as Bitmap);
@@ -41,9 +40,6 @@ namespace Flummery.ContentPipeline.Stainless
             byte[] data = new byte[b.Width * b.Height * 4];
             byte[] dest = new byte[Squish.Squish.GetStorageRequirements(b.Width, b.Height, flags | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha)];
 
-            sw.Start();
-            Console.WriteLine("{0}", texture.Name);
-
             int ii = 0;
             for (int y = 0; y < b.Height; y++)
             {
@@ -59,17 +55,14 @@ namespace Flummery.ContentPipeline.Stainless
                 }
             }
 
-            Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
-
+            SceneManager.Current.UpdateProgress(string.Format("Compressing {0} (this may take a moment)", texture.Name));
             Squish.Squish.CompressImage(data, b.Width, b.Height, ref dest, flags | Squish.SquishFlags.kColourClusterFit);
             mip.Data = dest;
-
-            Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
 
             tdx.MipMaps.Add(mip);
             tdx.Save(Path.GetDirectoryName(path) + "\\" + texture.Name + ".tdx");
 
-            Console.WriteLine("{0}", sw.Elapsed.Duration().ToString());
+            SceneManager.Current.UpdateProgress(string.Format("{0}.tdx saved!", texture.Name));
         }
     }
 }
