@@ -14,8 +14,10 @@ using Flummery.Util;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using WeifenLuo.WinFormsUI.Docking;
+
 using ToxicRagers.Carmageddon2.Formats;
+
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
 {
@@ -26,12 +28,12 @@ namespace Flummery
             InitializeComponent();
         }
 
-        SceneManager scene;
-
         public DockPanel DockPanel { get { return dockPanel; } }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            this.Text += " v" + FlummeryApplication.Version;
+
             var inputManager = new InputManager();
 
             var overview = new pnlOverview();
@@ -45,8 +47,7 @@ namespace Flummery
             details.Show(dockPanel, DockState.DockRight);
 
             var extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            this.Text += " v" + FlummeryApplication.Version;
-            scene = new SceneManager(extensions.Contains("GL_ARB_vertex_buffer_object"));
+            SceneManager.Create(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
             dockPanel.DockLeftPortion = 300;
             dockPanel.DockRightPortion = 240;
@@ -67,8 +68,6 @@ namespace Flummery
             SceneManager.Current.OnProgress += scene_OnProgress;
             SceneManager.Current.OnError += scene_OnError;
             SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
-
-            //flpMaterials.Tag = new SortedList<string, string>();
 
             if (Properties.Settings.Default.CheckForUpdates) { checkUpdate(); }
 
@@ -114,7 +113,7 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "&New":
-                    scene.Reset();
+                    SceneManager.Current.Reset();
                     break;
 
                 case "E&xit":
@@ -122,8 +121,7 @@ namespace Flummery
                     break;
 
                 case "About Flummery":
-                    var about = new frmAbout();
-                    about.ShowDialog();
+                    (new frmAbout()).ShowDialog();
                     break;
             }
         }
@@ -140,7 +138,7 @@ namespace Flummery
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded); // RightHanded == Everything but C:R
-                        var m = scene.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        var m = SceneManager.Current.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                         ModelManipulator.FlipAxis(m.Root.Mesh, Axis.Z, true);
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
@@ -152,7 +150,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
@@ -163,7 +161,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, DATImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, DATImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
@@ -174,7 +172,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
@@ -185,7 +183,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, MDLImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, MDLImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
@@ -196,7 +194,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, LIGHTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, LIGHTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
@@ -207,7 +205,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, ContentPipeline.TDR2000.MSHSImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, ContentPipeline.TDR2000.MSHSImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
@@ -226,7 +224,7 @@ namespace Flummery
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         var fx = new ContentPipeline.Core.FBXExporter();
-                        fx.Export(scene.Models[0], sfdBrowse.FileName);
+                        fx.Export(SceneManager.Current.Models[0], sfdBrowse.FileName);
                         SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(sfdBrowse.FileName)));
                     }
                     break;
@@ -236,7 +234,7 @@ namespace Flummery
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         var cx = new CNTExporter();
-                        cx.Export(scene.Models[0], sfdBrowse.FileName);
+                        cx.Export(SceneManager.Current.Models[0], sfdBrowse.FileName);
                     }
                     break;
             }
@@ -255,7 +253,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
@@ -264,7 +262,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
@@ -287,16 +285,16 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
                 case "Convert &&Actors to Entities":
-                    if (scene.Models.Count == 0) { return; }
+                    if (SceneManager.Current.Models.Count == 0) { return; }
 
-                    for (int i = scene.Models[0].Bones.Count - 1; i >= 0; i--)
+                    for (int i = SceneManager.Current.Models[0].Bones.Count - 1; i >= 0; i--)
                     {
-                        var bone = scene.Models[0].Bones[i];
+                        var bone = SceneManager.Current.Models[0].Bones[i];
 
                         if (bone.Name.StartsWith("&"))
                         {
@@ -332,9 +330,9 @@ namespace Flummery
 
                             entity.Transform = bone.CombinedTransform;
                             entity.AssetType = AssetType.Sprite;
-                            scene.Entities.Add(entity);
+                            SceneManager.Current.Entities.Add(entity);
 
-                            scene.Models[0].RemoveBone(bone.Index);
+                            SceneManager.Current.Models[0].RemoveBone(bone.Index);
                         }
                     }
 
@@ -365,8 +363,8 @@ namespace Flummery
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
-                scene.Reset();
-                scene.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                SceneManager.Current.Reset();
+                SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
             }
         }
 
@@ -383,8 +381,8 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Reset();
-                        var accessory = scene.Add(scene.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
+                        SceneManager.Current.Reset();
+                        var accessory = SceneManager.Current.Add(SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName)));
 
                         string accessorytxt = ofdBrowse.FileName.Replace(".cnt", ".txt", StringComparison.OrdinalIgnoreCase);
 
@@ -408,10 +406,10 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Reset();
+                        SceneManager.Current.Reset();
 
                         string assetFolder = Path.GetDirectoryName(ofdBrowse.FileName) + "\\";
-                        var vehicle = (Model)scene.Add(scene.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), assetFolder));
+                        var vehicle = (Model)SceneManager.Current.Add(SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), assetFolder));
 
                         // Load supporting documents
                         if (File.Exists(assetFolder + "setup.lol")) { vehicle.SupportingDocuments["Setup"] = ToxicRagers.CarmageddonReincarnation.Formats.Setup.Load(assetFolder + "setup.lol"); }
@@ -433,7 +431,7 @@ namespace Flummery
                                 };
                                 entity.LinkWith(bone);
 
-                                scene.Entities.Add(entity);
+                                SceneManager.Current.Entities.Add(entity);
                             }
                         }
                     }
@@ -668,24 +666,24 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        scene.Reset();
-                        scene.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        SceneManager.Current.Reset();
+                        SceneManager.Current.Content.Load<Model, ContentPipeline.TDR2000.HIEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                     }
                     break;
 
                 case "Remove LOD from Vehicle":
-                    if (scene.Models.Count == 0) { return; }
+                    if (SceneManager.Current.Models.Count == 0) { return; }
 
-                    for (int i = scene.Models[0].Bones.Count - 1; i >= 0; i--)
+                    for (int i = SceneManager.Current.Models[0].Bones.Count - 1; i >= 0; i--)
                     {
-                        var bone = scene.Models[0].Bones[i];
+                        var bone = SceneManager.Current.Models[0].Bones[i];
 
                         if (bone.Name.Contains("LOD"))
                         {
                             string name = bone.Name.Replace("_", "");
                             if (name.Substring(name.IndexOf("LOD") + 3, 1) != "1")
                             {
-                                scene.Models[0].RemoveBone(bone.Index);
+                                SceneManager.Current.Models[0].RemoveBone(bone.Index);
                             }
                         }
                     }
@@ -711,10 +709,10 @@ namespace Flummery
                         if (!Directory.Exists(directory + "tiffrgb")) { Directory.CreateDirectory(directory + "tiffrgb"); }
 
                         var ax = new ACTExporter();
-                        ax.Export(scene.Models[0], sfdBrowse.FileName);
+                        ax.Export(SceneManager.Current.Models[0], sfdBrowse.FileName);
 
                         var dx = new DATExporter();
-                        dx.Export(scene.Models[0], directory + Path.GetFileNameWithoutExtension(sfdBrowse.FileName) + ".dat");
+                        dx.Export(SceneManager.Current.Models[0], directory + Path.GetFileNameWithoutExtension(sfdBrowse.FileName) + ".dat");
 
                         var mx = new MATExporter();
                         mx.Export(SceneManager.Current.Materials, directory + Path.GetFileNameWithoutExtension(sfdBrowse.FileName) + ".mat");
@@ -737,10 +735,10 @@ namespace Flummery
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
                         var cx = new CNTExporter();
-                        cx.Export(scene.Models[0], sfdBrowse.FileName);
+                        cx.Export(SceneManager.Current.Models[0], sfdBrowse.FileName);
 
                         var mx = new MDLExporter();
-                        mx.Export(scene.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\");
+                        mx.Export(SceneManager.Current.Models[0], Path.GetDirectoryName(sfdBrowse.FileName) + "\\");
                     }
                     break;
             }

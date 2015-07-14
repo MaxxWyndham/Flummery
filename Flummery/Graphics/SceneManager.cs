@@ -97,6 +97,11 @@ namespace Flummery
         public event ProgressHandler OnProgress;
         public event ErrorHandler OnError;
 
+        public static void Create(bool bUseVertexBuffer = true)
+        {
+            new SceneManager(bUseVertexBuffer);
+        }
+
         public SceneManager(bool bUseVertexBuffer = true)
         {
             Current = this;
