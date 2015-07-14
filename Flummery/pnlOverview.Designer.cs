@@ -68,7 +68,6 @@
             this.ilNodeIcons.Images.SetKeyName(1, "interface_mesh_16x16.png");
             this.ilNodeIcons.Images.SetKeyName(2, "interface_vfx_16x16.png");
             this.ilNodeIcons.Images.SetKeyName(3, "interface_light_16x16.png");
-            this.ilNodeIcons.Images.SetKeyName(4, "interface_driver_16x16.png");
             // 
             // lblCoords
             // 

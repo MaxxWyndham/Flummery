@@ -109,6 +109,15 @@ namespace Flummery
                     FindNode(e.Index, tvNodes.Nodes[0].Nodes[0], out node);
                     node.Text = getNodeText(SceneManager.Current.Models[0].Bones[e.Index]);
                     break;
+
+                case ChangeType.ChangeType:
+                    FindNode(e.Index, tvNodes.Nodes[0].Nodes[0], out node);
+                    var bone = SceneManager.Current.Models[0].Bones[e.Index];
+
+                    node.Text = getNodeText(bone);
+                    node.ImageIndex = (int)bone.Type;
+                    node.SelectedImageIndex = node.ImageIndex;
+                    break;
             }
         }
 

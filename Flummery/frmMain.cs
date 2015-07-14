@@ -840,6 +840,19 @@ namespace Flummery
                     }
                     break;
 
+                case "Add/Change Type...":
+                    var changeType = new frmChangeNodeType();
+                    changeType.SetParentNode(modelIndex, boneIndex);
+
+                    if (changeType.ShowDialog(this) == DialogResult.OK)
+                    {
+                        SceneManager.Current.Change(ChangeType.ChangeType, modelBoneKey);
+                    }
+                    break;
+
+                case "Remove":
+                    break;
+
                 case "Optimise":
                     foreach (ModelMesh mesh in SceneManager.Current.SelectedModel.Meshes)
                     {

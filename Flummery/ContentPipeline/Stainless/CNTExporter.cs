@@ -40,12 +40,22 @@ namespace Flummery.ContentPipeline.Stainless
 
                 case BoneType.Light:
                     cnt.Section = CNT.NodeType.LITg;
-                    cnt.Light = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT)bone.Attachment;
+
+                    cnt.EmbeddedLight = (bone.AttachmentFile == null);
+
+                    if (cnt.EmbeddedLight)
+                    {
+                        cnt.LightName = bone.AttachmentFile;
+                    }
+                    else
+                    {
+                        cnt.Light = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT)bone.Attachment;
+                    }
                     break;
 
                 case BoneType.VFX:
                     cnt.Section = CNT.NodeType.VFXI;
-                    cnt.VFXFile = bone.Attachment.ToString();
+                    cnt.VFXFile = bone.AttachmentFile;
                     break;
 
                 default:

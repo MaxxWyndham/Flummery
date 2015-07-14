@@ -106,6 +106,7 @@
             this.tsmiObjectSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiObjectRename = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObjectSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiObjectOptimise = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObjectFlattenHierarchy = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObjectSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiObjectInvertTextureVCoordinates = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,7 +138,10 @@
             this.tmsiToolsTDR2000RemoveLODFromVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiObjectOptimise = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiObjectData = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiObjectSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiObjectDataAddChangeType = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiObjectDataRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -584,7 +588,7 @@
             // tsmiViewPreferences
             // 
             this.tsmiViewPreferences.Name = "tsmiViewPreferences";
-            this.tsmiViewPreferences.Size = new System.Drawing.Size(135, 22);
+            this.tsmiViewPreferences.Size = new System.Drawing.Size(152, 22);
             this.tsmiViewPreferences.Text = "Preferences";
             this.tsmiViewPreferences.Click += new System.EventHandler(this.menuViewClick);
             // 
@@ -599,9 +603,11 @@
             this.tsmiObjectSeparator2,
             this.tsmiObjectRename,
             this.tsmiObjectSeparator3,
+            this.tsmiObjectData,
+            this.tsmiObjectSeparator4,
             this.tsmiObjectOptimise,
             this.tsmiObjectFlattenHierarchy,
-            this.tsmiObjectSeparator4,
+            this.tsmiObjectSeparator5,
             this.tsmiObjectInvertTextureVCoordinates});
             this.tsmiObject.Name = "tsmiObject";
             this.tsmiObject.Size = new System.Drawing.Size(54, 20);
@@ -664,6 +670,13 @@
             // 
             this.tsmiObjectSeparator3.Name = "tsmiObjectSeparator3";
             this.tsmiObjectSeparator3.Size = new System.Drawing.Size(220, 6);
+            // 
+            // tsmiObjectOptimise
+            // 
+            this.tsmiObjectOptimise.Name = "tsmiObjectOptimise";
+            this.tsmiObjectOptimise.Size = new System.Drawing.Size(223, 22);
+            this.tsmiObjectOptimise.Text = "Optimise";
+            this.tsmiObjectOptimise.Click += new System.EventHandler(this.menuObjectClick);
             // 
             // tsmiObjectFlattenHierarchy
             // 
@@ -906,12 +919,33 @@
             this.tsmiHelpAboutFlummery.Text = "About Flummery";
             this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
             // 
-            // tsmiObjectOptimise
+            // tsmiObjectData
             // 
-            this.tsmiObjectOptimise.Name = "tsmiObjectOptimise";
-            this.tsmiObjectOptimise.Size = new System.Drawing.Size(223, 22);
-            this.tsmiObjectOptimise.Text = "Optimise";
-            this.tsmiObjectOptimise.Click += new System.EventHandler(this.menuObjectClick);
+            this.tsmiObjectData.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiObjectDataAddChangeType,
+            this.tsmiObjectDataRemove});
+            this.tsmiObjectData.Name = "tsmiObjectData";
+            this.tsmiObjectData.Size = new System.Drawing.Size(223, 22);
+            this.tsmiObjectData.Text = "Data";
+            // 
+            // tsmiObjectSeparator5
+            // 
+            this.tsmiObjectSeparator5.Name = "tsmiObjectSeparator5";
+            this.tsmiObjectSeparator5.Size = new System.Drawing.Size(220, 6);
+            // 
+            // tsmiObjectDataAddChangeType
+            // 
+            this.tsmiObjectDataAddChangeType.Name = "tsmiObjectDataAddChangeType";
+            this.tsmiObjectDataAddChangeType.Size = new System.Drawing.Size(180, 22);
+            this.tsmiObjectDataAddChangeType.Text = "Add/Change Type...";
+            this.tsmiObjectDataAddChangeType.Click += new System.EventHandler(this.menuObjectClick);
+            // 
+            // tsmiObjectDataRemove
+            // 
+            this.tsmiObjectDataRemove.Name = "tsmiObjectDataRemove";
+            this.tsmiObjectDataRemove.Size = new System.Drawing.Size(180, 22);
+            this.tsmiObjectDataRemove.Text = "Remove";
+            this.tsmiObjectDataRemove.Click += new System.EventHandler(this.menuObjectClick);
             // 
             // frmMain
             // 
@@ -1043,6 +1077,10 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnationBulkUnZAD;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessLIGHTFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiObjectOptimise;
+        private System.Windows.Forms.ToolStripMenuItem tsmiObjectData;
+        private System.Windows.Forms.ToolStripMenuItem tsmiObjectDataAddChangeType;
+        private System.Windows.Forms.ToolStripMenuItem tsmiObjectDataRemove;
+        private System.Windows.Forms.ToolStripSeparator tsmiObjectSeparator5;
 
         //private CustomGLControl glcViewport;
 

@@ -15,7 +15,8 @@ namespace Flummery
         Rename,
         Move,
         Transform,
-        Munge
+        Munge,
+        ChangeType
     }
 
     public class SceneManager
@@ -138,7 +139,6 @@ namespace Flummery
                     switch (bone.Type)
                     {
                         case BoneType.Light:
-                        case BoneType.Driver:
                         case BoneType.VFX:
                                 var entity = new Entity
                                 {

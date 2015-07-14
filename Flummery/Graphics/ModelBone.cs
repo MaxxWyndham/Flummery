@@ -11,8 +11,7 @@ namespace Flummery
         Null = 0,
         Mesh,
         VFX,
-        Light,
-        Driver
+        Light
     }
 
     [DebuggerDisplay("Name {name} Index {index} Children {children.Count}")]

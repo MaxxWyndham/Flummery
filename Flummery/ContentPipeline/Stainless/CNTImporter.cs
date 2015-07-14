@@ -45,12 +45,20 @@ namespace Flummery.ContentPipeline.Stainless
                 {
                     case CNT.NodeType.LITg:
                         model.Bones[boneIndex].Type = BoneType.Light;
-                        model.Bones[boneIndex].Attachment = (cnt.Light != null ? cnt.Light : SceneManager.Current.Content.Load<Model, LIGHTImporter>(cnt.LightName, rootPath).Bones[0].Attachment);
+                        if (cnt.EmbeddedLight)
+                        {
+                            model.Bones[boneIndex].Attachment = cnt.Light;
+                        }
+                        else
+                        {
+                            model.Bones[boneIndex].Attachment = SceneManager.Current.Content.Load<Model, LIGHTImporter>(cnt.LightName, rootPath).Bones[0].Attachment;
+                            model.Bones[boneIndex].AttachmentFile = cnt.LightName;
+                        }
                         break;
 
                     case CNT.NodeType.VFXI:
                         model.Bones[boneIndex].Type = BoneType.VFX;
-                        model.Bones[boneIndex].Attachment = cnt.VFXFile;
+                        model.Bones[boneIndex].AttachmentFile = cnt.VFXFile;
                         break;
                 }
             }
