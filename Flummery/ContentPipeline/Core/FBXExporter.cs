@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using ToxicRagers.Core.Formats;
+
 using OpenTK;
+using OpenTK.Graphics;
 
 namespace Flummery.ContentPipeline.Core
 {
@@ -16,7 +19,6 @@ namespace Flummery.ContentPipeline.Core
             fbx.Version = 7400;
 
             bool bUseCompression = true;
-            bool bUseBlenderMode = false;
 
             fbx.Elements.Add(
                 new FBXElem
@@ -176,10 +178,13 @@ namespace Flummery.ContentPipeline.Core
                 var verts = new List<Vector3>();
                 var norms = new List<Vector3>();
                 var uvs = new List<Vector4>();
+                var colours = new List<Color4>();
 
                 var ivt = new List<int>();
                 var inm = new List<int>();
                 var iuv = new List<int>();
+                var icl = new List<int>();
+
                 var materials = new List<int>();
                 var smoothingGroups = new List<int>();
 
@@ -190,7 +195,7 @@ namespace Flummery.ContentPipeline.Core
 
                 foreach (var part in mesh.MeshParts)
                 {
-                    int ixvt, ixnm, ixuv;
+                    int ixvt, ixnm, ixuv, ixcl;
                     if (part.Material != null) { materialIndex = materialList.FindIndex(m => m.Key == part.Material.Key); }
 
                     for (int i = 0; i < part.IndexBuffer.Data.Count; i ++)
@@ -198,47 +203,24 @@ namespace Flummery.ContentPipeline.Core
                         int p = part.IndexBuffer.Data[i];
                         var v = part.VertexBuffer.Data[p];
 
-                        if (bUseBlenderMode)
+                        ixvt = verts.FindIndex(vert => vert.X == v.Position.X &&
+                               vert.Y == v.Position.Y &&
+                               vert.Z == v.Position.Z);
+
+                        if (ixvt == -1)
                         {
-                            ixvt = vects.FindIndex(vect => vect.Position.X == v.Position.X &&
-                                                           vect.Position.Y == v.Position.Y &&
-                                                           vect.Position.Z == v.Position.Z &&
-                                                           vect.Normal.X == v.Normal.X &&
-                                                           vect.Normal.Y == v.Normal.Y &&
-                                                           vect.Normal.Z == v.Normal.Z);
-
-                            if (ixvt == -1)
-                            {
-                                ixvt = verts.Count;
-
-                                verts.Add(v.Position);
-                                norms.Add(v.Normal);
-                                vects.Add(v);
-                            }
-
-                            ixnm = ixvt;
+                            ixvt = verts.Count;
+                            verts.Add(v.Position);
                         }
-                        else
+
+                        ixnm = norms.FindIndex(norm => norm.X == v.Normal.X &&
+                                                       norm.Y == v.Normal.Y &&
+                                                       norm.Z == v.Normal.Z);
+
+                        if (ixnm == -1)
                         {
-                            ixvt = verts.FindIndex(vert => vert.X == v.Position.X &&
-                                                           vert.Y == v.Position.Y &&
-                                                           vert.Z == v.Position.Z);
-
-                            if (ixvt == -1)
-                            {
-                                ixvt = verts.Count;
-                                verts.Add(v.Position);
-                            }
-
-                            ixnm = norms.FindIndex(norm => norm.X == v.Normal.X &&
-                                                           norm.Y == v.Normal.Y &&
-                                                           norm.Z == v.Normal.Z);
-
-                            if (ixnm == -1)
-                            {
-                                ixnm = norms.Count;
-                                norms.Add(v.Normal);
-                            }
+                            ixnm = norms.Count;
+                            norms.Add(v.Normal);
                         }
 
                         ixuv = uvs.FindIndex(uv => uv.X == v.UV.X &&
@@ -248,6 +230,14 @@ namespace Flummery.ContentPipeline.Core
                         {
                             ixuv = uvs.Count;
                             uvs.Add(v.UV);
+                        }
+
+                        ixcl = colours.FindIndex(colour => colour == v.Colour);
+
+                        if (ixcl == -1)
+                        {
+                            ixcl = colours.Count;
+                            colours.Add(v.Colour);
                         }
 
                         if ((i + 1) % 3 == 0)
@@ -260,6 +250,7 @@ namespace Flummery.ContentPipeline.Core
                         ivt.Add(ixvt);
                         inm.Add(ixnm);
                         iuv.Add(ixuv);
+                        icl.Add(ixcl);
                     }
                 }
 
@@ -284,8 +275,17 @@ namespace Flummery.ContentPipeline.Core
                 var uvvalues = new double[uvs.Count * 2];
                 for (var i = 0; i < uvs.Count; i++)
                 {
-                    uvvalues[(i * 2) + 0] =  uvs[i].X;
+                    uvvalues[(i * 2) + 0] = uvs[i].X;
                     uvvalues[(i * 2) + 1] = 1 - uvs[i].Y;
+                }
+
+                var colourvalues = new double[colours.Count * 4];
+                for (var i = 0; i < colours.Count; i++)
+                {
+                    colourvalues[(i * 4) + 0] = colours[i].R;
+                    colourvalues[(i * 4) + 1] = colours[i].G;
+                    colourvalues[(i * 4) + 2] = colours[i].B;
+                    colourvalues[(i * 4) + 3] = colours[i].A;
                 }
 
                 rootKey += verts.Count + 1;
@@ -332,6 +332,25 @@ namespace Flummery.ContentPipeline.Core
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
                             new FBXElem { ID = "UV", Properties = { new FBXProperty { Type = 100, Value = uvvalues, Compressed = bUseCompression } } },
                             new FBXElem { ID = "UVIndex", Properties = { new FBXProperty { Type = 105, Value = iuv.ToArray(), Compressed = bUseCompression } } }
+                        }
+                    }
+                );
+                geometry.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "LayerElementColor",
+                        Properties = 
+                        { 
+                            new FBXProperty { Type = 73, Value = 0 } 
+                        },
+                        Children = 
+                        { 
+                            new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
+                            new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
+                            new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
+                            new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
+                            new FBXElem { ID = "Colors", Properties = { new FBXProperty { Type = 100, Value = colourvalues, Compressed = bUseCompression } } },
+                            new FBXElem { ID = "ColorIndex", Properties = { new FBXProperty { Type = 105, Value = icl.ToArray(), Compressed = bUseCompression } } }
                         }
                     }
                 );
