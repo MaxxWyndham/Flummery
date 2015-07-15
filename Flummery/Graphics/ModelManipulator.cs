@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 using OpenTK;
 
@@ -36,6 +37,64 @@ namespace Flummery
         {
             if (options.HasFlag(PreProcessOptions.SplitMeshPart))
             {
+                // Specific to C:R, I'll abstract this out as and when necessary
+                foreach (ModelMesh mesh in model.Meshes)
+                {
+                    int partCount = mesh.MeshParts.Count;
+
+                    for (int i = partCount - 1; i >= 0; i--)
+                    {
+                        ModelMeshPart part = mesh.MeshParts[i];
+
+                        if (part.VertexBuffer.Data.Count > 16383)
+                        {
+                            while (part.IndexBuffer.Data.Count > 0)
+                            {
+                                var buffer = part.IndexBuffer.Data;
+                                HashSet<int> usedVerts = new HashSet<int>();
+                                int total = buffer.Count;
+
+                                for (int j = 0; j < buffer.Count; j += 3)
+                                {
+                                    usedVerts.Add(buffer[j + 0]);
+                                    usedVerts.Add(buffer[j + 1]);
+                                    usedVerts.Add(buffer[j + 2]);
+
+                                    int chunkSize = Math.Min(buffer.Count, 16383);
+
+                                    if (usedVerts.Count >= chunkSize)
+                                    {
+                                        if (usedVerts.Count == chunkSize) { j += 3; }
+
+                                        Dictionary<int, int> indexLUT = new Dictionary<int, int>();
+
+                                        var newPart = new ModelMeshPart();
+                                        newPart.Material = part.Material;
+
+                                        for (int k = 0; k < j; k++)
+                                        {
+                                            if (!indexLUT.ContainsKey(buffer[k]))
+                                            {
+                                                indexLUT.Add(buffer[k], newPart.VertexBuffer.AddVertex(part.VertexBuffer.Data[buffer[k]]));
+                                            }
+
+                                            newPart.IndexBuffer.AddIndex(indexLUT[buffer[k]]);
+                                        }
+
+                                        buffer.RemoveRange(0, j);
+
+                                        mesh.AddModelMeshPart(newPart);
+
+                                        SceneManager.Current.UpdateProgress(string.Format("Allocated {0:n0} of {1:n0}", j * chunkSize, total));
+                                        break;
+                                    }
+                                }
+                            }
+
+                            mesh.MeshParts.RemoveAt(i);
+                        }
+                    }
+                }
             }
 
             if (options.HasFlag(PreProcessOptions.Dedupe))
