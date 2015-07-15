@@ -130,7 +130,7 @@ namespace Flummery
 
                 if (rdoMeshBoneSwap.Checked)
                 {
-                    var offset = bones[0].Parent.Transform.ExtractTranslation();
+                    var offset = (bones[0].Parent != null ? bones[0].Parent.Transform.ExtractTranslation() : OpenTK.Vector3.Zero);
 
                     foreach (var bone in bones)
                     {

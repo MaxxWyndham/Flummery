@@ -20,6 +20,9 @@ namespace Flummery
         public frmNewObject()
         {
             InitializeComponent();
+
+            txtName.Select();
+            txtName.SelectAll();
         }
 
         public void SetParentNode(int modelID, int boneID)

@@ -157,8 +157,8 @@
             // tsslActionScaling
             // 
             this.tsslActionScaling.AutoSize = false;
-            this.tsslActionScaling.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            this.tsslActionScaling.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.tsslActionScaling.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.tsslActionScaling.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -989,9 +989,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonSplatPack;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonSplatPackActor;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonSplatPackCar;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddon2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddon2Actor;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonMobile;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonMobileVehicle;
@@ -999,14 +997,11 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationAccessory;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationEnvironment;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationPedestrian;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationVehicle;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenNovadrome;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenNovadromeEnvironment;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenNovadromeVehicle;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenTDR2000;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenTDR2000Hierarchy;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileImport;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileImportAutodeskFBXFile;
@@ -1015,18 +1010,15 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessCNTFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessMDLFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileImportTorusMSHSFile;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripSeparator tsmiFileSeparator1;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveFor;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAs;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnation;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnationEnvironment;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnationVehicle;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExport;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExportAutodeskFBXFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExportStainlessCNTFile;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
         private System.Windows.Forms.ToolStripSeparator tsmiFileSeparator2;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExit;
         private System.Windows.Forms.ToolStripMenuItem tsmiView;
@@ -1065,7 +1057,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddon2ConvertActorsToEntities;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddon2ScaleForCarmageddonReincarnation;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnation;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnationWheelPreview;
         private System.Windows.Forms.ToolStripMenuItem tsmiHelp;
         private System.Windows.Forms.ToolStripMenuItem tsmiHelpAboutFlummery;
@@ -1081,9 +1072,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiObjectDataAddChangeType;
         private System.Windows.Forms.ToolStripMenuItem tsmiObjectDataRemove;
         private System.Windows.Forms.ToolStripSeparator tsmiObjectSeparator5;
-
-        //private CustomGLControl glcViewport;
-
     }
 }
 
