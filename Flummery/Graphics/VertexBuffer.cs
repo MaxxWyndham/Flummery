@@ -85,24 +85,26 @@ namespace Flummery
         {
             ibo.Draw();
 
+            bool bWireframe = (SceneManager.Current.RenderMode == SceneManager.RenderMeshMode.Wireframe);
+
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
             GL.EnableClientState(ArrayCap.VertexArray);
             GL.EnableClientState(ArrayCap.NormalArray);
             GL.EnableClientState(ArrayCap.TextureCoordArray);
-            GL.EnableClientState(ArrayCap.ColorArray);
+            if (!bWireframe) { GL.EnableClientState(ArrayCap.ColorArray); }
 
             GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, new IntPtr(0));
             GL.NormalPointer(NormalPointerType.Float, Vertex.Stride, new IntPtr(Vector3.SizeInBytes));
             GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.Stride, new IntPtr(2 * Vector3.SizeInBytes));
-            GL.ColorPointer(4, ColorPointerType.Float, Vertex.Stride, new IntPtr((2 * Vector3.SizeInBytes) + Vector4.SizeInBytes));
+            if (!bWireframe) { GL.ColorPointer(4, ColorPointerType.Float, Vertex.Stride, new IntPtr((2 * Vector3.SizeInBytes) + Vector4.SizeInBytes)); }
 
             GL.DrawElements(primitiveType, ibo.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
             GL.DisableClientState(ArrayCap.VertexArray);
             GL.DisableClientState(ArrayCap.NormalArray);
             GL.DisableClientState(ArrayCap.TextureCoordArray);
-            GL.DisableClientState(ArrayCap.ColorArray);
+            if (!bWireframe) { GL.DisableClientState(ArrayCap.ColorArray);}
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }

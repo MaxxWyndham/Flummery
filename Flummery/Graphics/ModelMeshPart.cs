@@ -13,6 +13,7 @@ namespace Flummery
         object key;
         VertexBuffer vertexBuffer;
         Material material;
+        Color colour;
 
         PrimitiveType primitiveType = PrimitiveType.Triangles;
         RenderStyle renderStyle = RenderStyle.Scene;
@@ -50,6 +51,8 @@ namespace Flummery
         {
             vertexBuffer = new VertexBuffer();
             indexBuffer = new IndexBuffer();
+
+            colour = FlummeryApplication.PickRandomColour();
         }
 
         public int AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, bool bAddIndex = true)
@@ -185,7 +188,11 @@ namespace Flummery
                                 break;
 
                             case SceneManager.RenderMeshMode.Wireframe:
+                                GL.Disable(EnableCap.Texture2D);
+                                GL.Disable(EnableCap.Lighting);
+                                GL.Disable(EnableCap.Light0);
                                 GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
+                                GL.Color4(colour);
                                 break;
 
                             case SceneManager.RenderMeshMode.SolidWireframe:
@@ -213,8 +220,8 @@ namespace Flummery
                     case RenderStyle.Wireframe:
                         GL.Disable(EnableCap.DepthTest);
                         GL.Disable(EnableCap.Texture2D);
-                                                        GL.Disable(EnableCap.Lighting);
-                                GL.Disable(EnableCap.Light0);
+                        GL.Disable(EnableCap.Lighting);
+                        GL.Disable(EnableCap.Light0);
                         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
                         break;
                 }
