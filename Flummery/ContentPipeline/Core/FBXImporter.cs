@@ -491,6 +491,8 @@ namespace Flummery.ContentPipeline.Core
             string[] connectionOrder = new string[] { "System.Collections.Generic.List`1[Flummery.ModelMeshPart]", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
             var connections = fbx.Elements.Find(e => e.ID == "Connections");
 
+            HashSet<long> loaded = new HashSet<long>();
+
             foreach (var connectionType in connectionOrder)
             {
                 var connectionsOfType = connections.Children.Where(c => components.ContainsKey((long)c.Properties[1].Value) && components[(long)c.Properties[1].Value].GetType().ToString() == connectionType);
@@ -539,8 +541,11 @@ namespace Flummery.ContentPipeline.Core
                         case "Flummery.Texture":
                             if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.Material")
                             {
-                                ((Material)components[keyB]).Texture = (Texture)components[keyA];
-                                SceneManager.Current.Add((Material)components[keyB]);
+                                if (loaded.Add(keyB))
+                                {
+                                    ((Material)components[keyB]).Texture = (Texture)components[keyA];
+                                    SceneManager.Current.Add((Material)components[keyB]);
+                                }
                             }
                             else
                             {
