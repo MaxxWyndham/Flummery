@@ -444,13 +444,13 @@ namespace Flummery.ContentPipeline.Core
                     }
                     else
                     {
-                        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(("bone-" + bone.Parent.Name).GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(bone.Parent.Name.GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
                     }
                 }
 
                 if (!bHasMesh)
                 {
-                    long nodeKey = (long)Math.Abs(("bone-" + bone.Name).GetHashCode());
+                    long nodeKey = (long)Math.Abs((bone.Name + "::NodeAttribute").GetHashCode());
 
                     fbxObjects.Children.Add(
                         new FBXElem
@@ -459,7 +459,7 @@ namespace Flummery.ContentPipeline.Core
                             Properties = 
                             { 
                                 new FBXProperty { Type = 76, Value = nodeKey }, 
-                                new FBXProperty { Type = 83, Value = "NodeAttribute::" }, 
+                                new FBXProperty { Type = 83, Value = "::NodeAttribute" }, 
                                 new FBXProperty { Type = 83, Value = "Null" } 
                             },
                             Children = 
@@ -473,6 +473,8 @@ namespace Flummery.ContentPipeline.Core
                             }
                         }
                     );
+
+                    fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(bone.Name.GetHashCode()), "NodeAttribute", nodeKey));
                 }
 
                 SceneManager.Current.UpdateProgress(string.Format("Exporting {0}", mesh.Name));
@@ -520,20 +522,6 @@ namespace Flummery.ContentPipeline.Core
                         }
                     }
                 );
-
-
-                // driver and wheel nodes don't seem to be exported
-                //if (bone.Tag == null)
-                //{
-                //    if (bone.Parent.Tag != null)
-                //    {
-                //        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(((ModelMesh)bone.Parent.Tag).Name.GetHashCode()), "Node", nodeKey));
-                //    }
-                //    else
-                //    {
-                //        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(("bone-" + bone.Parent.Name).GetHashCode()), "Node", nodeKey));
-                //    }
-                //}
             }
 
             foreach (var material in model.GetMaterials())
