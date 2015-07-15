@@ -19,6 +19,7 @@ namespace Flummery
             InitializeComponent();
 
             txtPath.Text = Properties.Settings.Default.SaveAsVehiclePath;
+            setCar();
         }
 
         private void btnPath_Click(object sender, EventArgs e)
@@ -37,9 +38,17 @@ namespace Flummery
             }
         }
 
-        void setCar()
+        private void setCar()
         {
-            if (txtPath.Text.Length == 0) { return; }
+            if (txtPath.Text.Length == 0)
+            {
+                btnOK.Enabled = false;
+                return;
+            }
+            else
+            {
+                btnOK.Enabled = true;
+            }
 
             flump = FlumpFile.Load(txtPath.Text + "car.flump");
 
@@ -49,6 +58,8 @@ namespace Flummery
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            btnOK.Enabled = false;
+
             if (!Directory.Exists(txtPath.Text)) { Directory.CreateDirectory(txtPath.Text); }
 
             flump.Settings["car"] = car;
@@ -109,6 +120,9 @@ namespace Flummery
             }
 
             flump.Save(txtPath.Text + "car.flump");
+
+            SceneManager.Current.UpdateProgress(string.Format("Vehicle '{0}' saved successfully!", car));
+
             this.Close();
         }
 
