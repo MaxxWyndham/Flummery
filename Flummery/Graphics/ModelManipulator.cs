@@ -22,8 +22,86 @@ namespace Flummery
         All = Position | Rotation | Scale
     }
 
+    [Flags]
+    public enum PreProcessOptions
+    {
+        SplitMeshPart = 1,
+        Dedupe = 2,
+        ResolveNonManifold = 4
+    }
+
     public static class ModelManipulator
     {
+        public static void PreProcess(Model model, PreProcessOptions options)
+        {
+            if (options.HasFlag(PreProcessOptions.SplitMeshPart))
+            {
+            }
+
+            if (options.HasFlag(PreProcessOptions.Dedupe))
+            {
+                foreach (ModelMesh mesh in model.Meshes)
+                {
+                    foreach (ModelMeshPart part in mesh.MeshParts)
+                    {
+                        part.Optimise();
+                    }
+                }
+            }
+
+            if (options.HasFlag(PreProcessOptions.ResolveNonManifold))
+            {
+                foreach (ModelMesh mesh in model.Meshes)
+                {
+                    foreach (ModelMeshPart part in mesh.MeshParts)
+                    {
+                        Dictionary<int, int> edgeCounts = new Dictionary<int, int>();
+                        List<int> buffer = part.IndexBuffer.Data;
+                        bool bFixedNonManifoldMesh = false;
+
+                        for (int i = 0; i < buffer.Count; i += 3)
+                        {
+                            int[] edges = new int[3];
+
+                            for (int j = 0; j < 3; j++)
+                            {
+                                int oppositeIndex = (j + 1 < 3 ? j + 1 : 0);
+
+                                edges[j] = Math.Max(buffer[i + j], buffer[i + oppositeIndex]) << 24 + Math.Min(buffer[i + j], buffer[i + oppositeIndex]);
+
+                                if (edgeCounts.ContainsKey(edges[j]))
+                                {
+                                    if (edgeCounts[edges[j]] == 2)
+                                    {
+                                        buffer[i + j] = part.VertexBuffer.AddVertex(part.VertexBuffer.Data[buffer[i + j]].Clone());
+                                        buffer[i + oppositeIndex] = part.VertexBuffer.AddVertex(part.VertexBuffer.Data[buffer[i + oppositeIndex]].Clone());
+
+                                        j--;
+
+                                        bFixedNonManifoldMesh = true;
+                                    }
+                                    else
+                                    {
+                                        edgeCounts[edges[j]]++;
+                                    }
+                                }
+                                else
+                                {
+                                    edgeCounts.Add(edges[j], 1);
+                                }
+                            }
+                        }
+
+                        if (bFixedNonManifoldMesh)
+                        {
+                            part.IndexBuffer.Initialise();
+                            part.VertexBuffer.Initialise();
+                        }
+                    }
+                }
+            }
+        }
+
         public static void FlipAxis(ModelMesh model, Axis axis, bool bApplyToHierarchy = false)
         {
             var transform = Vector3.One;

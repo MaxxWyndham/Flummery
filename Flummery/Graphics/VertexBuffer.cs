@@ -16,6 +16,18 @@ namespace Flummery
         public Color4 Colour;
 
         public static readonly int Stride = Marshal.SizeOf(default(Vertex));
+
+        public Vertex Clone()
+        {
+            Vertex v = new Vertex();
+
+            v.Position = this.Position;
+            v.Normal = this.Normal;
+            v.UV = this.UV;
+            v.Colour = this.Colour;
+
+            return v;
+        }
     }
 
     public sealed class VertexBuffer
