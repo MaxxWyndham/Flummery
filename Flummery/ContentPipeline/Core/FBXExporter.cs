@@ -251,6 +251,8 @@ namespace Flummery.ContentPipeline.Core
                         inm.Add(ixnm);
                         iuv.Add(ixuv);
                         icl.Add(ixcl);
+
+                        if (i % 2500 == 0) { SceneManager.Current.UpdateProgress(string.Format("Pre-processing {0}: {1:0.00}% complete", mesh.Name, (i * 100.0f) / part.IndexBuffer.Data.Count)); }
                     }
                 }
 
@@ -290,7 +292,7 @@ namespace Flummery.ContentPipeline.Core
 
                 rootKey += verts.Count + 1;
 
-                fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Geometry", rootKey));
+                fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs((mesh.Name + mesh.Parent.Index.ToString("x2") + "::Model").GetHashCode()), "Geometry", rootKey));
 
                 var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = rootKey }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
                 geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues, Compressed = bUseCompression } } });
@@ -444,32 +446,36 @@ namespace Flummery.ContentPipeline.Core
             foreach (var bone in model.Bones)
             {
                 bool bHasMesh = (bone.Mesh != null);
-                var mesh = (bHasMesh ? bone.Mesh: new ModelMesh() { Name = bone.Name });
+                string meshName = (bHasMesh ? bone.Mesh.Name : bone.Name);
+                long connectionKey = (long)Math.Abs((bHasMesh ? meshName + bone.Mesh.Parent.Index.ToString("x2") + "::Model" : meshName + bone.Index.ToString("x2") + "::Node").GetHashCode());
 
-                foreach (var material in mesh.GetMaterials())
+                if (bHasMesh)
                 {
-                    fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(mesh.Name.GetHashCode()), "Material", material.Key));
+                    foreach (var material in bone.Mesh.GetMaterials())
+                    {
+                        fbxConnections.Children.Add(FBXConnection("Model", connectionKey, "Material", material.Key));
+                    }
                 }
 
                 if (bone.Parent == null)
                 {
-                    fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                    fbxConnections.Children.Insert(0, FBXConnection("Root", (long)0, "Model", connectionKey));
                 }
                 else
                 {
                     if (bone.Parent.Mesh != null)
                     {
-                        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs(bone.Parent.Mesh.Name.GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs((bone.Parent.Mesh.Name + bone.Parent.Mesh.Parent.Index.ToString("x2") + "::Model").GetHashCode()), "Model", connectionKey));
                     }
                     else
                     {
-                        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(bone.Parent.Name.GetHashCode()), "Model", (long)Math.Abs(mesh.Name.GetHashCode())));
+                        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs((bone.Parent.Name + bone.Parent.Index.ToString("x2") + "::Node").GetHashCode()), "Model", connectionKey));
                     }
                 }
 
                 if (!bHasMesh)
                 {
-                    long nodeKey = (long)Math.Abs((bone.Name + "::NodeAttribute").GetHashCode());
+                    long nodeKey = (long)Math.Abs((bone.Name + bone.Index.ToString("x2") + "::NodeAttribute").GetHashCode());
 
                     fbxObjects.Children.Add(
                         new FBXElem
@@ -493,10 +499,11 @@ namespace Flummery.ContentPipeline.Core
                         }
                     );
 
-                    fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs(bone.Name.GetHashCode()), "NodeAttribute", nodeKey));
+                    fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs((bone.Name + bone.Index.ToString("x2") + "::Node").GetHashCode()), "NodeAttribute", nodeKey));
                 }
 
-                SceneManager.Current.UpdateProgress(string.Format("Exporting {0}", mesh.Name));
+
+                SceneManager.Current.UpdateProgress(string.Format("Exporting {0}", meshName));
 
                 fbxObjects.Children.Add(
                     new FBXElem
@@ -504,8 +511,8 @@ namespace Flummery.ContentPipeline.Core
                         ID = "Model",
                         Properties = 
                         { 
-                            new FBXProperty { Type = 76, Value = (long)Math.Abs(mesh.Name.GetHashCode()) }, 
-                            new FBXProperty { Type = 83, Value = mesh.Name + "::Model" }, 
+                            new FBXProperty { Type = 76, Value = connectionKey }, 
+                            new FBXProperty { Type = 83, Value = meshName + "::Model" }, 
                             new FBXProperty { Type = 83, Value = "Mesh" } 
                         },
                         Children = 
