@@ -112,13 +112,22 @@ namespace Flummery
 
             foreach (var material in SceneManager.Current.Materials)
             {
-                string fileName = txtPath.Text + "\\" + material.Texture.Name + ".tdx";
+                string fileName = txtPath.Text + "\\" + material.Texture.Name;
 
-                if (!textures.Contains(material.Texture.Name) && !File.Exists(fileName))
+                if (!textures.Contains(material.Texture.Name))
                 {
-                    var tx = new TDXExporter();
-                    tx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
-                    tx.Export(material.Texture, txtPath.Text);
+                    if (!File.Exists(fileName + ".tdx"))
+                    {
+                        var tx = new TDXExporter();
+                        tx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
+                        tx.Export(material.Texture, txtPath.Text);
+                    }
+
+                    if (!File.Exists(fileName + ".img"))
+                    {
+                        var tx = new IMGExporter();
+                        tx.Export(material.Texture, txtPath.Text);
+                    }
 
                     textures.Add(material.Texture.Name);
                 }

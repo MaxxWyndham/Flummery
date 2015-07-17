@@ -102,6 +102,7 @@
     <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\DATExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\DATImporter.cs" />
+    <Compile Include="ContentPipeline\Stainless\IMGExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\LIGHTImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MaterialImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\MATExporter.cs" />
