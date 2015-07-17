@@ -49,6 +49,8 @@
             this.lblProgressTextures = new System.Windows.Forms.Label();
             this.lblInfoTextures = new System.Windows.Forms.Label();
             this.pbProgress = new System.Windows.Forms.ProgressBar();
+            this.txtPrettyCarName = new System.Windows.Forms.TextBox();
+            this.lblPrettyCarName = new System.Windows.Forms.Label();
             this.gbProgress.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,7 +87,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(441, 62);
+            this.btnOK.Location = new System.Drawing.Point(441, 84);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 25;
@@ -97,7 +99,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(360, 62);
+            this.btnCancel.Location = new System.Drawing.Point(360, 84);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 24;
@@ -128,7 +130,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnClose.Location = new System.Drawing.Point(441, 185);
+            this.btnClose.Location = new System.Drawing.Point(441, 207);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 28;
@@ -148,7 +150,7 @@
             this.gbProgress.Controls.Add(this.lblInfoMaterials);
             this.gbProgress.Controls.Add(this.lblProgressTextures);
             this.gbProgress.Controls.Add(this.lblInfoTextures);
-            this.gbProgress.Location = new System.Drawing.Point(15, 91);
+            this.gbProgress.Location = new System.Drawing.Point(15, 113);
             this.gbProgress.Name = "gbProgress";
             this.gbProgress.Size = new System.Drawing.Size(501, 88);
             this.gbProgress.TabIndex = 29;
@@ -255,11 +257,29 @@
             // 
             this.pbProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbProgress.Location = new System.Drawing.Point(15, 62);
+            this.pbProgress.Location = new System.Drawing.Point(15, 84);
             this.pbProgress.Name = "pbProgress";
             this.pbProgress.Size = new System.Drawing.Size(501, 23);
             this.pbProgress.TabIndex = 30;
             this.pbProgress.Visible = false;
+            // 
+            // txtPrettyCarName
+            // 
+            this.txtPrettyCarName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPrettyCarName.Location = new System.Drawing.Point(152, 58);
+            this.txtPrettyCarName.Name = "txtPrettyCarName";
+            this.txtPrettyCarName.Size = new System.Drawing.Size(329, 20);
+            this.txtPrettyCarName.TabIndex = 32;
+            // 
+            // lblPrettyCarName
+            // 
+            this.lblPrettyCarName.AutoSize = true;
+            this.lblPrettyCarName.Location = new System.Drawing.Point(12, 61);
+            this.lblPrettyCarName.Name = "lblPrettyCarName";
+            this.lblPrettyCarName.Size = new System.Drawing.Size(84, 13);
+            this.lblPrettyCarName.TabIndex = 31;
+            this.lblPrettyCarName.Text = "Pretty Car Name";
             // 
             // frmSaveAsVehicle
             // 
@@ -267,7 +287,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(528, 214);
+            this.ClientSize = new System.Drawing.Size(528, 238);
+            this.Controls.Add(this.txtPrettyCarName);
+            this.Controls.Add(this.lblPrettyCarName);
             this.Controls.Add(this.gbProgress);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.txtCarName);
@@ -315,5 +337,7 @@
         private System.Windows.Forms.Label lblProgressPaperwork;
         private System.Windows.Forms.Label lblInfoPaperwork;
         private System.Windows.Forms.ProgressBar pbProgress;
+        private System.Windows.Forms.TextBox txtPrettyCarName;
+        private System.Windows.Forms.Label lblPrettyCarName;
     }
 }

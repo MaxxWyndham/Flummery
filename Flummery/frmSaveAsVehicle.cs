@@ -64,6 +64,7 @@ namespace Flummery
             }
 
             flump = FlumpFile.Load(txtPath.Text + "car.flump");
+            if (flump.Settings.ContainsKey("pretty.name")) { txtPrettyCarName.Text = flump.Settings["pretty.name"]; }
 
             car = Path.GetFileName(Path.GetDirectoryName(txtPath.Text));
             txtCarName.Text = car;
@@ -85,6 +86,7 @@ namespace Flummery
             if (!Directory.Exists(txtPath.Text)) { Directory.CreateDirectory(txtPath.Text); }
 
             flump.Settings["car"] = car;
+            flump.Settings["pretty.name"] = txtPrettyCarName.Text;
 
             lblInfo = lblInfoMeshes;
             lblProgress = lblProgressMeshes;
@@ -200,6 +202,13 @@ namespace Flummery
             lblProgress = lblProgressZAD;
             lblProgress.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             progressMax = 100;
+
+            var minge = new ToxicRagers.CarmageddonReincarnation.Formats.MINGE();
+            minge.Name = txtPrettyCarName.Text;
+            minge.Author = Properties.Settings.Default.PersonalAuthor;
+            minge.Website = Properties.Settings.Default.PersonalWebsite;
+            minge.Type = MINGE.ModType.Vehicle;
+            minge.Save(Path.Combine(txtPath.Text, txtCarName.Text + ".minge"));
 
             var zad = ToxicRagers.Stainless.Formats.ZAD.Create(Path.Combine(txtPath.Text, txtCarName.Text + ".zad"));
             zad.AddDirectory(Path.GetDirectoryName(txtPath.Text));

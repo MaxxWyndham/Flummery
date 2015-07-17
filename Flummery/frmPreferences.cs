@@ -17,6 +17,9 @@ namespace Flummery
             pgShortcuts.SelectedObject = InputManager.Current.GetKeyboardShortcuts();
 
             chkCheckForUpdates.Checked = Properties.Settings.Default.CheckForUpdates;
+
+            txtAuthor.Text = Properties.Settings.Default.PersonalAuthor;
+            txtWebsite.Text = Properties.Settings.Default.PersonalWebsite;
         }
 
         private void btnCRPath_Click(object sender, EventArgs e)
@@ -81,6 +84,8 @@ namespace Flummery
             // automatic
 
             // Misc
+            Properties.Settings.Default.PersonalAuthor = txtAuthor.Text;
+            Properties.Settings.Default.PersonalWebsite = txtWebsite.Text;
             Properties.Settings.Default.CheckForUpdates = chkCheckForUpdates.Checked;
 
             Properties.Settings.Default.Save();

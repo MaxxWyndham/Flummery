@@ -49,6 +49,12 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdApply = new System.Windows.Forms.Button();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
+            this.lblHeadPersonalDetails = new System.Windows.Forms.Label();
+            this.lblAuthor = new System.Windows.Forms.Label();
+            this.lblWebsite = new System.Windows.Forms.Label();
+            this.txtAuthor = new System.Windows.Forms.TextBox();
+            this.txtWebsite = new System.Windows.Forms.TextBox();
+            this.lblHeadMisc = new System.Windows.Forms.Label();
             this.tcPreferences.SuspendLayout();
             this.tpPaths.SuspendLayout();
             this.tpShortcuts.SuspendLayout();
@@ -198,6 +204,12 @@
             // 
             // tbMisc
             // 
+            this.tbMisc.Controls.Add(this.lblHeadMisc);
+            this.tbMisc.Controls.Add(this.txtWebsite);
+            this.tbMisc.Controls.Add(this.txtAuthor);
+            this.tbMisc.Controls.Add(this.lblWebsite);
+            this.tbMisc.Controls.Add(this.lblAuthor);
+            this.tbMisc.Controls.Add(this.lblHeadPersonalDetails);
             this.tbMisc.Controls.Add(this.chkCheckForUpdates);
             this.tbMisc.Location = new System.Drawing.Point(4, 22);
             this.tbMisc.Name = "tbMisc";
@@ -210,7 +222,7 @@
             // chkCheckForUpdates
             // 
             this.chkCheckForUpdates.AutoSize = true;
-            this.chkCheckForUpdates.Location = new System.Drawing.Point(113, 122);
+            this.chkCheckForUpdates.Location = new System.Drawing.Point(6, 114);
             this.chkCheckForUpdates.Name = "chkCheckForUpdates";
             this.chkCheckForUpdates.Size = new System.Drawing.Size(287, 17);
             this.chkCheckForUpdates.TabIndex = 0;
@@ -252,6 +264,58 @@
             // fbdBrowse
             // 
             this.fbdBrowse.ShowNewFolderButton = false;
+            // 
+            // lblHeadPersonalDetails
+            // 
+            this.lblHeadPersonalDetails.AutoSize = true;
+            this.lblHeadPersonalDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeadPersonalDetails.Location = new System.Drawing.Point(6, 9);
+            this.lblHeadPersonalDetails.Name = "lblHeadPersonalDetails";
+            this.lblHeadPersonalDetails.Size = new System.Drawing.Size(213, 13);
+            this.lblHeadPersonalDetails.TabIndex = 1;
+            this.lblHeadPersonalDetails.Text = "personal details (used in minge files)";
+            // 
+            // lblAuthor
+            // 
+            this.lblAuthor.AutoSize = true;
+            this.lblAuthor.Location = new System.Drawing.Point(6, 35);
+            this.lblAuthor.Name = "lblAuthor";
+            this.lblAuthor.Size = new System.Drawing.Size(37, 13);
+            this.lblAuthor.TabIndex = 2;
+            this.lblAuthor.Text = "author";
+            // 
+            // lblWebsite
+            // 
+            this.lblWebsite.AutoSize = true;
+            this.lblWebsite.Location = new System.Drawing.Point(6, 61);
+            this.lblWebsite.Name = "lblWebsite";
+            this.lblWebsite.Size = new System.Drawing.Size(43, 13);
+            this.lblWebsite.TabIndex = 3;
+            this.lblWebsite.Text = "website";
+            // 
+            // txtAuthor
+            // 
+            this.txtAuthor.Location = new System.Drawing.Point(55, 32);
+            this.txtAuthor.Name = "txtAuthor";
+            this.txtAuthor.Size = new System.Drawing.Size(164, 20);
+            this.txtAuthor.TabIndex = 4;
+            // 
+            // txtWebsite
+            // 
+            this.txtWebsite.Location = new System.Drawing.Point(55, 58);
+            this.txtWebsite.Name = "txtWebsite";
+            this.txtWebsite.Size = new System.Drawing.Size(164, 20);
+            this.txtWebsite.TabIndex = 5;
+            // 
+            // lblHeadMisc
+            // 
+            this.lblHeadMisc.AutoSize = true;
+            this.lblHeadMisc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeadMisc.Location = new System.Drawing.Point(6, 92);
+            this.lblHeadMisc.Name = "lblHeadMisc";
+            this.lblHeadMisc.Size = new System.Drawing.Size(36, 13);
+            this.lblHeadMisc.TabIndex = 6;
+            this.lblHeadMisc.Text = "other";
             // 
             // frmPreferences
             // 
@@ -301,5 +365,11 @@
         private System.Windows.Forms.TabPage tbMisc;
         private System.Windows.Forms.CheckBox chkCheckForUpdates;
         private System.Windows.Forms.PropertyGrid pgShortcuts;
+        private System.Windows.Forms.Label lblHeadMisc;
+        private System.Windows.Forms.TextBox txtWebsite;
+        private System.Windows.Forms.TextBox txtAuthor;
+        private System.Windows.Forms.Label lblWebsite;
+        private System.Windows.Forms.Label lblAuthor;
+        private System.Windows.Forms.Label lblHeadPersonalDetails;
     }
 }

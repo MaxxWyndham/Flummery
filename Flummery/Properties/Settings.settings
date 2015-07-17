@@ -53,5 +53,11 @@
     <Setting Name="KeysCoordinateSystem" Type="System.Char" Scope="User">
       <Value Profile="(Default)">P</Value>
     </Setting>
+    <Setting Name="PersonalAuthor" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PersonalWebsite" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
