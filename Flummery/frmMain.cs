@@ -756,8 +756,7 @@ namespace Flummery
                     break;
 
                 case "Vehicle":
-                    var fmSaveAsVehicle = new frmSaveAsVehicle();
-                    fmSaveAsVehicle.Show(this);
+                    (new frmSaveAsVehicle()).ShowDialog(this);
                     break;
             }
         }

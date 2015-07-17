@@ -34,15 +34,28 @@
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.chkMaterials = new System.Windows.Forms.CheckBox();
             this.txtCarName = new System.Windows.Forms.TextBox();
             this.lblCarName = new System.Windows.Forms.Label();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.gbProgress = new System.Windows.Forms.GroupBox();
+            this.lblProgressMeshes = new System.Windows.Forms.Label();
+            this.lblInfoMeshes = new System.Windows.Forms.Label();
+            this.lblProgressZAD = new System.Windows.Forms.Label();
+            this.lblInfoZAD = new System.Windows.Forms.Label();
+            this.lblProgressPaperwork = new System.Windows.Forms.Label();
+            this.lblInfoPaperwork = new System.Windows.Forms.Label();
+            this.lblProgressMaterials = new System.Windows.Forms.Label();
+            this.lblInfoMaterials = new System.Windows.Forms.Label();
+            this.lblProgressTextures = new System.Windows.Forms.Label();
+            this.lblInfoTextures = new System.Windows.Forms.Label();
+            this.pbProgress = new System.Windows.Forms.ProgressBar();
+            this.gbProgress.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPath
             // 
             this.btnPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPath.Location = new System.Drawing.Point(491, 4);
+            this.btnPath.Location = new System.Drawing.Point(487, 4);
             this.btnPath.Name = "btnPath";
             this.btnPath.Size = new System.Drawing.Size(29, 23);
             this.btnPath.TabIndex = 11;
@@ -52,11 +65,12 @@
             // 
             // txtPath
             // 
-            this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPath.Enabled = false;
             this.txtPath.Location = new System.Drawing.Point(152, 6);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(333, 20);
+            this.txtPath.Size = new System.Drawing.Size(329, 20);
             this.txtPath.TabIndex = 10;
             // 
             // lblPath
@@ -70,9 +84,8 @@
             // 
             // btnOK
             // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(445, 62);
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(441, 62);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 25;
@@ -82,9 +95,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(364, 62);
+            this.btnCancel.Location = new System.Drawing.Point(360, 62);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 24;
@@ -92,24 +105,14 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // chkMaterials
-            // 
-            this.chkMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkMaterials.AutoSize = true;
-            this.chkMaterials.Location = new System.Drawing.Point(152, 66);
-            this.chkMaterials.Name = "chkMaterials";
-            this.chkMaterials.Size = new System.Drawing.Size(107, 17);
-            this.chkMaterials.TabIndex = 23;
-            this.chkMaterials.Text = "process materials";
-            this.chkMaterials.UseVisualStyleBackColor = true;
-            // 
             // txtCarName
             // 
-            this.txtCarName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCarName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCarName.Location = new System.Drawing.Point(152, 32);
             this.txtCarName.Name = "txtCarName";
             this.txtCarName.ReadOnly = true;
-            this.txtCarName.Size = new System.Drawing.Size(333, 20);
+            this.txtCarName.Size = new System.Drawing.Size(329, 20);
             this.txtCarName.TabIndex = 27;
             // 
             // lblCarName
@@ -121,25 +124,169 @@
             this.lblCarName.TabIndex = 26;
             this.lblCarName.Text = "Car Name";
             // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnClose.Location = new System.Drawing.Point(441, 185);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 28;
+            this.btnClose.Text = "close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Visible = false;
+            // 
+            // gbProgress
+            // 
+            this.gbProgress.Controls.Add(this.lblProgressMeshes);
+            this.gbProgress.Controls.Add(this.lblInfoMeshes);
+            this.gbProgress.Controls.Add(this.lblProgressZAD);
+            this.gbProgress.Controls.Add(this.lblInfoZAD);
+            this.gbProgress.Controls.Add(this.lblProgressPaperwork);
+            this.gbProgress.Controls.Add(this.lblInfoPaperwork);
+            this.gbProgress.Controls.Add(this.lblProgressMaterials);
+            this.gbProgress.Controls.Add(this.lblInfoMaterials);
+            this.gbProgress.Controls.Add(this.lblProgressTextures);
+            this.gbProgress.Controls.Add(this.lblInfoTextures);
+            this.gbProgress.Location = new System.Drawing.Point(15, 91);
+            this.gbProgress.Name = "gbProgress";
+            this.gbProgress.Size = new System.Drawing.Size(501, 88);
+            this.gbProgress.TabIndex = 29;
+            this.gbProgress.TabStop = false;
+            this.gbProgress.Text = "progress...";
+            this.gbProgress.Visible = false;
+            // 
+            // lblProgressMeshes
+            // 
+            this.lblProgressMeshes.AutoSize = true;
+            this.lblProgressMeshes.ForeColor = System.Drawing.Color.Red;
+            this.lblProgressMeshes.Location = new System.Drawing.Point(6, 16);
+            this.lblProgressMeshes.Name = "lblProgressMeshes";
+            this.lblProgressMeshes.Size = new System.Drawing.Size(14, 13);
+            this.lblProgressMeshes.TabIndex = 9;
+            this.lblProgressMeshes.Text = "X";
+            // 
+            // lblInfoMeshes
+            // 
+            this.lblInfoMeshes.AutoSize = true;
+            this.lblInfoMeshes.Location = new System.Drawing.Point(26, 16);
+            this.lblInfoMeshes.Name = "lblInfoMeshes";
+            this.lblInfoMeshes.Size = new System.Drawing.Size(44, 13);
+            this.lblInfoMeshes.TabIndex = 8;
+            this.lblInfoMeshes.Text = "Meshes";
+            // 
+            // lblProgressZAD
+            // 
+            this.lblProgressZAD.AutoSize = true;
+            this.lblProgressZAD.ForeColor = System.Drawing.Color.Red;
+            this.lblProgressZAD.Location = new System.Drawing.Point(6, 68);
+            this.lblProgressZAD.Name = "lblProgressZAD";
+            this.lblProgressZAD.Size = new System.Drawing.Size(14, 13);
+            this.lblProgressZAD.TabIndex = 7;
+            this.lblProgressZAD.Text = "X";
+            // 
+            // lblInfoZAD
+            // 
+            this.lblInfoZAD.AutoSize = true;
+            this.lblInfoZAD.Location = new System.Drawing.Point(26, 68);
+            this.lblInfoZAD.Name = "lblInfoZAD";
+            this.lblInfoZAD.Size = new System.Drawing.Size(125, 13);
+            this.lblInfoZAD.TabIndex = 6;
+            this.lblInfoZAD.Text = "CarMODgeddon ZAD file";
+            // 
+            // lblProgressPaperwork
+            // 
+            this.lblProgressPaperwork.AutoSize = true;
+            this.lblProgressPaperwork.ForeColor = System.Drawing.Color.Red;
+            this.lblProgressPaperwork.Location = new System.Drawing.Point(6, 55);
+            this.lblProgressPaperwork.Name = "lblProgressPaperwork";
+            this.lblProgressPaperwork.Size = new System.Drawing.Size(14, 13);
+            this.lblProgressPaperwork.TabIndex = 5;
+            this.lblProgressPaperwork.Text = "X";
+            // 
+            // lblInfoPaperwork
+            // 
+            this.lblInfoPaperwork.AutoSize = true;
+            this.lblInfoPaperwork.Location = new System.Drawing.Point(26, 55);
+            this.lblInfoPaperwork.Name = "lblInfoPaperwork";
+            this.lblInfoPaperwork.Size = new System.Drawing.Size(58, 13);
+            this.lblInfoPaperwork.TabIndex = 4;
+            this.lblInfoPaperwork.Text = "Paperwork";
+            // 
+            // lblProgressMaterials
+            // 
+            this.lblProgressMaterials.AutoSize = true;
+            this.lblProgressMaterials.ForeColor = System.Drawing.Color.Red;
+            this.lblProgressMaterials.Location = new System.Drawing.Point(6, 42);
+            this.lblProgressMaterials.Name = "lblProgressMaterials";
+            this.lblProgressMaterials.Size = new System.Drawing.Size(14, 13);
+            this.lblProgressMaterials.TabIndex = 3;
+            this.lblProgressMaterials.Text = "X";
+            // 
+            // lblInfoMaterials
+            // 
+            this.lblInfoMaterials.AutoSize = true;
+            this.lblInfoMaterials.Location = new System.Drawing.Point(26, 42);
+            this.lblInfoMaterials.Name = "lblInfoMaterials";
+            this.lblInfoMaterials.Size = new System.Drawing.Size(49, 13);
+            this.lblInfoMaterials.TabIndex = 2;
+            this.lblInfoMaterials.Text = "Materials";
+            // 
+            // lblProgressTextures
+            // 
+            this.lblProgressTextures.AutoSize = true;
+            this.lblProgressTextures.ForeColor = System.Drawing.Color.Red;
+            this.lblProgressTextures.Location = new System.Drawing.Point(6, 29);
+            this.lblProgressTextures.Name = "lblProgressTextures";
+            this.lblProgressTextures.Size = new System.Drawing.Size(14, 13);
+            this.lblProgressTextures.TabIndex = 1;
+            this.lblProgressTextures.Text = "X";
+            // 
+            // lblInfoTextures
+            // 
+            this.lblInfoTextures.AutoSize = true;
+            this.lblInfoTextures.Location = new System.Drawing.Point(26, 29);
+            this.lblInfoTextures.Name = "lblInfoTextures";
+            this.lblInfoTextures.Size = new System.Drawing.Size(48, 13);
+            this.lblInfoTextures.TabIndex = 0;
+            this.lblInfoTextures.Text = "Textures";
+            // 
+            // pbProgress
+            // 
+            this.pbProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbProgress.Location = new System.Drawing.Point(15, 62);
+            this.pbProgress.Name = "pbProgress";
+            this.pbProgress.Size = new System.Drawing.Size(501, 23);
+            this.pbProgress.TabIndex = 30;
+            this.pbProgress.Visible = false;
+            // 
             // frmSaveAsVehicle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 97);
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(528, 214);
+            this.Controls.Add(this.gbProgress);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.txtCarName);
             this.Controls.Add(this.lblCarName);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.chkMaterials);
             this.Controls.Add(this.btnPath);
             this.Controls.Add(this.txtPath);
             this.Controls.Add(this.lblPath);
+            this.Controls.Add(this.pbProgress);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(16, 136);
             this.Name = "frmSaveAsVehicle";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Save As... Vehicle";
+            this.gbProgress.ResumeLayout(false);
+            this.gbProgress.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,8 +300,20 @@
         private System.Windows.Forms.FolderBrowserDialog fbdBrowse;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.CheckBox chkMaterials;
         private System.Windows.Forms.TextBox txtCarName;
         private System.Windows.Forms.Label lblCarName;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.GroupBox gbProgress;
+        private System.Windows.Forms.Label lblProgressTextures;
+        private System.Windows.Forms.Label lblInfoTextures;
+        private System.Windows.Forms.Label lblProgressMaterials;
+        private System.Windows.Forms.Label lblInfoMaterials;
+        private System.Windows.Forms.Label lblProgressMeshes;
+        private System.Windows.Forms.Label lblInfoMeshes;
+        private System.Windows.Forms.Label lblProgressZAD;
+        private System.Windows.Forms.Label lblInfoZAD;
+        private System.Windows.Forms.Label lblProgressPaperwork;
+        private System.Windows.Forms.Label lblInfoPaperwork;
+        private System.Windows.Forms.ProgressBar pbProgress;
     }
 }
