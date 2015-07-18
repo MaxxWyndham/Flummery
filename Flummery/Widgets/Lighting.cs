@@ -8,6 +8,7 @@ namespace Flummery.Controls
     public partial class Lighting : UserControl, IWidget
     {
         bool bExpanded = true;
+        bool bInitialising = false;
 
         ModelBone bone;
         LIGHT light;
@@ -37,6 +38,8 @@ namespace Flummery.Controls
         private void resetWidget()
         {
             light = (bone != null && bone.Type == BoneType.Light && bone.Attachment != null ? bone.Attachment as LIGHT : new LIGHT());
+
+            bInitialising = true;
 
             lblLightType.Text = string.Format(lblLightType.Tag.ToString(), light.Type);
             lblLightName.Text = light.Name;
@@ -83,6 +86,8 @@ namespace Flummery.Controls
             toggleShadowUI();
             toggleEdgeColourUI();
             setButtonText();
+
+            bInitialising = false;
         }
 
         private void setButtonText()
@@ -228,17 +233,17 @@ namespace Flummery.Controls
 
         private void nudRed_ValueChanged(object sender, EventArgs e)
         {
-            updateLightColour();
+            if (!bInitialising) { updateLightColour(); }
         }
 
         private void nudGreen_ValueChanged(object sender, EventArgs e)
         {
-            updateLightColour();
+            if (!bInitialising) { updateLightColour(); }
         }
 
         private void nudBlue_ValueChanged(object sender, EventArgs e)
         {
-            updateLightColour();
+            if (!bInitialising) { updateLightColour(); }
         }
 
         private void nudIntensity_ValueChanged(object sender, EventArgs e)
@@ -359,17 +364,17 @@ namespace Flummery.Controls
 
         private void nudEdgeRed_ValueChanged(object sender, EventArgs e)
         {
-            updateEdgeColour();
+            if (!bInitialising) { updateEdgeColour(); }
         }
 
         private void nudEdgeGreen_ValueChanged(object sender, EventArgs e)
         {
-            updateEdgeColour();
+            if (!bInitialising) { updateEdgeColour(); }
         }
 
         private void nudEdgeBlue_ValueChanged(object sender, EventArgs e)
         {
-            updateEdgeColour();
+            if (!bInitialising) { updateEdgeColour(); }
         }
     }
 }

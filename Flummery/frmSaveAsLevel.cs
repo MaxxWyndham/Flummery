@@ -31,7 +31,7 @@ namespace Flummery
             timer.SynchronizingObject = this;
             timer.Elapsed += timer_Elapsed;
 
-            txtPath.Text = Properties.Settings.Default.SaveAsLevelPath;
+            txtPath.Text = (Directory.Exists(Properties.Settings.Default.SaveAsLevelPath) ? Properties.Settings.Default.SaveAsLevelPath : "");
             setLevel();
         }
 
@@ -64,8 +64,8 @@ namespace Flummery
             }
 
             flump = FlumpFile.Load(txtPath.Text + "level.flump");
-            if (flump.Settings.ContainsKey("level.pretty.name")) { txtPrettyLevelName.Text = flump.Settings["level.pretty.name"]; }
-            if (flump.Settings.ContainsKey("level.race.name")) { txtRaceName.Text = flump.Settings["level.race.name"]; }
+            txtPrettyLevelName.Text = (flump.Settings.ContainsKey("level.pretty.name") ? flump.Settings["level.pretty.name"] : "");
+            txtRaceName.Text = (flump.Settings.ContainsKey("level.race.name") ? flump.Settings["level.race.name"] : "");
 
             level = Path.GetFileName(Path.GetDirectoryName(txtPath.Text));
             txtLevel.Text = level;
@@ -192,7 +192,8 @@ namespace Flummery
             using (StreamWriter w = File.CreateText(Path.Combine(txtPath.Text, "environment.lol")))
             {
                 w.WriteLine("module((...), environment_config, package.seeall)");
-                w.WriteLine(string.Format(@"name = ""{0}""", txtPrettyLevelName.Text));
+                w.WriteLine(string.Format(@"txt[""fe_environment_{0}""] = ""{1}""", txtLevel.Text.ToLower(), txtPrettyLevelName.Text));
+                w.WriteLine(string.Format("name = txt.fe_environment_{0}", txtLevel.Text.ToLower()));
             }
 
             using (StreamWriter w = File.CreateText(Path.Combine(txtPath.Text, "environment.txt")))
@@ -333,7 +334,9 @@ namespace Flummery
                 sun.Range = 100;
                 sun.Inner = 22.5f;
                 sun.Outer = 45;
-                sun.R = 191;
+                sun.R = 191 / 255.0f;
+                sun.G = 159 / 255.0f;
+                sun.B = 64 / 255.0f;
                 sun.Intensity = 0.8f;
                 sun.Flags = LIGHT.LightFlags.CastShadow;
                 sun.SplitCount = 1;
