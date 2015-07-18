@@ -289,12 +289,29 @@ namespace Flummery
                     }
                     break;
 
-                case "Convert &&Actors to Entities":
+                case "Process for Carmageddon Reincarnation":
                     if (SceneManager.Current.Models.Count == 0) { return; }
 
-                    for (int i = SceneManager.Current.Models[0].Bones.Count - 1; i >= 0; i--)
+                    var bones = SceneManager.Current.Models[0].Bones[0].AllChildren();
+
+                    SceneManager.Current.UpdateProgress("Applying Carmageddon Reincarnation scale");
+
+                    ModelManipulator.Scale(bones, Matrix4.CreateScale(6.9f, 6.9f, -6.9f), true);
+                    ModelManipulator.FlipFaces(bones, true);
+
+                    SceneManager.Current.UpdateProgress("Fixing material names");
+
+                    foreach (var material in SceneManager.Current.Materials)
                     {
-                        var bone = SceneManager.Current.Models[0].Bones[i];
+                        if (material.Name.Contains(".")) { material.Name = material.Name.Substring(0, material.Name.IndexOf(".")); }
+                        material.Name = material.Name.Replace("\\", "");
+                    }
+
+                    SceneManager.Current.UpdateProgress("Processing powerups and accessories");
+
+                    for (int i = bones.Count - 1; i >= 0; i--)
+                    {
+                        var bone = bones[i];
 
                         if (bone.Name.StartsWith("&"))
                         {
@@ -316,7 +333,7 @@ namespace Flummery
                                 }
                                 else
                                 {
-                                    entity.Name = "pup_Pinball";
+                                    entity.Name = "pup_Credits";
                                     entity.Tag = pup.Model;
                                 }
                             }
@@ -336,10 +353,9 @@ namespace Flummery
                         }
                     }
 
-                    SceneManager.Current.Change(ChangeType.Munge, -1);
-                    break;
+                    SceneManager.Current.UpdateProgress("Processing complete!");
 
-                case "Scale for Carmageddon Reincarnation":
+                    SceneManager.Current.Change(ChangeType.Munge, -1);
                     break;
             }
         }

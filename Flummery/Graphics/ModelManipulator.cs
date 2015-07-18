@@ -229,6 +229,69 @@ namespace Flummery
             }
         }
 
+        public static void FlipFaces(ModelBoneCollection bones, bool bApplyToHierarchy = false)
+        {
+            var processed = new List<string>();
+
+            foreach (var bone in bones)
+            {
+                if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
+                {
+                    var mesh = bone.Mesh;
+
+                    foreach (var meshpart in mesh.MeshParts)
+                    {
+                        for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
+                        {
+                            meshpart.IndexBuffer.SwapIndices(i + 1, i + 2);
+                        }
+
+                        meshpart.IndexBuffer.Initialise();
+                    }
+
+                    processed.Add(mesh.Name);
+                }
+            }
+        }
+
+        public static void Scale(ModelBoneCollection bones, Matrix4 scale, bool bApplyToHierarchy = false)
+        {
+            var processed = new List<string>();
+
+            foreach (var bone in bones)
+            {
+                if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
+                {
+                    var mesh = bone.Mesh;
+
+                    foreach (var meshpart in mesh.MeshParts)
+                    {
+                        for (int i = 0; i < meshpart.VertexCount; i++)
+                        {
+                            var position = Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scale);
+                            meshpart.VertexBuffer.ModifyVertexPosition(i, position);
+                        }
+
+                        meshpart.VertexBuffer.Initialise();
+                    }
+
+                    processed.Add(mesh.Name);
+                }
+
+                if (bApplyToHierarchy)
+                {
+                    var transform = bone.Transform;
+                    var position = Vector3.TransformPosition(transform.ExtractTranslation(), scale);
+
+                    transform.M41 = position.X;
+                    transform.M42 = position.Y;
+                    transform.M43 = position.Z;
+
+                    bone.Transform = transform;
+                }
+            }
+        }
+
         public static void Freeze(ModelMesh model, FreezeComponents flags)
         {
             bool bFreezePos = ((flags & FreezeComponents.Position) == FreezeComponents.Position);

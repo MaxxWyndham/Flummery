@@ -80,46 +80,22 @@ namespace Flummery
 
                 if (rdoScaleWholeModel.Checked)
                 {
-                    scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleWholeModel.Text.ToSingle(), txtScaleWholeModel.Text.ToSingle(), txtScaleWholeModel.Text.ToSingle());
+                    scaleMatrix = OpenTK.Matrix4.CreateScale(
+                        txtScaleWholeModel.Text.ToSingle(), 
+                        txtScaleWholeModel.Text.ToSingle(), 
+                        txtScaleWholeModel.Text.ToSingle()
+                    );
                 }
-
-                if (rdoScaleByAxis.Checked)
+                else if (rdoScaleByAxis.Checked)
                 {
-                    scaleMatrix = OpenTK.Matrix4.CreateScale(txtScaleAxisX.Text.ToSingle(), txtScaleAxisY.Text.ToSingle(), txtScaleAxisZ.Text.ToSingle());
+                    scaleMatrix = OpenTK.Matrix4.CreateScale(
+                        txtScaleAxisX.Text.ToSingle(), 
+                        txtScaleAxisY.Text.ToSingle(), 
+                        txtScaleAxisZ.Text.ToSingle()
+                    );
                 }
 
-                foreach (var bone in bones)
-                {
-                    if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
-                    {
-                        var mesh = bone.Mesh;
-
-                        foreach (var meshpart in mesh.MeshParts)
-                        {
-                            for (int i = 0; i < meshpart.VertexCount; i++)
-                            {
-                                var position = OpenTK.Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scaleMatrix);
-                                meshpart.VertexBuffer.ModifyVertexPosition(i, position);
-                            }
-
-                            meshpart.VertexBuffer.Initialise();
-                        }
-
-                        processed.Add(mesh.Name);
-                    }
-
-                    if (chkHierarchy.Checked)
-                    {
-                        var transform = bone.Transform;
-                        var position = OpenTK.Vector3.TransformPosition(transform.ExtractTranslation(), scaleMatrix);
-
-                        transform.M41 = position.X;
-                        transform.M42 = position.Y;
-                        transform.M43 = position.Z;
-
-                        bone.Transform = transform;
-                    }
-                }
+                ModelManipulator.Scale(bones, scaleMatrix, chkHierarchy.Checked);
             }
             else if (rdoMunging.Checked)
             {
@@ -164,25 +140,7 @@ namespace Flummery
 
                 if (rdoFlipWindingOrder.Checked)
                 {
-                    foreach (var bone in bones)
-                    {
-                        if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
-                        {
-                            var mesh = bone.Mesh;
-
-                            foreach (var meshpart in mesh.MeshParts)
-                            {
-                                for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
-                                {
-                                    meshpart.IndexBuffer.SwapIndices(i + 1, i + 2);
-                                }
-
-                                meshpart.IndexBuffer.Initialise();
-                            }
-
-                            processed.Add(mesh.Name);
-                        }
-                    }
+                    ModelManipulator.FlipFaces(bones, chkHierarchy.Checked);
                 }
             }
         }
