@@ -239,11 +239,6 @@ namespace Flummery
             SceneManager.Current.UpdateProgress(string.Format("Vehicle '{0}' saved successfully!", car));
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (lblProgress != null && lblProgress.Text != "✓")
