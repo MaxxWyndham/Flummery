@@ -139,7 +139,7 @@ namespace Flummery
                     {
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded); // RightHanded == Everything but C:R
                         var m = SceneManager.Current.Content.Load<Model, ContentPipeline.Core.FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
-                        ModelManipulator.FlipAxis(m.Root.Mesh, Axis.Z, true);
+                        if (m.Root.Mesh != null) { ModelManipulator.FlipAxis(m.Root.Mesh, Axis.Z, true); }
 
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
@@ -750,9 +750,8 @@ namespace Flummery
 
             switch (mi.Text)
             {
-                case "Environment":
-                    var fmSaveAsEnvironment = new frmSaveAsEnvironment();
-                    fmSaveAsEnvironment.Show(this);
+                case "Level":
+                    (new frmSaveAsLevel()).ShowDialog(this);
                     break;
 
                 case "Vehicle":

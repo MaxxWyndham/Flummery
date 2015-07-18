@@ -87,7 +87,7 @@
             this.tsmiFileSaveForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSaveAsCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveAsCarmageddonReincarnationEnvironment = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiFileSaveAsCarmageddonReincarnationLevel = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSaveAsCarmageddonReincarnationVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileExport = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileExportAutodeskFBXFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,9 +106,13 @@
             this.tsmiObjectSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiObjectRename = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObjectSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiObjectData = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiObjectDataAddChangeType = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiObjectDataRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiObjectSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiObjectOptimise = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObjectFlattenHierarchy = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiObjectSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiObjectSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiObjectInvertTextureVCoordinates = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTools = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsGeneral = new System.Windows.Forms.ToolStripMenuItem();
@@ -138,10 +142,6 @@
             this.tmsiToolsTDR2000RemoveLODFromVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiObjectData = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiObjectSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmiObjectDataAddChangeType = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiObjectDataRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -157,8 +157,8 @@
             // tsslActionScaling
             // 
             this.tsslActionScaling.AutoSize = false;
-            this.tsslActionScaling.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+            this.tsslActionScaling.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.tsslActionScaling.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.tsslActionScaling.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -269,7 +269,7 @@
             // 
             this.tsmiFileNew.Name = "tsmiFileNew";
             this.tsmiFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tsmiFileNew.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileNew.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileNew.Text = "&New";
             this.tsmiFileNew.Click += new System.EventHandler(this.menuClick);
             // 
@@ -283,7 +283,7 @@
             this.tsmiFileOpenNovadrome,
             this.tsmiFileOpenTDR2000});
             this.tsmiFileOpen.Name = "tsmiFileOpen";
-            this.tsmiFileOpen.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileOpen.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileOpen.Text = "&Open...";
             // 
             // tsmiFileOpenCarmageddonSplatPack
@@ -427,7 +427,7 @@
             this.tsmiFileImportStainlessLIGHTFile,
             this.tsmiFileImportTorusMSHSFile});
             this.tsmiFileImport.Name = "tsmiFileImport";
-            this.tsmiFileImport.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileImport.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileImport.Text = "&Import";
             // 
             // tsmiFileImportAutodeskFBXFile
@@ -482,7 +482,7 @@
             // tsmiFileSeparator1
             // 
             this.tsmiFileSeparator1.Name = "tsmiFileSeparator1";
-            this.tsmiFileSeparator1.Size = new System.Drawing.Size(138, 6);
+            this.tsmiFileSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // tsmiFileSaveFor
             // 
@@ -490,7 +490,7 @@
             this.tsmiFileSaveForCarmageddon2,
             this.tsmiFileSaveForCarmageddonReincarnation});
             this.tsmiFileSaveFor.Name = "tsmiFileSaveFor";
-            this.tsmiFileSaveFor.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileSaveFor.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileSaveFor.Text = "Save For...";
             // 
             // tsmiFileSaveForCarmageddon2
@@ -516,29 +516,29 @@
             this.tsmiFileSaveAs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFileSaveAsCarmageddonReincarnation});
             this.tsmiFileSaveAs.Name = "tsmiFileSaveAs";
-            this.tsmiFileSaveAs.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileSaveAs.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileSaveAs.Text = "Save As...";
             // 
             // tsmiFileSaveAsCarmageddonReincarnation
             // 
             this.tsmiFileSaveAsCarmageddonReincarnation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileSaveAsCarmageddonReincarnationEnvironment,
+            this.tsmiFileSaveAsCarmageddonReincarnationLevel,
             this.tsmiFileSaveAsCarmageddonReincarnationVehicle});
             this.tsmiFileSaveAsCarmageddonReincarnation.Name = "tsmiFileSaveAsCarmageddonReincarnation";
             this.tsmiFileSaveAsCarmageddonReincarnation.Size = new System.Drawing.Size(226, 22);
             this.tsmiFileSaveAsCarmageddonReincarnation.Text = "Carmageddon Reincarnation";
             // 
-            // tsmiFileSaveAsCarmageddonReincarnationEnvironment
+            // tsmiFileSaveAsCarmageddonReincarnationLevel
             // 
-            this.tsmiFileSaveAsCarmageddonReincarnationEnvironment.Name = "tsmiFileSaveAsCarmageddonReincarnationEnvironment";
-            this.tsmiFileSaveAsCarmageddonReincarnationEnvironment.Size = new System.Drawing.Size(142, 22);
-            this.tsmiFileSaveAsCarmageddonReincarnationEnvironment.Text = "Environment";
-            this.tsmiFileSaveAsCarmageddonReincarnationEnvironment.Click += new System.EventHandler(this.menuSaveAsClick);
+            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Name = "tsmiFileSaveAsCarmageddonReincarnationLevel";
+            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Size = new System.Drawing.Size(152, 22);
+            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Text = "Level";
+            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Click += new System.EventHandler(this.menuSaveAsClick);
             // 
             // tsmiFileSaveAsCarmageddonReincarnationVehicle
             // 
             this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Name = "tsmiFileSaveAsCarmageddonReincarnationVehicle";
-            this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Size = new System.Drawing.Size(142, 22);
+            this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Text = "Vehicle";
             this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Click += new System.EventHandler(this.menuSaveAsClick);
             // 
@@ -548,7 +548,7 @@
             this.tsmiFileExportAutodeskFBXFile,
             this.tsmiFileExportStainlessCNTFile});
             this.tsmiFileExport.Name = "tsmiFileExport";
-            this.tsmiFileExport.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileExport.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileExport.Text = "&Export";
             // 
             // tsmiFileExportAutodeskFBXFile
@@ -568,12 +568,12 @@
             // tsmiFileSeparator2
             // 
             this.tsmiFileSeparator2.Name = "tsmiFileSeparator2";
-            this.tsmiFileSeparator2.Size = new System.Drawing.Size(138, 6);
+            this.tsmiFileSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // tsmiFileExit
             // 
             this.tsmiFileExit.Name = "tsmiFileExit";
-            this.tsmiFileExit.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileExit.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileExit.Text = "E&xit";
             this.tsmiFileExit.Click += new System.EventHandler(this.menuClick);
             // 
@@ -588,7 +588,7 @@
             // tsmiViewPreferences
             // 
             this.tsmiViewPreferences.Name = "tsmiViewPreferences";
-            this.tsmiViewPreferences.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewPreferences.Size = new System.Drawing.Size(135, 22);
             this.tsmiViewPreferences.Text = "Preferences";
             this.tsmiViewPreferences.Click += new System.EventHandler(this.menuViewClick);
             // 
@@ -671,6 +671,34 @@
             this.tsmiObjectSeparator3.Name = "tsmiObjectSeparator3";
             this.tsmiObjectSeparator3.Size = new System.Drawing.Size(220, 6);
             // 
+            // tsmiObjectData
+            // 
+            this.tsmiObjectData.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiObjectDataAddChangeType,
+            this.tsmiObjectDataRemove});
+            this.tsmiObjectData.Name = "tsmiObjectData";
+            this.tsmiObjectData.Size = new System.Drawing.Size(223, 22);
+            this.tsmiObjectData.Text = "Data";
+            // 
+            // tsmiObjectDataAddChangeType
+            // 
+            this.tsmiObjectDataAddChangeType.Name = "tsmiObjectDataAddChangeType";
+            this.tsmiObjectDataAddChangeType.Size = new System.Drawing.Size(180, 22);
+            this.tsmiObjectDataAddChangeType.Text = "Add/Change Type...";
+            this.tsmiObjectDataAddChangeType.Click += new System.EventHandler(this.menuObjectClick);
+            // 
+            // tsmiObjectDataRemove
+            // 
+            this.tsmiObjectDataRemove.Name = "tsmiObjectDataRemove";
+            this.tsmiObjectDataRemove.Size = new System.Drawing.Size(180, 22);
+            this.tsmiObjectDataRemove.Text = "Remove";
+            this.tsmiObjectDataRemove.Click += new System.EventHandler(this.menuObjectClick);
+            // 
+            // tsmiObjectSeparator4
+            // 
+            this.tsmiObjectSeparator4.Name = "tsmiObjectSeparator4";
+            this.tsmiObjectSeparator4.Size = new System.Drawing.Size(220, 6);
+            // 
             // tsmiObjectOptimise
             // 
             this.tsmiObjectOptimise.Name = "tsmiObjectOptimise";
@@ -685,10 +713,10 @@
             this.tsmiObjectFlattenHierarchy.Text = "Flatten hierarchy...";
             this.tsmiObjectFlattenHierarchy.Click += new System.EventHandler(this.menuObjectClick);
             // 
-            // tsmiObjectSeparator4
+            // tsmiObjectSeparator5
             // 
-            this.tsmiObjectSeparator4.Name = "tsmiObjectSeparator4";
-            this.tsmiObjectSeparator4.Size = new System.Drawing.Size(220, 6);
+            this.tsmiObjectSeparator5.Name = "tsmiObjectSeparator5";
+            this.tsmiObjectSeparator5.Size = new System.Drawing.Size(220, 6);
             // 
             // tsmiObjectInvertTextureVCoordinates
             // 
@@ -919,34 +947,6 @@
             this.tsmiHelpAboutFlummery.Text = "About Flummery";
             this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
             // 
-            // tsmiObjectData
-            // 
-            this.tsmiObjectData.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiObjectDataAddChangeType,
-            this.tsmiObjectDataRemove});
-            this.tsmiObjectData.Name = "tsmiObjectData";
-            this.tsmiObjectData.Size = new System.Drawing.Size(223, 22);
-            this.tsmiObjectData.Text = "Data";
-            // 
-            // tsmiObjectSeparator5
-            // 
-            this.tsmiObjectSeparator5.Name = "tsmiObjectSeparator5";
-            this.tsmiObjectSeparator5.Size = new System.Drawing.Size(220, 6);
-            // 
-            // tsmiObjectDataAddChangeType
-            // 
-            this.tsmiObjectDataAddChangeType.Name = "tsmiObjectDataAddChangeType";
-            this.tsmiObjectDataAddChangeType.Size = new System.Drawing.Size(180, 22);
-            this.tsmiObjectDataAddChangeType.Text = "Add/Change Type...";
-            this.tsmiObjectDataAddChangeType.Click += new System.EventHandler(this.menuObjectClick);
-            // 
-            // tsmiObjectDataRemove
-            // 
-            this.tsmiObjectDataRemove.Name = "tsmiObjectDataRemove";
-            this.tsmiObjectDataRemove.Size = new System.Drawing.Size(180, 22);
-            this.tsmiObjectDataRemove.Text = "Remove";
-            this.tsmiObjectDataRemove.Click += new System.EventHandler(this.menuObjectClick);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1014,7 +1014,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveFor;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAs;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnation;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnationEnvironment;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnationLevel;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnationVehicle;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExport;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExportAutodeskFBXFile;

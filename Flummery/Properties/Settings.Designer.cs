@@ -62,12 +62,12 @@ namespace Flummery.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SaveAsEnvironmentPath {
+        public string SaveAsLevelPath {
             get {
-                return ((string)(this["SaveAsEnvironmentPath"]));
+                return ((string)(this["SaveAsLevelPath"]));
             }
             set {
-                this["SaveAsEnvironmentPath"] = value;
+                this["SaveAsLevelPath"] = value;
             }
         }
         

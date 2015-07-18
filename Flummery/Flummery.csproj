@@ -176,11 +176,11 @@
     <Compile Include="frmRename.Designer.cs">
       <DependentUpon>frmRename.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSaveAsEnvironment.cs">
+    <Compile Include="frmSaveAsLevel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSaveAsEnvironment.Designer.cs">
-      <DependentUpon>frmSaveAsEnvironment.cs</DependentUpon>
+    <Compile Include="frmSaveAsLevel.Designer.cs">
+      <DependentUpon>frmSaveAsLevel.cs</DependentUpon>
     </Compile>
     <Compile Include="frmSaveAsVehicle.cs">
       <SubType>Form</SubType>
@@ -323,8 +323,8 @@
     <EmbeddedResource Include="frmRename.resx">
       <DependentUpon>frmRename.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSaveAsEnvironment.resx">
-      <DependentUpon>frmSaveAsEnvironment.cs</DependentUpon>
+    <EmbeddedResource Include="frmSaveAsLevel.resx">
+      <DependentUpon>frmSaveAsLevel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSaveAsVehicle.resx">
       <DependentUpon>frmSaveAsVehicle.cs</DependentUpon>

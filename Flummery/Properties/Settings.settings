@@ -11,7 +11,7 @@
     <Setting Name="PathCarmageddon2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SaveAsEnvironmentPath" Type="System.String" Scope="User">
+    <Setting Name="SaveAsLevelPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SaveAsVehiclePath" Type="System.String" Scope="User">
