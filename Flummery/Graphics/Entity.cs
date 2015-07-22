@@ -106,7 +106,8 @@ namespace Flummery
                 }
             }
 
-            var m = transform * SceneManager.Current.Transform;
+            var mS = SceneManager.Current.Transform;
+            var mT = transform;
 
             switch (assetType)
             {
@@ -116,7 +117,7 @@ namespace Flummery
                     {
                         GL.PushMatrix();
 
-                        GL.MultMatrix(ref m);
+                        GL.MultMatrix(ref mT);
 
                         model.Draw();
 
@@ -150,8 +151,9 @@ namespace Flummery
 
                     GL.PushMatrix();
 
-                    var position = Matrix4.CreateTranslation(m.ExtractTranslation());
+                    var position = Matrix4.CreateTranslation(mT.ExtractTranslation());
 
+                    GL.MultMatrix(ref mS);
                     GL.MultMatrix(ref position);
 
                     GL.Enable(EnableCap.Blend);

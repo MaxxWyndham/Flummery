@@ -119,9 +119,12 @@ namespace Flummery
         {
             if (mode != Projection.Orthographic) { return Vector3.Zero; }
 
+            var m = SceneManager.Current.Transform;
+
             Matrix4 lookat = camera.viewMatrix;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
+            GL.MultMatrix(ref m);
 
             perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 1000);
             GL.MatrixMode(MatrixMode.Projection);
@@ -141,8 +144,8 @@ namespace Flummery
             Vector4 vec;
 
             float Y = mouse.Y;
-            Y = h - Y - 1;
-            Y = Y - this.y;
+            //Y = h - Y - 1;
+            //Y = Y - this.y;
 
             vec.X = 2.0f * mouse.X / (float)viewport[2] - 1;
             vec.Y = -(2.0f * Y / (float)viewport[3] - 1);
@@ -221,7 +224,7 @@ namespace Flummery
 
         public void Draw(SceneManager scene)
         {
-            GL.ClearColor(Color.Gray);
+            GL.ClearColor(Color.FromArgb(0x9D9D9D));
 
             if (mode == Projection.Orthographic) { perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 100); }
 

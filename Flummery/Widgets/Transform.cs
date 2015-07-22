@@ -128,13 +128,26 @@ namespace Flummery.Controls
                 btnFreezeRotation.Enabled = true;
                 btnFreezeScale.Enabled = true;
 
+                OpenTK.Vector3 vs = new OpenTK.Vector3();
+                OpenTK.Vector3 vt = new OpenTK.Vector3();
+                Quaternion qr = new Quaternion();
+
+                if (!bone.Transform.Decompose(out vs, out qr, out vt))
+                {
+                    Console.WriteLine("Shit dude");
+                }
+                else
+                {
+                    Console.WriteLine("position: {0}", vt);
+                    Console.WriteLine("rotation: {0}", qr);
+                    Console.WriteLine("scale   : {0}", vs);
+                }
+
                 var p = bone.Transform.ExtractTranslation();
-                var r = bone.Transform.ExtractRotation().ToAxisAngle();
+                var rq = bone.Transform.ExtractRotation();
                 var s = bone.Transform.ExtractScale();
 
-                r.X *= MathHelper.RadiansToDegrees(r.W);
-                r.Y *= MathHelper.RadiansToDegrees(r.W);
-                r.Z *= MathHelper.RadiansToDegrees(r.W);
+                var r = rq.ToEuler(RotationOrder.OrderXYZ);
 
                 p.X = (float)Math.Round(p.X, 3, MidpointRounding.AwayFromZero);
                 p.Y = (float)Math.Round(p.Y, 3, MidpointRounding.AwayFromZero);
@@ -269,12 +282,16 @@ namespace Flummery.Controls
             Single divisor = (rdoAbsolute.Checked ? 1.0f : 100.0f);
 
             var mS = Matrix4.CreateScale(txtScaleX.Text.ToSingle() / divisor, txtScaleY.Text.ToSingle() / divisor, txtScaleZ.Text.ToSingle() / divisor);
-            var mRx = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(txtRotationX.Text.ToSingle()));
-            var mRy = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(txtRotationY.Text.ToSingle()));
-            var mRz = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(txtRotationZ.Text.ToSingle()));
+            var mR = Matrix4.CreateFromQuaternion(
+                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians(txtRotationX.Text.ToSingle())) *
+                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(txtRotationY.Text.ToSingle())) *
+                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(txtRotationZ.Text.ToSingle()))
+            );
             var vP = new OpenTK.Vector3(txtPositionX.Text.ToSingle(), txtPositionY.Text.ToSingle(), txtPositionZ.Text.ToSingle());
 
-            var transform = mS * mRx * mRy * mRz;
+            var transform = Matrix4.Identity;
+            transform *= mS;
+            transform *= mR;
             transform.M41 = vP.X;
             transform.M42 = vP.Y;
             transform.M43 = vP.Z;

@@ -103,7 +103,7 @@ namespace Flummery
         public void Frame(ModelMesh mesh)
         {
             //viewport.Camera.ResetCamera();
-            target = Vector3.TransformPosition(mesh.BoundingBox.Centre, mesh.Parent.CombinedTransform * SceneManager.Current.Transform);
+            target = Vector3.TransformPosition(mesh.BoundingBox.Centre, SceneManager.Current.Transform * mesh.Parent.CombinedTransform);
             //viewport.Camera.MoveCamera(Camera.Direction.Backward, 10.0f);
         }
 

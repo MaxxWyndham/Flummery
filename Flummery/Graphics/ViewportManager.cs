@@ -48,7 +48,7 @@ namespace Flummery
             top.Camera.SetPosition(0, 15, 0);
             top.Camera.SetRotation(0, MathHelper.DegreesToRadians(-90), 0);
 
-            var right = new Viewport { Name = "Right", Position = Viewport.Quadrant.TopRight, ProjectionMode = Projection.Orthographic };
+            var right = new Viewport { Name = "Side", Position = Viewport.Quadrant.TopRight, ProjectionMode = Projection.Orthographic };
             right.Camera.SetPosition(15, 0, 0);
             right.Camera.SetRotation(MathHelper.DegreesToRadians(90), 0, 0);
 

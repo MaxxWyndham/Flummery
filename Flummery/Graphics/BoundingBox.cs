@@ -55,10 +55,12 @@ namespace Flummery
 
         public void Draw()
         {
-            var m = mesh.Parent.CombinedTransform * SceneManager.Current.Transform;
+            var mS = SceneManager.Current.Transform;
+            var mP = mesh.Parent.CombinedTransform;
 
             GL.PushMatrix();
-            GL.MultMatrix(ref m);
+            GL.MultMatrix(ref mS);
+            GL.MultMatrix(ref mP);
 
             GL.Begin(PrimitiveType.Quads);
             GL.Color4(0f, 1.0f, 0f, 1.0f);
