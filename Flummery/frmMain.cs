@@ -918,6 +918,10 @@ namespace Flummery
         {
             FlummeryApplication.Active = (WindowState != FormWindowState.Minimized);
         }
+
+        private void frmMain_Shown(object sender, EventArgs e)
+        {
+        }
     }
 }
  
