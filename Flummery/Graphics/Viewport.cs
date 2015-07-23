@@ -86,6 +86,12 @@ namespace Flummery
             set { bActive = value; }
         }
 
+        public Vector3 Axis
+        {
+            get { return axis; }
+            set { axis = value; }
+        }
+
         public Viewport()
         {
             camera = new Camera() { ProjectionMode = mode, Zoom = 2 };
@@ -136,19 +142,15 @@ namespace Flummery
             GL.GetFloat(GetPName.ProjectionMatrix, out projectionMatrix);
             GL.GetInteger(GetPName.Viewport, viewport);
 
-            return UnProject(ref projectionMatrix, modelViewMatrix, viewport, new Vector2(X - this.x + 1, Y));
+            return UnProject(ref projectionMatrix, modelViewMatrix, viewport, new Vector2(X - this.x + 1, h - Y - 1 - this.y));
         }
 
         public Vector3 UnProject(ref Matrix4 projection, Matrix4 view, int[] viewport, Vector2 mouse)
         {
             Vector4 vec;
 
-            float Y = mouse.Y;
-            //Y = h - Y - 1;
-            //Y = Y - this.y;
-
             vec.X = 2.0f * mouse.X / (float)viewport[2] - 1;
-            vec.Y = -(2.0f * Y / (float)viewport[3] - 1);
+            vec.Y = 2.0f * mouse.Y / (float)viewport[3] - 1;
             vec.Z = 0;
             vec.W = 1.0f;
 
@@ -164,6 +166,10 @@ namespace Flummery
                 vec.Y /= vec.W;
                 vec.Z /= vec.W;
             }
+
+            if (axis == Vector3.UnitX) { vec.X = 0; }
+            if (axis == Vector3.UnitY) { vec.Y = 0; }
+            if (axis == Vector3.UnitZ) { vec.Z = 0; }
 
             return new Vector3(vec.X, vec.Y, vec.Z);
         }

@@ -44,15 +44,15 @@ namespace Flummery
 
         public ViewportManager()
         {
-            var top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = ProjectionType.Orthographic };
+            var top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitY };
             top.Camera.SetPosition(0, 15, 0);
             top.Camera.SetRotation(0, MathHelper.DegreesToRadians(-90), 0);
 
-            var right = new Viewport { Name = "Side", Position = Viewport.Quadrant.TopRight, ProjectionMode = ProjectionType.Orthographic };
+            var right = new Viewport { Name = "Side", Position = Viewport.Quadrant.TopRight, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitX };
             right.Camera.SetPosition(15, 0, 0);
             right.Camera.SetRotation(MathHelper.DegreesToRadians(90), 0, 0);
 
-            var front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = ProjectionType.Orthographic };
+            var front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitZ };
             front.Camera.SetPosition(0, 0, 15);
 
             var threedee = new Viewport { Name = "3D", Position = Viewport.Quadrant.BottomRight };
