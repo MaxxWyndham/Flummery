@@ -207,6 +207,9 @@ namespace Flummery
                 w.WriteLine("[LUMP]");
                 w.WriteLine("level");
                 w.WriteLine();
+                w.WriteLine("[ENVIRONMENT]");
+                w.WriteLine(txtLevel.Text.ToLower().Replace(" ", "_"));
+                w.WriteLine();
                 w.WriteLine("[RACE_NAMES]");
                 w.WriteLine(txtRaceName.Text);
                 w.WriteLine();
@@ -359,7 +362,9 @@ namespace Flummery
                 var cnt = new ToxicRagers.Stainless.Formats.CNT();
 
                 cnt.Name = "sun";
-                cnt.Transform = ToxicRagers.Helpers.Matrix3D.Identity;
+                cnt.Transform = ToxicRagers.Helpers.Matrix3D.CreateRotationX( 126.204f) *
+                                ToxicRagers.Helpers.Matrix3D.CreateRotationY(  51.71f) *
+                                ToxicRagers.Helpers.Matrix3D.CreateRotationZ(-133.003f);
                 cnt.Section = ToxicRagers.Stainless.Formats.CNT.NodeType.LITg;
                 cnt.EmbeddedLight = false;
                 cnt.LightName = "sun";

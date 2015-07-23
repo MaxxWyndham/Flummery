@@ -235,6 +235,7 @@ namespace Flummery
                     {
                         var cx = new CNTExporter();
                         cx.Export(SceneManager.Current.Models[0], sfdBrowse.FileName);
+                        SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(sfdBrowse.FileName)));
                     }
                     break;
             }
