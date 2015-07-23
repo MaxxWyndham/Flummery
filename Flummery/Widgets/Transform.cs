@@ -128,21 +128,6 @@ namespace Flummery.Controls
                 btnFreezeRotation.Enabled = true;
                 btnFreezeScale.Enabled = true;
 
-                OpenTK.Vector3 vs = new OpenTK.Vector3();
-                OpenTK.Vector3 vt = new OpenTK.Vector3();
-                Quaternion qr = new Quaternion();
-
-                if (!bone.Transform.Decompose(out vs, out qr, out vt))
-                {
-                    Console.WriteLine("Shit dude");
-                }
-                else
-                {
-                    Console.WriteLine("position: {0}", vt);
-                    Console.WriteLine("rotation: {0}", qr);
-                    Console.WriteLine("scale   : {0}", vs);
-                }
-
                 var p = bone.Transform.ExtractTranslation();
                 var rq = bone.Transform.ExtractRotation();
                 var s = bone.Transform.ExtractScale();

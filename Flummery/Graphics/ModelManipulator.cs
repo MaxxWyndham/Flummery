@@ -325,6 +325,32 @@ namespace Flummery
             model.BoundingBox.Calculate(model);
         }
 
+        public static void Freeze(Model model, Matrix4 matrix)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                Matrix4 o = mesh.Parent.Transform;
+                Vector3 p = Vector3.Transform(o.ExtractTranslation(), matrix);
+                Vector3 e = o.ExtractRotation().ToEuler(RotationOrder.OrderXYZ);
+
+                o = Matrix4.CreateFromQuaternion(
+                    Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians( e.X)) *
+                    Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(-e.Y)) *
+                    Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(-e.Z))
+                );
+
+                o.M41 = p.X;
+                o.M42 = p.Y;
+                o.M43 = p.Z;
+
+                mesh.Parent.Transform = matrix;
+
+                ModelManipulator.Freeze(mesh, FreezeComponents.Rotation);
+
+                mesh.Parent.Transform = o;
+            }
+        }
+
         public static void FlipUVs(ModelMesh model)
         {
             var flip = new Vector4(1, -1, 1, -1);

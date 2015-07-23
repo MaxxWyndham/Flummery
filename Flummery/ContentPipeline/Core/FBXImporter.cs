@@ -34,9 +34,6 @@ namespace Flummery.ContentPipeline.Core
             RotationOrder order;
             var worldMatrix = createTransformFor(fbx.Elements.Find(e => e.ID == "GlobalSettings").Children[1], out order);
 
-            Console.WriteLine();
-            var header = fbx.FBXHeaderExtension.Children.Find(e => e.ID == "SceneInfo").Children.Find(e => e.ID == "Properties70").Children.GetProperty("Original|ApplicationName");
-
             foreach (var material in objects.Children.Where(e => e.ID == "Material"))
             {
                 string matName = material.Properties[1].Value.ToString();
@@ -128,8 +125,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("scalingPivot {0}", scalingPivot);
                 }
 
                 property = properties.Children.GetProperty("Lcl Scaling");
@@ -140,8 +135,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("lclScaling {0}", lclScaling);
                 }
 
                 property = properties.Children.GetProperty("ScalingOffset");
@@ -152,8 +145,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("scalingOffset {0}", scalingOffset);
                 }
 
                 property = properties.Children.GetProperty("RotationPivot");
@@ -164,8 +155,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("rotationPivot {0}", rotationPivot);
                 }
 
                 property = properties.Children.GetProperty("PostRotation");
@@ -177,8 +166,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[6].Value),
                         order
                     );
-
-                    Console.WriteLine("postRotation {0}", postRotation);
                 }
 
                 property = properties.Children.GetProperty("Lcl Rotation");
@@ -190,11 +177,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[6].Value),
                         order
                     );
-
-                    //lclRotation = (Matrix4.CreateFromQuaternion(lclRotation) * worldMatrix).ExtractRotation();
-
-                    Console.WriteLine("lclRotation {0}", lclRotation);
-                    Console.WriteLine("lclRotationMatrix {0}", Matrix4.CreateFromQuaternion(lclRotation));
                 }
 
                 property = properties.Children.GetProperty("PreRotation");
@@ -206,8 +188,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[6].Value),
                         order
                     );
-
-                    Console.WriteLine("preRotation {0}", preRotation);
                 }
 
                 property = properties.Children.GetProperty("RotationOffset");
@@ -218,8 +198,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("rotationOffset {0}", rotationOffset);
                 }
 
                 property = properties.Children.GetProperty("Lcl Translation");
@@ -230,12 +208,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("lclTranslation {0}", lclTranslation);
-
-                    //lclTranslation = OpenTK.Vector3.Transform(lclTranslation, worldMatrix);
-
-                    Console.WriteLine("lclTranslation {0}", lclTranslation);
                 }
 
                 property = properties.Children.GetProperty("GeometricTranslation");
@@ -246,8 +218,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("geoPosition {0}", geoPosition);
                 }
 
                 property = properties.Children.GetProperty("GeometricRotation");
@@ -259,8 +229,6 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[6].Value),
                         order
                     );
-
-                    Console.WriteLine("geoRotation {0}", geoRotation);
                 }
 
                 property = properties.Children.GetProperty("GeometricScaling");
@@ -271,30 +239,9 @@ namespace Flummery.ContentPipeline.Core
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
                     );
-
-                    Console.WriteLine("geoScale {0}", geoScale);
                 }
 
-                Console.WriteLine("bRotationActive : {0} || Order : {1}", bRotationActive, order);
-
-                //m *= Matrix4.CreateTranslation(-scalingPivot);
-                //m *= Matrix4.CreateScale(lclScaling);
-                //m *= Matrix4.CreateTranslation(scalingOffset + scalingPivot - rotationPivot);
-
-                //if (bRotationActive)
-                //{
-                //    m *= worldMatrix;
-                //    m *= Matrix4.CreateFromQuaternion((postRotation * lclRotation * preRotation).Normalized());
-                //}
-                //else
-                //{
-                //    m *= Matrix4.CreateFromQuaternion(lclRotation);
-                //}
-
-                //m *= Matrix4.CreateTranslation(lclTranslation + rotationOffset + rotationPivot);
-
-
-                m = 
+                m =
                     Matrix4.CreateTranslation(scalingPivot).Inverted() *
                     Matrix4.CreateScale(lclScaling) *
                     Matrix4.CreateTranslation(scalingPivot) *
@@ -306,62 +253,6 @@ namespace Flummery.ContentPipeline.Core
                     Matrix4.CreateTranslation(rotationPivot) *
                     Matrix4.CreateTranslation(rotationOffset) *
                     Matrix4.CreateTranslation(lclTranslation);
-
-                //m = Matrix4.CreateTranslation(lclTranslation) *
-                //    Matrix4.CreateTranslation(rotationOffset) *
-                //    Matrix4.CreateTranslation(rotationPivot) *
-                //    Matrix4.CreateFromQuaternion(preRotation) *
-                //    Matrix4.CreateFromQuaternion(lclRotation) *
-                //    Matrix4.CreateFromQuaternion(postRotation) *
-                //    Matrix4.CreateTranslation(rotationPivot).Inverted() *
-                //    Matrix4.CreateTranslation(scalingOffset) *
-                //    Matrix4.CreateTranslation(scalingPivot) *
-                //    Matrix4.CreateScale(lclScaling) *
-                //    Matrix4.CreateTranslation(scalingPivot).Inverted();
-
-                
-                //m *= Matrix4.CreateTranslation(-scalingPivot);
-                //m *= Matrix4.CreateScale(lclScaling);
-                //m *= Matrix4.CreateTranslation(scalingOffset + scalingPivot - rotationPivot);
-
-                //if (bRotationActive)
-                //{
-                //    m *= worldMatrix;
-                //    m *= Matrix4.CreateFromQuaternion((postRotation * lclRotation * preRotation).Normalized());
-                //}
-                //else
-                //{
-                //    m *= Matrix4.CreateFromQuaternion(lclRotation);
-                //}
-
-                
-
-                OpenTK.Vector3 s = new OpenTK.Vector3();
-                OpenTK.Vector3 t = new OpenTK.Vector3();
-                Quaternion r = new Quaternion();
-
-                if (!m.Decompose(out s, out r, out t))
-                {
-                    Console.WriteLine("Shit dude");
-                }
-                else
-                {
-                    Console.WriteLine("position: {0}", t);
-                    Console.WriteLine("rotation: {0}", r);
-                    Console.WriteLine("scale   : {0}", s);
-                }
-
-                //m = scalingPivot.Inverted() *
-                //    lclScaling *
-                //    scalingPivot *
-                //    scalingOffset *
-                //    rotationPivot.Inverted() *
-                //    postRotation *
-                //    lclRotation *
-                //    preRotation *
-                //    rotationPivot *
-                //    rotationOffset *
-                //    lclTranslation;
 
                 if (m != Matrix4.Identity) { transforms.Add((long)element.Properties[0].Value, m); }
             }
@@ -384,10 +275,9 @@ namespace Flummery.ContentPipeline.Core
                 var colours = new List<OpenTK.Graphics.Color4>();
 
                 var vertParts = (double[])element.Children.Find(e => e.ID == "Vertices").Properties[0].Value;
-                for (int i = 0; i < vertParts.Length; i += 3) 
+                for (int i = 0; i < vertParts.Length; i += 3)
                 {
-                    //verts.Add(OpenTK.Vector3.Transform(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2]), worldMatrix)); 
-                    verts.Add(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2])); 
+                    verts.Add(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2]));
                 }
 
                 SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Vertices", element.Properties[1].Value));
@@ -398,7 +288,6 @@ namespace Flummery.ContentPipeline.Core
                     var normParts = (double[])normElem.Children.Find(e => e.ID == "Normals").Properties[0].Value;
                     for (int i = 0; i < normParts.Length; i += 3)
                     {
-                        //norms.Add(OpenTK.Vector3.Transform(new OpenTK.Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]), worldMatrix));
                         norms.Add(new OpenTK.Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]));
                     }
 
@@ -598,7 +487,7 @@ namespace Flummery.ContentPipeline.Core
                             {
                                 boneID = model.AddMesh((ModelMesh)components[keyA]);
                                 model.SetName(((ModelMesh)components[keyA]).Name, boneID);
-                                if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }// else { model.SetTransform(worldMatrix, boneID); }
+                                if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }
                             }
                             else
                             {
@@ -659,7 +548,7 @@ namespace Flummery.ContentPipeline.Core
                             {
                                 var materialLookup = connections.Children.Where(c => (long)c.Properties[2].Value == keyB).ToList();
                                 for (int i = materialLookup.Count - 1; i > -1; i--) { if (!connectionsOfType.Any(c => (long)c.Properties[1].Value == (long)materialLookup[i].Properties[1].Value)) { materialLookup.RemoveAt(i); } }
-                        
+
                                 foreach (var part in ((ModelMesh)components[keyB]).MeshParts)
                                 {
                                     if ((long)materialLookup[(int)part.Key].Properties[1].Value == keyA)
@@ -700,15 +589,14 @@ namespace Flummery.ContentPipeline.Core
 
                 model.Santise();
 
+                if (worldMatrix != Matrix4.Identity) { ModelManipulator.Freeze(model, worldMatrix); }
+
                 return model;
             }
         }
 
-        public Quaternion MakeQuaternion(Single x, Single y, Single z, RotationOrder order, bool debug = true)
+        public Quaternion MakeQuaternion(Single x, Single y, Single z, RotationOrder order)
         {
-            Console.WriteLine("Creating Quaternion :");
-            Console.WriteLine("({0}, {1}, {2})", x, y, z);
-
             Quaternion q = Quaternion.Identity;
 
             switch (order)
@@ -719,27 +607,9 @@ namespace Flummery.ContentPipeline.Core
                         Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians(x));
                     break;
 
-                case RotationOrder.OrderXZY:
-                    q = Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(y)) *
-                        Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(z)) *
-                        Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians(x));
-                    break;
-
-                case RotationOrder.OrderYZX:
-                    q = Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians(x)) *
-                        Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(z)) *
-                        Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(y));
-                    break;
-
                 default:
                     throw new NotImplementedException(string.Format("Unhandled RotationOrder: {0}", order));
             }
-
-            Console.WriteLine(q);
-
-            var e = q.ToEuler(order);
-            Console.WriteLine(e);
-            if (debug) { MakeQuaternion(e.X, e.Y, e.Z, order, false); }
 
             return q;
         }
