@@ -195,7 +195,7 @@ namespace Flummery
         {
             this.coords = c;
 
-            if (c == CoordinateSystem.LeftHanded)
+            if (c == CoordinateSystem.RightHanded)
             {
                 this.sceneTransform = Matrix4.Identity;
                 this.frontFace = FrontFaceDirection.Ccw;

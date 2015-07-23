@@ -117,6 +117,7 @@ namespace Flummery
                     {
                         GL.PushMatrix();
 
+                        GL.MultMatrix(ref mS);
                         GL.MultMatrix(ref mT);
 
                         model.Draw();

@@ -276,6 +276,7 @@ namespace Flummery
 
             Matrix4 m = Matrix4.CreateTranslation(20, 20, 0);
             Matrix4 c = camera.View;
+            Matrix4 s = SceneManager.Current.Transform;
             c = c.ClearTranslation();
 
             tw.Draw();
@@ -285,6 +286,7 @@ namespace Flummery
 
             GL.MultMatrix(ref m);
             GL.MultMatrix(ref c);
+            GL.MultMatrix(ref s);
 
             GL.Begin(PrimitiveType.LineStrip);
             GL.Color4(Color.Blue);

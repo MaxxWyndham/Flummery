@@ -93,12 +93,12 @@ namespace Flummery
 
         private void UpdateViewMatrix()
         {
-            cameraRotation.NormaliseForward();
             cameraRotation.NormaliseUp();
             cameraRotation.NormaliseRight();
+            cameraRotation.NormaliseForward();
 
-            cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Right(), pitch);
             cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Up(), yaw);
+            cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Right(), pitch);
             cameraRotation *= Matrix4.CreateFromAxisAngle(cameraRotation.Forward(), roll);
 
             yaw = 0.0f;
@@ -170,11 +170,11 @@ namespace Flummery
             this.roll = roll;
         }
 
-        public void Rotate(float yaw = 0, float pitch = 0, float roll = 0)
+        public void Rotate(float yaw = 0, float pitch = 0, float roll = 0, bool bApplySpeed = true)
         {
-            this.yaw += yaw * rotationSpeed;
-            this.pitch += pitch * rotationSpeed;
-            this.roll += roll * rotationSpeed;
+            this.yaw += yaw * (bApplySpeed ? rotationSpeed : 1);
+            this.pitch += pitch * (bApplySpeed ? rotationSpeed : 1);
+            this.roll += roll * (bApplySpeed ? rotationSpeed : 1);
         }
 
         public void Translate(float X = 0, float Y = 0, float Z = 0)
