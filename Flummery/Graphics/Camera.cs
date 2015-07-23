@@ -4,7 +4,7 @@ using OpenTK.Input;
 
 namespace Flummery
 {
-    public enum Projection
+    public enum ProjectionType
     {
         Orthographic,
         Perspective
@@ -25,20 +25,30 @@ namespace Flummery
         private Vector3 position;
         private Vector3 target = Vector3.Zero;
 
-        public Matrix4 viewMatrix, projectionMatrix;
+        private Matrix4 viewMatrix, projectionMatrix;
 
         private float yaw, pitch, roll;
         private float speed, rotationSpeed, zoomSpeed;
         private Matrix4 cameraRotation;
 
-        Projection projectionMode = Projection.Perspective;
+        ProjectionType projectionMode = ProjectionType.Perspective;
 
         public Vector3 Position { get { return position; } }
         public float Speed { get { return speed; } }
         public float RotationSpeed { get { return rotationSpeed; } }
         public float ZoomSpeed { get { return zoomSpeed; } }
 
-        public Projection ProjectionMode
+        public Matrix4 View
+        {
+            get { return viewMatrix; }
+        }
+
+        public Matrix4 Projection
+        {
+            get { return projectionMatrix; }
+        }
+
+        public ProjectionType ProjectionMode
         {
             get { return projectionMode; }
             set { projectionMode = value; }
@@ -95,7 +105,7 @@ namespace Flummery
             pitch = 0.0f;
             roll = 0.0f;
 
-            position = target - (cameraRotation.Forward() * (projectionMode == Projection.Perspective ? zoom : 25));
+            position = target - (cameraRotation.Forward() * (projectionMode == ProjectionType.Perspective ? zoom : 25));
 
             viewMatrix = Matrix4.LookAt(position, target, cameraRotation.Up());
         }

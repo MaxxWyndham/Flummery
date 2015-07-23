@@ -260,7 +260,7 @@ namespace Flummery
 
         public void Draw(Camera camera)
         {
-            Matrix4 lookat = camera.viewMatrix;
+            Matrix4 lookat = camera.View;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
 

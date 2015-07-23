@@ -35,7 +35,7 @@ namespace Flummery
         Size oldheight;
         Quadrant oldposition;
 
-        Projection mode = Projection.Perspective;
+        ProjectionType mode = ProjectionType.Perspective;
         Vector3 axis = Vector3.UnitY;
         TextWriter tw;
 
@@ -62,7 +62,7 @@ namespace Flummery
             set { name = value; }
         }
 
-        public Projection ProjectionMode
+        public ProjectionType ProjectionMode
         {
             get { return mode; }
             set 
@@ -117,11 +117,11 @@ namespace Flummery
 
         public Vector3 ConvertScreenToWorldCoords(int X, int Y)
         {
-            if (mode != Projection.Orthographic) { return Vector3.Zero; }
+            if (mode != ProjectionType.Orthographic) { return Vector3.Zero; }
 
             var m = SceneManager.Current.Transform;
 
-            Matrix4 lookat = camera.viewMatrix;
+            Matrix4 lookat = camera.View;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
             GL.MultMatrix(ref m);
@@ -193,6 +193,7 @@ namespace Flummery
 
             tw = new TextWriter(vw, vh, vw, vh);
             tw.AddLine(name, new PointF(5, 5), Brushes.Blue);
+            //tw.AddLine(name, new PointF(vw / 2 + 9, vh / 2 - 5), Brushes.Red, Fonts.AxisLabel);
 
             x = (xo * 2) + 1 + (vw * xo);
             y = (yo * 2) + 1 + (vh * yo);
@@ -226,7 +227,7 @@ namespace Flummery
         {
             GL.ClearColor(Color.FromArgb(0x9D9D9D));
 
-            if (mode == Projection.Orthographic) { perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 100); }
+            if (mode == ProjectionType.Orthographic) { perspective = Matrix4.CreateOrthographic(4 * camera.Zoom, (4 / aspect_ratio) * camera.Zoom, 0.001f, 100); }
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perspective);
@@ -258,8 +259,6 @@ namespace Flummery
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
 
-            tw.Draw();
-
             GL.Begin(PrimitiveType.LineStrip);
             GL.Color4(Color.Blue);
             GL.LineWidth(1);
@@ -267,6 +266,54 @@ namespace Flummery
             GL.Vertex2(4, vh - 4); GL.Vertex2(42, vh - 4);
             GL.Vertex2(42, vh - 20); GL.Vertex2(4, vh - 20);
             GL.Vertex2(4, vh - 4);
+            GL.End();
+
+            Matrix4 m = Matrix4.CreateTranslation(20, 20, 0);
+            Matrix4 c = camera.View;
+            c = c.ClearTranslation();
+
+            tw.Draw();
+
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.Disable(EnableCap.CullFace);
+
+            GL.MultMatrix(ref m);
+            GL.MultMatrix(ref c);
+
+            GL.Begin(PrimitiveType.LineStrip);
+            GL.Color4(Color.Blue);
+            GL.LineWidth(2);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(10, 0, 0);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Triangles);
+            GL.Color4(Color.Blue);
+            GL.Vertex3(10, -2, 0); GL.Vertex3(15, 0, 0); GL.Vertex3(10, 2, 0);
+            GL.Vertex3(10, 0, -2); GL.Vertex3(15, 0, 0); GL.Vertex3(10, 0, 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineStrip);
+            GL.Color4(Color.Green);
+            GL.LineWidth(2);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 10, 0);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Triangles);
+            GL.Color4(Color.Green);
+            GL.Vertex3(-2, 10,  0); GL.Vertex3(0, 15, 0); GL.Vertex3(2, 10, 0);
+            GL.Vertex3( 0, 10, -2); GL.Vertex3(0, 15, 0); GL.Vertex3(0, 10, 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineStrip);
+            GL.Color4(Color.Red);
+            GL.LineWidth(2);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, 10);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Triangles);
+            GL.Color4(Color.Red);
+            GL.Vertex3( 0, -2, 10); GL.Vertex3(0, 0, 15); GL.Vertex3(0, 2, 10);
+            GL.Vertex3(-2,  0, 10); GL.Vertex3(0, 0, 15); GL.Vertex3(2, 0, 10);
             GL.End();
 
             GL.Enable(EnableCap.DepthTest);

@@ -44,15 +44,15 @@ namespace Flummery
 
         public ViewportManager()
         {
-            var top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = Projection.Orthographic };
+            var top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = ProjectionType.Orthographic };
             top.Camera.SetPosition(0, 15, 0);
             top.Camera.SetRotation(0, MathHelper.DegreesToRadians(-90), 0);
 
-            var right = new Viewport { Name = "Side", Position = Viewport.Quadrant.TopRight, ProjectionMode = Projection.Orthographic };
+            var right = new Viewport { Name = "Side", Position = Viewport.Quadrant.TopRight, ProjectionMode = ProjectionType.Orthographic };
             right.Camera.SetPosition(15, 0, 0);
             right.Camera.SetRotation(MathHelper.DegreesToRadians(90), 0, 0);
 
-            var front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = Projection.Orthographic };
+            var front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = ProjectionType.Orthographic };
             front.Camera.SetPosition(0, 0, 15);
 
             var threedee = new Viewport { Name = "3D", Position = Viewport.Quadrant.BottomRight };
@@ -220,7 +220,7 @@ namespace Flummery
                     break;
 
                 case MouseMode.Rotate:
-                    if (active.ProjectionMode == Projection.Perspective)
+                    if (active.ProjectionMode == ProjectionType.Perspective)
                     {
                         active.Camera.Rotate(diffX, diffY);
                     }

@@ -2,18 +2,29 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
+
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
 {
+    public enum Fonts
+    {
+        ViewportLabel,
+        AxisLabel
+    }
+
     public class TextWriter
     {
-        private readonly Font textFont = new Font(FontFamily.GenericSansSerif, 8);
+        List<Font> fonts = new List<Font> {
+            new Font(FontFamily.GenericSansSerif, 8),
+            new Font(FontFamily.GenericSansSerif, 5, FontStyle.Bold)
+        };
+
+        List<TextEntry> lines;
+
         private readonly Bitmap textBitmap;
-        private List<PointF> positions;
-        private List<string> lines;
-        private List<Brush> colours;
         private int textureID;
         private Size clientSize;
 
@@ -21,16 +32,14 @@ namespace Flummery
         {
             if (ind < lines.Count)
             {
-                lines[ind] = newText;
+                //lines[ind] = newText;
                 UpdateText();
             }
         }
 
         public TextWriter(int viewportWidth, int viewportHeight, int width, int height)
         {
-            positions = new List<PointF>();
-            lines = new List<string>();
-            colours = new List<Brush>();
+            lines = new List<TextEntry>();
 
             textBitmap = new Bitmap(width, height);
             this.clientSize = new Size(viewportWidth, viewportHeight);
@@ -66,15 +75,20 @@ namespace Flummery
         public void Clear()
         {
             lines.Clear();
-            positions.Clear();
-            colours.Clear();
         }
 
-        public void AddLine(string s, PointF pos, Brush col)
+        public void AddLine(string s, PointF pos, Brush col, Fonts font = Fonts.ViewportLabel)
         {
-            lines.Add(s);
-            positions.Add(pos);
-            colours.Add(col);
+            lines.Add(
+                new TextEntry
+                {
+                    Text = s,
+                    Position = pos,
+                    Colour = col,
+                    Font = font
+                }
+            );
+
             UpdateText();
         }
 
@@ -85,14 +99,18 @@ namespace Flummery
                 using (Graphics gfx = Graphics.FromImage(textBitmap))
                 {
                     gfx.Clear(Color.Black);
-                    gfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+
+                    gfx.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+
                     for (int i = 0; i < lines.Count; i++)
-                        gfx.DrawString(lines[i], textFont, colours[i], positions[i]);
+                    {
+                        gfx.DrawString(lines[i].Text, fonts[(int)lines[i].Font], lines[i].Colour, lines[i].Position);
+                    }
                 }
 
                 textBitmap.MakeTransparent(Color.Black);
 
-                System.Drawing.Imaging.BitmapData data = textBitmap.LockBits(new Rectangle(0, 0, textBitmap.Width, textBitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                BitmapData data = textBitmap.LockBits(new Rectangle(0, 0, textBitmap.Width, textBitmap.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, textBitmap.Width, textBitmap.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
                 textBitmap.UnlockBits(data);
             }
@@ -121,6 +139,38 @@ namespace Flummery
 
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.Texture2D);
+        }
+    }
+
+    public class TextEntry
+    {
+        PointF position;
+        string text;
+        Brush colour;
+        Fonts font;
+
+        public PointF Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        public string Text
+        {
+            get { return text; }
+            set { text = value; }
+        }
+
+        public Brush Colour
+        {
+            get { return colour; }
+            set { colour = value; }
+        }
+
+        public Fonts Font
+        {
+            get { return font; }
+            set { font = value; }
         }
     }
 }
