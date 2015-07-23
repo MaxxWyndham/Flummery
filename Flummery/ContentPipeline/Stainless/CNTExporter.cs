@@ -45,11 +45,11 @@ namespace Flummery.ContentPipeline.Stainless
 
                     if (cnt.EmbeddedLight)
                     {
-                        cnt.LightName = bone.AttachmentFile;
+                        cnt.Light = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT)bone.Attachment;                        
                     }
                     else
                     {
-                        cnt.Light = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT)bone.Attachment;
+                        cnt.LightName = bone.AttachmentFile;
                     }
                     break;
 
