@@ -29,6 +29,7 @@ namespace Flummery
             this.Transform.RegisterEventHandlers();
 
             SceneManager.Current.OnSelect += scene_OnSelect;
+            SceneManager.Current.OnReset += scene_OnReset;
         }
 
         void scene_OnSelect(object sender, SelectEventArgs e)
@@ -37,6 +38,12 @@ namespace Flummery
 
             this.Transform.Visible = (bone != null);
             this.Lighting.Visible = (bone.Type == BoneType.Light);
+        }
+
+        private void scene_OnReset(object sender, ResetEventArgs e)
+        {
+            this.Transform.Visible = false;
+            this.Lighting.Visible = false;
         }
     }
 }
