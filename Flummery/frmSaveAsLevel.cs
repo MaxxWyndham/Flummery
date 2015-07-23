@@ -160,7 +160,7 @@ namespace Flummery
                         w.WriteLine("\t<BasedOffOf Name=\"simple_base\"/>");
                         w.WriteLine("\t<Walkable Value=\"TRUE\" />");
                         w.WriteLine("\t<Pass Number=\"0\">");
-                        w.WriteLine("\t\t<Texture Alias=\"DiffuseColour\" FileName=\"" + material.Texture.Name + "\"/>");
+                        w.WriteLine("\t\t<Texture Alias=\"DiffuseColour\" FileName=\"" + material.Texture.Name.Replace("&", "&amp;") + "\"/>");
                         w.WriteLine("\t</Pass>");
                         w.WriteLine("</Material>");
                     }
