@@ -164,7 +164,6 @@ namespace Flummery
         public static void FlipAxis(ModelMesh model, Axis axis, bool bApplyToHierarchy = false)
         {
             var transform = Vector3.One;
-            var transform4 = Vector4.One;
             var processed = new List<string>();
 
             var bones = (bApplyToHierarchy ? model.Parent.AllChildren() : new ModelBoneCollection { model.Parent });
@@ -173,17 +172,14 @@ namespace Flummery
             {
                 case Axis.X:
                     transform.X = -1.0f;
-                    transform4.X = -1.0f;
                     break;
 
                 case Axis.Y:
                     transform.Y = -1.0f;
-                    transform4.Y = -1.0f;
                     break;
 
                 case Axis.Z:
                     transform.Z = -1.0f;
-                    transform4.Z = -1.0f;
                     break;
             }
 
@@ -215,17 +211,7 @@ namespace Flummery
                     processed.Add(mesh.Name);
                 }
 
-                // There is probably a neater way of doing this
-                var boneTransform = bone.Transform;
-                var scale = new Vector3(boneTransform.M11, boneTransform.M22, boneTransform.M33);
-                boneTransform.Row0 = Vector4.Multiply(boneTransform.Row0, transform4);
-                boneTransform.Row1 = Vector4.Multiply(boneTransform.Row1, transform4);
-                boneTransform.Row2 = Vector4.Multiply(boneTransform.Row2, transform4);
-                boneTransform.Row3 = Vector4.Multiply(boneTransform.Row3, transform4);
-                boneTransform.M11 = scale.X;
-                boneTransform.M22 = scale.Y;
-                boneTransform.M33 = scale.Z;
-                bone.Transform = boneTransform;
+                bone.Transform = Matrix4.CreateScale(transform) * bone.Transform * Matrix4.CreateScale(transform);
             }
         }
 
