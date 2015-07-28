@@ -194,7 +194,7 @@ namespace Flummery
                 setup.Settings.SetParameterForMethod("TorqueCurve", "1", 150);
                 setup.Settings.SetParameterForMethod("TorqueCurve", "2", 232);
 
-                SceneManager.Current.Models[0].SupportingDocuments.Add("Setup", setup);
+                SceneManager.Current.Models[0].SupportingDocuments["Setup"] = setup;
 
                 var sx = new SetupLOLExporter();
                 sx.ExportSettings.AddSetting("Context", SetupContext.Vehicle);
