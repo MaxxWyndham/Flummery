@@ -1,15 +1,22 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+
 using ToxicRagers.Helpers;
 using ToxicRagers.Stainless.Formats;
+
 using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {
     class CNTExporter : ContentExporter
     {
+        static string rootPath;
+
         public override void Export(Asset asset, string path)
         {
+            rootPath = Path.GetDirectoryName(path);
+
             var model = (asset as Model);
             var cnt = new CNT();
 
@@ -50,6 +57,12 @@ namespace Flummery.ContentPipeline.Stainless
                     else
                     {
                         cnt.LightName = bone.AttachmentFile;
+
+                        var light = bone.Attachment as ToxicRagers.CarmageddonReincarnation.Formats.LIGHT;
+                        if (light != null)
+                        {
+                            light.Save(Path.Combine(rootPath, cnt.LightName + ".light"));
+                        }
                     }
                     break;
 
