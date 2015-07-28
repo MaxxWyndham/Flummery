@@ -290,73 +290,186 @@ namespace Flummery
                     }
                     break;
 
-                case "Process for Carmageddon Reincarnation":
-                    if (SceneManager.Current.Models.Count == 0) { return; }
+                case "Race":
+                    ofdBrowse.Filter = "Carmageddon 2 Race (*.act)|*.act";
 
-                    var bones = SceneManager.Current.Models[0].Bones[0].AllChildren();
-
-                    SceneManager.Current.UpdateProgress("Applying Carmageddon Reincarnation scale");
-
-                    ModelManipulator.Scale(bones, Matrix4.CreateScale(6.9f, 6.9f, -6.9f), true);
-                    ModelManipulator.FlipFaces(bones, true);
-
-                    SceneManager.Current.UpdateProgress("Fixing material names");
-
-                    foreach (var material in SceneManager.Current.Materials)
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        if (material.Name.Contains(".")) { material.Name = material.Name.Substring(0, material.Name.IndexOf(".")); }
-                        material.Name = material.Name.Replace("\\", "");
+                        string txtFile = Path.Combine(Path.GetDirectoryName(ofdBrowse.FileName), Path.GetFileNameWithoutExtension(ofdBrowse.FileName) + ".txt");
+
+                        Model race = SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        //if (File.Exists(txtFile)) { race.SupportingDocuments["TXT"] = ToxicRagers.Carmageddon2.Formats.Map.Load(txtFile); }
                     }
+                    break;
 
-                    SceneManager.Current.UpdateProgress("Processing powerups and accessories");
-
-                    for (int i = bones.Count - 1; i >= 0; i--)
+                case "Process Level for Carmageddon Reincarnation":
                     {
-                        var bone = bones[i];
+                        if (SceneManager.Current.Models.Count == 0) { return; }
 
-                        if (bone.Name.StartsWith("&"))
+                        var bones = SceneManager.Current.Models[0].Bones[0].AllChildren();
+
+                        SceneManager.Current.UpdateProgress("Applying Carmageddon Reincarnation scale");
+
+                        ModelManipulator.Scale(bones, Matrix4.CreateScale(6.9f, 6.9f, -6.9f), true);
+                        ModelManipulator.FlipFaces(bones, true);
+
+                        SceneManager.Current.UpdateProgress("Fixing material names");
+
+                        foreach (var material in SceneManager.Current.Materials)
                         {
-                            var entity = new Entity();
+                            if (material.Name.Contains(".")) { material.Name = material.Name.Substring(0, material.Name.IndexOf(".")); }
+                            material.Name = material.Name.Replace("\\", "");
+                        }
 
-                            if (bone.Name.StartsWith("&£"))
+                        SceneManager.Current.UpdateProgress("Processing powerups and accessories");
+
+                        for (int i = bones.Count - 1; i >= 0; i--)
+                        {
+                            var bone = bones[i];
+
+                            if (bone.Name.StartsWith("&"))
                             {
-                                string key = bone.Name.Substring(2, 2);
+                                var entity = new Entity();
 
-                                entity.UniqueIdentifier = "errol_B00BIE" + key + "_" + i.ToString("000");
-                                entity.EntityType = EntityType.Powerup;
-
-                                var pup = ToxicRagers.Carmageddon2.Powerups.LookupID(int.Parse(key));
-
-                                if (pup.InCR)
+                                if (bone.Name.StartsWith("&£"))
                                 {
-                                    entity.Name = "pup_" + pup.Name;
-                                    entity.Tag = pup.Model;
+                                    string key = bone.Name.Substring(2, 2);
+
+                                    entity.UniqueIdentifier = "errol_B00BIE" + key + "_" + i.ToString("000");
+                                    entity.EntityType = EntityType.Powerup;
+
+                                    var pup = ToxicRagers.Carmageddon2.Powerups.LookupID(int.Parse(key));
+
+                                    if (pup.InCR)
+                                    {
+                                        entity.Name = "pup_" + pup.Name;
+                                        entity.Tag = pup.Model;
+                                    }
+                                    else
+                                    {
+                                        entity.Name = "pup_Credits";
+                                        entity.Tag = pup.Model;
+                                    }
                                 }
                                 else
                                 {
-                                    entity.Name = "pup_Credits";
-                                    entity.Tag = pup.Model;
+                                    // accessory
+                                    entity.UniqueIdentifier = "errol_HEAD00" + bone.Name.Substring(1, 2) + "_" + i.ToString("000");
+                                    entity.EntityType = EntityType.Accessory;
+                                    entity.Name = "C2_" + bone.Mesh.Name.Substring(3);
                                 }
+
+                                entity.Transform = bone.CombinedTransform;
+                                entity.AssetType = AssetType.Sprite;
+                                SceneManager.Current.Entities.Add(entity);
+
+                                SceneManager.Current.Models[0].RemoveBone(bone.Index);
+                            }
+                        }
+
+                        SceneManager.Current.UpdateProgress("Processing complete!");
+
+                        SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
+
+                        SceneManager.Current.Change(ChangeType.Munge, -1);
+                    }
+                    break;
+
+                case "Process Car for Carmageddon Reincarnation":
+                    {
+                        if (SceneManager.Current.Models.Count == 0) { return; }
+
+                        var model = SceneManager.Current.Models[0];
+                        var bones = SceneManager.Current.Models[0].Bones[0].AllChildren();
+
+                        SceneManager.Current.UpdateProgress("Applying Carmageddon Reincarnation scale");
+
+                        ModelManipulator.Scale(bones, Matrix4.CreateScale(6.9f, 6.9f, -6.9f), true);
+                        ModelManipulator.FlipFaces(bones, true);
+
+                        SceneManager.Current.UpdateProgress("Fixing material names");
+
+                        foreach (var material in SceneManager.Current.Materials)
+                        {
+                            if (material.Name.Contains(".")) { material.Name = material.Name.Substring(0, material.Name.IndexOf(".")); }
+                            material.Name = material.Name.Replace("\\", "");
+                        }
+
+                        SceneManager.Current.UpdateProgress("Munging parts and fixing wheels");
+
+                        for (int i = 0; i < bones.Count; i++)
+                        {
+                            var bone = bones[i];
+
+                            if (i == 0)
+                            {
+                                bone.Name = "c_Body";
+                                bone.Mesh.Name = "c_Body";
                             }
                             else
                             {
-                                // accessory
-                                entity.UniqueIdentifier = "errol_HEAD00" + bone.Name.Substring(1, 2) + "_" + i.ToString("000");
-                                entity.EntityType = EntityType.Accessory;
-                                entity.Name = "C2_" + bone.Mesh.Name.Substring(3);
+                                bone.Name = Path.GetFileNameWithoutExtension(bone.Name);
                             }
 
-                            entity.Transform = bone.CombinedTransform;
-                            entity.AssetType = AssetType.Sprite;
-                            SceneManager.Current.Entities.Add(entity);
+                            switch (bone.Name.ToUpper())
+                            {
+                                case "C_BODY":
+                                    break;
 
-                            SceneManager.Current.Models[0].RemoveBone(bone.Index);
+                                case "FLPIVOT":
+                                case "FRPIVOT":
+                                    bone.Name = "Hub_" + bone.Name.ToUpper().Substring(0, 2);
+
+                                    if (bone.Transform.Position() == Vector3.Zero)
+                                    {
+                                        ModelManipulator.MungeMeshWithBone(bone.Children[0].Mesh, false);
+
+                                        var m = bone.Transform;
+                                        m.Row3 = bone.Children[0].Transform.Row3;
+                                        bone.Transform = m;
+
+                                        model.SetTransform(Matrix4.Identity, bone.Children[0].Index);
+                                    }
+                                    break;
+
+                                case "FLWHEEL":
+                                    bone.Name = "Wheel_FL";
+                                    model.ClearMesh(bone.Index);
+                                    model.SetTransform(Matrix4.CreateScale(1.25f, 1.25f, 1.25f) * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180)), bone.Index);
+                                    break;
+
+                                case "FRWHEEL":
+                                    bone.Name = "Wheel_FR";
+                                    model.ClearMesh(bone.Index);
+                                    model.SetTransform(Matrix4.CreateScale(1.25f, 1.25f, 1.25f), bone.Index);
+                                    break;
+
+                                case "RLWHEEL":
+                                case "RRWHEEL":
+                                    string suffix = bone.Name.ToUpper().Substring(0, 2);
+
+                                    bone.Name = "Hub_" + suffix;
+
+                                    if (bone.Transform.Position() == Vector3.Zero) { ModelManipulator.MungeMeshWithBone(bone.Mesh, false); }
+                                    model.ClearMesh(bone.Index);
+
+                                    int newBone = model.AddMesh(null, bone.Index);
+                                    model.SetName("Wheel_" + suffix, newBone);
+                                    model.SetTransform(Matrix4.CreateScale(1.25f, 1.25f, 1.25f) * (suffix == "RL" ? Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180)) : Matrix4.Identity), newBone);
+                                    break;
+
+                                default:
+                                    if (bone.Type == BoneType.Mesh) { ModelManipulator.MungeMeshWithBone(bone.Mesh, false); }
+                                    break;
+                            }
                         }
+
+                        SceneManager.Current.UpdateProgress("Processing complete!");
+
+                        SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
+
+                        SceneManager.Current.Change(ChangeType.Munge, -1);
                     }
-
-                    SceneManager.Current.UpdateProgress("Processing complete!");
-
-                    SceneManager.Current.Change(ChangeType.Munge, -1);
                     break;
             }
         }
