@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+
 using ToxicRagers.Helpers;
 
 namespace Flummery
@@ -71,7 +72,6 @@ namespace Flummery
 
         private void applyTransforms()
         {
-            var processed = new List<string>();
             var bones = (chkHierarchy.Checked ? SceneManager.Current.Models[modelIndex].Bones[boneIndex].AllChildren() : new ModelBoneCollection { SceneManager.Current.Models[modelIndex].Bones[boneIndex] });
 
             if (rdoScaling.Checked)
@@ -103,42 +103,11 @@ namespace Flummery
                 {
                     ModelManipulator.FlipAxis(SceneManager.Current.Models[modelIndex].Bones[boneIndex].Mesh, cboInvertAxis.SelectedItem.ToString().ToEnum<Axis>(), chkHierarchy.Checked);
                 }
-
-                if (rdoMeshBoneSwap.Checked)
+                else if (rdoMeshBoneSwap.Checked)
                 {
-                    var offset = (bones[0].Parent != null ? bones[0].Parent.Transform.ExtractTranslation() : OpenTK.Vector3.Zero);
-
-                    foreach (var bone in bones)
-                    {
-                        if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
-                        {
-                            var mesh = bone.Mesh;
-                            var meshoffset = mesh.BoundingBox.Centre;
-
-                            foreach (var meshpart in mesh.MeshParts)
-                            {
-                                for (int i = 0; i < meshpart.VertexCount; i++) { meshpart.VertexBuffer.ModifyVertexPosition(i, meshpart.VertexBuffer.Data[i].Position - meshoffset); }
-                                meshpart.VertexBuffer.Initialise();
-                            }
-                            mesh.BoundingBox.Calculate(mesh);
-
-                            var moffset = meshoffset - offset;
-                            offset = meshoffset;
-
-                            var m = bone.Transform;
-                            m.M41 += moffset.X;
-                            m.M42 += moffset.Y;
-                            m.M43 += moffset.Z;
-                            bone.Transform = m;
-
-                            processed.Add(mesh.Name);
-                        }
-
-                        //offset = bone.CombinedTransform.ExtractTranslation();
-                    }
+                    ModelManipulator.MungeMeshWithBone(bones);
                 }
-
-                if (rdoFlipWindingOrder.Checked)
+                else if (rdoFlipWindingOrder.Checked)
                 {
                     ModelManipulator.FlipFaces(bones, chkHierarchy.Checked);
                 }

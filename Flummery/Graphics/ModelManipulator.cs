@@ -352,6 +352,45 @@ namespace Flummery
             }
         }
 
+        public static void MungeMeshWithBone(ModelMesh mesh, bool bIncludeChildren = true)
+        {
+            MungeMeshWithBone(bIncludeChildren ? mesh.Parent.AllChildren() : new ModelBoneCollection { mesh.Parent });
+        }
+
+        public static void MungeMeshWithBone(ModelBoneCollection bones)
+        {
+            var processed = new List<string>();
+
+            var offset = (bones[0].Parent != null ? bones[0].Parent.Transform.ExtractTranslation() : OpenTK.Vector3.Zero);
+
+            foreach (var bone in bones)
+            {
+                if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
+                {
+                    var mesh = bone.Mesh;
+                    var meshoffset = mesh.BoundingBox.Centre;
+
+                    foreach (var meshpart in mesh.MeshParts)
+                    {
+                        for (int i = 0; i < meshpart.VertexCount; i++) { meshpart.VertexBuffer.ModifyVertexPosition(i, meshpart.VertexBuffer.Data[i].Position - meshoffset); }
+                        meshpart.VertexBuffer.Initialise();
+                    }
+                    mesh.BoundingBox.Calculate(mesh);
+
+                    var moffset = meshoffset - offset;
+                    offset = meshoffset;
+
+                    var m = bone.Transform;
+                    m.M41 += moffset.X;
+                    m.M42 += moffset.Y;
+                    m.M43 += moffset.Z;
+                    bone.Transform = m;
+
+                    processed.Add(mesh.Name);
+                }
+            }
+        }
+
         public static void SetVertexColour(ModelMesh model, int R, int G, int B, int A)
         {
             SetVertexColour(model, Color.FromArgb(A, R, G, B));
