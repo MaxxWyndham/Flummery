@@ -62,7 +62,7 @@ namespace Flummery
 
                                     int chunkSize = Math.Min(buffer.Count, 16383);
 
-                                    if (usedVerts.Count >= chunkSize)
+                                    if (j + 3 == buffer.Count || usedVerts.Count >= chunkSize)
                                     {
                                         if (usedVerts.Count == chunkSize) { j += 3; }
 
