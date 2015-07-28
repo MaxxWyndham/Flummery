@@ -34,6 +34,8 @@
             this.tvNodes = new System.Windows.Forms.TreeView();
             this.ilNodeIcons = new System.Windows.Forms.ImageList(this.components);
             this.lblCoords = new System.Windows.Forms.Label();
+            this.llblShoutOut = new System.Windows.Forms.LinkLabel();
+            this.ttOverview = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // tvNodes
@@ -81,11 +83,26 @@
             this.lblCoords.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblCoords.Click += new System.EventHandler(this.lblCoords_Click);
             // 
+            // llblShoutOut
+            // 
+            this.llblShoutOut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.llblShoutOut.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.llblShoutOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llblShoutOut.Location = new System.Drawing.Point(12, 229);
+            this.llblShoutOut.Name = "llblShoutOut";
+            this.llblShoutOut.Size = new System.Drawing.Size(133, 23);
+            this.llblShoutOut.TabIndex = 2;
+            this.llblShoutOut.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.llblShoutOut.Visible = false;
+            this.llblShoutOut.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llblShoutOut_LinkClicked);
+            // 
             // pnlOverview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(157, 261);
+            this.Controls.Add(this.llblShoutOut);
             this.Controls.Add(this.lblCoords);
             this.Controls.Add(this.tvNodes);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -100,5 +117,7 @@
         private System.Windows.Forms.TreeView tvNodes;
         private System.Windows.Forms.Label lblCoords;
         private System.Windows.Forms.ImageList ilNodeIcons;
+        private System.Windows.Forms.LinkLabel llblShoutOut;
+        private System.Windows.Forms.ToolTip ttOverview;
     }
 }

@@ -34,6 +34,14 @@ namespace Flummery
             n = n.Nodes.Add("Scene");
 
             tvNodes.Nodes[0].Expand();
+
+            llblShoutOut.Visible = true;
+            llblShoutOut.LinkVisited = false;
+
+            var contributor = FlummeryApplication.PickRandomContributor();
+            llblShoutOut.Text = contributor.Name;
+            llblShoutOut.Tag = contributor.Website;
+            ttOverview.SetToolTip(llblShoutOut, contributor.Website);
         }
 
         public void ProcessTree(Model m, int index, bool bReset = false)
@@ -274,6 +282,7 @@ namespace Flummery
 
         private void viewport_OnMouseMove(object sender, ViewportMouseMoveEventArgs e)
         {
+            llblShoutOut.Visible = false;
             lblCoords.Text = string.Format("{0:0.000}, {1:0.000}, {2:0.000}", e.Position.X, e.Position.Y, e.Position.Z);
         }
 
@@ -283,6 +292,12 @@ namespace Flummery
             {
                 Clipboard.SetText(lblCoords.Text);
             }
+        }
+
+        private void llblShoutOut_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            llblShoutOut.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://" + ((LinkLabel)sender).Tag.ToString());
         }
     }
 }
