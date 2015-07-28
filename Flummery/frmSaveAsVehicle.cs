@@ -178,6 +178,24 @@ namespace Flummery
 
             if (!File.Exists(txtPath.Text + "setup.lol"))
             {
+                Setup setup = new Setup(SetupContext.Vehicle);
+
+                setup.Settings.SetParameterForMethod("PowerMultiplier", "Value", 1.5f);
+                setup.Settings.SetParameterForMethod("TractionFactor", "Factor", 1.2f);
+                setup.Settings.SetParameterForMethod("RearGrip", "Value", 1.6f);
+                setup.Settings.SetParameterForMethod("FrontGrip", "Value", 1.7f);
+                setup.Settings.SetParameterForMethod("FrontRoll", "Value", 0.4f);
+                setup.Settings.SetParameterForMethod("RearRoll", "Value", 0.3f);
+                setup.Settings.SetParameterForMethod("FrontSuspGive", "Value", 0.1f);
+                setup.Settings.SetParameterForMethod("RearSuspGive", "Value", 0.08f);
+                setup.Settings.SetParameterForMethod("SteerCentreMultiplier", "Value", 2);
+                setup.Settings.SetParameterForMethod("DragCoefficient", "Value", 0.4f);
+                setup.Settings.SetParameterForMethod("Mass", "Value", 1300);
+                setup.Settings.SetParameterForMethod("TorqueCurve", "1", 150);
+                setup.Settings.SetParameterForMethod("TorqueCurve", "2", 232);
+
+                SceneManager.Current.Models[0].SupportingDocuments.Add("Setup", setup);
+
                 var sx = new SetupLOLExporter();
                 sx.ExportSettings.AddSetting("Context", SetupContext.Vehicle);
                 sx.Export(SceneManager.Current.Models[0], txtPath.Text);
