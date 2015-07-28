@@ -287,7 +287,7 @@ namespace Flummery
             {
                 w.WriteLine("view:loadSky(\"sky\")");
                 w.WriteLine("view:loadLight(\"sun\")");
-                w.WriteLine("view:loadPostFX(\"post_process.default\")");
+                w.WriteLine("view:loadPostFX(\"post_process." + txtLevel.Text.ToLower().Replace(" ", "_") + "\")");
                 //w.WriteLine("view:loadShProbes(\"Reprocessor\")");
                 w.WriteLine("if view.setBigShadowMapAutoFitEnabled ~= nil then");
                 w.WriteLine("  view:setBigShadowMapAutoFitEnabled(false)");
@@ -370,6 +370,17 @@ namespace Flummery
                 cnt.LightName = "sun";
 
                 cnt.Save(Path.Combine(txtPath.Text, "sun.cnt"));
+            }
+
+            if (!Directory.Exists(Path.Combine(txtPath.Text, "post_process")))
+            {
+                Directory.CreateDirectory(Path.Combine(txtPath.Text, "post_process"));
+            }
+
+            if (!File.Exists(Path.Combine(txtPath.Text, "post_process", txtLevel.Text.ToLower().Replace(" ", "_") + ".lol")))
+            {
+                var postFX = new ToxicRagers.CarmageddonReincarnation.Formats.PostFX();
+                postFX.Save(Path.Combine(txtPath.Text, "post_process", txtLevel.Text.ToLower().Replace(" ", "_") + ".lol"));
             }
 
             lblProgress.Text = "✓";
