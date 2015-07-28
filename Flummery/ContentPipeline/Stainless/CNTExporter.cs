@@ -32,9 +32,9 @@ namespace Flummery.ContentPipeline.Stainless
 
             cnt.Name = bone.Name;
             cnt.Transform = new Matrix3D(
-                                bone.Transform.M11, bone.Transform.M21, bone.Transform.M31,
-                                bone.Transform.M12, bone.Transform.M22, bone.Transform.M32,
-                                bone.Transform.M13, bone.Transform.M23, bone.Transform.M33,
+                                bone.Transform.M11, bone.Transform.M12, bone.Transform.M13,
+                                bone.Transform.M21, bone.Transform.M22, bone.Transform.M23,
+                                bone.Transform.M31, bone.Transform.M32, bone.Transform.M33,
                                 bone.Transform.M41, bone.Transform.M42, bone.Transform.M43
                             );
 
