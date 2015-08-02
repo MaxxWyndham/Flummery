@@ -64,17 +64,17 @@ namespace Flummery.ContentPipeline.Core
                         t = SceneManager.Current.Content.Load<Texture, PNGImporter>(Path.GetFileNameWithoutExtension(file));
                         break;
 
+                    case ".tif":
+                        t = SceneManager.Current.Content.Load<Texture, TIFImporter>(Path.GetFileNameWithoutExtension(file));
+                        break;
+
                     case ".tga":
                         t = SceneManager.Current.Content.Load<Texture, TGAImporter>(Path.GetFileNameWithoutExtension(file));
                         break;
 
-                    case ".dds":
-                    case ".psd":
+                    default:
                         t = new Texture();
                         break;
-
-                    default:
-                        throw new NotImplementedException("Can't load texture \"" + file + "\"");
                 }
 
                 if (!components.ContainsKey((long)texture.Properties[0].Value))
