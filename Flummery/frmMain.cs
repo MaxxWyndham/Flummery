@@ -458,6 +458,10 @@ namespace Flummery
                                     model.SetTransform(Matrix4.CreateScale(1.25f, 1.25f, 1.25f) * (suffix == "RL" ? Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180)) : Matrix4.Identity), newBone);
                                     break;
 
+                                case "DRIVER":
+                                    bone.Name = "Dryver";
+                                    break;
+
                                 default:
                                     if (bone.Type == BoneType.Mesh) { ModelManipulator.MungeMeshWithBone(bone.Mesh, false); }
                                     break;
