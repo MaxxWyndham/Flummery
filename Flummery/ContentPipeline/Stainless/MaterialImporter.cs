@@ -55,12 +55,11 @@ namespace Flummery.ContentPipeline.Stainless
 
                 if (fileName == null || fileName == "")
                 {
-                    return new Material() { Name = name, Texture = new Texture() { Name = fileName } };
+                    return new Material { Name = name, Texture = new Texture() { Name = fileName } };
                 }
                 else
                 {
-                    path = path.Substring(0, path.LastIndexOf("\\") + 1);
-                    return new Material() { Name = name, Texture = SceneManager.Current.Content.Load<Texture, TDXImporter>(fileName, path) };
+                    return new Material { Name = name, Texture = SceneManager.Current.Content.Load<Texture, TDXImporter>(fileName, Path.GetDirectoryName(path)) };
                 }
             }
             else

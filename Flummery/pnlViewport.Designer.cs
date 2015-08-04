@@ -53,6 +53,7 @@
             this.tsbRotate = new System.Windows.Forms.ToolStripButton();
             this.tssBar1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbFrame = new System.Windows.Forms.ToolStripButton();
+            this.tslContext = new System.Windows.Forms.ToolStripLabel();
             this.cmsViewport.SuspendLayout();
             this.tscViewport.ContentPanel.SuspendLayout();
             this.tscViewport.TopToolStripPanel.SuspendLayout();
@@ -217,7 +218,8 @@
             this.tsbZoom,
             this.tsbRotate,
             this.tssBar1,
-            this.tsbFrame});
+            this.tsbFrame,
+            this.tslContext});
             this.tsStatic.Location = new System.Drawing.Point(0, 0);
             this.tsStatic.Name = "tsStatic";
             this.tsStatic.Size = new System.Drawing.Size(547, 25);
@@ -291,6 +293,12 @@
             this.tsbFrame.ToolTipText = "Frame (F)";
             this.tsbFrame.Click += new System.EventHandler(this.tsbFrame_Click);
             // 
+            // tslContext
+            // 
+            this.tslContext.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tslContext.Name = "tslContext";
+            this.tslContext.Size = new System.Drawing.Size(0, 22);
+            // 
             // pnlViewport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -338,5 +346,6 @@
         private System.Windows.Forms.ToolStripButton tsbRotate;
         private System.Windows.Forms.ToolStripSeparator tssBar1;
         private System.Windows.Forms.ToolStripButton tsbFrame;
+        private System.Windows.Forms.ToolStripLabel tslContext;
     }
 }
