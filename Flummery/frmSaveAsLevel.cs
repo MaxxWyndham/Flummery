@@ -337,13 +337,13 @@ namespace Flummery
                 sun.Range = 100;
                 sun.Inner = 22.5f;
                 sun.Outer = 45;
-                sun.R = 191 / 255.0f;
-                sun.G = 159 / 255.0f;
-                sun.B = 64 / 255.0f;
-                sun.Intensity = 0.8f;
+                sun.R = 255 / 255.0f;
+                sun.G = 234 / 255.0f;
+                sun.B = 170 / 255.0f;
+                sun.Intensity = 1.0f;
                 sun.Flags = LIGHT.LightFlags.CastShadow;
-                sun.SplitCount = 1;
-                sun.SplitDistribution = 0.5f;
+                sun.SplitCount = 4;
+                sun.SplitDistribution = 0.8f;
                 sun.ShadowResolutionX = 1024;
                 sun.ShadowResolutionY = 1024;
                 sun.ShadowIntensity = 1;
@@ -351,7 +351,7 @@ namespace Flummery
                 sun.GoboScaleY = 1;
                 sun.ShadowBias = 0.00006f;
                 sun.LightNearClip = 1;
-                sun.ShadowDistance = 20;
+                sun.ShadowDistance = 160;
                 sun.UseEdgeColour = true;
 
                 sun.Save(Path.Combine(txtPath.Text, "sun.light"));
