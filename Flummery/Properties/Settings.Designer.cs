@@ -250,5 +250,17 @@ namespace Flummery.Properties {
                 this["PersonalWebsite"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseFlummeryWorkingDirectory {
+            get {
+                return ((bool)(this["UseFlummeryWorkingDirectory"]));
+            }
+            set {
+                this["UseFlummeryWorkingDirectory"] = value;
+            }
+        }
     }
 }

@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPreferences));
             this.tcPreferences = new System.Windows.Forms.TabControl();
             this.tpPaths = new System.Windows.Forms.TabPage();
+            this.lblWorking = new System.Windows.Forms.Label();
             this.btnC1Path = new System.Windows.Forms.Button();
             this.txtC1Path = new System.Windows.Forms.TextBox();
             this.lblC1Path = new System.Windows.Forms.Label();
@@ -44,17 +45,19 @@
             this.tpShortcuts = new System.Windows.Forms.TabPage();
             this.pgShortcuts = new System.Windows.Forms.PropertyGrid();
             this.tbMisc = new System.Windows.Forms.TabPage();
+            this.lblHeadMisc = new System.Windows.Forms.Label();
+            this.txtWebsite = new System.Windows.Forms.TextBox();
+            this.txtAuthor = new System.Windows.Forms.TextBox();
+            this.lblWebsite = new System.Windows.Forms.Label();
+            this.lblAuthor = new System.Windows.Forms.Label();
+            this.lblHeadPersonalDetails = new System.Windows.Forms.Label();
             this.chkCheckForUpdates = new System.Windows.Forms.CheckBox();
             this.cmdOK = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdApply = new System.Windows.Forms.Button();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.lblHeadPersonalDetails = new System.Windows.Forms.Label();
-            this.lblAuthor = new System.Windows.Forms.Label();
-            this.lblWebsite = new System.Windows.Forms.Label();
-            this.txtAuthor = new System.Windows.Forms.TextBox();
-            this.txtWebsite = new System.Windows.Forms.TextBox();
-            this.lblHeadMisc = new System.Windows.Forms.Label();
+            this.rdoWorkingDirFlummery = new System.Windows.Forms.RadioButton();
+            this.rdoWorkingDirTemp = new System.Windows.Forms.RadioButton();
             this.tcPreferences.SuspendLayout();
             this.tpPaths.SuspendLayout();
             this.tpShortcuts.SuspendLayout();
@@ -74,6 +77,9 @@
             // 
             // tpPaths
             // 
+            this.tpPaths.Controls.Add(this.rdoWorkingDirTemp);
+            this.tpPaths.Controls.Add(this.rdoWorkingDirFlummery);
+            this.tpPaths.Controls.Add(this.lblWorking);
             this.tpPaths.Controls.Add(this.btnC1Path);
             this.tpPaths.Controls.Add(this.txtC1Path);
             this.tpPaths.Controls.Add(this.lblC1Path);
@@ -92,6 +98,15 @@
             this.tpPaths.Text = "Paths";
             this.tpPaths.UseVisualStyleBackColor = true;
             // 
+            // lblWorking
+            // 
+            this.lblWorking.AutoSize = true;
+            this.lblWorking.Location = new System.Drawing.Point(6, 98);
+            this.lblWorking.Name = "lblWorking";
+            this.lblWorking.Size = new System.Drawing.Size(90, 13);
+            this.lblWorking.TabIndex = 13;
+            this.lblWorking.Text = "Working directory";
+            // 
             // btnC1Path
             // 
             this.btnC1Path.Location = new System.Drawing.Point(493, 6);
@@ -107,6 +122,7 @@
             this.txtC1Path.Enabled = false;
             this.txtC1Path.Location = new System.Drawing.Point(154, 8);
             this.txtC1Path.Name = "txtC1Path";
+            this.txtC1Path.ReadOnly = true;
             this.txtC1Path.Size = new System.Drawing.Size(333, 20);
             this.txtC1Path.TabIndex = 11;
             // 
@@ -121,8 +137,10 @@
             // 
             // lblNotes
             // 
+            this.lblNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNotes.AutoSize = true;
-            this.lblNotes.Location = new System.Drawing.Point(57, 145);
+            this.lblNotes.Location = new System.Drawing.Point(6, 154);
             this.lblNotes.Name = "lblNotes";
             this.lblNotes.Size = new System.Drawing.Size(403, 91);
             this.lblNotes.TabIndex = 9;
@@ -143,6 +161,7 @@
             this.txtC2Path.Enabled = false;
             this.txtC2Path.Location = new System.Drawing.Point(154, 37);
             this.txtC2Path.Name = "txtC2Path";
+            this.txtC2Path.ReadOnly = true;
             this.txtC2Path.Size = new System.Drawing.Size(333, 20);
             this.txtC2Path.TabIndex = 7;
             // 
@@ -170,6 +189,7 @@
             this.txtCRPath.Enabled = false;
             this.txtCRPath.Location = new System.Drawing.Point(154, 66);
             this.txtCRPath.Name = "txtCRPath";
+            this.txtCRPath.ReadOnly = true;
             this.txtCRPath.Size = new System.Drawing.Size(333, 20);
             this.txtCRPath.TabIndex = 4;
             // 
@@ -219,6 +239,58 @@
             this.tbMisc.Text = "Misc";
             this.tbMisc.UseVisualStyleBackColor = true;
             // 
+            // lblHeadMisc
+            // 
+            this.lblHeadMisc.AutoSize = true;
+            this.lblHeadMisc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeadMisc.Location = new System.Drawing.Point(6, 92);
+            this.lblHeadMisc.Name = "lblHeadMisc";
+            this.lblHeadMisc.Size = new System.Drawing.Size(36, 13);
+            this.lblHeadMisc.TabIndex = 6;
+            this.lblHeadMisc.Text = "other";
+            // 
+            // txtWebsite
+            // 
+            this.txtWebsite.Location = new System.Drawing.Point(55, 58);
+            this.txtWebsite.Name = "txtWebsite";
+            this.txtWebsite.Size = new System.Drawing.Size(164, 20);
+            this.txtWebsite.TabIndex = 5;
+            // 
+            // txtAuthor
+            // 
+            this.txtAuthor.Location = new System.Drawing.Point(55, 32);
+            this.txtAuthor.Name = "txtAuthor";
+            this.txtAuthor.Size = new System.Drawing.Size(164, 20);
+            this.txtAuthor.TabIndex = 4;
+            // 
+            // lblWebsite
+            // 
+            this.lblWebsite.AutoSize = true;
+            this.lblWebsite.Location = new System.Drawing.Point(6, 61);
+            this.lblWebsite.Name = "lblWebsite";
+            this.lblWebsite.Size = new System.Drawing.Size(43, 13);
+            this.lblWebsite.TabIndex = 3;
+            this.lblWebsite.Text = "website";
+            // 
+            // lblAuthor
+            // 
+            this.lblAuthor.AutoSize = true;
+            this.lblAuthor.Location = new System.Drawing.Point(6, 35);
+            this.lblAuthor.Name = "lblAuthor";
+            this.lblAuthor.Size = new System.Drawing.Size(37, 13);
+            this.lblAuthor.TabIndex = 2;
+            this.lblAuthor.Text = "author";
+            // 
+            // lblHeadPersonalDetails
+            // 
+            this.lblHeadPersonalDetails.AutoSize = true;
+            this.lblHeadPersonalDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeadPersonalDetails.Location = new System.Drawing.Point(6, 9);
+            this.lblHeadPersonalDetails.Name = "lblHeadPersonalDetails";
+            this.lblHeadPersonalDetails.Size = new System.Drawing.Size(213, 13);
+            this.lblHeadPersonalDetails.TabIndex = 1;
+            this.lblHeadPersonalDetails.Text = "personal details (used in minge files)";
+            // 
             // chkCheckForUpdates
             // 
             this.chkCheckForUpdates.AutoSize = true;
@@ -232,7 +304,7 @@
             // cmdOK
             // 
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(311, 309);
+            this.cmdOK.Location = new System.Drawing.Point(473, 306);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 4;
@@ -243,17 +315,16 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(392, 309);
+            this.cmdCancel.Location = new System.Drawing.Point(311, 306);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 5;
             this.cmdCancel.Text = "cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
-            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // cmdApply
             // 
-            this.cmdApply.Location = new System.Drawing.Point(473, 309);
+            this.cmdApply.Location = new System.Drawing.Point(392, 306);
             this.cmdApply.Name = "cmdApply";
             this.cmdApply.Size = new System.Drawing.Size(75, 23);
             this.cmdApply.TabIndex = 6;
@@ -265,57 +336,27 @@
             // 
             this.fbdBrowse.ShowNewFolderButton = false;
             // 
-            // lblHeadPersonalDetails
+            // rdoWorkingDirFlummery
             // 
-            this.lblHeadPersonalDetails.AutoSize = true;
-            this.lblHeadPersonalDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHeadPersonalDetails.Location = new System.Drawing.Point(6, 9);
-            this.lblHeadPersonalDetails.Name = "lblHeadPersonalDetails";
-            this.lblHeadPersonalDetails.Size = new System.Drawing.Size(213, 13);
-            this.lblHeadPersonalDetails.TabIndex = 1;
-            this.lblHeadPersonalDetails.Text = "personal details (used in minge files)";
+            this.rdoWorkingDirFlummery.AutoSize = true;
+            this.rdoWorkingDirFlummery.Location = new System.Drawing.Point(154, 96);
+            this.rdoWorkingDirFlummery.Name = "rdoWorkingDirFlummery";
+            this.rdoWorkingDirFlummery.Size = new System.Drawing.Size(195, 17);
+            this.rdoWorkingDirFlummery.TabIndex = 14;
+            this.rdoWorkingDirFlummery.TabStop = true;
+            this.rdoWorkingDirFlummery.Text = "Working directory in Flummery folder";
+            this.rdoWorkingDirFlummery.UseVisualStyleBackColor = true;
             // 
-            // lblAuthor
+            // rdoWorkingDirTemp
             // 
-            this.lblAuthor.AutoSize = true;
-            this.lblAuthor.Location = new System.Drawing.Point(6, 35);
-            this.lblAuthor.Name = "lblAuthor";
-            this.lblAuthor.Size = new System.Drawing.Size(37, 13);
-            this.lblAuthor.TabIndex = 2;
-            this.lblAuthor.Text = "author";
-            // 
-            // lblWebsite
-            // 
-            this.lblWebsite.AutoSize = true;
-            this.lblWebsite.Location = new System.Drawing.Point(6, 61);
-            this.lblWebsite.Name = "lblWebsite";
-            this.lblWebsite.Size = new System.Drawing.Size(43, 13);
-            this.lblWebsite.TabIndex = 3;
-            this.lblWebsite.Text = "website";
-            // 
-            // txtAuthor
-            // 
-            this.txtAuthor.Location = new System.Drawing.Point(55, 32);
-            this.txtAuthor.Name = "txtAuthor";
-            this.txtAuthor.Size = new System.Drawing.Size(164, 20);
-            this.txtAuthor.TabIndex = 4;
-            // 
-            // txtWebsite
-            // 
-            this.txtWebsite.Location = new System.Drawing.Point(55, 58);
-            this.txtWebsite.Name = "txtWebsite";
-            this.txtWebsite.Size = new System.Drawing.Size(164, 20);
-            this.txtWebsite.TabIndex = 5;
-            // 
-            // lblHeadMisc
-            // 
-            this.lblHeadMisc.AutoSize = true;
-            this.lblHeadMisc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHeadMisc.Location = new System.Drawing.Point(6, 92);
-            this.lblHeadMisc.Name = "lblHeadMisc";
-            this.lblHeadMisc.Size = new System.Drawing.Size(36, 13);
-            this.lblHeadMisc.TabIndex = 6;
-            this.lblHeadMisc.Text = "other";
+            this.rdoWorkingDirTemp.AutoSize = true;
+            this.rdoWorkingDirTemp.Location = new System.Drawing.Point(154, 119);
+            this.rdoWorkingDirTemp.Name = "rdoWorkingDirTemp";
+            this.rdoWorkingDirTemp.Size = new System.Drawing.Size(206, 17);
+            this.rdoWorkingDirTemp.TabIndex = 15;
+            this.rdoWorkingDirTemp.TabStop = true;
+            this.rdoWorkingDirTemp.Text = "Working directory in users Temp folder";
+            this.rdoWorkingDirTemp.UseVisualStyleBackColor = true;
             // 
             // frmPreferences
             // 
@@ -371,5 +412,8 @@
         private System.Windows.Forms.Label lblWebsite;
         private System.Windows.Forms.Label lblAuthor;
         private System.Windows.Forms.Label lblHeadPersonalDetails;
+        private System.Windows.Forms.Label lblWorking;
+        private System.Windows.Forms.RadioButton rdoWorkingDirTemp;
+        private System.Windows.Forms.RadioButton rdoWorkingDirFlummery;
     }
 }

@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+
 using Flummery.ContentPipeline.Stainless;
 
 namespace Flummery
 {
     public partial class frmReincarnationWheelPreview : Form
     {
+        List<WheelPreview> wheels;
         Model wheel = new Model();
-        string wheelsFolder;
 
         public Model Wheel { get { return wheel; } }
 
@@ -19,23 +22,32 @@ namespace Flummery
 
         private void frmReincarnationWheelPreview_Load(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.PathCarmageddonReincarnation != null && Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation))
+            string zadPath = Path.Combine(Properties.Settings.Default.PathCarmageddonReincarnation, "ZAD");
+            wheels = new List<WheelPreview>();
+
+            if (Properties.Settings.Default.PathCarmageddonReincarnation != null && 
+                Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation) &&
+                Directory.Exists(zadPath)
+                )
             {
-                wheelsFolder = Properties.Settings.Default.PathCarmageddonReincarnation + @"Data_Core\Content\Vehicles\Wheels\";
-
-                if (Directory.Exists(wheelsFolder))
+                foreach (string wheelZAD in Directory.GetFiles(zadPath, "Wheels_*"))
                 {
-                    var wheels = Directory.GetDirectories(wheelsFolder);
+                    var zad = ToxicRagers.Stainless.Formats.ZAD.Load(wheelZAD);
 
-                    for (int i = 0; i < wheels.Length; i++)
+                    foreach (var entry in zad.Contents)
                     {
-                        lstWheels.Items.Add(wheels[i].Replace(wheelsFolder, ""));
+                        if (entry.Name.IndexOf("tyre.cnt", StringComparison.InvariantCultureIgnoreCase) < 0) { continue; }
+
+                        wheels.Add(new WheelPreview
+                        {
+                            Archive = wheelZAD,
+                            Path = Path.GetDirectoryName(entry.Name),
+                            WheelName = Path.GetFileName(Path.GetDirectoryName(entry.Name))
+                        });
                     }
                 }
-                else
-                {
-                    SceneManager.Current.UpdateProgress(@"{C:R path}\Data_Core\Content\Vehicles\Wheels\ could not be found");
-                }
+
+                lstWheels.Items.AddRange(wheels.Select(wp => wp.WheelName).ToArray<string>());
             }
         }
 
@@ -45,22 +57,48 @@ namespace Flummery
             {
                 wheel = new Model();
 
-                var cntImporter = new CNTImporter();
+                WheelPreview wp = wheels[lstWheels.SelectedIndex];
+                CNTImporter cntImporter = new CNTImporter();
 
-                var rim = (Model)cntImporter.Import(wheelsFolder + lstWheels.SelectedItem + "\\rim.cnt");
-                var tyre = (Model)cntImporter.Import(wheelsFolder + lstWheels.SelectedItem + "\\tyre.cnt");
+                var rim = (Model)cntImporter.Import(Path.Combine(wp.Archive, wp.Path, "rim.cnt"));
+                //var tyre = (Model)cntImporter.Import(wheelsFolder + lstWheels.SelectedItem + "\\tyre.cnt");
 
                 foreach (var mesh in rim.Meshes) { wheel.SetName(mesh.Name, wheel.AddMesh(mesh, 0)); }
-                foreach (var mesh in tyre.Meshes) { wheel.SetName(mesh.Name, wheel.AddMesh(mesh, 0)); }
+                //foreach (var mesh in tyre.Meshes) { wheel.SetName(mesh.Name, wheel.AddMesh(mesh, 0)); }
             }
 
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
             wheel = null;
             this.Close();
+        }
+    }
+
+    public class WheelPreview
+    {
+        string archive;
+        string path;
+        string wheelName;
+
+        public string Archive
+        {
+            get { return archive; }
+            set { archive = value; }
+        }
+
+        public string Path
+        {
+            get { return path; }
+            set { path = value; }
+        }
+
+        public string WheelName
+        {
+            get { return wheelName; }
+            set { wheelName = value; }
         }
     }
 }

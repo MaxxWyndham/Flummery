@@ -13,6 +13,8 @@ namespace Flummery
             txtCRPath.Text = Properties.Settings.Default.PathCarmageddonReincarnation;
             txtC2Path.Text = Properties.Settings.Default.PathCarmageddon2;
             txtC1Path.Text = Properties.Settings.Default.PathCarmageddon1;
+            rdoWorkingDirFlummery.Checked = Properties.Settings.Default.UseFlummeryWorkingDirectory;
+            rdoWorkingDirTemp.Checked = !rdoWorkingDirFlummery.Checked;
 
             pgShortcuts.SelectedObject = InputManager.Current.GetKeyboardShortcuts();
 
@@ -79,6 +81,7 @@ namespace Flummery
             Properties.Settings.Default.PathCarmageddonReincarnation = txtCRPath.Text;
             Properties.Settings.Default.PathCarmageddon2 = txtC2Path.Text;
             Properties.Settings.Default.PathCarmageddon1 = txtC1Path.Text;
+            Properties.Settings.Default.UseFlummeryWorkingDirectory = rdoWorkingDirFlummery.Checked;
 
             // Keys
             // automatic
@@ -96,15 +99,9 @@ namespace Flummery
             applySettings();
         }
 
-        private void cmdCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void cmdOK_Click(object sender, EventArgs e)
         {
             applySettings();
-            this.Close();
         }
 
         private void txtKey_KeyPress(object sender, KeyPressEventArgs e)
