@@ -337,9 +337,9 @@ namespace Flummery
                 sun.Range = 100;
                 sun.Inner = 22.5f;
                 sun.Outer = 45;
-                sun.R = 255 / 255.0f;
-                sun.G = 234 / 255.0f;
-                sun.B = 170 / 255.0f;
+                sun.R = 234 / 255.0f;
+                sun.G = 202 / 255.0f;
+                sun.B = 149 / 255.0f;
                 sun.Intensity = 1.0f;
                 sun.Flags = LIGHT.LightFlags.CastShadow;
                 sun.SplitCount = 4;
@@ -349,10 +349,13 @@ namespace Flummery
                 sun.ShadowIntensity = 1;
                 sun.GoboScaleX = 1;
                 sun.GoboScaleY = 1;
-                sun.ShadowBias = 0.00006f;
+                sun.ShadowBias = 0.00001f;
                 sun.LightNearClip = 1;
                 sun.ShadowDistance = 160;
                 sun.UseEdgeColour = true;
+                sun.EdgeColourR = 121;
+                sun.EdgeColourG = 121;
+                sun.EdgeColourB = 121;
 
                 sun.Save(Path.Combine(txtPath.Text, "sun.light"));
             }
@@ -362,9 +365,9 @@ namespace Flummery
                 var cnt = new ToxicRagers.Stainless.Formats.CNT();
 
                 cnt.Name = "sun";
-                cnt.Transform = ToxicRagers.Helpers.Matrix3D.CreateRotationX( 126.204f) *
-                                ToxicRagers.Helpers.Matrix3D.CreateRotationY(  51.71f) *
-                                ToxicRagers.Helpers.Matrix3D.CreateRotationZ(-133.003f);
+                cnt.Transform = ToxicRagers.Helpers.Matrix3D.CreateRotationZ(-119.520f) *
+                                ToxicRagers.Helpers.Matrix3D.CreateRotationY(  46.042f) *
+                                ToxicRagers.Helpers.Matrix3D.CreateRotationX( 112.176f);
                 cnt.Section = ToxicRagers.Stainless.Formats.CNT.NodeType.LITg;
                 cnt.EmbeddedLight = false;
                 cnt.LightName = "sun";
