@@ -298,6 +298,7 @@
             this.tslContext.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.tslContext.Name = "tslContext";
             this.tslContext.Size = new System.Drawing.Size(0, 22);
+            this.tslContext.Click += new System.EventHandler(this.tslContext_Click);
             // 
             // pnlViewport
             // 

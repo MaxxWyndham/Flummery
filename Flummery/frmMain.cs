@@ -264,6 +264,8 @@ namespace Flummery
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
                         SceneManager.Current.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+
+                        SceneManager.Current.SetContext(ContextGame.Carmageddon_1, ContextMode.Car);
                     }
                     break;
 
@@ -299,6 +301,8 @@ namespace Flummery
 
                         Model race = SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
                         //if (File.Exists(txtFile)) { race.SupportingDocuments["TXT"] = ToxicRagers.Carmageddon2.Formats.Map.Load(txtFile); }
+
+                        SceneManager.Current.SetContext(ContextGame.Carmageddon_2, ContextMode.Level);
                     }
                     break;
 
@@ -372,6 +376,8 @@ namespace Flummery
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
                         SceneManager.Current.Change(ChangeType.Munge, -1);
+
+                        SceneManager.Current.SetContext(ContextGame.Carmageddon_Reincarnation, ContextMode.Level);
                     }
                     break;
 
@@ -473,6 +479,8 @@ namespace Flummery
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
                         SceneManager.Current.Change(ChangeType.Munge, -1);
+
+                        SceneManager.Current.SetContext(ContextGame.Carmageddon_Reincarnation, ContextMode.Car);
                     }
                     break;
             }
@@ -524,6 +532,8 @@ namespace Flummery
                         {
                             accessory.SupportingDocuments["Accessory"] = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(accessorytxt);
                         }
+
+                        SceneManager.Current.SetContext(ContextGame.Carmageddon_Reincarnation, ContextMode.Accessory);
                     }
                     break;
 
@@ -568,6 +578,8 @@ namespace Flummery
                                 SceneManager.Current.Entities.Add(entity);
                             }
                         }
+
+                        SceneManager.Current.SetContext(ContextGame.Carmageddon_Reincarnation, ContextMode.Car);
                     }
                     break;
 

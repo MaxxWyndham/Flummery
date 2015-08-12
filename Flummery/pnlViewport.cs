@@ -45,6 +45,12 @@ namespace Flummery
         public void RegisterEventHandlers()
         {
             InputManager.Current.OnBindingsChanged += input_OnBindingsChanged;
+            SceneManager.Current.OnContextChange += scene_OnContextChage;
+        }
+
+        private void scene_OnContextChage(object sender, ContextChangeEventArgs e)
+        {
+            tslContext.Text = string.Format("{0} : {1}", e.GameContext.ToString().Replace("_", " "), e.ModeContext);
         }
 
         void input_OnBindingsChanged(object sender, EventArgs e)
@@ -296,6 +302,11 @@ namespace Flummery
         private void tsbFrame_Click(object sender, EventArgs e)
         {
             viewman.Frame();
+        }
+
+        private void tslContext_Click(object sender, EventArgs e)
+        {
+            (new frmChangeContext()).ShowDialog(this);
         }
     }
 }

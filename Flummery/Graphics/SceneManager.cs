@@ -19,6 +19,22 @@ namespace Flummery
         ChangeType
     }
 
+    public enum ContextGame
+    {
+        Carmageddon_1,
+        Carmageddon_2,
+        Carmageddon_TDR2000,
+        Carmageddon_Reincarnation
+    }
+
+    public enum ContextMode
+    {
+        Accessory,
+        Car,
+        Level,
+        Ped
+    }
+
     public class SceneManager
     {
         public enum RenderMeshMode
@@ -55,7 +71,9 @@ namespace Flummery
 
         bool bVertexBuffer;
         ContentManager content;
-        
+
+        ContextGame currentGame;
+        ContextMode currentMode;
 
         float dt;
 
@@ -79,6 +97,16 @@ namespace Flummery
             }
         }
 
+        public ContextGame CurrentGame
+        {
+            get { return currentGame; }
+        }
+
+        public ContextMode CurrentMode
+        {
+            get { return currentMode; }
+        }
+
         public int SelectedModelIndex { get { return selectedModelIndex; } }
         public int SelectedBoneIndex { get { return selectedBoneIndex; } }
         public float DeltaTime { get { return dt; } }
@@ -89,6 +117,7 @@ namespace Flummery
         public delegate void ChangeHandler(object sender, ChangeEventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
         public delegate void ErrorHandler(object sender, ErrorEventArgs e);
+        public delegate void ContextChangeHandler(object sender, ContextChangeEventArgs e);
 
         public event ResetHandler OnReset;
         public event AddHandler OnAdd;
@@ -96,6 +125,7 @@ namespace Flummery
         public event ChangeHandler OnChange;
         public event ProgressHandler OnProgress;
         public event ErrorHandler OnError;
+        public event ContextChangeHandler OnContextChange;
 
         public static void Create(bool bUseVertexBuffer = true)
         {
@@ -172,6 +202,24 @@ namespace Flummery
         public void Change(ChangeType type, int index, object additionalInfo = null) 
         { 
             if (OnChange != null) { OnChange(this, new ChangeEventArgs(type, index, additionalInfo)); } 
+        }
+
+        public void SetContext(ContextGame game)
+        {
+            SetContext(game, currentMode);
+        }
+
+        public void SetContext(ContextMode mode)
+        {
+            SetContext(currentGame, mode);
+        }
+
+        public void SetContext(ContextGame game, ContextMode mode)
+        {
+            currentGame = game;
+            currentMode = mode;
+
+            if (OnContextChange != null) { OnContextChange(this, new ContextChangeEventArgs(game, mode)); }
         }
 
         public void ClearBoundingBox()
@@ -397,6 +445,18 @@ namespace Flummery
         public ErrorEventArgs(string message)
         {
             Message = message;
+        }
+    }
+
+    public class ContextChangeEventArgs : EventArgs
+    {
+        public ContextGame GameContext { get; private set; }
+        public ContextMode ModeContext { get; private set; }
+
+        public ContextChangeEventArgs(ContextGame game, ContextMode mode)
+        {
+            this.GameContext = game;
+            this.ModeContext = mode;
         }
     }
 }
