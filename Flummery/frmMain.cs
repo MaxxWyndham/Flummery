@@ -403,6 +403,8 @@ namespace Flummery
 
                         SceneManager.Current.UpdateProgress("Munging parts and fixing wheels");
 
+                        Single scale;
+
                         for (int i = 0; i < bones.Count; i++)
                         {
                             var bone = bones[i];
@@ -439,15 +441,19 @@ namespace Flummery
                                     break;
 
                                 case "FLWHEEL":
+                                    scale = bone.CombinedTransform.ExtractTranslation().Y / 0.35f;
+
                                     bone.Name = "Wheel_FL";
                                     model.ClearMesh(bone.Index);
-                                    model.SetTransform(Matrix4.CreateScale(1.25f, 1.25f, 1.25f) * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180)), bone.Index);
+                                    model.SetTransform(Matrix4.CreateScale(scale) * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180)), bone.Index);
                                     break;
 
                                 case "FRWHEEL":
+                                    scale = bone.CombinedTransform.ExtractTranslation().Y / 0.35f;
+
                                     bone.Name = "Wheel_FR";
                                     model.ClearMesh(bone.Index);
-                                    model.SetTransform(Matrix4.CreateScale(1.25f, 1.25f, 1.25f), bone.Index);
+                                    model.SetTransform(Matrix4.CreateScale(scale), bone.Index);
                                     break;
 
                                 case "RLWHEEL":
@@ -459,14 +465,16 @@ namespace Flummery
                                     if (bone.Transform.Position() == Vector3.Zero) { ModelManipulator.MungeMeshWithBone(bone.Mesh, false); }
                                     model.ClearMesh(bone.Index);
 
+                                    scale = bone.CombinedTransform.ExtractTranslation().Y / 0.35f;
+
                                     int newBone = model.AddMesh(null, bone.Index);
                                     model.SetName("Wheel_" + suffix, newBone);
-                                    model.SetTransform(Matrix4.CreateScale(1.25f, 1.25f, 1.25f) * (suffix == "RL" ? Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180)) : Matrix4.Identity), newBone);
+                                    model.SetTransform(Matrix4.CreateScale(scale) * (suffix == "RL" ? Matrix4.CreateRotationY(MathHelper.DegreesToRadians(180)) : Matrix4.Identity), newBone);
                                     break;
 
                                 case "DRIVER":
                                     bone.Name = "Dryver";
-                                    break;
+                                    goto default;
 
                                 default:
                                     if (bone.Type == BoneType.Mesh) { ModelManipulator.MungeMeshWithBone(bone.Mesh, false); }
