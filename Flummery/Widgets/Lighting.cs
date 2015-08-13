@@ -194,13 +194,16 @@ namespace Flummery.Controls
         {
             toggleShadowUI();
 
-            if (light.Flags.HasFlag(LIGHT.LightFlags.CastShadow))
+            if (!bInitialising)
             {
-                light.Flags &= ~LIGHT.LightFlags.CastShadow;
-            }
-            else
-            {
-                light.Flags |= LIGHT.LightFlags.CastShadow;
+                if (light.Flags.HasFlag(LIGHT.LightFlags.CastShadow))
+                {
+                    light.Flags &= ~LIGHT.LightFlags.CastShadow;
+                }
+                else
+                {
+                    light.Flags |= LIGHT.LightFlags.CastShadow;
+                }
             }
         }
 
@@ -263,13 +266,16 @@ namespace Flummery.Controls
 
         private void chkUsePool_CheckedChanged(object sender, EventArgs e)
         {
-            if (light.Flags.HasFlag(LIGHT.LightFlags.UsePool))
+            if (!bInitialising)
             {
-                light.Flags &= ~LIGHT.LightFlags.UsePool;
-            }
-            else
-            {
-                light.Flags |= LIGHT.LightFlags.UsePool;
+                if (light.Flags.HasFlag(LIGHT.LightFlags.UsePool))
+                {
+                    light.Flags &= ~LIGHT.LightFlags.UsePool;
+                }
+                else
+                {
+                    light.Flags |= LIGHT.LightFlags.UsePool;
+                }
             }
         }
 
@@ -347,13 +353,16 @@ namespace Flummery.Controls
         {
             toggleGoboUI();
 
-            if (light.Flags.HasFlag(LIGHT.LightFlags.UsesGobo))
+            if (!bInitialising)
             {
-                light.Flags &= ~LIGHT.LightFlags.UsesGobo;
-            }
-            else
-            {
-                light.Flags |= LIGHT.LightFlags.UsesGobo;
+                if (light.Flags.HasFlag(LIGHT.LightFlags.UsesGobo))
+                {
+                    light.Flags &= ~LIGHT.LightFlags.UsesGobo;
+                }
+                else
+                {
+                    light.Flags |= LIGHT.LightFlags.UsesGobo;
+                }
             }
         }
 
