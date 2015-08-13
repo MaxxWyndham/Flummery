@@ -14,6 +14,8 @@ namespace Flummery
             this.TabText = "Overview";
 
             Reset();
+
+            if (SceneManager.Current != null && SceneManager.Current.Models.Count > 0) { ProcessTree(SceneManager.Current.Models[0], 0, false); }
         }
 
         public void RegisterEventHandlers()
@@ -42,8 +44,6 @@ namespace Flummery
             llblShoutOut.Text = contributor.Name;
             llblShoutOut.Tag = contributor.Website;
             ttOverview.SetToolTip(llblShoutOut, contributor.Website);
-
-            if (SceneManager.Current != null && SceneManager.Current.Models.Count > 0) { ProcessTree(SceneManager.Current.Models[0], 0, false); }
         }
 
         public void ProcessTree(Model m, int index, bool bReset = false)
