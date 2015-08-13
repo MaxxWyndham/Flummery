@@ -13,6 +13,14 @@ namespace Flummery
             InitializeComponent();
 
             this.TabText = "Material List";
+
+            if (SceneManager.Current != null)
+            {
+                foreach (Material m in SceneManager.Current.Materials)
+                {
+                    addMaterial(m);
+                }
+            }
         }
 
         public void RegisterEventHandlers()
@@ -27,20 +35,19 @@ namespace Flummery
 
             if (t != null)
             {
-                var mi = new MaterialItem();
-
-                mi.MaterialName = t.Name;
-                mi.Material = t;
-                if (t.Texture != null) { mi.SetThumbnail(t.Texture.GetThumbnail()); }
-
-                //var matList = (flpMaterials.Tag as SortedList<string, string>);
-                //matList[t.Name] = t.Name;
-
-                flpMaterials.Controls.Add(mi);
-                //flpMaterials.Controls.SetChildIndex(mi, matList.IndexOfKey(t.Name));
-
-                //flpMaterials.Tag = matList;
+                addMaterial(t);
             }
+        }
+
+        private void addMaterial(Material m)
+        {
+            var mi = new MaterialItem();
+
+            mi.MaterialName = m.Name;
+            mi.Material = m;
+            if (m.Texture != null) { mi.SetThumbnail(m.Texture.GetThumbnail()); }
+
+            flpMaterials.Controls.Add(mi);
         }
 
         void scene_OnReset(object sender, ResetEventArgs e)

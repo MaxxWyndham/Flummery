@@ -21,6 +21,13 @@ namespace Flummery
             InitializeComponent();
 
             MouseWheel += (s, e) => pnlPanel.Focus();
+
+            if (SceneManager.Current != null && 
+                SceneManager.Current.SelectedModel != null && 
+                SceneManager.Current.SelectedModel.Bones[SceneManager.Current.SelectedBoneIndex] != null)
+            {
+                setSelection(SceneManager.Current.SelectedModel.Bones[SceneManager.Current.SelectedBoneIndex]);
+            }
         }
 
         public void RegisterEventHandlers()
@@ -34,8 +41,11 @@ namespace Flummery
 
         void scene_OnSelect(object sender, SelectEventArgs e)
         {
-            ModelBone bone = (e.Item as ModelBone);
+            setSelection(e.Item as ModelBone);
+        }
 
+        private void setSelection(ModelBone bone)
+        {
             this.Transform.Visible = (bone != null);
             this.Lighting.Visible = (bone.Type == BoneType.Light);
         }
