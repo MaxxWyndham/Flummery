@@ -38,18 +38,6 @@ namespace Flummery.Controls
             this.AutoSize = true;
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
-            this.gbPosition.MouseDown += gbGroup_MouseDown;
-            this.gbRotation.MouseDown += gbGroup_MouseDown;
-            this.gbScale.MouseDown    += gbGroup_MouseDown;
-
-            this.gbPosition.MouseMove += gbGroup_MouseMove;
-            this.gbRotation.MouseMove += gbGroup_MouseMove;
-            this.gbScale.MouseMove    += gbGroup_MouseMove;
-
-            this.gbPosition.MouseUp += gbGroup_MouseUp;
-            this.gbRotation.MouseUp += gbGroup_MouseUp;
-            this.gbScale.MouseUp    += gbGroup_MouseUp;
-
             resetWidget();
         }
 
@@ -128,33 +116,19 @@ namespace Flummery.Controls
                 btnFreezeRotation.Enabled = true;
                 btnFreezeScale.Enabled = true;
 
-                var p = bone.Transform.ExtractTranslation();
-                var rq = bone.Transform.ExtractRotation();
-                var s = bone.Transform.ExtractScale();
+                var p = bone.GetPosition();
+                var r = bone.GetRotation();
+                var s = bone.GetScale();
 
-                var r = rq.ToEuler(RotationOrder.OrderXYZ);
-
-                p.X = (float)Math.Round(p.X, 3, MidpointRounding.AwayFromZero);
-                p.Y = (float)Math.Round(p.Y, 3, MidpointRounding.AwayFromZero);
-                p.Z = (float)Math.Round(p.Z, 3, MidpointRounding.AwayFromZero);
-
-                r.X = (float)Math.Round(r.X, 3, MidpointRounding.AwayFromZero);
-                r.Y = (float)Math.Round(r.Y, 3, MidpointRounding.AwayFromZero);
-                r.Z = (float)Math.Round(r.Z, 3, MidpointRounding.AwayFromZero);
-
-                s.X = (float)Math.Round(s.X, 3, MidpointRounding.AwayFromZero);
-                s.Y = (float)Math.Round(s.Y, 3, MidpointRounding.AwayFromZero);
-                s.Z = (float)Math.Round(s.Z, 3, MidpointRounding.AwayFromZero);
-
-                txtPositionX.Text = p.X.ToString();
-                txtPositionY.Text = p.Y.ToString();
-                txtPositionZ.Text = p.Z.ToString();
-                txtRotationX.Text = r.X.ToString();
-                txtRotationY.Text = r.Y.ToString();
-                txtRotationZ.Text = r.Z.ToString();
-                txtScaleX.Text = s.X.ToString();
-                txtScaleY.Text = s.Y.ToString();
-                txtScaleZ.Text = s.Z.ToString();
+                txtPositionX.Text = p.X.ToString(FlummeryApplication.Culture);
+                txtPositionY.Text = p.Y.ToString(FlummeryApplication.Culture);
+                txtPositionZ.Text = p.Z.ToString(FlummeryApplication.Culture);
+                txtRotationX.Text = r.X.ToString(FlummeryApplication.Culture);
+                txtRotationY.Text = r.Y.ToString(FlummeryApplication.Culture);
+                txtRotationZ.Text = r.Z.ToString(FlummeryApplication.Culture);
+                txtScaleX.Text = s.X.ToString(FlummeryApplication.Culture);
+                txtScaleY.Text = s.Y.ToString(FlummeryApplication.Culture);
+                txtScaleZ.Text = s.Z.ToString(FlummeryApplication.Culture);
             }
         }
 
@@ -192,15 +166,9 @@ namespace Flummery.Controls
 
         void resetLinks()
         {
-            lblPositionXUnits.BackColor = SystemColors.ActiveBorder;
-            lblPositionYUnits.BackColor = SystemColors.ActiveBorder;
-            lblPositionZUnits.BackColor = SystemColors.ActiveBorder;
-            lblRotationXUnits.BackColor = SystemColors.ActiveBorder;
-            lblRotationYUnits.BackColor = SystemColors.ActiveBorder;
-            lblRotationZUnits.BackColor = SystemColors.ActiveBorder;
-            lblScaleXUnits.BackColor = SystemColors.ActiveBorder;
-            lblScaleYUnits.BackColor = SystemColors.ActiveBorder;
-            lblScaleZUnits.BackColor = SystemColors.ActiveBorder;
+            //lblPositionX.BackColor = SystemColors.ActiveBorder;
+            //lblPositionY.BackColor = SystemColors.ActiveBorder;
+            //lblPositionZ.BackColor = SystemColors.ActiveBorder;
         }
 
         void gbGroup_MouseDown(object sender, MouseEventArgs e)
@@ -263,34 +231,23 @@ namespace Flummery.Controls
             {
                 box.Text = box.Tag.ToString();
             }
-           
-            Single divisor = (rdoAbsolute.Checked ? 1.0f : 100.0f);
 
-            var mS = Matrix4.CreateScale(txtScaleX.Text.ToSingle() / divisor, txtScaleY.Text.ToSingle() / divisor, txtScaleZ.Text.ToSingle() / divisor);
-            var mR = Matrix4.CreateFromQuaternion(
-                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians(txtRotationX.Text.ToSingle())) *
-                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(txtRotationY.Text.ToSingle())) *
-                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(txtRotationZ.Text.ToSingle()))
-            );
-            var vP = new OpenTK.Vector3(txtPositionX.Text.ToSingle(), txtPositionY.Text.ToSingle(), txtPositionZ.Text.ToSingle());
-
-            var transform = Matrix4.Identity;
-            transform *= mS;
-            transform *= mR;
-            transform.M41 = vP.X;
-            transform.M42 = vP.Y;
-            transform.M43 = vP.Z;
-
-            if (rdoAbsolute.Checked)
+            switch (box.Name.Substring(0, box.Name.Length - 1).Replace("txt", ""))
             {
-                bone.Transform = transform;
-            }
-            else
-            {
-                bone.Transform *= transform;
+                case "Position":
+                    bone.SetPosition(txtPositionX.Text.ToSingle(), txtPositionY.Text.ToSingle(), txtPositionZ.Text.ToSingle(), rdoAbsolute.Checked);
+                    break;
+
+                case "Rotation":
+                    bone.SetRotation(txtRotationX.Text.ToSingle(), txtRotationY.Text.ToSingle(), txtRotationZ.Text.ToSingle(), rdoAbsolute.Checked);
+                    break;
+                    
+                case "Scale":
+                    Single divisor = (rdoAbsolute.Checked ? 1.0f : 100.0f);
+                    bone.SetScale(txtScaleX.Text.ToSingle() / divisor, txtScaleY.Text.ToSingle() / divisor, txtScaleZ.Text.ToSingle() / divisor, rdoAbsolute.Checked);
+                    break;
             }
 
-            SceneManager.Current.Models[0].SetTransform(bone.Transform, SceneManager.Current.SelectedBoneIndex);
             SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
 
             resetWidget();

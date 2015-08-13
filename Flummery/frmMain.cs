@@ -50,7 +50,7 @@ namespace Flummery
             SceneManager.Create(extensions.Contains("GL_ARB_vertex_buffer_object"));
 
             dockPanel.DockLeftPortion = 300;
-            dockPanel.DockRightPortion = 240;
+            dockPanel.DockRightPortion = 315;
             dockPanel.DockBottomPortion = 105;
 
             viewport.RegisterEventHandlers();
