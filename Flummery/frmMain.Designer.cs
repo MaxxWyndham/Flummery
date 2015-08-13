@@ -144,6 +144,11 @@
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileOpenCarmageddon2Race = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiViewSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiViewPanels = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiViewPanelsDetails = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiViewPanelsMaterialList = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiViewPanelsOverview = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -583,7 +588,9 @@
             // tsmiView
             // 
             this.tsmiView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiViewPreferences});
+            this.tsmiViewPreferences,
+            this.tsmiViewSeparator1,
+            this.tsmiViewPanels});
             this.tsmiView.Name = "tsmiView";
             this.tsmiView.Size = new System.Drawing.Size(44, 20);
             this.tsmiView.Text = "&View";
@@ -591,7 +598,7 @@
             // tsmiViewPreferences
             // 
             this.tsmiViewPreferences.Name = "tsmiViewPreferences";
-            this.tsmiViewPreferences.Size = new System.Drawing.Size(135, 22);
+            this.tsmiViewPreferences.Size = new System.Drawing.Size(152, 22);
             this.tsmiViewPreferences.Text = "Preferences";
             this.tsmiViewPreferences.Click += new System.EventHandler(this.menuViewClick);
             // 
@@ -951,11 +958,45 @@
             this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
             // 
             // tsmiFileOpenCarmageddon2Race
+            // tsmiViewSeparator1
             // 
             this.tsmiFileOpenCarmageddon2Race.Name = "tsmiFileOpenCarmageddon2Race";
             this.tsmiFileOpenCarmageddon2Race.Size = new System.Drawing.Size(152, 22);
             this.tsmiFileOpenCarmageddon2Race.Text = "Race";
             this.tsmiFileOpenCarmageddon2Race.Click += new System.EventHandler(this.menuCarmageddon2Click);
+            this.tsmiViewSeparator1.Name = "tsmiViewSeparator1";
+            this.tsmiViewSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // tsmiViewPanels
+            // 
+            this.tsmiViewPanels.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiViewPanelsDetails,
+            this.tsmiViewPanelsMaterialList,
+            this.tsmiViewPanelsOverview});
+            this.tsmiViewPanels.Name = "tsmiViewPanels";
+            this.tsmiViewPanels.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewPanels.Text = "Panels";
+            // 
+            // tsmiViewPanelsDetails
+            // 
+            this.tsmiViewPanelsDetails.Name = "tsmiViewPanelsDetails";
+            this.tsmiViewPanelsDetails.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewPanelsDetails.Text = "Details";
+            this.tsmiViewPanelsDetails.Click += new System.EventHandler(this.menuViewClick);
+            // 
+            // tsmiViewPanelsMaterialList
+            // 
+            this.tsmiViewPanelsMaterialList.Name = "tsmiViewPanelsMaterialList";
+            this.tsmiViewPanelsMaterialList.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewPanelsMaterialList.Text = "Material List";
+            this.tsmiViewPanelsMaterialList.Click += new System.EventHandler(this.menuViewClick);
+            // 
+            // tsmiViewPanelsOverview
+            // 
+            this.tsmiViewPanelsOverview.Name = "tsmiViewPanelsOverview";
+            this.tsmiViewPanelsOverview.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewPanelsOverview.Text = "Overview";
+            this.tsmiViewPanelsOverview.Click += new System.EventHandler(this.menuViewClick);
             // 
             // frmMain
             // 
@@ -965,6 +1006,7 @@
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.ssStatus);
             this.Controls.Add(this.menu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menu;
             this.Name = "frmMain";
@@ -1084,6 +1126,11 @@
         private System.Windows.Forms.ToolStripSeparator tsmiObjectSeparator5;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddon2Race;
+        private System.Windows.Forms.ToolStripSeparator tsmiViewSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiViewPanels;
+        private System.Windows.Forms.ToolStripMenuItem tsmiViewPanelsDetails;
+        private System.Windows.Forms.ToolStripMenuItem tsmiViewPanelsMaterialList;
+        private System.Windows.Forms.ToolStripMenuItem tsmiViewPanelsOverview;
     }
 }
 

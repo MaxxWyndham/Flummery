@@ -913,10 +913,38 @@ namespace Flummery
             switch (mi.Text)
             {
                 case "Preferences":
-                    var prefs = new frmPreferences();
-                    if (prefs.ShowDialog(this) == DialogResult.OK)
+                    if (new frmPreferences().ShowDialog(this) == DialogResult.OK)
                     {
                         InputManager.Current.ReloadBindings();
+                    }
+                    break;
+
+                case "Details":
+                    if (!dockPanel.Contents.Any(p => (p as DockContent).Text == mi.Text))
+                    {
+                        var details = new pnlDetails();
+                        details.Show(dockPanel, DockState.DockRight);
+                        details.RegisterEventHandlers();
+
+                    }
+                    break;
+
+                case "Material List":
+                    if (!dockPanel.Contents.Any(p => (p as DockContent).Text == mi.Text))
+                    {
+                        var materials = new pnlMaterialList();
+                        materials.Show(dockPanel, DockState.DockBottom);
+                        materials.RegisterEventHandlers();
+
+                    }
+                    break;
+
+                case "Overview":
+                    if (!dockPanel.Contents.Any(p => (p as DockContent).Text == mi.Text))
+                    {
+                        var overview = new pnlOverview();
+                        overview.Show(dockPanel, DockState.DockLeft);
+                        overview.RegisterEventHandlers();
                     }
                     break;
             }

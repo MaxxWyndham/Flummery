@@ -308,7 +308,7 @@
             this.Controls.Add(this.tscViewport);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "pnlViewport";
-            this.Text = "pnlViewport";
+            this.Text = "Viewport";
             this.Load += new System.EventHandler(this.pnlViewport_Load);
             this.cmsViewport.ResumeLayout(false);
             this.tscViewport.ContentPanel.ResumeLayout(false);
