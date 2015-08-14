@@ -33,14 +33,13 @@ namespace Flummery.ContentPipeline.Stainless
 
             if (string.Compare(Path.GetExtension(path), ".tdx", true) == 0)
             {
-                var tdx = TDX.Load(path);
+                TDX tdx = TDX.Load(path);
                 texture.SetData(tdx.Name, tdx.Format.ToString(), tdx.MipMaps[0].Width, tdx.MipMaps[0].Height, tdx.MipMaps[0].Data);
                 texture.SupportingDocuments["Source"] = tdx;
             }
             else
             {
-                var img = IMG.Load(path);
-                texture.CreateFromBitmap(img.ExportToBitmap(), img.Name);
+                texture = (Texture)(new IMGImporter()).Import(path);
             }
 
             return texture;
