@@ -14,6 +14,7 @@ namespace Flummery.ContentPipeline.Stainless
             var texture = (asset as Texture);
             var img = new IMG();
             var b = (texture.SupportingDocuments["Source"] as Bitmap);
+            if (b == null) { b = texture.GetBitmap(); }
 
             SceneManager.Current.UpdateProgress(string.Format("Saving {0}", texture.Name));
 
