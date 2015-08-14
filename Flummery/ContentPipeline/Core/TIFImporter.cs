@@ -32,7 +32,7 @@ namespace Flummery.ContentPipeline.Core
             Texture texture = new Texture();
             texture.FileName = path;
 
-            if (string.Compare(Path.GetExtension(path), ".tdx", true) == 0)
+            if (string.Compare(Path.GetExtension(path), ".tif", true) == 0)
             {
                 using (var bitmap = new Bitmap(path)) { texture.CreateFromBitmap(bitmap, Path.GetFileNameWithoutExtension(path)); }
             }

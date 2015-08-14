@@ -84,6 +84,8 @@ namespace Flummery.ContentPipeline.Stainless
                             Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(material.Texture, Path.GetDirectoryName(path))
                         }
                     );
+
+                    materials.Entries[materials.Entries.Count - 1].SupportingDocuments["Source"] = material;
                 }
                 else
                 {

@@ -323,6 +323,20 @@ namespace Flummery
                         {
                             if (material.Name.Contains(".")) { material.Name = material.Name.Substring(0, material.Name.IndexOf(".")); }
                             material.Name = material.Name.Replace("\\", "");
+
+                            MATMaterial m = (material.SupportingDocuments["Source"] as MATMaterial);
+                            if (!m.HasTexture)
+                            {
+                                using (Bitmap bmp = new Bitmap(16, 16))
+                                using (Graphics g = Graphics.FromImage(bmp))
+                                {
+                                    g.FillRectangle(new SolidBrush(Color.FromArgb(m.DiffuseColour[3], m.DiffuseColour[0], m.DiffuseColour[1], m.DiffuseColour[2])), 0, 0, 16, 16);
+
+                                    Texture t = new Texture();
+                                    t.CreateFromBitmap(bmp, string.Format("{4}_R{0:x2}G{1:x2}B{2:x2}A{3:x2}", m.DiffuseColour[0], m.DiffuseColour[1], m.DiffuseColour[2], m.DiffuseColour[3], material.Name));
+                                    material.Texture = t;
+                                }
+                            }
                         }
 
                         SceneManager.Current.UpdateProgress("Processing powerups and accessories");
