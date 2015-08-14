@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 
 using ToxicRagers.Carmageddon.Formats;
-using ToxicRagers.Helpers;
-using ToxicRagers.Stainless.Formats;
-
-using OpenTK;
-using System.Runtime.InteropServices;
 
 namespace Flummery.ContentPipeline.Stainless
 {
@@ -29,6 +21,17 @@ namespace Flummery.ContentPipeline.Stainless
             return hints;
         }
 
+        public override Asset Import(string path)
+        {
+            Texture texture = new Texture();
+            texture.FileName = path;
+
+            PIX pix = PIX.Load(path);
+            texture.CreateFromBitmap(pix.Pixies[0].GetBitmap(), pix.Pixies[0].Name);
+
+            return texture;
+        }
+
         public override AssetList ImportMany(string path)
         {
             TextureList textures = new TextureList();
@@ -39,35 +42,7 @@ namespace Flummery.ContentPipeline.Stainless
             {
                 Texture texture = new Texture();
 
-                using (var bmp = new Bitmap(pixelmap.Width, pixelmap.Height, PixelFormat.Format32bppArgb))
-                {
-                    BitmapData bmpdata = bmp.LockBits(new Rectangle(0, 0, pixelmap.Width, pixelmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-
-                    using (var nms = new MemoryStream())
-                    {
-                        for (int y = 0; y < pixelmap.Height; y++)
-                        { 
-                            for (int x = 0; x < pixelmap.ActualRowSize; x++)
-                            {
-                                var c = pixelmap.GetColourAtPixel(x, y);
-                                nms.WriteByte(c.B);
-                                nms.WriteByte(c.G);
-                                nms.WriteByte(c.R);
-                                nms.WriteByte(255);
-                            } 
-                        }
-
-                        var contentBuffer = new byte[nms.Length];
-                        nms.Position = 0;
-                        nms.Read(contentBuffer, 0, contentBuffer.Length);
-
-                        Marshal.Copy(contentBuffer, 0, bmpdata.Scan0, contentBuffer.Length);
-                    }
-
-                    bmp.UnlockBits(bmpdata);
-
-                    texture.CreateFromBitmap(bmp, pixelmap.Name);
-                }
+                texture.CreateFromBitmap(pixelmap.GetBitmap(), pixelmap.Name);
 
                 textures.Entries.Add(texture);
             }
