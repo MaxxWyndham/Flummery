@@ -42,26 +42,26 @@ namespace Flummery.ContentPipeline.Stainless
 
                 SceneManager.Current.UpdateProgress(string.Format("Processing {0}", mesh.Name));
 
-                //for (int i = 0; i < datmesh.Mesh.Materials.Count + 1; i++)
-                //{
+                for (int i = -1; i < datmesh.Mesh.Materials.Count; i++)
+                {
                     var meshpart = new ModelMeshPart();
 
-                    //if (i > 0)
-                    //{
-                    //    var material = SceneManager.Current.Materials.Entries.Find(m => m.Name == datmesh.Mesh.Materials[i - 1]);
-
-                    //    if (material == null)
-                    //    {
-                    //        material = new Material() { Name = datmesh.Mesh.Materials[i - 1] };
-                    //        SceneManager.Current.Add(material);
-                    //    }
-
-                    //    meshpart.Material = (Material)material;
-                    //}
-
-                    foreach (var face in datmesh.Mesh.Faces)//.Where(f => f.MaterialID == i - 1)
+                    if (i > -1)
                     {
-                        int smoothingGroup = 0;// (face.SmoothingGroup << 8);
+                        var material = SceneManager.Current.Materials.Entries.Find(m => m.Name == datmesh.Mesh.Materials[i]);
+
+                        if (material == null)
+                        {
+                            material = new Material { Name = datmesh.Mesh.Materials[i] };
+                            SceneManager.Current.Add(material);
+                        }
+
+                        meshpart.Material = (Material)material;
+                    }
+
+                    foreach (var face in datmesh.Mesh.Faces.Where(f => f.MaterialID == i))
+                    {
+                        int smoothingGroup = (face.SmoothingGroup << 8);
 
                         meshpart.AddFace(
                             new OpenTK.Vector3[] {
@@ -83,42 +83,7 @@ namespace Flummery.ContentPipeline.Stainless
                     }
 
                     mesh.AddModelMeshPart(meshpart, false);
-                //}
-
-                //for (int i = 0; i < datmesh.Mesh.Faces.Count; i++)
-                //{
-                //    var face = datmesh.Mesh.Faces[i];
-                //    var materialID = face.MaterialID + 1;
-
-                //    if (face.MaterialID > -1 && mesh.MeshParts[materialID].Material == null)
-                //    {
-                //        var material = SceneManager.Current.Materials.Entries.Find(m => m.Name == datmesh.Mesh.Materials[face.MaterialID]);
-                //        if (material == null)
-                //        { 
-                //            material = new Material() { Name = datmesh.Mesh.Materials[face.MaterialID] };
-                //            SceneManager.Current.Add(material);
-                //        }
-                //        mesh.MeshParts[materialID].Material = (Material)material;
-                //    }
-
-                //    mesh.MeshParts[materialID].AddFace(
-                //        new OpenTK.Vector3[] {
-                //            new OpenTK.Vector3(datmesh.Mesh.Verts[face.V1].X, datmesh.Mesh.Verts[face.V1].Y, datmesh.Mesh.Verts[face.V1].Z),
-                //            new OpenTK.Vector3(datmesh.Mesh.Verts[face.V2].X, datmesh.Mesh.Verts[face.V2].Y, datmesh.Mesh.Verts[face.V2].Z),
-                //            new OpenTK.Vector3(datmesh.Mesh.Verts[face.V3].X, datmesh.Mesh.Verts[face.V3].Y, datmesh.Mesh.Verts[face.V3].Z)
-                //        },
-                //        new OpenTK.Vector3[] {
-                //            new OpenTK.Vector3(datmesh.Mesh.Normals[face.V1].X, datmesh.Mesh.Normals[face.V1].Y, datmesh.Mesh.Normals[face.V1].Z),
-                //            new OpenTK.Vector3(datmesh.Mesh.Normals[face.V2].X, datmesh.Mesh.Normals[face.V2].Y, datmesh.Mesh.Normals[face.V2].Z),
-                //            new OpenTK.Vector3(datmesh.Mesh.Normals[face.V3].X, datmesh.Mesh.Normals[face.V3].Y, datmesh.Mesh.Normals[face.V3].Z)
-                //        },
-                //        new OpenTK.Vector2[] {
-                //            (datmesh.Mesh.HasUVs ? new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV1].X, datmesh.Mesh.UVs[face.UV1].Y) : OpenTK.Vector2.Zero),
-                //            (datmesh.Mesh.HasUVs ? new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV2].X, datmesh.Mesh.UVs[face.UV2].Y) : OpenTK.Vector2.Zero),
-                //            (datmesh.Mesh.HasUVs ? new OpenTK.Vector2(datmesh.Mesh.UVs[face.UV3].X, datmesh.Mesh.UVs[face.UV3].Y) : OpenTK.Vector2.Zero)
-                //        }
-                //    );
-                //}
+                }
 
                 for (int i = mesh.MeshParts.Count - 1; i >= 0; i--)
                 {
