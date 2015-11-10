@@ -175,6 +175,12 @@
     <Compile Include="frmPreferences.Designer.cs">
       <DependentUpon>frmPreferences.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmReincarnationMaterialEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReincarnationMaterialEditor.Designer.cs">
+      <DependentUpon>frmReincarnationMaterialEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmReincarnationWheelPreview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -334,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPreferences.resx">
       <DependentUpon>frmPreferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReincarnationMaterialEditor.resx">
+      <DependentUpon>frmReincarnationMaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmReincarnationWheelPreview.resx">
       <DependentUpon>frmReincarnationWheelPreview.cs</DependentUpon>

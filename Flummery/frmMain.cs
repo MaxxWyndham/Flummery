@@ -71,6 +71,8 @@ namespace Flummery
 
             if (Properties.Settings.Default.CheckForUpdates) { checkUpdate(); }
 
+            SceneManager.Current.SetContext(ContextGame.Carmageddon_Reincarnation, ContextMode.Car);
+
             FlummeryApplication.UI = this;
         }
 
@@ -607,7 +609,7 @@ namespace Flummery
 
                 case "CNT files":
                 case "MDL files":
-                case "MTL files":
+                case "MT2 files":
                 case "TDX files":
                 case "LIGHT files":
                 case "Accessory.txt files":
@@ -762,8 +764,8 @@ namespace Flummery
                                 result = ToxicRagers.Stainless.Formats.MDL.Load(fi.FullName);
                                 break;
 
-                            case "mtl":
-                                result = ToxicRagers.Stainless.Formats.MTL.Load(fi.FullName);
+                            case "mt2":
+                                result = ToxicRagers.CarmageddonReincarnation.Formats.MT2.Load(fi.FullName);
                                 break;
 
                             case "tdx":

@@ -34,6 +34,8 @@ namespace Flummery.ContentPipeline.Stainless
 
         public override Asset Import(string path)
         {
+            Material material;
+
             string name = Path.GetFileNameWithoutExtension(path);
             ToxicRagers.Generics.Material m = null;
 
@@ -51,21 +53,25 @@ namespace Flummery.ContentPipeline.Stainless
             if (m != null)
             {
                 var mat = (m as MT2);
-                string fileName = (mat != null ? mat.DiffuseColour : (m as MTL).Textures[0]);
+                string fileName = (mat != null ? mat.Texture : (m as MTL).Textures[0]);
 
                 if (fileName == null || fileName == "")
                 {
-                    return new Material { Name = name, Texture = new Texture() { Name = fileName } };
+                    material = new Material { Name = name, Texture = new Texture() { Name = fileName } };
                 }
                 else
                 {
-                    return new Material { Name = name, Texture = SceneManager.Current.Content.Load<Texture, TDXImporter>(fileName, Path.GetDirectoryName(path)) };
+                    material = new Material { Name = name, Texture = SceneManager.Current.Content.Load<Texture, TDXImporter>(fileName, Path.GetDirectoryName(path)) };
                 }
+
+                material.SupportingDocuments["Source"] = m;
             }
             else
             {
-                return new Material();
+                material = new Material();
             }
+
+            return material;
         }
 
         public override AssetList ImportMany(string path)

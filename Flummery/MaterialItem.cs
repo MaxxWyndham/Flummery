@@ -50,8 +50,20 @@ namespace Flummery.Controls
 
         void MaterialItem_Click(object sender, EventArgs e)
         {
-            var editor = new frmMaterialEditor(this, m);
-            editor.Show(this.ParentForm);
+            Form editor;
+            
+            switch (SceneManager.Current.CurrentGame)
+            {
+                case ContextGame.Carmageddon_Reincarnation:
+                    editor = new frmReincarnationMaterialEditor(this, m);
+                    break;
+
+                default:
+                    editor = new frmMaterialEditor(this, m);
+                    break;
+            }
+
+            editor.ShowDialog(this.ParentForm);
 
             if (SngClick != null) { SngClick(this, e); }
         }
