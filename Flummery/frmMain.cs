@@ -212,6 +212,17 @@ namespace Flummery
                         SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
                     }
                     break;
+
+                case "Wreckfest VHCL File...":
+                    ofdBrowse.Filter = "Wreckfest VHCL files (*.vhcl)|*.vhcl";
+
+                    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
+                    {
+                        SceneManager.Current.Content.Load<Model, ContentPipeline.Wreckfest.SCNEImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+
+                        SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
+                    }
+                    break;
             }
         }
 
