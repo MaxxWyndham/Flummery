@@ -125,11 +125,11 @@ namespace Flummery
                         tx.Export(material.Texture, txtPath.Text);
                     }
 
-                    if (!File.Exists(fileName + ".img"))
-                    {
-                        var tx = new IMGExporter();
-                        tx.Export(material.Texture, txtPath.Text);
-                    }
+                    //if (!File.Exists(fileName + ".img"))
+                    //{
+                    //    var tx = new IMGExporter();
+                    //    tx.Export(material.Texture, txtPath.Text);
+                    //}
 
                     textures.Add(material.Texture.Name);
                 }
@@ -149,21 +149,14 @@ namespace Flummery
 
             foreach (var material in SceneManager.Current.Materials)
             {
-                string fileName = txtPath.Text + "\\" + material.Name + ".mt2";
+                string fileName = Path.Combine(txtPath.Text, material.Name + ".mt2");
 
                 if (!File.Exists(fileName))
                 {
-                    using (StreamWriter w = File.CreateText(txtPath.Text + "\\" + material.Name + ".mt2"))
-                    {
-                        w.WriteLine("<?xml version=\"1.0\"?>");
-                        w.WriteLine("<Material>");
-                        w.WriteLine("\t<BasedOffOf Name=\"simple_base\"/>");
-                        w.WriteLine("\t<Walkable Value=\"TRUE\" />");
-                        w.WriteLine("\t<Pass Number=\"0\">");
-                        w.WriteLine("\t\t<Texture Alias=\"DiffuseColour\" FileName=\"" + material.Texture.Name.Replace("&", "&amp;") + "\"/>");
-                        w.WriteLine("\t</Pass>");
-                        w.WriteLine("</Material>");
-                    }
+                    var simple = new ToxicRagers.CarmageddonReincarnation.Formats.Materials.simple_base();
+                    simple.DiffuseColour = material.Texture.Name;
+                    simple.Walkable = Troolean.True;
+                    simple.Save(fileName);
                 }
             }
 
@@ -405,12 +398,12 @@ namespace Flummery
             minge.Type = MINGE.ModType.Level;
             minge.Save(Path.Combine(txtPath.Text, txtLevel.Text + ".minge"));
 
-            var zad = ToxicRagers.Stainless.Formats.ZAD.Create(Path.Combine(txtPath.Text, txtLevel.Text + ".zad"));
+            var zad = ToxicRagers.Stainless.Formats.ZAD.Create(Path.Combine(txtPath.Text, txtLevel.Text + ".zip"));
             zad.AddDirectory(Path.GetDirectoryName(txtPath.Text));
 
             lblProgress.Text = "✓";
             lblProgress.ForeColor = Color.Green;
-            lblInfo.Text = "CarMODgeddon ZAD file";
+            lblInfo.Text = "CarMODgeddon ZIP file";
             pbProgress.Value = progressMax;
 
             flump.Save(txtPath.Text + "level.flump");

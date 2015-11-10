@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
@@ -13,6 +15,9 @@ namespace Flummery.ContentPipeline.Stainless
         {
             var texture = (asset as Texture);
             var tdx = (texture.SupportingDocuments["Source"] as TDX);
+
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
 
             if (tdx == null)
             {
@@ -45,20 +50,9 @@ namespace Flummery.ContentPipeline.Stainless
                 byte[] data = new byte[b.Width * b.Height * 4];
                 byte[] dest = new byte[Squish.Squish.GetStorageRequirements(b.Width, b.Height, flags | Squish.SquishFlags.kColourIterativeClusterFit | Squish.SquishFlags.kWeightColourByAlpha)];
 
-                int ii = 0;
-                for (int y = 0; y < b.Height; y++)
-                {
-                    for (int x = 0; x < b.Width; x++)
-                    {
-                        var p = b.GetPixel(x, y);
-                        data[ii + 0] = p.R;
-                        data[ii + 1] = p.G;
-                        data[ii + 2] = p.B;
-                        data[ii + 3] = p.A;
-
-                        ii += 4;
-                    }
-                }
+                var bmpdata = b.LockBits(new Rectangle(0, 0, mip.Width, mip.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                Marshal.Copy(bmpdata.Scan0, data, 0, data.Length);
+                b.UnlockBits(bmpdata);
 
                 SceneManager.Current.UpdateProgress(string.Format("Compressing {0} (this may take a moment)", texture.Name));
                 Squish.Squish.CompressImage(data, b.Width, b.Height, ref dest, flags | Squish.SquishFlags.kColourClusterFit);
@@ -68,6 +62,9 @@ namespace Flummery.ContentPipeline.Stainless
             }
 
             tdx.Save(Path.GetDirectoryName(path) + "\\" + texture.Name + ".tdx");
+
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed);
 
             SceneManager.Current.UpdateProgress(string.Format("{0}.tdx saved!", texture.Name));
         }

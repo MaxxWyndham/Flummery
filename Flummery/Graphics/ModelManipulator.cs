@@ -161,6 +161,38 @@ namespace Flummery
             }
         }
 
+        public static void Normalise(ModelMeshPart model) 
+        {
+            List<Vector3> faceNormals = new List<Vector3>();
+
+            for (int i = 0; i < model.IndexBuffer.Length; i += 3)
+            {
+                Vector3 v0 = model.VertexBuffer.Data[model.IndexBuffer.Data[i + 0]].Position;
+                Vector3 v1 = model.VertexBuffer.Data[model.IndexBuffer.Data[i + 1]].Position;
+                Vector3 v2 = model.VertexBuffer.Data[model.IndexBuffer.Data[i + 2]].Position;
+
+                Vector3 u = v0 - v1;
+                Vector3 v = v0 - v2;
+
+                faceNormals.Add(Vector3.Cross(u, v).Normalized());
+            }
+
+            for (int i = 0; i < model.VertexBuffer.Data.Count; i++)
+            {
+                for (int j = 0; j < model.IndexBuffer.Length; j += 3)
+                {
+                    if (model.IndexBuffer.Data[j + 0] == i) { model.VertexBuffer.ModifyVertexNormal(i, model.VertexBuffer.Data[i].Normal + faceNormals[j / 3]); }
+                    if (model.IndexBuffer.Data[j + 1] == i) { model.VertexBuffer.ModifyVertexNormal(i, model.VertexBuffer.Data[i].Normal + faceNormals[j / 3]); }
+                    if (model.IndexBuffer.Data[j + 2] == i) { model.VertexBuffer.ModifyVertexNormal(i, model.VertexBuffer.Data[i].Normal + faceNormals[j / 3]); }
+                }
+            }
+
+            for (int i = 0; i < model.VertexBuffer.Data.Count; i++)
+            {
+                model.VertexBuffer.ModifyVertexNormal(i, model.VertexBuffer.Data[i].Normal.Normalized());
+            }
+        }
+
         public static void FlipAxis(ModelMesh model, Axis axis, bool bApplyToHierarchy = false)
         {
             var transform = Vector3.One;
