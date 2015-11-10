@@ -59,6 +59,10 @@
     <ApplicationIcon>data\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LibSquishNet, Version=1.11.5792.20541, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibSquishNet.1.11.5792.20541\lib\net46\LibSquishNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -126,7 +130,6 @@
     <Compile Include="ContentPipeline\TDR2000\HIEImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\MSHSImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\TXImporter.cs" />
-    <Compile Include="ContentPipeline\Wreckfest\SCNEImporter.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FlummeryApplication.cs" />
     <Compile Include="FlumpFile.cs" />
@@ -472,10 +475,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\LibSquishNet\LibSquishNet\LibSquishNet.csproj">
-      <Project>{8b187d46-bc8e-4b5a-ae68-326958bc9aaa}</Project>
-      <Name>LibSquishNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
       <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
       <Name>ToxicRagers</Name>
