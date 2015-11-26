@@ -34,6 +34,7 @@ namespace Flummery
     {
         List<Vertex> data = new List<Vertex>();
         int vbo;
+        bool Initialised = false;
 
         public int Length { get { return (data != null ? data.Count : 0); } }
         public List<Vertex> Data { get { return data; } }
@@ -83,6 +84,12 @@ namespace Flummery
 
         public void Draw(IndexBuffer ibo, PrimitiveType primitiveType)
         {
+
+            if (vbo == 0 && !Initialised)
+            {
+                Initialise();
+                Initialised = true;
+            }
             ibo.Draw();
 
             bool bWireframe = (SceneManager.Current.RenderMode == SceneManager.RenderMeshMode.Wireframe);

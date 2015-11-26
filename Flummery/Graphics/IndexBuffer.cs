@@ -9,6 +9,7 @@ namespace Flummery
     {
         List<int> indicies;
         int ibo;
+        bool Initialised = false;
 
         public List<int> Data { get { return indicies; } }
         public int Length { get { return indicies.Count; } }
@@ -27,6 +28,11 @@ namespace Flummery
 
         public void Draw()
         {
+            if (ibo == 0 && !Initialised)
+            {
+                Initialise();
+                Initialised = true;
+            }
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
 
         }

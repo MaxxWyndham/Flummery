@@ -45,9 +45,16 @@ namespace Flummery
             llblShoutOut.Tag = contributor.Website;
             ttOverview.SetToolTip(llblShoutOut, contributor.Website);
         }
+        delegate void ProcessTreeDelegate(Model m, int index, bool bReset);
 
         public void ProcessTree(Model m, int index, bool bReset = false)
         {
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new ProcessTreeDelegate(ProcessTree), new object[] { m,index,bReset });
+                return;
+            }
             TreeNode ParentNode;
 
             if (bReset || tvNodes.Nodes.Count == 0) { Reset(); }
