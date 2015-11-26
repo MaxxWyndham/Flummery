@@ -151,6 +151,18 @@
     <Compile Include="frmChangeNodeType.Designer.cs">
       <DependentUpon>frmChangeNodeType.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmInterOpControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInterOpControl.Designer.cs">
+      <DependentUpon>frmInterOpControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmInterOpTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInterOpTest.Designer.cs">
+      <DependentUpon>frmInterOpTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMaterialEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,6 +270,7 @@
     <Compile Include="Graphics\TextWriter.cs" />
     <Compile Include="Graphics\Viewport.cs" />
     <Compile Include="Graphics\ViewportManager.cs" />
+    <Compile Include="InterOp\InterOpServer.cs" />
     <Compile Include="IWidget.cs" />
     <Compile Include="MaterialItem.cs">
       <SubType>UserControl</SubType>
@@ -325,6 +338,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmChangeNodeType.resx">
       <DependentUpon>frmChangeNodeType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInterOpControl.resx">
+      <DependentUpon>frmInterOpControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInterOpTest.resx">
+      <DependentUpon>frmInterOpTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
@@ -484,7 +503,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
+    <ProjectReference Include="..\..\..\ToxicRagers\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
       <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
       <Name>ToxicRagers</Name>
     </ProjectReference>

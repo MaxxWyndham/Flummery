@@ -1103,6 +1103,15 @@ namespace Flummery
         private void frmMain_Shown(object sender, EventArgs e)
         {
         }
+
+        private void dCCInterOpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var interOpForm = new frmInterOpControl();
+            interOpForm.Show();
+
+            //var interOpTestForm = new frmInterOpTest();
+            //interOpTestForm.Show();
+        }
     }
 }
  

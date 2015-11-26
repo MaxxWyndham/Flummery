@@ -585,7 +585,9 @@ namespace Flummery.ContentPipeline.Core
                 {
                     SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(ddsPath)));
 
-                    tdx.SaveAsDDS(ddsPath);
+                    DDS dds = (DDS)tdx;
+                    dds.Save(ddsPath);
+
                     ddsPath += ".dds";
 
                     var fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" }, new FBXProperty { Type = 83, Value = "" } } };

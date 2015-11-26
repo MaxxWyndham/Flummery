@@ -166,6 +166,7 @@ namespace Flummery
 
         public void Draw()
         {
+            
             var data = indexBuffer.Data;
 
             GL.Enable(EnableCap.DepthTest);
