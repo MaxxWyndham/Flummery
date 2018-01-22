@@ -1,6 +1,6 @@
 ﻿using System;
+
 using OpenTK;
-using OpenTK.Input;
 
 namespace Flummery
 {
@@ -25,7 +25,7 @@ namespace Flummery
         private Vector3 position;
         private Vector3 target = Vector3.Zero;
 
-        private Matrix4 viewMatrix, projectionMatrix;
+        private Matrix4 viewMatrix;
 
         private float yaw, pitch, roll;
         private float speed, rotationSpeed, zoomSpeed;
@@ -33,35 +33,23 @@ namespace Flummery
 
         ProjectionType projectionMode = ProjectionType.Perspective;
 
-        public Vector3 Position { get { return position; } }
-        public float Speed { get { return speed; } }
-        public float RotationSpeed { get { return rotationSpeed; } }
-        public float ZoomSpeed { get { return zoomSpeed; } }
+        public Vector3 Position => position;
+        public float Speed => speed;
+        public float RotationSpeed => rotationSpeed;
+        public float ZoomSpeed => zoomSpeed;
 
-        public Matrix4 View
-        {
-            get { return viewMatrix; }
-        }
-
-        public Matrix4 Projection
-        {
-            get { return projectionMatrix; }
-        }
-
+        public Matrix4 View => viewMatrix;
         public ProjectionType ProjectionMode
         {
-            get { return projectionMode; }
-            set { projectionMode = value; }
+            get => projectionMode;
+            set => projectionMode = value;
         }
 
         float zoom = 1.0f;
 
         public float Zoom
         {
-            get
-            {
-                return zoom;
-            }
+            get => zoom;
             set
             {
                 zoom = value;
@@ -88,10 +76,10 @@ namespace Flummery
 
         public void Update(float dt)
         {
-            UpdateViewMatrix();
+            updateViewMatrix();
         }
 
-        private void UpdateViewMatrix()
+        private void updateViewMatrix()
         {
             cameraRotation.NormaliseUp();
             cameraRotation.NormaliseRight();
@@ -112,12 +100,12 @@ namespace Flummery
 
         public void Frame(ModelMesh mesh)
         {
-            target = Vector3.Transform(Vector3.Transform(mesh.BoundingBox.Centre, mesh.Parent.CombinedTransform), SceneManager.Current.Transform);
+            target = Vector3.TransformVector(Vector3.TransformVector(mesh.BoundingBox.Centre, mesh.Parent.CombinedTransform), SceneManager.Current.Transform);
         }
 
         public void MoveCamera(Direction direction, float dt)
         {
-            var v = Vector3.Zero;
+            Vector3 v = Vector3.Zero;
 
             switch (direction)
             {
@@ -177,14 +165,14 @@ namespace Flummery
 
         public void Translate(float X = 0, float Y = 0, float Z = 0)
         {
-            target += Vector3.Transform(new Vector3(X, Y, Z), cameraRotation);
+            target += Vector3.TransformVector(new Vector3(X, Y, Z), cameraRotation);
         }
 
         public void SetActionScale(float speed)
         {
             this.speed = 1.25f * speed;
-            this.rotationSpeed = 0.005f * speed;
-            this.zoomSpeed = 0.001f * speed;
+            rotationSpeed = 0.005f * speed;
+            zoomSpeed = 0.001f * speed;
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Flummery.Controls
@@ -16,7 +10,7 @@ namespace Flummery.Controls
 
         public string MaterialName
         {
-            get { return lblName.Text; }
+            get => lblName.Text;
             set
             {
                 ttInfo.SetToolTip(pbThumb, value);
@@ -27,8 +21,8 @@ namespace Flummery.Controls
 
         public Material Material
         {
-            get { return m; }
-            set { m = value; }
+            get => m;
+            set => m = value;
         }
 
         public event EventHandler DblClick;
@@ -38,10 +32,10 @@ namespace Flummery.Controls
         {
             InitializeComponent();
 
-            this.Click += new EventHandler(MaterialItem_Click);
-            this.DoubleClick += new EventHandler(MaterialItem_DoubleClick);
+            Click += new EventHandler(MaterialItem_Click);
+            DoubleClick += new EventHandler(MaterialItem_DoubleClick);
 
-            foreach (Control c in this.Controls)
+            foreach (Control c in Controls)
             {
                 c.Click += new EventHandler(MaterialItem_Click);
                 c.DoubleClick += new EventHandler(MaterialItem_DoubleClick);
@@ -51,10 +45,10 @@ namespace Flummery.Controls
         void MaterialItem_Click(object sender, EventArgs e)
         {
             Form editor;
-            
+
             switch (SceneManager.Current.CurrentGame)
             {
-                case ContextGame.Carmageddon_Reincarnation:
+                case ContextGame.CarmageddonReincarnation:
                     editor = new frmReincarnationMaterialEditor(this, m);
                     break;
 
@@ -63,14 +57,14 @@ namespace Flummery.Controls
                     break;
             }
 
-            editor.ShowDialog(this.ParentForm);
+            editor.ShowDialog(ParentForm);
 
-            if (SngClick != null) { SngClick(this, e); }
+            SngClick?.Invoke(this, e);
         }
 
         void MaterialItem_DoubleClick(object sender, EventArgs e)
         {
-            if (DblClick != null) { DblClick(this, e); }
+            DblClick?.Invoke(this, e);
         }
 
         public void SetThumbnail(Bitmap b)

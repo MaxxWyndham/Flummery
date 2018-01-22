@@ -14,7 +14,7 @@ namespace Flummery.ContentPipeline.Stainless
 
             foreach (var mesh in model.Meshes)
             {
-                var m = new c2Mesh();
+                var m = new C2Mesh();
 
                 foreach (var meshpart in mesh.MeshParts)
                 {

@@ -73,7 +73,6 @@ namespace Flummery.ContentPipeline.TDR2000
         }
 
         protected static Material material;
-        protected static string texture;
         protected static bool exit = false;
 
         static void ProcessNode(TDRNode node, Model model, Model mshses, HIE hie, int ParentBoneIndex = 0)

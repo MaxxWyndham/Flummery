@@ -1,9 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-using Flummery.Controls;
-
-using WeifenLuo.WinFormsUI.Docking;
+﻿using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
 {
@@ -14,9 +9,9 @@ namespace Flummery
         Lighting
     }
 
-    public partial class pnlDetails : DockContent
+    public partial class PnlDetails : DockContent
     {
-        public pnlDetails()
+        public PnlDetails()
         {
             InitializeComponent();
 
@@ -32,8 +27,8 @@ namespace Flummery
 
         public void RegisterEventHandlers()
         {
-            this.Lighting.RegisterEventHandlers();
-            this.Transform.RegisterEventHandlers();
+            Lighting.RegisterEventHandlers();
+            Transform.RegisterEventHandlers();
 
             SceneManager.Current.OnSelect += scene_OnSelect;
             SceneManager.Current.OnReset += scene_OnReset;
@@ -46,14 +41,14 @@ namespace Flummery
 
         private void setSelection(ModelBone bone)
         {
-            this.Transform.Visible = (bone != null);
-            this.Lighting.Visible = (bone.Type == BoneType.Light);
+            Transform.Visible = (bone != null);
+            Lighting.Visible = (bone.Type == BoneType.Light);
         }
 
         private void scene_OnReset(object sender, ResetEventArgs e)
         {
-            this.Transform.Visible = false;
-            this.Lighting.Visible = false;
+            Transform.Visible = false;
+            Lighting.Visible = false;
         }
     }
 }

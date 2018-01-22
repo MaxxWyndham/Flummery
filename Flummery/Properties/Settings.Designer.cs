@@ -262,5 +262,17 @@ namespace Flummery.Properties {
                 this["UseFlummeryWorkingDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PathCarmageddonMaxDamage {
+            get {
+                return ((string)(this["PathCarmageddonMaxDamage"]));
+            }
+            set {
+                this["PathCarmageddonMaxDamage"] = value;
+            }
+        }
     }
 }

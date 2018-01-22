@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+
 using OpenTK;
 
 namespace Flummery
@@ -31,45 +31,45 @@ namespace Flummery
         Vector3 scale;
 
         BoneType boneType = BoneType.Null;
-        Object attachment = null;
+        object attachment = null;
         string attachmentFile = null;
 
         public int Index
         {
-            get { return index; }
-            set { index = value; }
+            get => index;
+            set => index = value;
         }
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get => name;
+            set => name = value;
         }
 
         public ModelBone Parent
         {
-            get { return parent; }
-            set { parent = value; }
+            get => parent;
+            set => parent = value;
         }
 
         public ModelBoneCollection Children
         {
-            get { return children; }
-            set { children = value; }
+            get => children;
+            set => children = value;
         }
 
         public Matrix4 Transform
         {
-            get { return transform; }
-            set { transform = value; }
+            get => transform;
+            set => transform = value;
         }
 
         public Matrix4 CombinedTransform
         {
             get
             {
-                var b = this;
-                var m = transform;
+                ModelBone b = this;
+                Matrix4 m = transform;
 
                 while (b.parent != null)
                 {
@@ -83,24 +83,23 @@ namespace Flummery
 
         public BoneType Type
         {
-            get { return boneType; }
-            set { boneType = value; }
+            get => boneType;
+            set => boneType = value;
         }
 
-        public Object Attachment
+        public object Attachment
         {
-            get { return attachment; }
-            set { attachment = value; }
+            get => attachment;
+            set => attachment = value;
         }
 
         public string AttachmentFile
         {
-            get { return attachmentFile; }
-            set { attachmentFile = value; }
+            get => attachmentFile;
+            set => attachmentFile = value;
         }
 
-        public ModelMesh Mesh { get { return attachment as ModelMesh; } }
-
+        public ModelMesh Mesh => attachment as ModelMesh;
         public ModelBone()
         {
             children = new ModelBoneCollection();
@@ -110,23 +109,24 @@ namespace Flummery
 
         public ModelBone Clone()
         {
-            var b = new ModelBone();
-
-            b.index = this.index;
-            b.name = this.name;
-            b.parent = this.parent;
-            b.transform = this.transform;
-
-            b.boneType = this.boneType;
-            b.attachment = this.attachment;
-            b.attachmentFile = this.attachmentFile;
-
-            foreach (var child in this.children)
+            ModelBone b = new ModelBone()
             {
-                var cb = child.Clone();
+                index = index,
+                name = name,
+                parent = parent,
+                transform = transform,
+
+                boneType = boneType,
+                attachment = attachment,
+                attachmentFile = attachmentFile
+            };
+
+            foreach (ModelBone child in children)
+            {
+                ModelBone cb = child.Clone();
                 cb.parent = b;
 
-                b.children.Add(cb); 
+                b.children.Add(cb);
             }
 
             return b;
@@ -134,21 +134,21 @@ namespace Flummery
 
         public ModelBoneCollection AllChildren(bool bIncludeSelf = true)
         {
-            var childs = new ModelBoneCollection();
+            ModelBoneCollection childs = new ModelBoneCollection();
 
             if (bIncludeSelf) { childs.Add(this); }
-            getChildren(this, ref childs);
+            GetChildren(this, ref childs);
 
             return childs;
         }
 
-        protected void getChildren(ModelBone parent, ref ModelBoneCollection list)
+        protected void GetChildren(ModelBone parent, ref ModelBoneCollection list)
         {
-            foreach (var child in parent.children)
+            foreach (ModelBone child in parent.children)
             {
                 list.Add(child);
 
-                child.getChildren(child, ref list);
+                child.GetChildren(child, ref list);
             }
         }
 
@@ -221,21 +221,21 @@ namespace Flummery
             return scale;
         }
 
-        public void SetPosition(Single x, Single y, Single z, bool bAbsolute = true)
+        public void SetPosition(float x, float y, float z, bool bAbsolute = true)
         {
             position = new Vector3(x, y, z);
 
             updateMatrix(position, rotation, scale, bAbsolute);
         }
 
-        public void SetRotation(Single x, Single y, Single z, bool bAbsolute = true)
+        public void SetRotation(float x, float y, float z, bool bAbsolute = true)
         {
             rotation = new Vector3(x, y, z);
 
             updateMatrix(position, rotation, scale, bAbsolute);
         }
 
-        public void SetScale(Single x, Single y, Single z, bool bAbsolute = true)
+        public void SetScale(float x, float y, float z, bool bAbsolute = true)
         {
             scale = new Vector3(x, y, z);
 
@@ -244,14 +244,14 @@ namespace Flummery
 
         private void updateMatrix(Vector3 position, Vector3 rotation, Vector3 scale, bool bAbsolute)
         {
-            var mS = Matrix4.CreateScale(scale);
-            var mR = Matrix4.CreateFromQuaternion(
-                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians(rotation.X)) *
-                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(rotation.Y)) *
-                Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(rotation.Z))
+            Matrix4 mS = Matrix4.CreateScale(scale);
+            Matrix4 mR = Matrix4.CreateFromQuaternion(
+                Quaternion.FromAxisAngle(Vector3.UnitX, MathHelper.DegreesToRadians(rotation.X)) *
+                Quaternion.FromAxisAngle(Vector3.UnitY, MathHelper.DegreesToRadians(rotation.Y)) *
+                Quaternion.FromAxisAngle(Vector3.UnitZ, MathHelper.DegreesToRadians(rotation.Z))
             );
 
-            var t = Matrix4.Identity;
+            Matrix4 t = Matrix4.Identity;
             t *= mS;
             t *= mR;
             t.M41 = position.X;

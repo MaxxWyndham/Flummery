@@ -10,7 +10,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
 {
-    public partial class pnlViewport : DockContent
+    public partial class PnlViewport : DockContent
     {
         public static GLControl Control;
         ViewportManager viewman;
@@ -18,7 +18,7 @@ namespace Flummery
         double accumulator = 0;
         bool bRendered = false;
 
-        private double dt
+        private double Dt
         {
             get
             {
@@ -30,14 +30,14 @@ namespace Flummery
             }
         }
 
-        public pnlViewport()
+        public PnlViewport()
         {
             InitializeComponent();
 
-            this.AllowEndUserDocking = false;
-            this.TabText = "Untitled";
-            this.CloseButton = false;
-            this.CloseButtonVisible = false;
+            AllowEndUserDocking = false;
+            TabText = "Untitled";
+            CloseButton = false;
+            CloseButtonVisible = false;
 
             UpdateKeyboardShortcuts();
         }
@@ -45,7 +45,7 @@ namespace Flummery
         public void RegisterEventHandlers()
         {
             InputManager.Current.OnBindingsChanged += input_OnBindingsChanged;
-            SceneManager.Current.OnContextChange += scene_OnContextChage;
+            //SceneManager.Current.OnContextChange += scene_OnContextChage;
         }
 
         private void scene_OnContextChage(object sender, ContextChangeEventArgs e)
@@ -60,24 +60,27 @@ namespace Flummery
 
         public void UpdateKeyboardShortcuts()
         {
-            this.tsbSelect.ToolTipText = string.Format("{0} ({1})", this.tsbSelect.Text, Properties.Settings.Default.KeysCameraSelect);
-            this.tsbPan.ToolTipText = string.Format("{0} ({1})", this.tsbPan.Text, Properties.Settings.Default.KeysCameraPan);
-            this.tsbZoom.ToolTipText = string.Format("{0} ({1})", this.tsbZoom.Text, Properties.Settings.Default.KeysCameraZoom);
-            this.tsbRotate.ToolTipText = string.Format("{0} ({1})", this.tsbRotate.Text, Properties.Settings.Default.KeysCameraRotate);
-            this.tsbFrame.ToolTipText = string.Format("{0} ({1})", this.tsbFrame.Text, Properties.Settings.Default.KeysCameraFrame);
+            tsbSelect.ToolTipText = string.Format("{0} ({1})", tsbSelect.Text, Properties.Settings.Default.KeysCameraSelect);
+            tsbPan.ToolTipText = string.Format("{0} ({1})", tsbPan.Text, Properties.Settings.Default.KeysCameraPan);
+            tsbZoom.ToolTipText = string.Format("{0} ({1})", tsbZoom.Text, Properties.Settings.Default.KeysCameraZoom);
+            tsbRotate.ToolTipText = string.Format("{0} ({1})", tsbRotate.Text, Properties.Settings.Default.KeysCameraRotate);
+            tsbFrame.ToolTipText = string.Format("{0} ({1})", tsbFrame.Text, Properties.Settings.Default.KeysCameraFrame);
         }
 
         private void pnlViewport_Load(object sender, EventArgs e)
         {
-            Control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default);
-            Control.Name = "glcViewport";
-            Control.VSync = true;
-            Control.Width = 100;
-            Control.Height = 100;
-            Control.Dock = DockStyle.Fill;
-            Control.Top = 3;
-            Control.Left = 3;
-            Control.BackColor = Color.Black;
+            Control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default)
+            {
+                Name = "glcViewport",
+                VSync = true,
+                Width = 100,
+                Height = 100,
+                Dock = DockStyle.Fill,
+                Top = 3,
+                Left = 3,
+                BackColor = Color.Black
+            };
+
             Control.Paint += glcViewport_Paint;
             Control.Resize += glcViewport_Resize;
             Control.MouseMove += glcViewport_MouseMove;
@@ -87,13 +90,13 @@ namespace Flummery
             Control.MouseLeave += glcViewport_MouseLeave;
             Control.MouseWheel += glcViewport_MouseWheel;
             Control.Click += glcViewport_Click;
-            this.paneViewport.Controls.Add(Control);
+            paneViewport.Controls.Add(Control);
 
-            GLControlInit();
+            gLControlInit();
             viewman = new ViewportManager();
 
             sw.Start();
-            Application.Idle += new EventHandler(Application_Idle);
+            Application.Idle += new EventHandler(application_Idle);
 
             viewman.Initialise();
 
@@ -103,7 +106,7 @@ namespace Flummery
             InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraRotate, KeyBinding.KeysCameraRotate, SetModeRotate);
         }
 
-        private void GLControlInit()
+        private void gLControlInit()
         {
             GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
             GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
@@ -116,13 +119,13 @@ namespace Flummery
 
         private void glcViewport_Click(object sender, EventArgs e)
         {
-            var mouse = (MouseEventArgs)e;
+            MouseEventArgs mouse = (MouseEventArgs)e;
 
             if (viewman.Active.RightClickLabel(mouse))
             {
                 foreach (ToolStripItem item in cmsViewport.Items)
                 {
-                    var entry = (item as ToolStripMenuItem);
+                    ToolStripMenuItem entry = (item as ToolStripMenuItem);
                     if (entry == null) { continue; }
 
                     entry.Checked = (entry.Text == viewman.Active.Name);
@@ -161,9 +164,9 @@ namespace Flummery
 
         private void glcViewport_Paint(object sender, PaintEventArgs e)
         {
-            SceneManager.Current.Update((float)dt);
-            viewman.Update((float)dt);
-            Draw();
+            SceneManager.Current.Update((float)Dt);
+            viewman.Update((float)Dt);
+            draw();
         }
 
         private void glcViewport_Resize(object sender, EventArgs e)
@@ -186,11 +189,11 @@ namespace Flummery
 
         }
 
-        void Application_Idle(object sender, EventArgs e)
+        void application_Idle(object sender, EventArgs e)
         {
             if (!FlummeryApplication.Active) { return; }
 
-            double milliseconds = dt;
+            double milliseconds = Dt;
 
             accumulator += milliseconds;
             if (accumulator > 1000) { accumulator -= 1000; }
@@ -198,7 +201,7 @@ namespace Flummery
             Control.Invalidate();
         }
 
-        private void Draw()
+        private void draw()
         {
             GL.Disable(EnableCap.ScissorTest);
             GL.ClearColor(Color.Blue);
@@ -270,25 +273,25 @@ namespace Flummery
 
         public void SetModeSelect()
         {
-            SetMode(MouseMode.Select);
+            setMode(MouseMode.Select);
         }
 
         public void SetModePan()
         {
-            SetMode(MouseMode.Pan);
+            setMode(MouseMode.Pan);
         }
 
         public void SetModeZoom()
         {
-            SetMode(MouseMode.Zoom);
+            setMode(MouseMode.Zoom);
         }
 
         public void SetModeRotate()
         {
-            SetMode(MouseMode.Rotate);
+            setMode(MouseMode.Rotate);
         }
 
-        private void SetMode(MouseMode mode)
+        private void setMode(MouseMode mode)
         {
             tsbSelect.Checked = false;
             tsbPan.Checked = false;
@@ -296,7 +299,7 @@ namespace Flummery
             tsbRotate.Checked = false;
 
             viewman.Mode = mode;
-            ((ToolStripButton)this.tsStatic.Items.Find("tsb" + mode.ToString(), true)[0]).Checked = true;
+            ((ToolStripButton)tsStatic.Items.Find("tsb" + mode.ToString(), true)[0]).Checked = true;
         }
 
         private void tsbFrame_Click(object sender, EventArgs e)

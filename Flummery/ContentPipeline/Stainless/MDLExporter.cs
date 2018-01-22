@@ -17,7 +17,7 @@ namespace Flummery.ContentPipeline.Stainless
 
             int materialIndex = 1;
 
-            ModelManipulator.PreProcess(model, PreProcessOptions.SplitMeshPart | PreProcessOptions.Dedupe | PreProcessOptions.ResolveNonManifold);
+            ModelManipulator.PreProcess(model, PreProcessOptions.SplitMeshPart); //PreProcessOptions.Dedupe |  | PreProcessOptions.ResolveNonManifold
 
             foreach (var mesh in model.Meshes)
             {

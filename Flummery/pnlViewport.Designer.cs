@@ -1,6 +1,6 @@
 ﻿namespace Flummery
 {
-    partial class pnlViewport
+    partial class PnlViewport
     {
         /// <summary>
         /// Required designer variable.

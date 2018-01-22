@@ -11,7 +11,7 @@ namespace Flummery
         {
             InitializeComponent();
 
-            this.TabText = "Overview";
+            TabText = "Overview";
 
             Reset();
 
@@ -40,7 +40,7 @@ namespace Flummery
             llblShoutOut.Visible = true;
             llblShoutOut.LinkVisited = false;
 
-            var contributor = FlummeryApplication.PickRandomContributor();
+            FlummeryContributor contributor = FlummeryApplication.PickRandomContributor();
             llblShoutOut.Text = contributor.Name;
             llblShoutOut.Tag = contributor.Website;
             ttOverview.SetToolTip(llblShoutOut, contributor.Website);
@@ -56,8 +56,8 @@ namespace Flummery
 
             for (int i = 0; i < m.Bones.Count; i++)
             {
-                var bone = m.Bones[i];
-                var key = ModelBone.GetModelBoneKey(index, i);
+                ModelBone bone = m.Bones[i];
+                int key = ModelBone.GetModelBoneKey(index, i);
 
                 while (ParentNode != null && ParentNode.Tag != null && (int)ParentNode.Tag != ModelBone.GetModelBoneKey(index, bone.Parent.Index)) { ParentNode = ParentNode.Parent; }
                 ParentNode = ParentNode.Nodes[ParentNode.Nodes.Add(CreateNode(bone, key))];
@@ -69,7 +69,7 @@ namespace Flummery
 
         void scene_OnAdd(object sender, AddEventArgs e)
         {
-            var m = (e.Item as Model);
+            Model m = (e.Item as Model);
 
             if (m != null) { ProcessTree(m, e.Index); }
         }
@@ -122,7 +122,7 @@ namespace Flummery
 
                 case ChangeType.ChangeType:
                     FindNode(e.Index, tvNodes.Nodes[0].Nodes[0], out node);
-                    var bone = SceneManager.Current.Models[0].Bones[e.Index];
+                    ModelBone bone = SceneManager.Current.Models[0].Bones[e.Index];
 
                     node.Text = getNodeText(bone);
                     node.ImageIndex = (int)bone.Type;
@@ -172,10 +172,12 @@ namespace Flummery
 
         protected TreeNode CreateNode(ModelBone bone, int index)
         {
-            var node = new TreeNode(getNodeText(bone));
+            TreeNode node = new TreeNode(getNodeText(bone))
+            {
+                Tag = index,
+                ImageIndex = (int)bone.Type
+            };
 
-            node.Tag = index;
-            node.ImageIndex = (int)bone.Type;
             node.SelectedImageIndex = node.ImageIndex;
 
             return node;
@@ -192,7 +194,7 @@ namespace Flummery
                     break;
 
                 case BoneType.Light:
-                    name += " - " + (bone.Attachment as ToxicRagers.CarmageddonReincarnation.Formats.LIGHT).Name;
+                    name += " - " + (bone.Attachment != null ? (bone.Attachment as ToxicRagers.CarmageddonReincarnation.Formats.LIGHT).Name : "");
                     break;
 
                 case BoneType.VFX:
@@ -217,7 +219,7 @@ namespace Flummery
 
                 SceneManager.Current.SetSelectedBone(mI, bI);
 
-                var bone = SceneManager.Current.Models[mI].Bones[bI];
+                ModelBone bone = SceneManager.Current.Models[mI].Bones[bI];
 
                 if (bone.Type == BoneType.Mesh)
                 {

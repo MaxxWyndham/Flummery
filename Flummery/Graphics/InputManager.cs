@@ -28,7 +28,6 @@ namespace Flummery
     {
         Dictionary<char, Action> bindings;
         Dictionary<KeyBinding, char> bindingLookup;
-        KeyboardState lastState;
 
         public static InputManager Current;
 

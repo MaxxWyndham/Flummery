@@ -549,6 +549,11 @@
             // nudEmissiveFactor
             // 
             this.nudEmissiveFactor.Location = new System.Drawing.Point(131, 122);
+            this.nudEmissiveFactor.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.nudEmissiveFactor.Name = "nudEmissiveFactor";
             this.nudEmissiveFactor.Size = new System.Drawing.Size(61, 20);
             this.nudEmissiveFactor.TabIndex = 28;

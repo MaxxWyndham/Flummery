@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using OpenTK;
+﻿using System.Collections.Generic;
 
 namespace Flummery
 {
     public class ModelMesh
     {
         BoundingBox boundingBox;
-        BoundingSphere BoundingSphere;
         List<ModelMeshPart> meshParts;
         string name;
         ModelBone parent;
@@ -17,26 +13,23 @@ namespace Flummery
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get => name;
+            set => name = value;
         }
 
         public object Tag
         {
-            get { return tag; }
-            set { tag = value; }
+            get => tag;
+            set => tag = value;
         }
 
         public ModelBone Parent
         {
-            get { return parent; }
-            set { parent = value; }
+            get => parent;
+            set => parent = value;
         }
 
-        public List<ModelMeshPart> MeshParts
-        {
-            get { return meshParts; }
-        }
+        public List<ModelMeshPart> MeshParts => meshParts;
 
         public BoundingBox BoundingBox
         {
@@ -49,8 +42,8 @@ namespace Flummery
 
         public bool Visible
         {
-            get { return visible; }
-            set { visible = value; }
+            get => visible;
+            set => visible = value;
         }
 
         public ModelMesh()
@@ -60,9 +53,9 @@ namespace Flummery
 
         public ModelMesh(ModelMesh from)
         {
-            this.meshParts = new List<ModelMeshPart>(from.meshParts);
-            this.name = from.name;
-            this.parent = new ModelBone();
+            meshParts = new List<ModelMeshPart>(from.meshParts);
+            name = from.name;
+            parent = new ModelBone();
         }
 
         public void AddModelMeshPart(ModelMeshPart meshpart, bool bFinalise = true)
@@ -73,10 +66,10 @@ namespace Flummery
 
         public List<Material> GetMaterials()
         {
-            var l = new List<Material>();
-            var index = new List<long>();
+            List<Material> l = new List<Material>();
+            List<long> index = new List<long>();
 
-            foreach (var part in meshParts)
+            foreach (ModelMeshPart part in meshParts)
             {
                 if (part.Material != null && !index.Contains(part.Material.Key))
                 {

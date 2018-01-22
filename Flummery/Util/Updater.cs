@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace Flummery.Util
 {
-
     public class Updater
     {
         public struct UpdateResponse
@@ -22,15 +21,10 @@ namespace Flummery.Util
             public string changelog;
         }
 
-        public string UpdateUrl = "http://www.toxic-ragers.co.uk/fuss/update.php?client_version={0}";
+        public string UpdateUrl = "http://www.flummery.co.uk/fuss/update.php?client_version={0}";
         private WebRequest webRequest;
 
         Action<bool, Update[]> responseCallback;
-
-        public Updater()
-        {
-
-        }
 
         public void Check(string currentVersion, Action<bool, Update[]> callback)
         {
@@ -48,11 +42,10 @@ namespace Flummery.Util
 
                 responseCallback(response.success, response.updates);
             }
-            catch (Exception e)
+            catch
             {
                 responseCallback(false, null);
             }
-
         }
     }
 }

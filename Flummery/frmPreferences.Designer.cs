@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPreferences));
             this.tcPreferences = new System.Windows.Forms.TabControl();
             this.tpPaths = new System.Windows.Forms.TabPage();
+            this.rdoWorkingDirTemp = new System.Windows.Forms.RadioButton();
+            this.rdoWorkingDirFlummery = new System.Windows.Forms.RadioButton();
             this.lblWorking = new System.Windows.Forms.Label();
             this.btnC1Path = new System.Windows.Forms.Button();
             this.txtC1Path = new System.Windows.Forms.TextBox();
@@ -56,8 +58,9 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdApply = new System.Windows.Forms.Button();
             this.fbdBrowse = new System.Windows.Forms.FolderBrowserDialog();
-            this.rdoWorkingDirFlummery = new System.Windows.Forms.RadioButton();
-            this.rdoWorkingDirTemp = new System.Windows.Forms.RadioButton();
+            this.btnCMDPath = new System.Windows.Forms.Button();
+            this.txtCMDPath = new System.Windows.Forms.TextBox();
+            this.lblCMDPath = new System.Windows.Forms.Label();
             this.tcPreferences.SuspendLayout();
             this.tpPaths.SuspendLayout();
             this.tpShortcuts.SuspendLayout();
@@ -66,17 +69,23 @@
             // 
             // tcPreferences
             // 
+            this.tcPreferences.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tcPreferences.Controls.Add(this.tpPaths);
             this.tcPreferences.Controls.Add(this.tpShortcuts);
             this.tcPreferences.Controls.Add(this.tbMisc);
             this.tcPreferences.Location = new System.Drawing.Point(12, 12);
             this.tcPreferences.Name = "tcPreferences";
             this.tcPreferences.SelectedIndex = 0;
-            this.tcPreferences.Size = new System.Drawing.Size(536, 291);
+            this.tcPreferences.Size = new System.Drawing.Size(536, 324);
             this.tcPreferences.TabIndex = 3;
             // 
             // tpPaths
             // 
+            this.tpPaths.Controls.Add(this.btnCMDPath);
+            this.tpPaths.Controls.Add(this.txtCMDPath);
+            this.tpPaths.Controls.Add(this.lblCMDPath);
             this.tpPaths.Controls.Add(this.rdoWorkingDirTemp);
             this.tpPaths.Controls.Add(this.rdoWorkingDirFlummery);
             this.tpPaths.Controls.Add(this.lblWorking);
@@ -93,15 +102,37 @@
             this.tpPaths.Location = new System.Drawing.Point(4, 22);
             this.tpPaths.Name = "tpPaths";
             this.tpPaths.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPaths.Size = new System.Drawing.Size(528, 265);
+            this.tpPaths.Size = new System.Drawing.Size(528, 298);
             this.tpPaths.TabIndex = 0;
             this.tpPaths.Text = "Paths";
             this.tpPaths.UseVisualStyleBackColor = true;
             // 
+            // rdoWorkingDirTemp
+            // 
+            this.rdoWorkingDirTemp.AutoSize = true;
+            this.rdoWorkingDirTemp.Location = new System.Drawing.Point(154, 147);
+            this.rdoWorkingDirTemp.Name = "rdoWorkingDirTemp";
+            this.rdoWorkingDirTemp.Size = new System.Drawing.Size(206, 17);
+            this.rdoWorkingDirTemp.TabIndex = 15;
+            this.rdoWorkingDirTemp.TabStop = true;
+            this.rdoWorkingDirTemp.Text = "Working directory in users Temp folder";
+            this.rdoWorkingDirTemp.UseVisualStyleBackColor = true;
+            // 
+            // rdoWorkingDirFlummery
+            // 
+            this.rdoWorkingDirFlummery.AutoSize = true;
+            this.rdoWorkingDirFlummery.Location = new System.Drawing.Point(154, 124);
+            this.rdoWorkingDirFlummery.Name = "rdoWorkingDirFlummery";
+            this.rdoWorkingDirFlummery.Size = new System.Drawing.Size(195, 17);
+            this.rdoWorkingDirFlummery.TabIndex = 14;
+            this.rdoWorkingDirFlummery.TabStop = true;
+            this.rdoWorkingDirFlummery.Text = "Working directory in Flummery folder";
+            this.rdoWorkingDirFlummery.UseVisualStyleBackColor = true;
+            // 
             // lblWorking
             // 
             this.lblWorking.AutoSize = true;
-            this.lblWorking.Location = new System.Drawing.Point(6, 98);
+            this.lblWorking.Location = new System.Drawing.Point(6, 126);
             this.lblWorking.Name = "lblWorking";
             this.lblWorking.Size = new System.Drawing.Size(90, 13);
             this.lblWorking.TabIndex = 13;
@@ -109,6 +140,7 @@
             // 
             // btnC1Path
             // 
+            this.btnC1Path.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnC1Path.Location = new System.Drawing.Point(493, 6);
             this.btnC1Path.Name = "btnC1Path";
             this.btnC1Path.Size = new System.Drawing.Size(29, 23);
@@ -119,6 +151,8 @@
             // 
             // txtC1Path
             // 
+            this.txtC1Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtC1Path.Enabled = false;
             this.txtC1Path.Location = new System.Drawing.Point(154, 8);
             this.txtC1Path.Name = "txtC1Path";
@@ -137,10 +171,9 @@
             // 
             // lblNotes
             // 
-            this.lblNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblNotes.AutoSize = true;
-            this.lblNotes.Location = new System.Drawing.Point(6, 154);
+            this.lblNotes.Location = new System.Drawing.Point(6, 182);
             this.lblNotes.Name = "lblNotes";
             this.lblNotes.Size = new System.Drawing.Size(403, 91);
             this.lblNotes.TabIndex = 9;
@@ -148,6 +181,7 @@
             // 
             // btnC2Path
             // 
+            this.btnC2Path.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnC2Path.Location = new System.Drawing.Point(493, 35);
             this.btnC2Path.Name = "btnC2Path";
             this.btnC2Path.Size = new System.Drawing.Size(29, 23);
@@ -158,6 +192,8 @@
             // 
             // txtC2Path
             // 
+            this.txtC2Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtC2Path.Enabled = false;
             this.txtC2Path.Location = new System.Drawing.Point(154, 37);
             this.txtC2Path.Name = "txtC2Path";
@@ -176,6 +212,7 @@
             // 
             // btnCRPath
             // 
+            this.btnCRPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCRPath.Location = new System.Drawing.Point(493, 64);
             this.btnCRPath.Name = "btnCRPath";
             this.btnCRPath.Size = new System.Drawing.Size(29, 23);
@@ -186,6 +223,8 @@
             // 
             // txtCRPath
             // 
+            this.txtCRPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCRPath.Enabled = false;
             this.txtCRPath.Location = new System.Drawing.Point(154, 66);
             this.txtCRPath.Name = "txtCRPath";
@@ -198,9 +237,9 @@
             this.lblCRPath.AutoSize = true;
             this.lblCRPath.Location = new System.Drawing.Point(6, 69);
             this.lblCRPath.Name = "lblCRPath";
-            this.lblCRPath.Size = new System.Drawing.Size(142, 13);
+            this.lblCRPath.Size = new System.Drawing.Size(145, 13);
             this.lblCRPath.TabIndex = 3;
-            this.lblCRPath.Text = "Carmageddon Reincarnation";
+            this.lblCRPath.Text = "Carmageddon: Reincarnation";
             // 
             // tpShortcuts
             // 
@@ -303,8 +342,9 @@
             // 
             // cmdOK
             // 
+            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(473, 306);
+            this.cmdOK.Location = new System.Drawing.Point(473, 342);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 4;
@@ -314,8 +354,9 @@
             // 
             // cmdCancel
             // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(311, 306);
+            this.cmdCancel.Location = new System.Drawing.Point(311, 342);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 5;
@@ -324,7 +365,8 @@
             // 
             // cmdApply
             // 
-            this.cmdApply.Location = new System.Drawing.Point(392, 306);
+            this.cmdApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdApply.Location = new System.Drawing.Point(392, 342);
             this.cmdApply.Name = "cmdApply";
             this.cmdApply.Size = new System.Drawing.Size(75, 23);
             this.cmdApply.TabIndex = 6;
@@ -336,38 +378,48 @@
             // 
             this.fbdBrowse.ShowNewFolderButton = false;
             // 
-            // rdoWorkingDirFlummery
+            // btnCMDPath
             // 
-            this.rdoWorkingDirFlummery.AutoSize = true;
-            this.rdoWorkingDirFlummery.Location = new System.Drawing.Point(154, 96);
-            this.rdoWorkingDirFlummery.Name = "rdoWorkingDirFlummery";
-            this.rdoWorkingDirFlummery.Size = new System.Drawing.Size(195, 17);
-            this.rdoWorkingDirFlummery.TabIndex = 14;
-            this.rdoWorkingDirFlummery.TabStop = true;
-            this.rdoWorkingDirFlummery.Text = "Working directory in Flummery folder";
-            this.rdoWorkingDirFlummery.UseVisualStyleBackColor = true;
+            this.btnCMDPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCMDPath.Location = new System.Drawing.Point(493, 93);
+            this.btnCMDPath.Name = "btnCMDPath";
+            this.btnCMDPath.Size = new System.Drawing.Size(29, 23);
+            this.btnCMDPath.TabIndex = 18;
+            this.btnCMDPath.Text = "...";
+            this.btnCMDPath.UseVisualStyleBackColor = true;
+            this.btnCMDPath.Click += new System.EventHandler(this.btnCMDPath_Click);
             // 
-            // rdoWorkingDirTemp
+            // txtCMDPath
             // 
-            this.rdoWorkingDirTemp.AutoSize = true;
-            this.rdoWorkingDirTemp.Location = new System.Drawing.Point(154, 119);
-            this.rdoWorkingDirTemp.Name = "rdoWorkingDirTemp";
-            this.rdoWorkingDirTemp.Size = new System.Drawing.Size(206, 17);
-            this.rdoWorkingDirTemp.TabIndex = 15;
-            this.rdoWorkingDirTemp.TabStop = true;
-            this.rdoWorkingDirTemp.Text = "Working directory in users Temp folder";
-            this.rdoWorkingDirTemp.UseVisualStyleBackColor = true;
+            this.txtCMDPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCMDPath.Enabled = false;
+            this.txtCMDPath.Location = new System.Drawing.Point(154, 95);
+            this.txtCMDPath.Name = "txtCMDPath";
+            this.txtCMDPath.ReadOnly = true;
+            this.txtCMDPath.Size = new System.Drawing.Size(333, 20);
+            this.txtCMDPath.TabIndex = 17;
+            // 
+            // lblCMDPath
+            // 
+            this.lblCMDPath.AutoSize = true;
+            this.lblCMDPath.Location = new System.Drawing.Point(6, 98);
+            this.lblCMDPath.Name = "lblCMDPath";
+            this.lblCMDPath.Size = new System.Drawing.Size(142, 13);
+            this.lblCMDPath.TabIndex = 16;
+            this.lblCMDPath.Text = "Carmageddon: Max Damage";
             // 
             // frmPreferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 341);
+            this.ClientSize = new System.Drawing.Size(560, 377);
             this.Controls.Add(this.cmdApply);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.tcPreferences);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmPreferences";
@@ -415,5 +467,8 @@
         private System.Windows.Forms.Label lblWorking;
         private System.Windows.Forms.RadioButton rdoWorkingDirTemp;
         private System.Windows.Forms.RadioButton rdoWorkingDirFlummery;
+        private System.Windows.Forms.Button btnCMDPath;
+        private System.Windows.Forms.TextBox txtCMDPath;
+        private System.Windows.Forms.Label lblCMDPath;
     }
 }

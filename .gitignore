@@ -4,3 +4,4 @@
 [Pp]ackages*/
 obj/
 *.suo
+.vs/*

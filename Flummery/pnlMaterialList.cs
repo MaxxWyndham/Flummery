@@ -12,7 +12,7 @@ namespace Flummery
         {
             InitializeComponent();
 
-            this.TabText = "Material List";
+            TabText = "Material List";
 
             if (SceneManager.Current != null)
             {
@@ -31,7 +31,7 @@ namespace Flummery
 
         void scene_OnAdd(object sender, AddEventArgs e)
         {
-            var t = (e.Item as Material);
+            Material t = (e.Item as Material);
 
             if (t != null)
             {
@@ -41,10 +41,12 @@ namespace Flummery
 
         private void addMaterial(Material m)
         {
-            var mi = new MaterialItem();
+            MaterialItem mi = new MaterialItem()
+            {
+                MaterialName = m.Name,
+                Material = m
+            };
 
-            mi.MaterialName = m.Name;
-            mi.Material = m;
             if (m.Texture != null) { mi.SetThumbnail(m.Texture.GetThumbnail()); }
 
             flpMaterials.Controls.Add(mi);

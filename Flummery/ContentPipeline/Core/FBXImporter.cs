@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ToxicRagers.Helpers;
+
 using ToxicRagers.Core.Formats;
+
 using OpenTK;
 
 namespace Flummery.ContentPipeline.Core
@@ -29,23 +30,23 @@ namespace Flummery.ContentPipeline.Core
                 return null;
             }
 
-            var objects = fbx.Elements.Find(e => e.ID == "Objects");
+            FBXElem objects = fbx.Elements.Find(e => e.ID == "Objects");
 
             RotationOrder order;
-            var worldMatrix = createTransformFor(fbx.Elements.Find(e => e.ID == "GlobalSettings").Children[1], out order);
+            Matrix4 worldMatrix = createTransformFor(fbx.Elements.Find(e => e.ID == "GlobalSettings").Children[1], out order);
 
-            foreach (var material in objects.Children.Where(e => e.ID == "Material"))
+            foreach (FBXElem material in objects.Children.Where(e => e.ID == "Material"))
             {
                 string matName = material.Properties[1].Value.ToString();
                 matName = matName.Substring(0, matName.IndexOf("::"));
-                var m = new Material { Name = matName };
+                Material m = new Material { Name = matName };
                 components.Add((long)material.Properties[0].Value, m);
 
                 Console.WriteLine("Added material \"{0}\" ({1})", matName, material.Properties[0].Value);
             }
 
-            var textures = objects.Children.Where(e => e.ID == "Texture");
-            foreach (var texture in textures)
+            IEnumerable<FBXElem> textures = objects.Children.Where(e => e.ID == "Texture");
+            foreach (FBXElem texture in textures)
             {
                 Texture t = null;
                 string fullFile = texture.Children.Find(e => e.ID == "FileName").Properties[0].Value.ToString();
@@ -85,7 +86,7 @@ namespace Flummery.ContentPipeline.Core
                 }
             }
 
-            foreach (var element in objects.Children.Where(e => e.ID == "Model"))
+            foreach (FBXElem element in objects.Children.Where(e => e.ID == "Model"))
             {
                 string modelName = element.Properties[1].Value.ToString();
                 modelName = modelName.Substring(0, modelName.IndexOf("::"));
@@ -94,8 +95,8 @@ namespace Flummery.ContentPipeline.Core
 
                 Console.WriteLine("Added model \"{0}\" ({1})", modelName, element.Properties[0].Value);
 
-                var properties = element.Children.Find(c => c.ID == "Properties70");
-                var m = Matrix4.Identity;
+                FBXElem properties = element.Children.Find(c => c.ID == "Properties70");
+                Matrix4 m = Matrix4.Identity;
                 bool bRotationActive = false;
 
                 var lclTranslation = OpenTK.Vector3.Zero;
@@ -314,7 +315,12 @@ namespace Flummery.ContentPipeline.Core
                             for (int i = 0; i < colourIndicies.Length; i++)
                             {
                                 int offset = colourIndicies[i] * 4;
-                                colours.Add(new OpenTK.Graphics.Color4((float)colourParts[offset + 0], (float)colourParts[offset + 1], (float)colourParts[offset + 2], (float)colourParts[offset + 3]));
+                                colours.Add(new OpenTK.Graphics.Color4(
+                                    (float)colourParts[offset + 0],
+                                    (float)colourParts[offset + 1],
+                                    (float)colourParts[offset + 2],
+                                    (float)colourParts[offset + 3])
+                                );
                             }
                             break;
 
@@ -462,6 +468,33 @@ namespace Flummery.ContentPipeline.Core
                 SceneManager.Current.UpdateProgress(string.Format("Processed {0}", element.Properties[1].Value));
             }
 
+            Dictionary<long, BoneType> nodeAttributes = new Dictionary<long, BoneType>();
+            Dictionary<long, object> nodeAttachments = new Dictionary<long, object>();
+
+            foreach (var nodeAttribute in objects.Children.Where(e => e.ID == "NodeAttribute"))
+            {
+                var typeFlags = nodeAttribute.Children.Find(e => e.ID == "TypeFlags");
+                if (typeFlags != null)
+                {
+                    switch (typeFlags.Properties[0].Value.ToString().ToLower())
+                    {
+                        case "light":
+                            var light = new ToxicRagers.CarmageddonReincarnation.Formats.LIGHT();
+
+                            var lightType = nodeAttribute.Children.Find(c => c.ID == "Properties70").Children.GetProperty("LightType");
+                            light.Type = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT.LightType)(lightType == null ? 0 : lightType.Properties[4].Value);
+
+                            nodeAttributes.Add((long)nodeAttribute.Properties[0].Value, BoneType.Light);
+                            nodeAttachments.Add((long)nodeAttribute.Properties[0].Value, light);
+                            break;
+
+                        default:
+                            // null node
+                            break;
+                    }
+                }
+            }
+
             string[] connectionOrder = new string[] { "System.Collections.Generic.List`1[Flummery.ModelMeshPart]", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
             var connections = fbx.Elements.Find(e => e.ID == "Connections");
 
@@ -488,6 +521,15 @@ namespace Flummery.ContentPipeline.Core
                                 boneID = model.AddMesh((ModelMesh)components[keyA]);
                                 model.SetName(((ModelMesh)components[keyA]).Name, boneID);
                                 if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }
+
+                                var attribute = connections.Children.FirstOrDefault(c => nodeAttributes.ContainsKey((long)c.Properties[1].Value) && (long)c.Properties[2].Value == keyA);
+                                if (attribute != null)
+                                {
+                                    keyA = (long)attribute.Properties[1].Value;
+
+                                    if (nodeAttributes.ContainsKey(keyA)) { model.Bones[boneID].Type = nodeAttributes[keyA]; }
+                                    if (nodeAttachments.ContainsKey(keyA)) { model.Bones[boneID].Attachment = nodeAttachments[keyA]; }
+                                }
                             }
                             else
                             {
@@ -518,7 +560,7 @@ namespace Flummery.ContentPipeline.Core
                                 if (loaded.Add(keyB))
                                 {
                                     ((Material)components[keyB]).Texture = (Texture)components[keyA];
-                                    SceneManager.Current.Add((Material)components[keyB]);
+                                    //SceneManager.Current.Add((Material)components[keyB]);
                                 }
                             }
                             else
@@ -554,7 +596,7 @@ namespace Flummery.ContentPipeline.Core
                                     if ((long)materialLookup[(int)part.Key].Properties[1].Value == keyA)
                                     {
                                         part.Material = (Material)components[keyA];
-                                        //SceneManager.Current.Add(part.Material);
+                                        SceneManager.Current.Add(part.Material);
                                     }
                                 }
                             }

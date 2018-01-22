@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using Flummery.Controls;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
-using ToxicRagers.CarmageddonReincarnation.Formats.Materials;
 
 namespace Flummery
 {

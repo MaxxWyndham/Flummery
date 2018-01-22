@@ -21,14 +21,15 @@ namespace Flummery
 
     public enum ContextGame
     {
-        Carmageddon_1,
-        Carmageddon_2,
-        Carmageddon_TDR2000,
-        Carmageddon_Reincarnation
+        Carmageddon1,
+        Carmageddon2,
+        CarmageddonTDR2000,
+        CarmageddonReincarnation
     }
 
     public enum ContextMode
     {
+        Generic,
         Accessory,
         Car,
         Level,
@@ -77,15 +78,15 @@ namespace Flummery
 
         float dt;
 
-        public bool CanUseVertexBuffer { get { return bVertexBuffer; } }
-        public ContentManager Content { get { return content; } }
-        public RenderMeshMode RenderMode { get { return renderMode; } }
+        public bool CanUseVertexBuffer => bVertexBuffer;
+        public ContentManager Content => content;
+        public RenderMeshMode RenderMode => renderMode;
 
-        public List<Entity> Entities { get { return entities; } }
-        public List<Model> Models { get { return models; } }
-        public MaterialList Materials { get { return materials; } }
+        public List<Entity> Entities => entities;
+        public List<Model> Models => models;
+        public MaterialList Materials => materials;
 
-        public Matrix4 Transform { get { return sceneTransform; } }
+        public Matrix4 Transform => sceneTransform;
 
         public Model SelectedModel
         {
@@ -97,19 +98,13 @@ namespace Flummery
             }
         }
 
-        public ContextGame CurrentGame
-        {
-            get { return currentGame; }
-        }
+        public ContextGame CurrentGame => currentGame;
 
-        public ContextMode CurrentMode
-        {
-            get { return currentMode; }
-        }
+        public ContextMode CurrentMode => currentMode;
 
-        public int SelectedModelIndex { get { return selectedModelIndex; } }
-        public int SelectedBoneIndex { get { return selectedBoneIndex; } }
-        public float DeltaTime { get { return dt; } }
+        public int SelectedModelIndex => selectedModelIndex;
+        public int SelectedBoneIndex => selectedBoneIndex;
+        public float DeltaTime => dt;
 
         public delegate void ResetHandler(object sender, ResetEventArgs e);
         public delegate void AddHandler(object sender, AddEventArgs e);
@@ -175,15 +170,15 @@ namespace Flummery
                     {
                         case BoneType.Light:
                         case BoneType.VFX:
-                                var entity = new Entity
-                                {
-                                    Name = bone.Name,
-                                    EntityType = bone.Type.ToString().ToEnum<EntityType>(),
-                                    AssetType = AssetType.Sprite
-                                };
-                                entity.LinkWith(bone);
+                            var entity = new Entity
+                            {
+                                Name = bone.Name,
+                                EntityType = bone.Type.ToString().ToEnum<EntityType>(),
+                                AssetType = AssetType.Sprite
+                            };
+                            entity.LinkWith(bone);
 
-                                entities.Add(entity);
+                            entities.Add(entity);
                             break;
                     }
                 }
@@ -194,14 +189,13 @@ namespace Flummery
                 materials.Entries.Add(asset as Material);
             }
 
-            if (OnAdd != null) { OnAdd(this, new AddEventArgs(asset, index)); }
-
+            OnAdd?.Invoke(this, new AddEventArgs(asset, index));
             return asset;
         }
 
-        public void Change(ChangeType type, int index, object additionalInfo = null) 
-        { 
-            if (OnChange != null) { OnChange(this, new ChangeEventArgs(type, index, additionalInfo)); } 
+        public void Change(ChangeType type, int index, object additionalInfo = null)
+        {
+            OnChange?.Invoke(this, new ChangeEventArgs(type, index, additionalInfo));
         }
 
         public void SetContext(ContextGame game)
@@ -219,7 +213,7 @@ namespace Flummery
             currentGame = game;
             currentMode = mode;
 
-            if (OnContextChange != null) { OnContextChange(this, new ContextChangeEventArgs(game, mode)); }
+            OnContextChange?.Invoke(this, new ContextChangeEventArgs(game, mode));
         }
 
         public void ClearBoundingBox()
@@ -229,29 +223,29 @@ namespace Flummery
 
         public void SetBoundingBox(BoundingBox bb)
         {
-            this.node.LinkWith(null);
+            node.LinkWith(null);
             this.bb = bb;
         }
 
         public void SetNodePosition(ModelBone bone)
         {
-            this.node.LinkWith(bone, LinkType.Position | LinkType.Rotation);
-            this.bb = null;
+            node.LinkWith(bone, LinkType.Position | LinkType.Rotation);
+            bb = null;
         }
 
         public void SetCoordinateSystem(CoordinateSystem c)
         {
-            this.coords = c;
+            coords = c;
 
             if (c == CoordinateSystem.RightHanded)
             {
-                this.sceneTransform = Matrix4.Identity;
-                this.frontFace = FrontFaceDirection.Ccw;
+                sceneTransform = Matrix4.Identity;
+                frontFace = FrontFaceDirection.Ccw;
             }
             else
             {
-                this.sceneTransform = Matrix4.CreateScale(1, 1, -1);
-                this.frontFace = FrontFaceDirection.Cw;
+                sceneTransform = Matrix4.CreateScale(1, 1, -1);
+                frontFace = FrontFaceDirection.Cw;
             }
         }
 
@@ -283,7 +277,7 @@ namespace Flummery
 
             entities.Add(node);
 
-            if (OnReset != null) { OnReset(this, new ResetEventArgs()); }
+            OnReset?.Invoke(this, new ResetEventArgs());
         }
 
         public void Update(float dt)
@@ -323,9 +317,9 @@ namespace Flummery
             GL.Color4(0f, 1.0f, 0f, 1.0f);
 
             GL.Vertex3(-1.0f, 0, -1.0f);
-            GL.Vertex3( 0,    0, -1.0f);
-            GL.Vertex3( 0,    0,  0);
-            GL.Vertex3(-1.0f, 0,  0);
+            GL.Vertex3(0, 0, -1.0f);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(-1.0f, 0, 0);
 
             GL.Vertex3(0, 0, -1.0f);
             GL.Vertex3(1.0f, 0, -1.0f);
@@ -366,12 +360,12 @@ namespace Flummery
 
         public void UpdateProgress(string message)
         {
-            if (OnProgress != null) { OnProgress(this, new ProgressEventArgs(message)); }
+            OnProgress?.Invoke(this, new ProgressEventArgs(message));
         }
 
         public void RaiseError(string message)
         {
-            if (OnError != null) { OnError(this, new ErrorEventArgs(message)); }
+            OnError?.Invoke(this, new ErrorEventArgs(message));
         }
 
         public void SetSelectedBone(int modelIndex, int boneIndex)
@@ -381,7 +375,7 @@ namespace Flummery
             selectedModelIndex = modelIndex;
             selectedBoneIndex = boneIndex;
 
-            if (OnSelect != null) { OnSelect(this, new SelectEventArgs(models[modelIndex].Bones[boneIndex])); }
+            OnSelect?.Invoke(this, new SelectEventArgs(models[modelIndex].Bones[boneIndex]));
         }
     }
 
@@ -399,8 +393,8 @@ namespace Flummery
 
         public AddEventArgs(Asset item, int index)
         {
-            this.Item = item;
-            this.Index = index;
+            Item = item;
+            Index = index;
         }
     }
 
@@ -422,9 +416,9 @@ namespace Flummery
 
         public ChangeEventArgs(ChangeType type, int index, object additionalInfo = null)
         {
-            this.Change = type;
-            this.Index = index;
-            this.AdditionalInformation = additionalInfo;
+            Change = type;
+            Index = index;
+            AdditionalInformation = additionalInfo;
         }
     }
 
@@ -455,8 +449,8 @@ namespace Flummery
 
         public ContextChangeEventArgs(ContextGame game, ContextMode mode)
         {
-            this.GameContext = game;
-            this.ModeContext = mode;
+            GameContext = game;
+            ModeContext = mode;
         }
     }
 }

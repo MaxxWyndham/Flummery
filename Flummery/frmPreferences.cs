@@ -11,6 +11,7 @@ namespace Flummery
             InitializeComponent();
 
             txtCRPath.Text = Properties.Settings.Default.PathCarmageddonReincarnation;
+            txtCMDPath.Text = Properties.Settings.Default.PathCarmageddonMaxDamage;
             txtC2Path.Text = Properties.Settings.Default.PathCarmageddon2;
             txtC1Path.Text = Properties.Settings.Default.PathCarmageddon1;
             rdoWorkingDirFlummery.Checked = Properties.Settings.Default.UseFlummeryWorkingDirectory;
@@ -33,6 +34,23 @@ namespace Flummery
                 if (File.Exists(fbdBrowse.SelectedPath + "\\config.lua"))
                 {
                     txtCRPath.Text = fbdBrowse.SelectedPath + (fbdBrowse.SelectedPath.EndsWith("\\") ? "" : "\\");
+                }
+                else
+                {
+                    MessageBox.Show("config.lua not found.  Are you sure you've selected the right folder?");
+                }
+            }
+        }
+
+        private void btnCMDPath_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(txtCMDPath.Text)) { fbdBrowse.SelectedPath = txtCMDPath.Text; }
+
+            if (fbdBrowse.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(fbdBrowse.SelectedPath + "\\config.lua"))
+                {
+                    txtCMDPath.Text = fbdBrowse.SelectedPath + (fbdBrowse.SelectedPath.EndsWith("\\") ? "" : "\\");
                 }
                 else
                 {
@@ -78,6 +96,7 @@ namespace Flummery
         private void applySettings()
         {
             // Paths
+            Properties.Settings.Default.PathCarmageddonMaxDamage = txtCMDPath.Text;
             Properties.Settings.Default.PathCarmageddonReincarnation = txtCRPath.Text;
             Properties.Settings.Default.PathCarmageddon2 = txtC2Path.Text;
             Properties.Settings.Default.PathCarmageddon1 = txtC1Path.Text;

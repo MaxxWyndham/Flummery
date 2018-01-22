@@ -25,7 +25,7 @@ namespace Flummery
         public static frmMain UI;
         public static bool Active;
         public static CultureInfo Culture = new CultureInfo("en-gb");
-        public static string Version = "0.3.7.5";
+        public static string Version = "0.3.8.0";
         public static Random Random = new Random();
 
         public static Color PickRandomColour()

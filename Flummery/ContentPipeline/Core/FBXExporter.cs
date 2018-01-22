@@ -14,7 +14,7 @@ namespace Flummery.ContentPipeline.Core
     {
         public override void Export(Asset asset, string path)
         {
-            var model = (asset as Model);
+            Model model = (asset as Model);
             FBX fbx = new FBX();
             fbx.Version = 7400;
 
@@ -29,9 +29,9 @@ namespace Flummery.ContentPipeline.Core
                         new FBXElem { ID = "FBXHeaderVersion", Properties = { new FBXProperty { Type = 73, Value = 1003 } } },
                         new FBXElem { ID = "FBXVersion", Properties = { new FBXProperty { Type = 73, Value = fbx.Version } } },
                         new FBXElem { ID = "EncryptionType", Properties = { new FBXProperty { Type = 73, Value = 0 } } },
-                        new FBXElem { ID = "CreationTimeStamp", 
-                            Children = 
-                            { 
+                        new FBXElem { ID = "CreationTimeStamp",
+                            Children =
+                            {
                                 new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 1000 } } },
                                 new FBXElem { ID = "Year", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Year } } },
                                 new FBXElem { ID = "Month", Properties = { new FBXProperty { Type = 73, Value = DateTime.Now.Month } } },
@@ -43,19 +43,19 @@ namespace Flummery.ContentPipeline.Core
                             }
                         },
                         new FBXElem { ID = "Creator", Properties = { new FBXProperty { Type = 83, Value = "Flummery v" + FlummeryApplication.Version } } },
-                        new FBXElem { ID = "SceneInfo",                    
-                            Properties = 
+                        new FBXElem { ID = "SceneInfo",
+                            Properties =
                             {
                                 new FBXProperty { Type = 83, Value = "GlobalInfo::SceneInfo" },
                                 new FBXProperty { Type = 83, Value = "UserData" }
                             },
-                            Children = 
-                            { 
+                            Children =
+                            {
                                 new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "UserData" } } },
                                 new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 100 } } },
-                                new FBXElem { ID = "MetaData", 
-                                    Children = 
-                                    { 
+                                new FBXElem { ID = "MetaData",
+                                    Children =
+                                    {
                                         new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 100 } } },
                                         new FBXElem { ID = "Title", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                                         new FBXElem { ID = "Subject", Properties = { new FBXProperty { Type = 83, Value = "" } } },
@@ -63,10 +63,10 @@ namespace Flummery.ContentPipeline.Core
                                         new FBXElem { ID = "Keywords", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                                         new FBXElem { ID = "Revision", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                                         new FBXElem { ID = "Comment", Properties = { new FBXProperty { Type = 83, Value = "" } } }
-                                    } 
+                                    }
                                 },
-                                new FBXElem { ID = "Properties70", 
-                                    Children = 
+                                new FBXElem { ID = "Properties70",
+                                    Children =
                                     {
                                         FBXPropertyElement(FBXPropertyType.String, "DocumentUrl", "KString", "Url", "", path),
                                         FBXPropertyElement(FBXPropertyType.String, "SrcDocumentUrl", "KString", "Url", "", path),
@@ -100,8 +100,8 @@ namespace Flummery.ContentPipeline.Core
                     Children =
                     {
                         new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 1000 } } },
-                        new FBXElem { ID = "Properties70", 
-                            Children = 
+                        new FBXElem { ID = "Properties70",
+                            Children =
                             {
                                 FBXPropertyElement(FBXPropertyType.Integer, "UpAxis", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "UpAxisSign", "int", "Integer", "", 1),
@@ -138,17 +138,17 @@ namespace Flummery.ContentPipeline.Core
                     Children =
                     {
                         new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } },
-                        new FBXElem { ID = "Document", 
-                            Properties = 
-                            {  
+                        new FBXElem { ID = "Document",
+                            Properties =
+                            {
                                 new FBXProperty { Type = 76, Value = sceneRoot },
                                 new FBXProperty { Type = 83, Value = "" },
                                 new FBXProperty { Type = 83, Value = "Scene" }
                             },
-                            Children = 
+                            Children =
                             {
-                                new FBXElem { ID = "Properties70", 
-                                    Children = 
+                                new FBXElem { ID = "Properties70",
+                                    Children =
                                     {
                                         FBXPropertyElement(FBXPropertyType.String, "SourceObject", "object", "", ""),
                                         FBXPropertyElement(FBXPropertyType.String, "ActiveAnimStackName", "KString", "", "", "Take 001")
@@ -163,45 +163,45 @@ namespace Flummery.ContentPipeline.Core
 
             fbx.Elements.Add(new FBXElem { ID = "References" });
 
-            var fbxObjects = new FBXElem { ID = "Objects" };
-            var fbxConnections = new FBXElem { ID = "Connections" };
+            FBXElem fbxObjects = new FBXElem { ID = "Objects" };
+            FBXElem fbxConnections = new FBXElem { ID = "Connections" };
 
             fbxConnections.Children.Add(FBXConnection("AnimationStack", 309734896, "AnimationLayer", 1073569280));
 
             long rootKey = DateTime.Now.Ticks;
 
-            foreach (var mesh in model.Meshes)
+            foreach (ModelMesh mesh in model.Meshes)
             {
                 SceneManager.Current.UpdateProgress(string.Format("Pre-processing {0}", mesh.Name));
 
-                var vects = new List<Vertex>();
-                var verts = new List<Vector3>();
-                var norms = new List<Vector3>();
-                var uvs = new List<Vector4>();
-                var colours = new List<Color4>();
+                List<Vertex> vects = new List<Vertex>();
+                List<Vector3> verts = new List<Vector3>();
+                List<Vector3> norms = new List<Vector3>();
+                List<Vector4> uvs = new List<Vector4>();
+                List<Color4> colours = new List<Color4>();
 
-                var ivt = new List<int>();
-                var inm = new List<int>();
-                var iuv = new List<int>();
-                var icl = new List<int>();
+                List<int> ivt = new List<int>();
+                List<int> inm = new List<int>();
+                List<int> iuv = new List<int>();
+                List<int> icl = new List<int>();
 
-                var materials = new List<int>();
-                var smoothingGroups = new List<int>();
+                List<int> materials = new List<int>();
+                List<int> smoothingGroups = new List<int>();
 
                 int materialIndex = 0;
                 int smoothingGroup = 1;
 
-                var materialList = mesh.GetMaterials();
+                List<Material> materialList = mesh.GetMaterials();
 
-                foreach (var part in mesh.MeshParts)
+                foreach (ModelMeshPart part in mesh.MeshParts)
                 {
                     int ixvt, ixnm, ixuv, ixcl;
                     if (part.Material != null) { materialIndex = materialList.FindIndex(m => m.Key == part.Material.Key); }
 
-                    for (int i = 0; i < part.IndexBuffer.Data.Count; i ++)
+                    for (int i = 0; i < part.IndexBuffer.Data.Count; i++)
                     {
                         int p = part.IndexBuffer.Data[i];
-                        var v = part.VertexBuffer.Data[p];
+                        Vertex v = part.VertexBuffer.Data[p];
 
                         ixvt = verts.FindIndex(vert => vert.X == v.Position.X &&
                                vert.Y == v.Position.Y &&
@@ -258,31 +258,31 @@ namespace Flummery.ContentPipeline.Core
 
                 smoothingGroup++;
 
-                var vertvalues = new double[verts.Count * 3];
-                for (var i = 0; i < verts.Count; i++)
+                double[] vertvalues = new double[verts.Count * 3];
+                for (int i = 0; i < verts.Count; i++)
                 {
                     vertvalues[(i * 3) + 0] = verts[i].X;
                     vertvalues[(i * 3) + 1] = verts[i].Y;
                     vertvalues[(i * 3) + 2] = verts[i].Z;
                 }
 
-                var normvalues = new double[inm.Count * 3];
-                for (var i = 0; i < inm.Count; i++)
+                double[] normvalues = new double[inm.Count * 3];
+                for (int i = 0; i < inm.Count; i++)
                 {
                     normvalues[(i * 3) + 0] = norms[inm[i]].X;
                     normvalues[(i * 3) + 1] = norms[inm[i]].Y;
                     normvalues[(i * 3) + 2] = norms[inm[i]].Z;
                 }
 
-                var uvvalues = new double[uvs.Count * 2];
-                for (var i = 0; i < uvs.Count; i++)
+                double[] uvvalues = new double[uvs.Count * 2];
+                for (int i = 0; i < uvs.Count; i++)
                 {
                     uvvalues[(i * 2) + 0] = uvs[i].X;
                     uvvalues[(i * 2) + 1] = 1 - uvs[i].Y;
                 }
 
-                var colourvalues = new double[colours.Count * 4];
-                for (var i = 0; i < colours.Count; i++)
+                double[] colourvalues = new double[colours.Count * 4];
+                for (int i = 0; i < colours.Count; i++)
                 {
                     colourvalues[(i * 4) + 0] = colours[i].R;
                     colourvalues[(i * 4) + 1] = colours[i].G;
@@ -294,7 +294,7 @@ namespace Flummery.ContentPipeline.Core
 
                 fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs((mesh.Name + mesh.Parent.Index.ToString("x2") + "::Model").GetHashCode()), "Geometry", rootKey));
 
-                var geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = rootKey }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
+                FBXElem geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = rootKey }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
                 geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues, Compressed = bUseCompression } } });
                 geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ivt.ToArray(), Compressed = bUseCompression } } });
 
@@ -303,12 +303,12 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "LayerElementNormal",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 73, Value = 0 } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 73, Value = 0 }
                         },
-                        Children = 
-                        { 
+                        Children =
+                        {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
@@ -322,12 +322,12 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "LayerElementUV",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 73, Value = 0 } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 73, Value = 0 }
                         },
-                        Children = 
-                        { 
+                        Children =
+                        {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "map1" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
@@ -341,12 +341,12 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "LayerElementColor",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 73, Value = 0 } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 73, Value = 0 }
                         },
-                        Children = 
-                        { 
+                        Children =
+                        {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
@@ -360,12 +360,12 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "LayerElementSmoothing",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 73, Value = 0 } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 73, Value = 0 }
                         },
-                        Children = 
-                        { 
+                        Children =
+                        {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
@@ -378,12 +378,12 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "LayerElementMaterial",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 73, Value = 0 } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 73, Value = 0 }
                         },
-                        Children = 
-                        { 
+                        Children =
+                        {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
@@ -396,46 +396,53 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "Layer",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 73, Value = 0 } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 73, Value = 0 }
                         },
-                        Children = 
-                        { 
-                            new FBXElem { ID = "Version", 
-                                Properties = 
+                        Children =
+                        {
+                            new FBXElem { ID = "Version",
+                                Properties =
                                 {
-                                    new FBXProperty { Type = 73, Value = 100 } 
-                                } 
+                                    new FBXProperty { Type = 73, Value = 100 }
+                                }
                             },
-                            new FBXElem { ID = "LayerElement", 
-                                Children = 
-                                { 
+                            new FBXElem { ID = "LayerElement",
+                                Children =
+                                {
                                     new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementNormal" } } },
                                     new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
                                 }
                             },
-                            new FBXElem { ID = "LayerElement", 
-                                Children = 
-                                { 
+                            new FBXElem { ID = "LayerElement",
+                                Children =
+                                {
                                     new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementMaterial" } } },
                                     new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
                                 }
                             },
-                            new FBXElem { ID = "LayerElement", 
-                                Children = 
-                                { 
+                            new FBXElem { ID = "LayerElement",
+                                Children =
+                                {
+                                    new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementColor" } } },
+                                    new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
+                                }
+                            },
+                            new FBXElem { ID = "LayerElement",
+                                Children =
+                                {
                                     new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementSmoothing" } } },
                                     new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
                                 }
                             },
-                            new FBXElem { ID = "LayerElement", 
-                                Children = 
-                                { 
+                            new FBXElem { ID = "LayerElement",
+                                Children =
+                                {
                                     new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "LayerElementUV" } } },
                                     new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
                                 }
-                            } 
+                            }
                         }
                     }
                 );
@@ -443,7 +450,7 @@ namespace Flummery.ContentPipeline.Core
                 fbxObjects.Children.Add(geometry);
             }
 
-            foreach (var bone in model.Bones)
+            foreach (ModelBone bone in model.Bones)
             {
                 bool bHasMesh = (bone.Mesh != null);
                 string meshName = (bHasMesh ? bone.Mesh.Name : bone.Name);
@@ -451,7 +458,7 @@ namespace Flummery.ContentPipeline.Core
 
                 if (bHasMesh)
                 {
-                    foreach (var material in bone.Mesh.GetMaterials())
+                    foreach (Material material in bone.Mesh.GetMaterials())
                     {
                         fbxConnections.Children.Add(FBXConnection("Model", connectionKey, "Material", material.Key));
                     }
@@ -481,19 +488,19 @@ namespace Flummery.ContentPipeline.Core
                         new FBXElem
                         {
                             ID = "NodeAttribute",
-                            Properties = 
-                            { 
-                                new FBXProperty { Type = 76, Value = nodeKey }, 
-                                new FBXProperty { Type = 83, Value = "::NodeAttribute" }, 
-                                new FBXProperty { Type = 83, Value = "Null" } 
+                            Properties =
+                            {
+                                new FBXProperty { Type = 76, Value = nodeKey },
+                                new FBXProperty { Type = 83, Value = "::NodeAttribute" },
+                                new FBXProperty { Type = 83, Value = "Null" }
                             },
-                            Children = 
-                            { 
-                                new FBXElem { ID = "TypeFlags", 
-                                    Properties = 
-                                    { 
-                                        new FBXProperty { Type = 83, Value = "Null" } 
-                                    } 
+                            Children =
+                            {
+                                new FBXElem { ID = "TypeFlags",
+                                    Properties =
+                                    {
+                                        new FBXProperty { Type = 83, Value = "Null" }
+                                    }
                                 }
                             }
                         }
@@ -505,54 +512,57 @@ namespace Flummery.ContentPipeline.Core
 
                 SceneManager.Current.UpdateProgress(string.Format("Exporting {0}", meshName));
 
+                Vector3 rotation = bone.GetRotation();
+
                 fbxObjects.Children.Add(
                     new FBXElem
                     {
                         ID = "Model",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 76, Value = connectionKey }, 
-                            new FBXProperty { Type = 83, Value = meshName + "::Model" }, 
-                            new FBXProperty { Type = 83, Value = "Mesh" } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 76, Value = connectionKey },
+                            new FBXProperty { Type = 83, Value = meshName + "::Model" },
+                            new FBXProperty { Type = 83, Value = "Mesh" }
                         },
-                        Children = 
-                        { 
-                            new FBXElem { ID = "Version", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 73, Value = 232 } 
-                                } 
-                            }, 
-                            new FBXElem { ID = "Properties70", 
-                                Children = 
-                                { 
+                        Children =
+                        {
+                            new FBXElem { ID = "Version",
+                                Properties =
+                                {
+                                    new FBXProperty { Type = 73, Value = 232 }
+                                }
+                            },
+                            new FBXElem { ID = "Properties70",
+                                Children =
+                                {
                                     FBXPropertyElement(FBXPropertyType.Integer, "RotationActive", "bool", "", "", 1),
                                     FBXPropertyElement(FBXPropertyType.Integer, "InheritType", "enum", "", "", 1),
                                     FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", (double)0.0, (double)0.0, (double)0.0),
                                     FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", 0),
+                                    FBXPropertyElement(FBXPropertyType.Double, "Lcl Rotation", "Lcl Rotation", "", "A", (double)rotation.X, (double)rotation.Y, (double)rotation.Z),
                                     FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)bone.Transform.M41, (double)bone.Transform.M42, (double)bone.Transform.M43),
-                                } 
+                                }
                             },
-                            new FBXElem { ID = "Shading", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 67, Value = false } 
-                                } 
+                            new FBXElem { ID = "Shading",
+                                Properties =
+                                {
+                                    new FBXProperty { Type = 67, Value = false }
+                                }
                             },
-                            new FBXElem { ID = "Culling", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "CullingOff" } 
-                                } 
+                            new FBXElem { ID = "Culling",
+                                Properties =
+                                {
+                                    new FBXProperty { Type = 83, Value = "CullingOff" }
+                                }
                             }
                         }
                     }
                 );
             }
 
-            foreach (var material in model.GetMaterials())
+            foreach (Material material in model.GetMaterials())
             {
-                var fbxMaterial = new FBXElem { ID = "Material", Properties = { new FBXProperty { Type = 76, Value = material.Key }, new FBXProperty { Type = 83, Value = material.Name + "::Material" }, new FBXProperty { Type = 83, Value = "" } } };
+                FBXElem fbxMaterial = new FBXElem { ID = "Material", Properties = { new FBXProperty { Type = 76, Value = material.Key }, new FBXProperty { Type = 83, Value = material.Name + "::Material" }, new FBXProperty { Type = 83, Value = "" } } };
                 fbxMaterial.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } });
                 fbxMaterial.Children.Add(new FBXElem { ID = "ShadingModel", Properties = { new FBXProperty { Type = 83, Value = "phong" } } });
                 fbxMaterial.Children.Add(new FBXElem { ID = "MultiLayer", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
@@ -560,8 +570,8 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "Properties70",
-                        Children = 
-                        { 
+                        Children =
+                        {
                             FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
                             FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
                             FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)1, (double)1, (double)1),
@@ -585,10 +595,10 @@ namespace Flummery.ContentPipeline.Core
                 {
                     SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(ddsPath)));
 
-                    tdx.SaveAsDDS(ddsPath);
+                    ((DDS)tdx).Save(ddsPath);
                     ddsPath += ".dds";
 
-                    var fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" }, new FBXProperty { Type = 83, Value = "" } } };
+                    FBXElem fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" }, new FBXProperty { Type = 83, Value = "" } } };
                     fbxTexture.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "TextureVideoClip" } } });
                     fbxTexture.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 202 } } });
                     fbxTexture.Children.Add(new FBXElem { ID = "TextureName", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" } } });
@@ -599,8 +609,8 @@ namespace Flummery.ContentPipeline.Core
                         new FBXElem
                         {
                             ID = "Properties70",
-                            Children = 
-                        { 
+                            Children =
+                        {
                             FBXPropertyElement(FBXPropertyType.Integer, "PremultiplyAlpha", "bool", "", "", 1),
                             FBXPropertyElement(FBXPropertyType.Integer, "CurrentMappingType", "enum", "", "", 6),
                             FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
@@ -610,14 +620,14 @@ namespace Flummery.ContentPipeline.Core
 
                     fbxConnections.Children.Add(FBXConnection("Material", material.Key, "Texture", material.Texture.Key, FBXPropertyType.String, "DiffuseColor"));
 
-                    var fbxVideo = new FBXElem { ID = "Video", Properties = { new FBXProperty { Type = 76, Value = material.Key | material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" }, new FBXProperty { Type = 83, Value = "Clip" } } };
+                    FBXElem fbxVideo = new FBXElem { ID = "Video", Properties = { new FBXProperty { Type = 76, Value = material.Key | material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" }, new FBXProperty { Type = 83, Value = "Clip" } } };
                     fbxVideo.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "Clip" } } });
                     fbxVideo.Children.Add(
                         new FBXElem
                         {
                             ID = "Properties70",
-                            Children = 
-                        { 
+                            Children =
+                        {
                             FBXPropertyElement(FBXPropertyType.String, "Path", "KString", "Url", "", ddsPath)
                         }
                         }
@@ -636,7 +646,7 @@ namespace Flummery.ContentPipeline.Core
                 fbxObjects.Children.Add(fbxMaterial);
             }
 
-            var fbxDefinitions = new FBXElem { ID = "Definitions" };
+            FBXElem fbxDefinitions = new FBXElem { ID = "Definitions" };
             fbxDefinitions.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 100 } } });
             fbxDefinitions.Children.Add(new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 3 + fbxObjects.Children.Count } } });
             fbxDefinitions.Children.Add(new FBXElem { ID = "ObjectType", Properties = { new FBXProperty { Type = 83, Value = "GlobalSettings" } }, Children = { new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } } } });
@@ -645,22 +655,22 @@ namespace Flummery.ContentPipeline.Core
                 new FBXElem
                 {
                     ID = "ObjectType",
-                    Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "AnimationStack" } 
+                    Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "AnimationStack" }
                         },
-                    Children = 
+                    Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxAnimStack" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxAnimStack" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.String, "Description", "KString", "", "", ""),
                                             FBXPropertyElement(FBXPropertyType.Long, "LocalStart", "KTime", "Time", "", (long)0),
@@ -680,22 +690,22 @@ namespace Flummery.ContentPipeline.Core
                 new FBXElem
                 {
                     ID = "ObjectType",
-                    Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "AnimationLayer" } 
+                    Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "AnimationLayer" }
                         },
-                    Children = 
+                    Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = 1 } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxAnimLayer" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxAnimLayer" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.Double, "Weight", "Number", "", "A", (double)100),
                                             FBXPropertyElement(FBXPropertyType.Integer, "Mute", "bool", "", "", 0),
@@ -721,22 +731,22 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "ObjectType",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "NodeAttribute" } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "NodeAttribute" }
                         },
-                        Children = 
+                        Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "NodeAttribute") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxNull" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxNull" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
                                             FBXPropertyElement(FBXPropertyType.Double, "Size", "double", "Number", "", (double)100),
@@ -757,22 +767,22 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "ObjectType",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "Material" } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "Material" }
                         },
-                        Children = 
+                        Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Material") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxSurfacePhong" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxSurfacePhong" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.String, "ShadingModel", "KString", "", "", "Phong"),
                                             FBXPropertyElement(FBXPropertyType.Integer, "MultiLayer", "bool", "", "", 0),
@@ -809,24 +819,26 @@ namespace Flummery.ContentPipeline.Core
             if (fbxObjects.Children.Any(e => e.ID == "Model"))
             {
                 fbxDefinitions.Children.Add(
-                    new FBXElem { ID = "ObjectType", 
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "Model" } 
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "Model" }
                         },
-                        Children = 
+                        Children =
                         {
                             // MODEL COUNT
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Model") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxNode" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxNode" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.Integer, "QuaternionInterpolate", "enum", "", "", 0),
                                             FBXPropertyElement(FBXPropertyType.Double, "RotationOffset", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
@@ -912,23 +924,25 @@ namespace Flummery.ContentPipeline.Core
             if (fbxObjects.Children.Any(e => e.ID == "Geometry"))
             {
                 fbxDefinitions.Children.Add(
-                    new FBXElem { ID = "ObjectType", 
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "Geometry" } 
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "Geometry" }
                         },
-                        Children = 
+                        Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Geometry") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxMesh" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxMesh" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
                                             FBXPropertyElement(FBXPropertyType.Double, "BBoxMin", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
@@ -952,22 +966,22 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "ObjectType",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "Texture" } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "Texture" }
                         },
-                        Children = 
+                        Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Texture") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxFileTexture" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxFileTexture" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.Integer, "TextureTypeUse", "enum", "", "", 0),
                                             FBXPropertyElement(FBXPropertyType.Double, "Texture alpha", "Number", "", "A", (double)1),
@@ -1001,22 +1015,22 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "ObjectType",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "CollectionExclusive" } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "CollectionExclusive" }
                         },
-                        Children = 
+                        Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "CollectionExclusive") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxDisplayLayer" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxDisplayLayer" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
                                             FBXPropertyElement(FBXPropertyType.Integer, "Show", "bool", "", "", 1),
@@ -1038,22 +1052,22 @@ namespace Flummery.ContentPipeline.Core
                     new FBXElem
                     {
                         ID = "ObjectType",
-                        Properties = 
-                        { 
-                            new FBXProperty { Type = 83, Value = "Video" } 
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "Video" }
                         },
-                        Children = 
+                        Children =
                         {
                             new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Video") } } },
-                            new FBXElem { ID = "PropertyTemplate", 
-                                Properties = 
-                                { 
-                                    new FBXProperty { Type = 83, Value = "FbxVideo" } 
-                                },
-                                Children = 
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
                                 {
-                                    new FBXElem { ID = "Properties70", 
-                                        Children = 
+                                    new FBXProperty { Type = 83, Value = "FbxVideo" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
                                         {
                                             FBXPropertyElement(FBXPropertyType.Integer, "ImageSequence", "bool", "", "", 0),
                                             FBXPropertyElement(FBXPropertyType.Integer, "ImageSequenceOffset", "int", "Integer", "", 0),
@@ -1100,8 +1114,8 @@ namespace Flummery.ContentPipeline.Core
             return new FBXElem
             {
                 ID = "P",
-                Properties = 
-                    {  
+                Properties =
+                    {
                         new FBXProperty { Type = 83, Value = Name },
                         new FBXProperty { Type = 83, Value = A },
                         new FBXProperty { Type = 83, Value = B },
@@ -1115,8 +1129,8 @@ namespace Flummery.ContentPipeline.Core
             return new FBXElem
             {
                 ID = "P",
-                Properties = 
-                    {  
+                Properties =
+                    {
                         new FBXProperty { Type = 83, Value = Name },
                         new FBXProperty { Type = 83, Value = A },
                         new FBXProperty { Type = 83, Value = B },
@@ -1131,8 +1145,8 @@ namespace Flummery.ContentPipeline.Core
             return new FBXElem
             {
                 ID = "P",
-                Properties = 
-                    {  
+                Properties =
+                    {
                         new FBXProperty { Type = 83, Value = Name },
                         new FBXProperty { Type = 83, Value = A },
                         new FBXProperty { Type = 83, Value = B },
@@ -1150,8 +1164,8 @@ namespace Flummery.ContentPipeline.Core
             return new FBXElem
             {
                 ID = "C",
-                Properties = 
-                {  
+                Properties =
+                {
                     new FBXProperty { Type = 83, Value = "OO" },
                     new FBXProperty { Type = 76, Value = child },
                     new FBXProperty { Type = 76, Value = parent }
@@ -1165,8 +1179,8 @@ namespace Flummery.ContentPipeline.Core
             return new FBXElem
             {
                 ID = "C",
-                Properties = 
-                {  
+                Properties =
+                {
                     new FBXProperty { Type = 83, Value = "OP" },
                     new FBXProperty { Type = 76, Value = child },
                     new FBXProperty { Type = 76, Value = parent },

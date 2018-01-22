@@ -101,26 +101,6 @@ namespace OpenTK
         public static Vector3 ToEuler(this Quaternion q, RotationOrder order)
         {
             Vector3 r = Vector3.Zero;
-            //Single test = q.X * q.Y + q.Z * q.W;
-
-            //if (test > 0.499f)
-            //{
-            //    r.X = 0;
-            //    r.Y = (Single)MathHelper.RadiansToDegrees(Math.Atan2(q.X, q.W));
-            //    r.Z = 90;
-            //}
-            //else if (test < -0.499f)
-            //{
-            //    r.X = 0;
-            //    r.Y = -(Single)MathHelper.RadiansToDegrees(Math.Atan2(q.X, q.W));
-            //    r.Z = -90;
-            //}
-            //else
-            //{
-            //    r.X = (Single)MathHelper.RadiansToDegrees(Math.Atan2(2 * q.X * q.W - 2 * q.Y * q.Z, 1 - 2 * (q.X * q.X) - 2 * (q.Z * q.Z)));
-            //    r.Y = (Single)MathHelper.RadiansToDegrees(Math.Atan2(2 * q.Y * q.W - 2 * q.X * q.Z, 1 - 2 * (q.Y * q.Y) - 2 * (q.Z * q.Z)));
-            //    r.Z = (Single)MathHelper.RadiansToDegrees(Math.Asin(2 * q.X * q.Y + 2 * q.Z * q.W));
-            //}
 
             float r11, r12, r21, r31, r32;
             r11 = r12 = r21 = r31 = r32 = 0;
@@ -147,10 +127,6 @@ namespace OpenTK
             r.X = (Single)MathHelper.RadiansToDegrees(Math.Atan2(r31, r32));
             r.Y = (Single)MathHelper.RadiansToDegrees(Math.Asin(r21));
             r.Z = (Single)MathHelper.RadiansToDegrees(Math.Atan2(r11, r12));
-
-            //if (r.X < -90) { r.X += 360; }
-            //if (r.Y < -90) { r.Y += 360; }
-            //if (r.Z < -90) { r.Z += 360; }
 
             return r;
         }

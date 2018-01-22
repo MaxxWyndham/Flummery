@@ -100,7 +100,7 @@ namespace Flummery
 
         public bool IsActive(int x, int y)
         {
-            y = pnlViewport.Control.Height - y;
+            y = PnlViewport.Control.Height - y;
 
             return (
                 x > this.x &&
@@ -179,8 +179,8 @@ namespace Flummery
 
         public void Resize()
         {
-            w = pnlViewport.Control.Width;
-            h = pnlViewport.Control.Height;
+            w = PnlViewport.Control.Width;
+            h = PnlViewport.Control.Height;
 
             if ((w == ow && h == oh) || (w <= 0 || h <= 0)) { return; }
 

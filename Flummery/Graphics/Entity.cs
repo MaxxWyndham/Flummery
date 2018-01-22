@@ -1,9 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Windows.Forms;
+
 using Flummery.ContentPipeline.Core;
+
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System.Windows.Forms;
 
 namespace Flummery
 {
@@ -31,8 +32,6 @@ namespace Flummery
     public class Entity : Asset
     {
         string uniqueIdentifier;
-        string name;
-        string tag;
         EntityType entityType = EntityType.Powerup;
         Matrix4 transform;
         Asset asset;
@@ -42,18 +41,6 @@ namespace Flummery
         {
             get { return uniqueIdentifier; }
             set { uniqueIdentifier = value; }
-        }
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-        public string Tag
-        {
-            get { return tag; }
-            set { tag = value; }
         }
 
         public EntityType EntityType
@@ -101,7 +88,7 @@ namespace Flummery
                     parentTransform.M43 = v.Z;
 
                     if ((linkType & LinkType.Rotation) == LinkType.Rotation) { transform *= Matrix4.CreateFromQuaternion(parentTransform.ExtractRotation()); }
-                    if ((linkType & LinkType.Scale)    == LinkType.Scale)    { transform *= Matrix4.CreateScale(parentTransform.ExtractScale()); }
+                    if ((linkType & LinkType.Scale) == LinkType.Scale) { transform *= Matrix4.CreateScale(parentTransform.ExtractScale()); }
                     if ((linkType & LinkType.Position) == LinkType.Position) { transform *= Matrix4.CreateTranslation(parentTransform.ExtractTranslation()); }
                 }
             }
@@ -131,13 +118,13 @@ namespace Flummery
                     {
                         var sprite = new ModelMeshPart();
                         sprite.AddVertex(new Vector3(-0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
-                        sprite.AddVertex(new Vector3(-0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
-                        sprite.AddVertex(new Vector3( 0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
-                        sprite.AddVertex(new Vector3( 0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
+                        sprite.AddVertex(new Vector3(-0.25f, 0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
+                        sprite.AddVertex(new Vector3(0.25f, 0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
+                        sprite.AddVertex(new Vector3(0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
 
-                        sprite.AddVertex(new Vector3( 0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
-                        sprite.AddVertex(new Vector3( 0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
-                        sprite.AddVertex(new Vector3(-0.25f,  0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
+                        sprite.AddVertex(new Vector3(0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
+                        sprite.AddVertex(new Vector3(0.25f, 0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
+                        sprite.AddVertex(new Vector3(-0.25f, 0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
                         sprite.AddVertex(new Vector3(-0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
                         sprite.IndexBuffer.Initialise();
                         sprite.VertexBuffer.Initialise();

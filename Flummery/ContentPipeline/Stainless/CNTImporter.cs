@@ -51,7 +51,17 @@ namespace Flummery.ContentPipeline.Stainless
                         }
                         else
                         {
-                            model.Bones[boneIndex].Attachment = SceneManager.Current.Content.Load<Model, LIGHTImporter>(cnt.LightName, rootPath).Bones[0].Attachment;
+                            Model light = SceneManager.Current.Content.Load<Model, LIGHTImporter>(cnt.LightName, rootPath);
+
+                            if (light.Bones.Count > 0)
+                            {
+                                model.Bones[boneIndex].Attachment = light.Bones[0].Attachment;
+                            }
+                            else
+                            {
+                                SceneManager.Current.RaiseError(cnt.LightName + ".light not found!");
+                            }
+
                             model.Bones[boneIndex].AttachmentFile = cnt.LightName;
                         }
                         break;

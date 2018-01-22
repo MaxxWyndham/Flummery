@@ -5,8 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
-using OpenTK;
-
 using ToxicRagers.Helpers;
 
 namespace Flummery.Controls
@@ -28,15 +26,14 @@ namespace Flummery.Controls
         bool bMouseDown;
         Point dragStart;
 
-        public int DefaultWidth { get { return defaultWidth; } }
-
+        public int DefaultWidth => defaultWidth;
         public Transform()
         {
             InitializeComponent();
 
-            this.Dock = DockStyle.Top;
-            this.AutoSize = true;
-            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Dock = DockStyle.Top;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             resetWidget();
         }
@@ -116,9 +113,9 @@ namespace Flummery.Controls
                 btnFreezeRotation.Enabled = true;
                 btnFreezeScale.Enabled = true;
 
-                var p = bone.GetPosition();
-                var r = bone.GetRotation();
-                var s = bone.GetScale();
+                OpenTK.Vector3 p = bone.GetPosition();
+                OpenTK.Vector3 r = bone.GetRotation();
+                OpenTK.Vector3 s = bone.GetScale();
 
                 txtPositionX.Text = p.X.ToString(FlummeryApplication.Culture);
                 txtPositionY.Text = p.Y.ToString(FlummeryApplication.Culture);
@@ -175,7 +172,7 @@ namespace Flummery.Controls
         {
             bMouseDown = true;
 
-            var gb = (GroupBox)sender;
+            GroupBox gb = (GroupBox)sender;
 
             dragStart = PointToClient(MousePosition);
             dragStart.X -= gb.Location.X;
@@ -186,17 +183,17 @@ namespace Flummery.Controls
         {
             if (!bMouseDown) { return; }
 
-            var gb = (GroupBox)sender;
+            GroupBox gb = (GroupBox)sender;
 
-            var p = PointToClient(MousePosition);
+            Point p = PointToClient(MousePosition);
             p.X -= ((Control)sender).Location.X;
             p.Y -= ((Control)sender).Location.Y;
-            var min = new Point(Math.Min(dragStart.X, p.X), Math.Min(dragStart.Y, p.Y));
-            var max = new Point(Math.Max(dragStart.X, p.X), Math.Max(dragStart.Y, p.Y));
+            Point min = new Point(Math.Min(dragStart.X, p.X), Math.Min(dragStart.Y, p.Y));
+            Point max = new Point(Math.Max(dragStart.X, p.X), Math.Max(dragStart.Y, p.Y));
 
-            var r = new Rectangle(min.X, min.Y, max.X - min.X, max.Y - min.Y);
+            Rectangle r = new Rectangle(min.X, min.Y, max.X - min.X, max.Y - min.Y);
 
-            foreach (var box in gb.Controls.OfType<TextBox>())
+            foreach (TextBox box in gb.Controls.OfType<TextBox>())
             {
                 gb.Controls.Find(box.Name.Replace("txt", "lbl") + "Units", false)[0].BackColor = (box.Enabled && r.IntersectsWith(box.Bounds) ? SystemColors.Highlight : SystemColors.ActiveBorder);
             }
@@ -204,11 +201,11 @@ namespace Flummery.Controls
 
         void gbGroup_MouseUp(object sender, MouseEventArgs e)
         {
-            var gb = (GroupBox)sender;
+            GroupBox gb = (GroupBox)sender;
 
             bMouseDown = false;
 
-            foreach (var label in gb.Controls.OfType<Label>())
+            foreach (Label label in gb.Controls.OfType<Label>())
             {
                 if (label.BackColor == SystemColors.Highlight)
                 {
@@ -219,10 +216,9 @@ namespace Flummery.Controls
 
         private void txtBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var box = (TextBox)sender;
-            Single s = 0;
+            TextBox box = (TextBox)sender;
 
-            if (Single.TryParse(box.Text, NumberStyles.Number, FlummeryApplication.Culture, out s))
+            if (float.TryParse(box.Text, NumberStyles.Number, FlummeryApplication.Culture, out float s))
             {
                 box.Text = s.ToString();
                 box.Tag = s;
@@ -241,9 +237,9 @@ namespace Flummery.Controls
                 case "Rotation":
                     bone.SetRotation(txtRotationX.Text.ToSingle(), txtRotationY.Text.ToSingle(), txtRotationZ.Text.ToSingle(), rdoAbsolute.Checked);
                     break;
-                    
+
                 case "Scale":
-                    Single divisor = (rdoAbsolute.Checked ? 1.0f : 100.0f);
+                    float divisor = (rdoAbsolute.Checked ? 1.0f : 100.0f);
                     bone.SetScale(txtScaleX.Text.ToSingle() / divisor, txtScaleY.Text.ToSingle() / divisor, txtScaleZ.Text.ToSingle() / divisor, rdoAbsolute.Checked);
                     break;
             }

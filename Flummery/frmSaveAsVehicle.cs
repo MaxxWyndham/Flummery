@@ -123,12 +123,6 @@ namespace Flummery
                         tx.Export(material.Texture, txtPath.Text);
                     }
 
-                    //if (!File.Exists(fileName + ".img"))
-                    //{
-                    //    var tx = new IMGExporter();
-                    //    tx.Export(material.Texture, txtPath.Text);
-                    //}
-
                     textures.Add(material.Texture.Name);
                 }
             }

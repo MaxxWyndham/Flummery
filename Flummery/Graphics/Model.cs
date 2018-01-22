@@ -230,9 +230,12 @@ namespace Flummery
 
         public void ClearMesh(int BoneIndex)
         {
-            bones[BoneIndex].Type = BoneType.Null;
-            meshes.Remove(bones[BoneIndex].Mesh);
-            bones[BoneIndex].Attachment = null;
+            if (bones[BoneIndex].Mesh != null)
+            {
+                bones[BoneIndex].Type = BoneType.Null;
+                meshes.Remove(bones[BoneIndex].Mesh);
+                bones[BoneIndex].Attachment = null;
+            }
         }
 
         public List<Material> GetMaterials()

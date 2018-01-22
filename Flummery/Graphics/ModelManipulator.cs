@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 
 using OpenTK;
 
@@ -50,7 +49,7 @@ namespace Flummery
                         {
                             while (part.IndexBuffer.Data.Count > 0)
                             {
-                                var buffer = part.IndexBuffer.Data;
+                                List<int> buffer = part.IndexBuffer.Data;
                                 HashSet<int> usedVerts = new HashSet<int>();
                                 int total = buffer.Count;
 
@@ -68,8 +67,7 @@ namespace Flummery
 
                                         Dictionary<int, int> indexLUT = new Dictionary<int, int>();
 
-                                        var newPart = new ModelMeshPart();
-                                        newPart.Material = part.Material;
+                                        ModelMeshPart newPart = new ModelMeshPart() { Material = part.Material };
 
                                         for (int k = 0; k < j; k++)
                                         {
@@ -161,7 +159,7 @@ namespace Flummery
             }
         }
 
-        public static void Normalise(ModelMeshPart model) 
+        public static void Normalise(ModelMeshPart model)
         {
             List<Vector3> faceNormals = new List<Vector3>();
 
@@ -195,10 +193,10 @@ namespace Flummery
 
         public static void FlipAxis(ModelMesh model, Axis axis, bool bApplyToHierarchy = false)
         {
-            var transform = Vector3.One;
-            var processed = new List<string>();
+            Vector3 transform = Vector3.One;
+            List<string> processed = new List<string>();
 
-            var bones = (bApplyToHierarchy ? model.Parent.AllChildren() : new ModelBoneCollection { model.Parent });
+            ModelBoneCollection bones = (bApplyToHierarchy ? model.Parent.AllChildren() : new ModelBoneCollection { model.Parent });
 
             switch (axis)
             {
@@ -215,13 +213,13 @@ namespace Flummery
                     break;
             }
 
-            foreach (var bone in bones)
+            foreach (ModelBone bone in bones)
             {
                 if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                 {
-                    var mesh = bone.Mesh;
+                    ModelMesh mesh = bone.Mesh;
 
-                    foreach (var meshpart in mesh.MeshParts)
+                    foreach (ModelMeshPart meshpart in mesh.MeshParts)
                     {
                         for (int i = 0; i < meshpart.VertexCount; i++)
                         {
@@ -249,15 +247,15 @@ namespace Flummery
 
         public static void FlipFaces(ModelBoneCollection bones, bool bApplyToHierarchy = false)
         {
-            var processed = new List<string>();
+            List<string> processed = new List<string>();
 
-            foreach (var bone in bones)
+            foreach (ModelBone bone in bones)
             {
                 if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                 {
-                    var mesh = bone.Mesh;
+                    ModelMesh mesh = bone.Mesh;
 
-                    foreach (var meshpart in mesh.MeshParts)
+                    foreach (ModelMeshPart meshpart in mesh.MeshParts)
                     {
                         for (int i = 0; i < meshpart.IndexBuffer.Data.Count; i += 3)
                         {
@@ -274,19 +272,19 @@ namespace Flummery
 
         public static void Scale(ModelBoneCollection bones, Matrix4 scale, bool bApplyToHierarchy = false)
         {
-            var processed = new List<string>();
+            List<string> processed = new List<string>();
 
-            foreach (var bone in bones)
+            foreach (ModelBone bone in bones)
             {
                 if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                 {
-                    var mesh = bone.Mesh;
+                    ModelMesh mesh = bone.Mesh;
 
-                    foreach (var meshpart in mesh.MeshParts)
+                    foreach (ModelMeshPart meshpart in mesh.MeshParts)
                     {
                         for (int i = 0; i < meshpart.VertexCount; i++)
                         {
-                            var position = Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, scale);
+                            Vector3 position = Vector3.TransformVector(meshpart.VertexBuffer.Data[i].Position, scale);
                             meshpart.VertexBuffer.ModifyVertexPosition(i, position);
                         }
 
@@ -298,8 +296,8 @@ namespace Flummery
 
                 if (bApplyToHierarchy)
                 {
-                    var transform = bone.Transform;
-                    var position = Vector3.TransformPosition(transform.ExtractTranslation(), scale);
+                    Matrix4 transform = bone.Transform;
+                    Vector3 position = Vector3.TransformPosition(transform.ExtractTranslation(), scale);
 
                     transform.M41 = position.X;
                     transform.M42 = position.Y;
@@ -312,29 +310,29 @@ namespace Flummery
 
         public static void Freeze(ModelMesh model, FreezeComponents flags)
         {
-            bool bFreezePos = ((flags & FreezeComponents.Position) == FreezeComponents.Position);
-            bool bFreezeRot = ((flags & FreezeComponents.Rotation) == FreezeComponents.Rotation);
-            bool bFreezeSca = ((flags & FreezeComponents.Scale) == FreezeComponents.Scale);
+            bool bFreezePos = flags.HasFlag(FreezeComponents.Position);
+            bool bFreezeRot = flags.HasFlag(FreezeComponents.Rotation);
+            bool bFreezeSca = flags.HasFlag(FreezeComponents.Scale);
 
-            var mPosition = Matrix4.CreateTranslation(model.Parent.Transform.ExtractTranslation());
-            var mRotation = Matrix4.CreateFromQuaternion(model.Parent.Transform.ExtractRotation());
-            var mScale = Matrix4.CreateScale(model.Parent.Transform.ExtractScale());
+            Matrix4 mPosition = Matrix4.CreateTranslation(model.Parent.Transform.ExtractTranslation());
+            Matrix4 mRotation = Matrix4.CreateFromQuaternion(model.Parent.Transform.ExtractRotation());
+            Matrix4 mScale = Matrix4.CreateScale(model.Parent.Transform.ExtractScale());
 
             if (bFreezePos) { model.Parent.Transform = model.Parent.Transform.ClearTranslation(); }
             if (bFreezeRot) { model.Parent.Transform = model.Parent.Transform.ClearRotation(); }
             if (bFreezeSca) { model.Parent.Transform = model.Parent.Transform.ClearScale(); }
 
-            foreach (var meshpart in model.MeshParts)
+            foreach (ModelMeshPart meshpart in model.MeshParts)
             {
                 for (int i = 0; i < meshpart.VertexCount; i++)
                 {
-                    if (bFreezePos) { meshpart.VertexBuffer.ModifyVertexPosition(i, Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, mPosition)); }
+                    if (bFreezePos) { meshpart.VertexBuffer.ModifyVertexPosition(i, Vector3.TransformVector(meshpart.VertexBuffer.Data[i].Position, mPosition)); }
                     if (bFreezeRot)
                     {
-                        meshpart.VertexBuffer.ModifyVertexPosition(i, Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, mRotation));
-                        meshpart.VertexBuffer.ModifyVertexNormal(i, Vector3.TransformNormal(meshpart.VertexBuffer.Data[i].Normal, mRotation)); 
+                        meshpart.VertexBuffer.ModifyVertexPosition(i, Vector3.TransformVector(meshpart.VertexBuffer.Data[i].Position, mRotation));
+                        meshpart.VertexBuffer.ModifyVertexNormal(i, Vector3.TransformNormal(meshpart.VertexBuffer.Data[i].Normal, mRotation));
                     }
-                    if (bFreezeSca) { meshpart.VertexBuffer.ModifyVertexPosition(i, Vector3.Transform(meshpart.VertexBuffer.Data[i].Position, mScale)); }
+                    if (bFreezeSca) { meshpart.VertexBuffer.ModifyVertexPosition(i, Vector3.TransformVector(meshpart.VertexBuffer.Data[i].Position, mScale)); }
                 }
 
                 meshpart.VertexBuffer.Initialise();
@@ -348,13 +346,13 @@ namespace Flummery
             foreach (ModelMesh mesh in model.Meshes)
             {
                 Matrix4 o = mesh.Parent.Transform;
-                Vector3 p = Vector3.Transform(o.ExtractTranslation(), matrix);
+                Vector3 p = Vector3.TransformVector(o.ExtractTranslation(), matrix);
                 Vector3 e = o.ExtractRotation().ToEuler(RotationOrder.OrderXYZ);
 
                 o = Matrix4.CreateFromQuaternion(
-                    Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians( e.X)) *
-                    Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(-e.Y)) *
-                    Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(-e.Z))
+                    Quaternion.FromAxisAngle(Vector3.UnitX, MathHelper.DegreesToRadians(e.X)) *
+                    Quaternion.FromAxisAngle(Vector3.UnitZ, MathHelper.DegreesToRadians(-e.Y)) *
+                    Quaternion.FromAxisAngle(Vector3.UnitY, MathHelper.DegreesToRadians(-e.Z))
                 );
 
                 o.M41 = p.X;
@@ -363,17 +361,38 @@ namespace Flummery
 
                 mesh.Parent.Transform = matrix;
 
-                ModelManipulator.Freeze(mesh, FreezeComponents.Rotation);
+                Freeze(mesh, FreezeComponents.Rotation);
 
                 mesh.Parent.Transform = o;
+            }
+
+            foreach (ModelBone bone in model.Bones)
+            {
+                if (bone.Mesh != null) { continue; }
+
+                Matrix4 o = bone.Transform;
+                Vector3 p = Vector3.TransformVector(o.ExtractTranslation(), matrix);
+                Vector3 e = o.ExtractRotation().ToEuler(RotationOrder.OrderXYZ);
+
+                o = Matrix4.CreateFromQuaternion(
+                    Quaternion.FromAxisAngle(Vector3.UnitX, MathHelper.DegreesToRadians(e.X)) *
+                    Quaternion.FromAxisAngle(Vector3.UnitZ, MathHelper.DegreesToRadians(-e.Y)) *
+                    Quaternion.FromAxisAngle(Vector3.UnitY, MathHelper.DegreesToRadians(-e.Z))
+                );
+
+                o.M41 = p.X;
+                o.M42 = p.Y;
+                o.M43 = p.Z;
+
+                bone.Transform = o;
             }
         }
 
         public static void FlipUVs(ModelMesh model)
         {
-            var flip = new Vector4(1, -1, 1, -1);
+            Vector4 flip = new Vector4(1, -1, 1, -1);
 
-            foreach (var meshpart in model.MeshParts)
+            foreach (ModelMeshPart meshpart in model.MeshParts)
             {
                 for (int i = 0; i < meshpart.VertexCount; i++)
                 {
@@ -391,28 +410,28 @@ namespace Flummery
 
         public static void MungeMeshWithBone(ModelBoneCollection bones)
         {
-            var processed = new List<string>();
+            List<string> processed = new List<string>();
 
-            var offset = (bones[0].Parent != null ? bones[0].Parent.Transform.ExtractTranslation() : OpenTK.Vector3.Zero);
+            Vector3 offset = (bones[0].Parent != null ? bones[0].Parent.Transform.ExtractTranslation() : Vector3.Zero);
 
-            foreach (var bone in bones)
+            foreach (ModelBone bone in bones)
             {
                 if (bone.Type == BoneType.Mesh && bone.Mesh != null && !processed.Contains(bone.Mesh.Name))
                 {
-                    var mesh = bone.Mesh;
-                    var meshoffset = mesh.BoundingBox.Centre;
+                    ModelMesh mesh = bone.Mesh;
+                    Vector3 meshoffset = mesh.BoundingBox.Centre;
 
-                    foreach (var meshpart in mesh.MeshParts)
+                    foreach (ModelMeshPart meshpart in mesh.MeshParts)
                     {
                         for (int i = 0; i < meshpart.VertexCount; i++) { meshpart.VertexBuffer.ModifyVertexPosition(i, meshpart.VertexBuffer.Data[i].Position - meshoffset); }
                         meshpart.VertexBuffer.Initialise();
                     }
                     mesh.BoundingBox.Calculate(mesh);
 
-                    var moffset = meshoffset - offset;
+                    Vector3 moffset = meshoffset - offset;
                     offset = meshoffset;
 
-                    var m = bone.Transform;
+                    Matrix4 m = bone.Transform;
                     m.M41 += moffset.X;
                     m.M42 += moffset.Y;
                     m.M43 += moffset.Z;
@@ -430,7 +449,7 @@ namespace Flummery
 
         public static void SetVertexColour(ModelMesh model, Color colour)
         {
-            foreach (var meshpart in model.MeshParts)
+            foreach (ModelMeshPart meshpart in model.MeshParts)
             {
                 for (int i = 0; i < meshpart.VertexCount; i++)
                 {

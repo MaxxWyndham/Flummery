@@ -42,16 +42,14 @@ namespace Flummery
             lines = new List<TextEntry>();
 
             textBitmap = new Bitmap(width, height);
-            this.clientSize = new Size(viewportWidth, viewportHeight);
-            textureID = CreateTexture();
+            clientSize = new Size(viewportWidth, viewportHeight);
+            textureID = createTexture();
         }
 
-        private int CreateTexture()
+        private int createTexture()
         {
-            int textureID;
-
             Bitmap bitmap = textBitmap;
-            GL.GenTextures(1, out textureID);
+            GL.GenTextures(1, out int textureID);
             GL.BindTexture(TextureTarget.Texture2D, textureID);
 
             BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -68,8 +66,7 @@ namespace Flummery
 
         public void Dispose()
         {
-            if (textureID > 0)
-                GL.DeleteTexture(textureID);
+            if (textureID > 0) { GL.DeleteTexture(textureID); }
         }
 
         public void Clear()
@@ -151,26 +148,26 @@ namespace Flummery
 
         public PointF Position
         {
-            get { return position; }
-            set { position = value; }
+            get => position;
+            set => position = value;
         }
 
         public string Text
         {
-            get { return text; }
-            set { text = value; }
+            get => text;
+            set => text = value;
         }
 
         public Brush Colour
         {
-            get { return colour; }
-            set { colour = value; }
+            get => colour;
+            set => colour = value;
         }
 
         public Fonts Font
         {
-            get { return font; }
-            set { font = value; }
+            get => font;
+            set => font = value;
         }
     }
 }

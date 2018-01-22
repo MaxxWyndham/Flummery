@@ -17,9 +17,9 @@ namespace Flummery.Controls
         {
             InitializeComponent();
 
-            this.Dock = DockStyle.Top;
-            this.AutoSize = true;
-            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Dock = DockStyle.Top;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             resetWidget();
         }
@@ -44,14 +44,14 @@ namespace Flummery.Controls
             lblLightType.Text = string.Format(lblLightType.Tag.ToString(), light.Type);
             lblLightName.Text = light.Name;
             chkLightOn.Checked = true;
-            nudRange.Value = (Decimal)light.Range;
-            nudInner.Value = (Decimal)light.Inner;
-            nudOuter.Value = (Decimal)light.Outer;
+            nudRange.Value = (decimal)light.Range;
+            nudInner.Value = (decimal)light.Inner;
+            nudOuter.Value = (decimal)light.Outer;
 
-            nudRed.Value = (Decimal)(light.R * 255);
-            nudGreen.Value = (Decimal)(light.G * 255);
-            nudBlue.Value = (Decimal)(light.B * 255);
-            nudIntensity.Value = (Decimal)light.Intensity;
+            nudRed.Value = (decimal)(light.R * 255);
+            nudGreen.Value = (decimal)(light.G * 255);
+            nudBlue.Value = (decimal)(light.B * 255);
+            nudIntensity.Value = (decimal)light.Intensity;
             updateLightColour();
 
             chkCastShadows.Checked = light.Flags.HasFlag(LIGHT.LightFlags.CastShadow);
@@ -60,19 +60,19 @@ namespace Flummery.Controls
             chkUsePool.Checked = light.Flags.HasFlag(LIGHT.LightFlags.UsePool);
 
             nudSplitCount.Value = light.SplitCount;
-            nudSplitDistribn.Value = (Decimal)light.SplitDistribution;
-            nudShadCoverX.Value = (Decimal)light.ShadowCoverX;
-            nudShadCoverY.Value = (Decimal)light.ShadowCoverY;
+            nudSplitDistribn.Value = (decimal)light.SplitDistribution;
+            nudShadCoverX.Value = (decimal)light.ShadowCoverX;
+            nudShadCoverY.Value = (decimal)light.ShadowCoverY;
             nudShadResX.Value = light.ShadowResolutionX;
             nudShadResY.Value = light.ShadowResolutionY;
-            nudShadIntensity.Value = (Decimal)light.ShadowIntensity;
-            nudGoboScaleX.Value = (Decimal)light.GoboScaleX;
-            nudGoboScaleY.Value = (Decimal)light.GoboScaleY;
-            nudGoboOffsetX.Value = (Decimal)light.GoboOffsetX;
-            nudGoboOffsetY.Value = (Decimal)light.GoboOffsetY;
-            nudShadowBias.Value = (Decimal)light.ShadowBias;
-            nudLightNearClip.Value = (Decimal)light.LightNearClip;
-            nudShadowDist.Value = (Decimal)light.ShadowDistance;
+            nudShadIntensity.Value = (decimal)light.ShadowIntensity;
+            nudGoboScaleX.Value = (decimal)light.GoboScaleX;
+            nudGoboScaleY.Value = (decimal)light.GoboScaleY;
+            nudGoboOffsetX.Value = (decimal)light.GoboOffsetX;
+            nudGoboOffsetY.Value = (decimal)light.GoboOffsetY;
+            nudShadowBias.Value = (decimal)light.ShadowBias;
+            nudLightNearClip.Value = (decimal)light.LightNearClip;
+            nudShadowDist.Value = (decimal)light.ShadowDistance;
 
             chkUseGobo.Checked = light.Flags.HasFlag(LIGHT.LightFlags.UsesGobo);
             lblGobo.Text = light.GOBO;
