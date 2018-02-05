@@ -223,7 +223,8 @@ namespace Flummery
                     sfdBrowse.Filter = "Autodesk FBX files (*.fbx)|*.fbx";
                     if (sfdBrowse.ShowDialog() == DialogResult.OK)
                     {
-                        FBXExporter fx = new ContentPipeline.Core.FBXExporter();
+                        FBXExporter fx = new FBXExporter();
+                        fx.ExportSettings.AddSetting("NeedsFlipping", SceneManager.Current.CoordSystem == SceneManager.CoordinateSystem.LeftHanded);
                         fx.Export(SceneManager.Current.Models[0], sfdBrowse.FileName);
                         SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(sfdBrowse.FileName)));
                     }

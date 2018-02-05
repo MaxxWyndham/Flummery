@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using ToxicRagers.Core.Formats;
+using ToxicRagers.CarmageddonReincarnation.Formats;
 
 using OpenTK;
 using OpenTK.Graphics;
@@ -14,9 +15,13 @@ namespace Flummery.ContentPipeline.Core
     {
         public override void Export(Asset asset, string path)
         {
-            Model model = (asset as Model);
-            FBX fbx = new FBX();
-            fbx.Version = 7400;
+            Model model = asset as Model;
+            FBX fbx = new FBX
+            {
+                Version = 7400
+            };
+
+            if (ExportSettings.GetSetting<bool>("NeedsFlipping")) { ModelManipulator.FlipAxis(model.Root.Mesh, Axis.X, true); }
 
             bool bUseCompression = true;
 
@@ -113,14 +118,14 @@ namespace Flummery.ContentPipeline.Core
                                 FBXPropertyElement(FBXPropertyType.Integer, "OriginalUpAxisSign", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Double, "UnitScaleFactor", "double", "Number", "", (double)1),
                                 FBXPropertyElement(FBXPropertyType.Double, "OriginalUnitScaleFactor", "double", "Number", "", (double)1),
-                                FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "ColorRGB", "Color", "", (double)0.0, (double)0.0, (double)0.0),
+                                FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "ColorRGB", "Color", "", 0.0, 0.0, 0.0),
                                 FBXPropertyElement(FBXPropertyType.String, "DefaultCamera", "KString", "", "", "Producer Perspective"),
                                 FBXPropertyElement(FBXPropertyType.Integer, "TimeMode", "enum", "", "", 11),
                                 FBXPropertyElement(FBXPropertyType.Integer, "TimeProtocol", "enum", "", "", 2),
                                 FBXPropertyElement(FBXPropertyType.Integer, "SnapOnFrameMode", "enum", "", "", 0),
                                 FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStart", "KTime", "Time", "", (long)1924423250),
-                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStop", "KTime", "Time", "", (long)92372316000),
-                                FBXPropertyElement(FBXPropertyType.Double, "CustomFrameRate", "double", "Number", "", (double)(-1.0)),
+                                FBXPropertyElement(FBXPropertyType.Long, "TimeSpanStop", "KTime", "Time", "", 92372316000),
+                                FBXPropertyElement(FBXPropertyType.Double, "CustomFrameRate", "double", "Number", "", (-1.0)),
                                 FBXPropertyElement(FBXPropertyType.String, "TimeMarker", "Compound", "", ""),
                                 FBXPropertyElement(FBXPropertyType.Integer, "CurrentTimeMarker", "int", "Integer", "", -1)
                             }
@@ -129,7 +134,7 @@ namespace Flummery.ContentPipeline.Core
                 }
             );
 
-            long sceneRoot = (long)8008135;
+            long sceneRoot = 8008135;
 
             fbx.Elements.Add(
                 new FBXElem
@@ -172,7 +177,7 @@ namespace Flummery.ContentPipeline.Core
 
             foreach (ModelMesh mesh in model.Meshes)
             {
-                SceneManager.Current.UpdateProgress(string.Format("Pre-processing {0}", mesh.Name));
+                SceneManager.Current.UpdateProgress($"Pre-processing {mesh.Name}");
 
                 List<Vertex> vects = new List<Vertex>();
                 List<Vector3> verts = new List<Vector3>();
@@ -203,7 +208,8 @@ namespace Flummery.ContentPipeline.Core
                         int p = part.IndexBuffer.Data[i];
                         Vertex v = part.VertexBuffer.Data[p];
 
-                        ixvt = verts.FindIndex(vert => vert.X == v.Position.X &&
+                        ixvt = verts.FindIndex(vert =>
+                               vert.X == v.Position.X &&
                                vert.Y == v.Position.Y &&
                                vert.Z == v.Position.Z);
 
@@ -454,7 +460,7 @@ namespace Flummery.ContentPipeline.Core
             {
                 bool bHasMesh = (bone.Mesh != null);
                 string meshName = (bHasMesh ? bone.Mesh.Name : bone.Name);
-                long connectionKey = (long)Math.Abs((bHasMesh ? meshName + bone.Mesh.Parent.Index.ToString("x2") + "::Model" : meshName + bone.Index.ToString("x2") + "::Node").GetHashCode());
+                long connectionKey = Math.Abs((bHasMesh ? meshName + bone.Mesh.Parent.Index.ToString("x2") + "::Model" : meshName + bone.Index.ToString("x2") + "::Node").GetHashCode());
 
                 if (bHasMesh)
                 {
@@ -482,7 +488,7 @@ namespace Flummery.ContentPipeline.Core
 
                 if (!bHasMesh)
                 {
-                    long nodeKey = (long)Math.Abs((bone.Name + bone.Index.ToString("x2") + "::NodeAttribute").GetHashCode());
+                    long nodeKey = Math.Abs((bone.Name + bone.Index.ToString("x2") + "::NodeAttribute").GetHashCode());
 
                     fbxObjects.Children.Add(
                         new FBXElem
@@ -506,7 +512,7 @@ namespace Flummery.ContentPipeline.Core
                         }
                     );
 
-                    fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs((bone.Name + bone.Index.ToString("x2") + "::Node").GetHashCode()), "NodeAttribute", nodeKey));
+                    fbxConnections.Children.Add(FBXConnection("Node", Math.Abs((bone.Name + bone.Index.ToString("x2") + "::Node").GetHashCode()), "NodeAttribute", nodeKey));
                 }
 
 
@@ -537,9 +543,10 @@ namespace Flummery.ContentPipeline.Core
                                 {
                                     FBXPropertyElement(FBXPropertyType.Integer, "RotationActive", "bool", "", "", 1),
                                     FBXPropertyElement(FBXPropertyType.Integer, "InheritType", "enum", "", "", 1),
-                                    FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", (double)0.0, (double)0.0, (double)0.0),
+                                    FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", 0.0, 0.0, 0.0),
                                     FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", 0),
                                     FBXPropertyElement(FBXPropertyType.Double, "Lcl Rotation", "Lcl Rotation", "", "A", (double)rotation.X, (double)rotation.Y, (double)rotation.Z),
+                                    FBXPropertyElement(FBXPropertyType.Double, "Lcl Scaling", "Lcl Scaling", "", "A", (double)bone.Transform.M11, (double)bone.Transform.M22, (double)bone.Transform.M33),
                                     FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)bone.Transform.M41, (double)bone.Transform.M42, (double)bone.Transform.M43),
                                 }
                             },
@@ -572,16 +579,16 @@ namespace Flummery.ContentPipeline.Core
                         ID = "Properties70",
                         Children =
                         {
-                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", 0.800000011920929, 0.800000011920929, 0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", 0.200000002980232, 0.200000002980232, 0.200000002980232),
                             FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)1, (double)1, (double)1),
-                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", 0.800000011920929),
                             FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)1),
-                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
-                            FBXPropertyElement(FBXPropertyType.Double, "Emissive", "Vector3D", "Vector", "", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "Ambient", "Vector3D", "Vector", "", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
-                            FBXPropertyElement(FBXPropertyType.Double, "Diffuse", "Vector3D", "Vector", "", (double)0.800000011920929, (double)0.800000011920929, (double)0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "Specular", "Vector3D", "Vector", "", (double)0.200000002980232, (double)0.200000002980232, (double)0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", 0.200000002980232, 0.200000002980232, 0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "Emissive", "Vector3D", "Vector", "", 0.800000011920929, 0.800000011920929, 0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "Ambient", "Vector3D", "Vector", "", 0.200000002980232, 0.200000002980232, 0.200000002980232),
+                            FBXPropertyElement(FBXPropertyType.Double, "Diffuse", "Vector3D", "Vector", "", 0.800000011920929, 0.800000011920929, 0.800000011920929),
+                            FBXPropertyElement(FBXPropertyType.Double, "Specular", "Vector3D", "Vector", "", 0.200000002980232, 0.200000002980232, 0.200000002980232),
                             FBXPropertyElement(FBXPropertyType.Double, "Shininess", "double", "Number", "", (double)20),
                             FBXPropertyElement(FBXPropertyType.Double, "Opacity", "double", "Number", "", (double)1),
                             FBXPropertyElement(FBXPropertyType.Double, "Reflectivity", "double", "Number", "", (double)0)
@@ -590,7 +597,7 @@ namespace Flummery.ContentPipeline.Core
                 );
 
                 string ddsPath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(material.Texture.FileName);
-                var tdx = (material.Texture.SupportingDocuments["Source"] as ToxicRagers.CarmageddonReincarnation.Formats.TDX);
+                TDX tdx = (material.Texture.SupportingDocuments["Source"] as TDX);
                 if (tdx != null)
                 {
                     SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(ddsPath)));
@@ -1099,6 +1106,8 @@ namespace Flummery.ContentPipeline.Core
             fbx.Elements.Add(fbxConnections);
 
             fbx.Save(path);
+
+            if (ExportSettings.GetSetting<bool>("NeedsFlipping")) { ModelManipulator.FlipAxis(model.Root.Mesh, Axis.X, true); }
         }
 
         public enum FBXPropertyType : byte
