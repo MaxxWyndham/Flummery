@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Core.Formats;
 
 using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace Flummery.ContentPipeline.Core
 {
@@ -26,14 +29,13 @@ namespace Flummery.ContentPipeline.Core
 
             if (fbx == null)
             {
-                SceneManager.Current.RaiseError(string.Format("File \"{0}\" could not be opened.  Please ensure this is a binary FBX file.", name));
+                SceneManager.Current.RaiseError($"File \"{name}\" could not be opened.  Please ensure this is a binary FBX file.");
                 return null;
             }
 
             FBXElem objects = fbx.Elements.Find(e => e.ID == "Objects");
 
-            RotationOrder order;
-            Matrix4 worldMatrix = createTransformFor(fbx.Elements.Find(e => e.ID == "GlobalSettings").Children[1], out order);
+            Matrix4 worldMatrix = createTransformFor(fbx.Elements.Find(e => e.ID == "GlobalSettings").Children[1], out RotationOrder order);
 
             foreach (FBXElem material in objects.Children.Where(e => e.ID == "Material"))
             {
@@ -99,19 +101,19 @@ namespace Flummery.ContentPipeline.Core
                 Matrix4 m = Matrix4.Identity;
                 bool bRotationActive = false;
 
-                var lclTranslation = OpenTK.Vector3.Zero;
-                var lclRotation = Quaternion.Identity;
-                var preRotation = Quaternion.Identity;
-                var postRotation = Quaternion.Identity;
-                var rotationPivot = OpenTK.Vector3.Zero;
-                var rotationOffset = OpenTK.Vector3.Zero;
-                var lclScaling = OpenTK.Vector3.One;
-                var scalingPivot = OpenTK.Vector3.Zero;
-                var scalingOffset = OpenTK.Vector3.Zero;
+                Vector3 lclTranslation = Vector3.Zero;
+                Quaternion lclRotation = Quaternion.Identity;
+                Quaternion preRotation = Quaternion.Identity;
+                Quaternion postRotation = Quaternion.Identity;
+                Vector3 rotationPivot = Vector3.Zero;
+                Vector3 rotationOffset = Vector3.Zero;
+                Vector3 lclScaling = Vector3.One;
+                Vector3 scalingPivot = Vector3.Zero;
+                Vector3 scalingOffset = Vector3.Zero;
 
-                var geoPosition = OpenTK.Vector3.Zero;
-                var geoRotation = Quaternion.Identity;
-                var geoScale = OpenTK.Vector3.One;
+                Vector3 geoPosition = Vector3.Zero;
+                Quaternion geoRotation = Quaternion.Identity;
+                Vector3 geoScale = Vector3.One;
 
                 FBXElem property;
 
@@ -121,7 +123,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("ScalingPivot");
                 if (property != null)
                 {
-                    scalingPivot = new OpenTK.Vector3(
+                    scalingPivot = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -131,7 +133,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("Lcl Scaling");
                 if (property != null)
                 {
-                    lclScaling = new OpenTK.Vector3(
+                    lclScaling = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -141,7 +143,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("ScalingOffset");
                 if (property != null)
                 {
-                    scalingOffset = new OpenTK.Vector3(
+                    scalingOffset = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -151,7 +153,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("RotationPivot");
                 if (property != null)
                 {
-                    rotationPivot = new OpenTK.Vector3(
+                    rotationPivot = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -194,7 +196,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("RotationOffset");
                 if (property != null)
                 {
-                    rotationOffset = new OpenTK.Vector3(
+                    rotationOffset = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -204,7 +206,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("Lcl Translation");
                 if (property != null)
                 {
-                    lclTranslation = new OpenTK.Vector3(
+                    lclTranslation = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -214,7 +216,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("GeometricTranslation");
                 if (property != null)
                 {
-                    geoPosition = new OpenTK.Vector3(
+                    geoPosition = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -235,7 +237,7 @@ namespace Flummery.ContentPipeline.Core
                 property = properties.Children.GetProperty("GeometricScaling");
                 if (property != null)
                 {
-                    geoScale = new OpenTK.Vector3(
+                    geoScale = new Vector3(
                         Convert.ToSingle(property.Properties[4].Value),
                         Convert.ToSingle(property.Properties[5].Value),
                         Convert.ToSingle(property.Properties[6].Value)
@@ -258,7 +260,7 @@ namespace Flummery.ContentPipeline.Core
                 if (m != Matrix4.Identity) { transforms.Add((long)element.Properties[0].Value, m); }
             }
 
-            foreach (var element in objects.Children.Where(e => e.ID == "Geometry"))
+            foreach (FBXElem element in objects.Children.Where(e => e.ID == "Geometry"))
             {
                 bool bUVs = true;
                 bool bNorms = true;
@@ -270,52 +272,52 @@ namespace Flummery.ContentPipeline.Core
                 string geometryName = element.Properties[1].Value.ToString();
                 geometryName = geometryName.Substring(0, geometryName.IndexOf("::"));
 
-                var verts = new List<OpenTK.Vector3>();
-                var norms = new List<OpenTK.Vector3>();
-                var uvs = new List<OpenTK.Vector2>();
-                var colours = new List<OpenTK.Graphics.Color4>();
+                List<Vector3> verts = new List<Vector3>();
+                List<Vector3> norms = new List<Vector3>();
+                List<Vector2> uvs = new List<Vector2>();
+                List<Color4> colours = new List<Color4>();
 
-                var vertParts = (double[])element.Children.Find(e => e.ID == "Vertices").Properties[0].Value;
+                double[] vertParts = (double[])element.Children.Find(e => e.ID == "Vertices").Properties[0].Value;
                 for (int i = 0; i < vertParts.Length; i += 3)
                 {
-                    verts.Add(new OpenTK.Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2]));
+                    verts.Add(new Vector3((float)vertParts[i + 0], (float)vertParts[i + 1], (float)vertParts[i + 2]));
                 }
 
-                SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Vertices", element.Properties[1].Value));
+                SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->Vertices");
 
-                var normElem = element.Children.Find(e => e.ID == "LayerElementNormal");
+                FBXElem normElem = element.Children.Find(e => e.ID == "LayerElementNormal");
                 if (normElem != null)
                 {
-                    var normParts = (double[])normElem.Children.Find(e => e.ID == "Normals").Properties[0].Value;
+                    double[] normParts = (double[])normElem.Children.Find(e => e.ID == "Normals").Properties[0].Value;
                     for (int i = 0; i < normParts.Length; i += 3)
                     {
-                        norms.Add(new OpenTK.Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]));
+                        norms.Add(new Vector3((float)normParts[i + 0], (float)normParts[i + 1], (float)normParts[i + 2]));
                     }
 
                     bUseIndexNorm = (normElem.Children.Find(e => e.ID == "MappingInformationType").Properties[0].Value.ToString() == "ByVertice");
 
-                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Normals", element.Properties[1].Value));
+                    SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->Normals");
                 }
                 else
                 {
                     bNorms = false;
                 }
 
-                var colourElem = element.Children.Find(e => e.ID == "LayerElementColor");
+                FBXElem colourElem = element.Children.Find(e => e.ID == "LayerElementColor");
                 if (colourElem != null)
                 {
-                    var colourParts = (double[])colourElem.Children.Find(e => e.ID == "Colors").Properties[0].Value;
+                    double[] colourParts = (double[])colourElem.Children.Find(e => e.ID == "Colors").Properties[0].Value;
 
-                    var colourReferenceType = colourElem.Children.Find(e => e.ID == "ReferenceInformationType");
+                    FBXElem colourReferenceType = colourElem.Children.Find(e => e.ID == "ReferenceInformationType");
 
                     switch (colourReferenceType.Properties[0].Value.ToString())
                     {
                         case "IndexToDirect":
-                            var colourIndicies = (int[])colourElem.Children.Find(e => e.ID == "ColorIndex").Properties[0].Value;
+                            int[] colourIndicies = (int[])colourElem.Children.Find(e => e.ID == "ColorIndex").Properties[0].Value;
                             for (int i = 0; i < colourIndicies.Length; i++)
                             {
                                 int offset = colourIndicies[i] * 4;
-                                colours.Add(new OpenTK.Graphics.Color4(
+                                colours.Add(new Color4(
                                     (float)colourParts[offset + 0],
                                     (float)colourParts[offset + 1],
                                     (float)colourParts[offset + 2],
@@ -329,33 +331,33 @@ namespace Flummery.ContentPipeline.Core
                             break;
 
                         default:
-                            throw new NotImplementedException("Unsupported Colour Reference Type: " + colourReferenceType.Properties[0].Value.ToString());
+                            throw new NotImplementedException($"Unsupported Colour Reference Type: {colourReferenceType.Properties[0].Value}");
                     }
 
-                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Colours", element.Properties[1].Value));
+                    SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->Colours");
                 }
                 else
                 {
                     bColours = false;
                 }
 
-                var uvElem = element.Children.Find(e => e.ID == "LayerElementUV");
+                FBXElem uvElem = element.Children.Find(e => e.ID == "LayerElementUV");
                 if (uvElem != null)
                 {
-                    var uvParts = (double[])uvElem.Children.Find(e => e.ID == "UV").Properties[0].Value;
+                    double[] uvParts = (double[])uvElem.Children.Find(e => e.ID == "UV").Properties[0].Value;
 
-                    var uvReferenceType = uvElem.Children.Find(e => e.ID == "ReferenceInformationType");
+                    FBXElem uvReferenceType = uvElem.Children.Find(e => e.ID == "ReferenceInformationType");
                     if (uvReferenceType.Properties[0].Value.ToString() == "IndexToDirect")
                     {
-                        var luvs = new List<OpenTK.Vector2>();
-                        for (int i = 0; i < uvParts.Length; i += 2) { luvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], 1 - (float)uvParts[i + 1])); }
+                        List<Vector2> luvs = new List<Vector2>();
+                        for (int i = 0; i < uvParts.Length; i += 2) { luvs.Add(new Vector2((float)uvParts[i + 0], 1 - (float)uvParts[i + 1])); }
 
-                        var uvindicies = (int[])uvElem.Children.Find(e => e.ID == "UVIndex").Properties[0].Value;
+                        int[] uvindicies = (int[])uvElem.Children.Find(e => e.ID == "UVIndex").Properties[0].Value;
                         for (int i = 0; i < uvindicies.Length; i++)
                         {
                             if (uvindicies[i] == -1)
                             {
-                                uvs.Add(OpenTK.Vector2.Zero);
+                                uvs.Add(Vector2.Zero);
                             }
                             else
                             {
@@ -365,20 +367,20 @@ namespace Flummery.ContentPipeline.Core
                     }
                     else
                     {
-                        for (int i = 0; i < uvParts.Length; i += 2) { uvs.Add(new OpenTK.Vector2((float)uvParts[i + 0], (float)uvParts[i + 1])); }
+                        for (int i = 0; i < uvParts.Length; i += 2) { uvs.Add(new Vector2((float)uvParts[i + 0], (float)uvParts[i + 1])); }
                     }
 
-                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->UVs", element.Properties[1].Value));
+                    SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->UVs");
                 }
                 else
                 {
                     bUVs = false;
                 }
 
-                var indicies = (int[])element.Children.Find(e => e.ID == "PolygonVertexIndex").Properties[0].Value;
-                var faces = new List<FBXFace>();
-                var face = new FBXFace();
-                var j = 0;
+                int[] indicies = (int[])element.Children.Find(e => e.ID == "PolygonVertexIndex").Properties[0].Value;
+                List<FBXFace> faces = new List<FBXFace>();
+                FBXFace face = new FBXFace();
+                int j = 0;
 
                 for (int i = 0; i < indicies.Length; i++)
                 {
@@ -392,7 +394,7 @@ namespace Flummery.ContentPipeline.Core
                     }
 
                     j++;
-                    face.AddVertex(verts[index], (bNorms ? norms[(bUseIndexNorm ? index : i)] : OpenTK.Vector3.Zero), (bUVs ? uvs[i] : OpenTK.Vector2.Zero), (bColours ? colours[i] : OpenTK.Graphics.Color4.White));
+                    face.AddVertex(verts[index], (bNorms ? norms[(bUseIndexNorm ? index : i)] : Vector3.Zero), (bUVs ? uvs[i] : Vector2.Zero), (bColours ? colours[i] : Color4.White));
 
                     if (bFace)
                     {
@@ -409,55 +411,55 @@ namespace Flummery.ContentPipeline.Core
                     }
                 }
 
-                var parts = new List<ModelMeshPart>();
+                List<ModelMeshPart> parts = new List<ModelMeshPart>();
 
                 if (!bNeedsTriangulating)
                 {
-                    SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Faces", element.Properties[1].Value));
+                    SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->Faces");
 
-                    var elemMaterial = element.Children.Find(e => e.ID == "LayerElementMaterial");
+                    FBXElem elemMaterial = element.Children.Find(e => e.ID == "LayerElementMaterial");
                     if (elemMaterial != null)
                     {
-                        var faceMaterials = (int[])elemMaterial.Children.Find(e => e.ID == "Materials").Properties[0].Value;
+                        int[] faceMaterials = (int[])elemMaterial.Children.Find(e => e.ID == "Materials").Properties[0].Value;
                         for (int i = 0; i < faceMaterials.Length; i++)
                         {
                             faces[i].MaterialID = faceMaterials[i];
                         }
 
-                        SceneManager.Current.UpdateProgress(string.Format("Processed {0}->Materials", element.Properties[1].Value));
+                        SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->Materials");
                     }
 
 
-                    var materialGroups = faces.GroupBy(f => f.MaterialID);
+                    IEnumerable<IGrouping<int, FBXFace>> materialGroups = faces.GroupBy(f => f.MaterialID);
 
                     int processedFaceCount = 0,
                         processedGroupCount = 0;
 
-                    foreach (var materialGroup in materialGroups)
+                    foreach (IGrouping<int, FBXFace> materialGroup in materialGroups)
                     {
-                        var smoothingGroups = materialGroup.GroupBy(f => f.SmoothingGroup);
+                        IEnumerable<IGrouping<int, FBXFace>> smoothingGroups = materialGroup.GroupBy(f => f.SmoothingGroup);
 
-                        foreach (var smoothingGroup in smoothingGroups)
+                        foreach (IGrouping<int, FBXFace> smoothingGroup in smoothingGroups)
                         {
-                            var meshpart = new ModelMeshPart { PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles };
+                            ModelMeshPart meshpart = new ModelMeshPart { PrimitiveType = PrimitiveType.Triangles };
                             processedFaceCount = 0;
 
-                            foreach (var groupface in smoothingGroup)
+                            foreach (FBXFace groupface in smoothingGroup)
                             {
-                                foreach (var vert in groupface.Vertices)
+                                foreach (Vertex vert in groupface.Vertices)
                                 {
                                     meshpart.AddVertex(vert.Position, vert.Normal, vert.UV, vert.Colour);
                                 }
 
                                 processedFaceCount++;
 
-                                if (processedFaceCount % 250 == 0) { SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart[{1}]->Face[{2}]", element.Properties[1].Value, processedGroupCount, processedFaceCount)); }
+                                if (processedFaceCount % 250 == 0) { SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->MeshPart[{processedGroupCount}]->Face[{processedFaceCount}]"); }
                             }
 
                             meshpart.Key = materialGroup.Key;
 
                             parts.Add(meshpart);
-                            SceneManager.Current.UpdateProgress(string.Format("Processed {0}->MeshPart", element.Properties[1].Value));
+                            SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}->MeshPart");
 
                             processedGroupCount++;
                         }
@@ -465,24 +467,24 @@ namespace Flummery.ContentPipeline.Core
                 }
 
                 components.Add((long)element.Properties[0].Value, parts);
-                SceneManager.Current.UpdateProgress(string.Format("Processed {0}", element.Properties[1].Value));
+                SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}");
             }
 
             Dictionary<long, BoneType> nodeAttributes = new Dictionary<long, BoneType>();
             Dictionary<long, object> nodeAttachments = new Dictionary<long, object>();
 
-            foreach (var nodeAttribute in objects.Children.Where(e => e.ID == "NodeAttribute"))
+            foreach (FBXElem nodeAttribute in objects.Children.Where(e => e.ID == "NodeAttribute"))
             {
-                var typeFlags = nodeAttribute.Children.Find(e => e.ID == "TypeFlags");
+                FBXElem typeFlags = nodeAttribute.Children.Find(e => e.ID == "TypeFlags");
                 if (typeFlags != null)
                 {
                     switch (typeFlags.Properties[0].Value.ToString().ToLower())
                     {
                         case "light":
-                            var light = new ToxicRagers.CarmageddonReincarnation.Formats.LIGHT();
+                            LIGHT light = new LIGHT();
 
-                            var lightType = nodeAttribute.Children.Find(c => c.ID == "Properties70").Children.GetProperty("LightType");
-                            light.Type = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT.LightType)(lightType == null ? 0 : lightType.Properties[4].Value);
+                            FBXElem lightType = nodeAttribute.Children.Find(c => c.ID == "Properties70").Children.GetProperty("LightType");
+                            light.Type = (LIGHT.LightType)(lightType == null ? 0 : lightType.Properties[4].Value);
 
                             nodeAttributes.Add((long)nodeAttribute.Properties[0].Value, BoneType.Light);
                             nodeAttachments.Add((long)nodeAttribute.Properties[0].Value, light);
@@ -496,15 +498,15 @@ namespace Flummery.ContentPipeline.Core
             }
 
             string[] connectionOrder = new string[] { "System.Collections.Generic.List`1[Flummery.ModelMeshPart]", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
-            var connections = fbx.Elements.Find(e => e.ID == "Connections");
+            FBXElem connections = fbx.Elements.Find(e => e.ID == "Connections");
 
             HashSet<long> loaded = new HashSet<long>();
 
-            foreach (var connectionType in connectionOrder)
+            foreach (string connectionType in connectionOrder)
             {
-                var connectionsOfType = connections.Children.Where(c => components.ContainsKey((long)c.Properties[1].Value) && components[(long)c.Properties[1].Value].GetType().ToString() == connectionType);
+                IEnumerable<FBXElem> connectionsOfType = connections.Children.Where(c => components.ContainsKey((long)c.Properties[1].Value) && components[(long)c.Properties[1].Value].GetType().ToString() == connectionType);
 
-                foreach (var connection in connectionsOfType)
+                foreach (FBXElem connection in connectionsOfType)
                 {
                     long keyA = (long)connection.Properties[1].Value;
                     long keyB = (long)connection.Properties[2].Value;
@@ -522,7 +524,7 @@ namespace Flummery.ContentPipeline.Core
                                 model.SetName(((ModelMesh)components[keyA]).Name, boneID);
                                 if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }
 
-                                var attribute = connections.Children.FirstOrDefault(c => nodeAttributes.ContainsKey((long)c.Properties[1].Value) && (long)c.Properties[2].Value == keyA);
+                                FBXElem attribute = connections.Children.FirstOrDefault(c => nodeAttributes.ContainsKey((long)c.Properties[1].Value) && (long)c.Properties[2].Value == keyA);
                                 if (attribute != null)
                                 {
                                     keyA = (long)attribute.Properties[1].Value;
@@ -533,7 +535,7 @@ namespace Flummery.ContentPipeline.Core
                             }
                             else
                             {
-                                var parent = model.FindMesh(keyB);
+                                ModelMesh parent = model.FindMesh(keyB);
                                 if (parent != null)
                                 {
                                     boneID = model.AddMesh((ModelMesh)components[keyA], parent.Parent.Index);
@@ -578,7 +580,7 @@ namespace Flummery.ContentPipeline.Core
                                     triangulationErrors[keyA] += " (geometry of " + ((ModelMesh)components[keyB]).Name + ")";
                                 }
 
-                                foreach (var part in (List<ModelMeshPart>)components[keyA])
+                                foreach (ModelMeshPart part in (List<ModelMeshPart>)components[keyA])
                                 {
                                     ((ModelMesh)components[keyB]).AddModelMeshPart(part);
                                 }
@@ -588,10 +590,10 @@ namespace Flummery.ContentPipeline.Core
                         case "Flummery.Material":
                             if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.ModelMesh")
                             {
-                                var materialLookup = connections.Children.Where(c => (long)c.Properties[2].Value == keyB).ToList();
+                                List<FBXElem> materialLookup = connections.Children.Where(c => (long)c.Properties[2].Value == keyB).ToList();
                                 for (int i = materialLookup.Count - 1; i > -1; i--) { if (!connectionsOfType.Any(c => (long)c.Properties[1].Value == (long)materialLookup[i].Properties[1].Value)) { materialLookup.RemoveAt(i); } }
 
-                                foreach (var part in ((ModelMesh)components[keyB]).MeshParts)
+                                foreach (ModelMeshPart part in ((ModelMesh)components[keyB]).MeshParts)
                                 {
                                     if ((long)materialLookup[(int)part.Key].Properties[1].Value == keyA)
                                     {
@@ -613,12 +615,12 @@ namespace Flummery.ContentPipeline.Core
 
             if (triangulationErrors.Count > 0)
             {
-                SceneManager.Current.UpdateProgress(string.Format("Failed to load {0}", name));
+                SceneManager.Current.UpdateProgress($"Failed to load {name}");
 
-                string error = string.Format("File \"{0}\" has part{1} that need been triangulating!  Please triangulate the following:", name, (triangulationErrors.Count > 1 ? "s" : ""));
-                foreach (var kvp in triangulationErrors)
+                string error = $"File \"{name}\" has part{(triangulationErrors.Count > 1 ? "s" : "")} that need been triangulating!  Please triangulate the following:";
+                foreach (KeyValuePair<long, string> kvp in triangulationErrors)
                 {
-                    error += "\r\n" + kvp.Value;
+                    error += $"\r\n{kvp.Value}";
                 }
 
                 SceneManager.Current.RaiseError(error);
@@ -627,7 +629,7 @@ namespace Flummery.ContentPipeline.Core
             }
             else
             {
-                SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", name));
+                SceneManager.Current.UpdateProgress($"Loaded {name}");
 
                 model.Santise();
 
@@ -638,20 +640,20 @@ namespace Flummery.ContentPipeline.Core
             }
         }
 
-        public Quaternion MakeQuaternion(Single x, Single y, Single z, RotationOrder order)
+        public Quaternion MakeQuaternion(float x, float y, float z, RotationOrder order)
         {
             Quaternion q = Quaternion.Identity;
 
             switch (order)
             {
                 case RotationOrder.OrderXYZ:
-                    q = Quaternion.FromAxisAngle(OpenTK.Vector3.UnitZ, MathHelper.DegreesToRadians(z)) *
-                        Quaternion.FromAxisAngle(OpenTK.Vector3.UnitY, MathHelper.DegreesToRadians(y)) *
-                        Quaternion.FromAxisAngle(OpenTK.Vector3.UnitX, MathHelper.DegreesToRadians(x));
+                    q = Quaternion.FromAxisAngle(Vector3.UnitZ, MathHelper.DegreesToRadians(z)) *
+                        Quaternion.FromAxisAngle(Vector3.UnitY, MathHelper.DegreesToRadians(y)) *
+                        Quaternion.FromAxisAngle(Vector3.UnitX, MathHelper.DegreesToRadians(x));
                     break;
 
                 default:
-                    throw new NotImplementedException(string.Format("Unhandled RotationOrder: {0}", order));
+                    throw new NotImplementedException($"Unhandled RotationOrder: {order}");
             }
 
             return q;
@@ -724,18 +726,18 @@ namespace Flummery.ContentPipeline.Core
         {
             order = RotationOrder.OrderXYZ;
 
-            var frontAxis = (int)globalSettings.Children.GetProperty("FrontAxis").Properties[4].Value;
-            var frontAxisSign = (int)globalSettings.Children.GetProperty("FrontAxisSign").Properties[4].Value;
-            var upAxis = (int)globalSettings.Children.GetProperty("UpAxis").Properties[4].Value;
-            var upAxisSign = (int)globalSettings.Children.GetProperty("UpAxisSign").Properties[4].Value;
-            var coordAxis = (int)globalSettings.Children.GetProperty("CoordAxis").Properties[4].Value;
-            var coordAxisSign = (int)globalSettings.Children.GetProperty("CoordAxisSign").Properties[4].Value;
+            int frontAxis = (int)globalSettings.Children.GetProperty("FrontAxis").Properties[4].Value;
+            int frontAxisSign = (int)globalSettings.Children.GetProperty("FrontAxisSign").Properties[4].Value;
+            int upAxis = (int)globalSettings.Children.GetProperty("UpAxis").Properties[4].Value;
+            int upAxisSign = (int)globalSettings.Children.GetProperty("UpAxisSign").Properties[4].Value;
+            int coordAxis = (int)globalSettings.Children.GetProperty("CoordAxis").Properties[4].Value;
+            int coordAxisSign = (int)globalSettings.Children.GetProperty("CoordAxisSign").Properties[4].Value;
 
-            var front = (frontAxis * 2) + Math.Max(frontAxisSign, 0);
-            var up = (upAxis * 2) + Math.Max(upAxisSign, 0) << 3;
-            var coord = (coordAxis * 2) + Math.Max(coordAxisSign, 0) << 6;
+            int front = (frontAxis * 2) + Math.Max(frontAxisSign, 0);
+            int up = (upAxis * 2) + Math.Max(upAxisSign, 0) << 3;
+            int coord = (coordAxis * 2) + Math.Max(coordAxisSign, 0) << 6;
 
-            var coords = (CoordinateSystem)(front + up + coord);
+            CoordinateSystem coords = (CoordinateSystem)(front + up + coord);
 
             switch (coords)
             {
@@ -749,7 +751,7 @@ namespace Flummery.ContentPipeline.Core
                     return Matrix4.Identity;
 
                 default:
-                    throw new NotImplementedException(string.Format("Unsupported World Transformation Matrix: {0}", coords));
+                    throw new NotImplementedException($"Unsupported World Transformation Matrix: {coords}");
             }
         }
     }
@@ -762,33 +764,32 @@ namespace Flummery.ContentPipeline.Core
 
         public int MaterialID
         {
-            get { return materialID; }
-            set { materialID = value; }
+            get => materialID;
+            set => materialID = value;
         }
 
         public int SmoothingGroup
         {
-            get { return smoothingGroup; }
-            set { smoothingGroup = value; }
+            get => smoothingGroup;
+            set => smoothingGroup = value;
         }
 
-        public List<Vertex> Vertices
-        {
-            get { return verts; }
-        }
+        public List<Vertex> Vertices => verts;
 
         public FBXFace()
         {
             verts = new List<Vertex>();
         }
 
-        public void AddVertex(OpenTK.Vector3 position, OpenTK.Vector3 normal, OpenTK.Vector2 texcoords, OpenTK.Graphics.Color4 colour)
+        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, Color4 colour)
         {
-            var v = new Vertex();
-            v.Position = position;
-            v.Normal = normal;
-            v.UV = new OpenTK.Vector4(texcoords.X, texcoords.Y, 0, 0);
-            v.Colour = colour;
+            Vertex v = new Vertex
+            {
+                Position = position,
+                Normal = normal,
+                UV = new Vector4(texcoords.X, texcoords.Y, 0, 0),
+                Colour = colour
+            };
 
             verts.Add(v);
         }
@@ -798,7 +799,7 @@ namespace Flummery.ContentPipeline.Core
     {
         public static FBXElem GetProperty(this List<FBXElem> propertyList, string propertyName)
         {
-            foreach (var property in propertyList)
+            foreach (FBXElem property in propertyList)
             {
                 if (string.Equals(property.ID, "P", StringComparison.InvariantCultureIgnoreCase) && property.Properties.Count > 0 && property.Properties[0].Value.ToString() == propertyName)
                 {

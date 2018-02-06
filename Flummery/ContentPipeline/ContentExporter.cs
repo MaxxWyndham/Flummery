@@ -6,7 +6,7 @@ namespace Flummery.ContentPipeline
     {
         protected ExportSettings settings = new ExportSettings();
 
-        public ExportSettings ExportSettings { get { return settings; } }
+        public ExportSettings ExportSettings => settings;
 
         public virtual void Export(Asset asset, string path)
         {
