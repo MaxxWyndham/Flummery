@@ -515,10 +515,11 @@ namespace Flummery.ContentPipeline.Core
                     fbxConnections.Children.Add(FBXConnection("Node", Math.Abs((bone.Name + bone.Index.ToString("x2") + "::Node").GetHashCode()), "NodeAttribute", nodeKey));
                 }
 
-
                 SceneManager.Current.UpdateProgress(string.Format("Exporting {0}", meshName));
 
+                Vector3 position = bone.GetPosition();
                 Vector3 rotation = bone.GetRotation();
+                Vector3 scale = bone.GetScale();
 
                 fbxObjects.Children.Add(
                     new FBXElem
@@ -546,8 +547,8 @@ namespace Flummery.ContentPipeline.Core
                                     FBXPropertyElement(FBXPropertyType.Double, "ScalingMax", "Vector3D", "Vector", "", 0.0, 0.0, 0.0),
                                     FBXPropertyElement(FBXPropertyType.Integer, "DefaultAttributeIndex", "int", "Integer", "", 0),
                                     FBXPropertyElement(FBXPropertyType.Double, "Lcl Rotation", "Lcl Rotation", "", "A", (double)rotation.X, (double)rotation.Y, (double)rotation.Z),
-                                    FBXPropertyElement(FBXPropertyType.Double, "Lcl Scaling", "Lcl Scaling", "", "A", (double)bone.Transform.M11, (double)bone.Transform.M22, (double)bone.Transform.M33),
-                                    FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)bone.Transform.M41, (double)bone.Transform.M42, (double)bone.Transform.M43),
+                                    FBXPropertyElement(FBXPropertyType.Double, "Lcl Scaling", "Lcl Scaling", "", "A", (double)scale.X, (double)scale.Y, (double)scale.Z),
+                                    FBXPropertyElement(FBXPropertyType.Double, "Lcl Translation", "Lcl Translation", "", "A", (double)position.X, (double)position.Y, (double)position.Z),
                                 }
                             },
                             new FBXElem { ID = "Shading",
