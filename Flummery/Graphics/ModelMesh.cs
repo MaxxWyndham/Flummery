@@ -53,7 +53,13 @@ namespace Flummery
 
         public ModelMesh(ModelMesh from)
         {
-            meshParts = new List<ModelMeshPart>(from.meshParts);
+            meshParts = new List<ModelMeshPart>(from.meshParts.Count);
+
+            foreach (ModelMeshPart part in from.meshParts)
+            {
+                meshParts.Add(part.Clone());
+            }
+
             name = from.name;
             parent = new ModelBone();
         }

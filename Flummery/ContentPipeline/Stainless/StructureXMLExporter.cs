@@ -9,7 +9,7 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string path)
         {
-            var model = (asset as Model);
+            Model model = (asset as Model);
             if (string.Compare(Path.GetFileName(path), "structure.xml", true) != 0) { path += "\\Structure.xml"; }
 
             if (model.SupportingDocuments.ContainsKey("Structure"))
@@ -18,9 +18,9 @@ namespace Flummery.ContentPipeline.Stainless
             }
             else
             {
-                var structure = new Structure();
+                Structure structure = new Structure();
 
-                var root = new StructurePart() { IsRoot = true };
+                StructurePart root = new StructurePart() { IsRoot = true };
 
                 TravelTree(model.Root, ref root, true);
 
@@ -32,7 +32,7 @@ namespace Flummery.ContentPipeline.Stainless
 
         public static void TravelTree(ModelBone bone, ref StructurePart parent, bool root = false)
         {
-            var part = new StructurePart();
+            StructurePart part = new StructurePart();
 
             if (root) { part = parent; }
 
@@ -47,7 +47,6 @@ namespace Flummery.ContentPipeline.Stainless
                     parent.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_LEFT_POINT_OF_SUSPENSION);
                     parent.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_LEFT_POINT_OF_STEERING);
 
-                    part.DamageSettings.SetParameterForMethod("Crushability", "Value", 0.0f);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_LEFT_WHEEL);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_LEFT_POINT_OF_ROTATION);
                     part.DamageSettings.SetParameterForMethod("ShapeType", "Shape", "TIC_TAC_X");
@@ -58,7 +57,6 @@ namespace Flummery.ContentPipeline.Stainless
                     parent.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_RIGHT_POINT_OF_SUSPENSION);
                     parent.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_RIGHT_POINT_OF_STEERING);
 
-                    part.DamageSettings.SetParameterForMethod("Crushability", "Value", 0.0f);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_RIGHT_WHEEL);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.FRONT_RIGHT_POINT_OF_ROTATION);
                     part.DamageSettings.SetParameterForMethod("ShapeType", "Shape", "TIC_TAC_X");
@@ -68,7 +66,6 @@ namespace Flummery.ContentPipeline.Stainless
                 case "wheel_rl":
                     parent.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.REAR_LEFT_POINT_OF_SUSPENSION);
 
-                    part.DamageSettings.SetParameterForMethod("Crushability", "Value", 0.0f);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.REAR_LEFT_WHEEL);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.REAR_LEFT_POINT_OF_ROTATION);
                     part.DamageSettings.SetParameterForMethod("ShapeType", "Shape", "TIC_TAC_X");
@@ -78,7 +75,6 @@ namespace Flummery.ContentPipeline.Stainless
                 case "wheel_rr":
                     parent.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.REAR_RIGHT_POINT_OF_SUSPENSION);
 
-                    part.DamageSettings.SetParameterForMethod("Crushability", "Value", 0.0f);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.REAR_RIGHT_WHEEL);
                     part.DamageSettings.SetParameterForMethod("PhysicsProperty", "Name", StructurePhysicsProperty.REAR_RIGHT_POINT_OF_ROTATION);
                     part.DamageSettings.SetParameterForMethod("ShapeType", "Shape", "TIC_TAC_X");
@@ -104,8 +100,11 @@ namespace Flummery.ContentPipeline.Stainless
 
             if (!root)
             {
-                var weld = new StructureWeld();
-                weld.Partner = parent.Name;
+                StructureWeld weld = new StructureWeld
+                {
+                    Partner = parent.Name
+                };
+
                 weld.WeldSettings.SetParametersForMethod("PartSpaceVertex", "X", 0, "Y", 0, "Z", 0);
 
                 part.Welds.Add(weld);

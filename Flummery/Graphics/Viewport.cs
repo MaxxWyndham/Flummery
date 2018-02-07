@@ -1,6 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
+
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -48,25 +48,25 @@ namespace Flummery
         float aspect_ratio;
         Matrix4 perspective = Matrix4.Identity;
 
-        public Camera Camera { get { return camera; } }
+        public Camera Camera => camera;
 
         public bool Enabled
         {
-            get { return !bDisabled; }
-            set { bDisabled = !value; }
+            get => !bDisabled;
+            set => bDisabled = !value;
         }
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get => name;
+            set => name = value;
         }
 
         public ProjectionType ProjectionMode
         {
-            get { return mode; }
-            set 
-            { 
+            get => mode;
+            set
+            {
                 mode = value;
                 camera.ProjectionMode = mode;
             }
@@ -74,22 +74,22 @@ namespace Flummery
 
         public Quadrant Position
         {
-            get { return position; }
-            set { position = value; }
+            get => position;
+            set => position = value;
         }
 
-        public bool Maximised { get { return (width == Size.Full && height == Size.Full); } }
+        public bool Maximised => (width == Size.Full && height == Size.Full);
 
         public bool Active
         {
-            get { return bActive; }
-            set { bActive = value; }
+            get => bActive;
+            set => bActive = value;
         }
 
         public Vector3 Axis
         {
-            get { return axis; }
-            set { axis = value; }
+            get => axis;
+            set => axis = value;
         }
 
         public Viewport()
@@ -125,7 +125,7 @@ namespace Flummery
         {
             if (mode != ProjectionType.Orthographic) { return Vector3.Zero; }
 
-            var m = SceneManager.Current.Transform;
+            Matrix4 m = SceneManager.Current.Transform;
 
             Matrix4 lookat = camera.View;
             GL.MatrixMode(MatrixMode.Modelview);
@@ -137,12 +137,11 @@ namespace Flummery
             GL.LoadMatrix(ref perspective);
 
             int[] viewport = new int[4];
-            Matrix4 modelViewMatrix, projectionMatrix;
-            GL.GetFloat(GetPName.ModelviewMatrix, out modelViewMatrix);
-            GL.GetFloat(GetPName.ProjectionMatrix, out projectionMatrix);
+            GL.GetFloat(GetPName.ModelviewMatrix, out Matrix4 modelViewMatrix);
+            GL.GetFloat(GetPName.ProjectionMatrix, out Matrix4 projectionMatrix);
             GL.GetInteger(GetPName.Viewport, viewport);
 
-            return UnProject(ref projectionMatrix, modelViewMatrix, viewport, new Vector2(X - this.x + 1, h - Y - 1 - this.y));
+            return UnProject(ref projectionMatrix, modelViewMatrix, viewport, new Vector2(X - x + 1, h - Y - 1 - y));
         }
 
         public Vector3 UnProject(ref Matrix4 projection, Matrix4 view, int[] viewport, Vector2 mouse)
@@ -218,9 +217,9 @@ namespace Flummery
 
         public void ResetWidthHeightPosition()
         {
-            this.width = oldwidth;
-            this.height = oldheight;
-            this.position = oldposition;
+            width = oldwidth;
+            height = oldheight;
+            position = oldposition;
         }
 
         public void Update(float dt)
@@ -239,10 +238,10 @@ namespace Flummery
             GL.LoadMatrix(ref perspective);
             GL.Enable(EnableCap.Texture2D);
 
-            var offsetX = (bActive ? x + 1 : x);
-            var offsetY = (bActive ? y + 1 : y);
-            var scissorWidth = (bActive ? vw - 2 : vw);
-            var scissorHeight = (bActive ? vh - 2 : vh);
+            int offsetX = (bActive ? x + 1 : x);
+            int offsetY = (bActive ? y + 1 : y);
+            int scissorWidth = (bActive ? vw - 2 : vw);
+            int scissorHeight = (bActive ? vh - 2 : vh);
 
             GL.Viewport(x, y, vw, vh);
             GL.Scissor(offsetX, offsetY, scissorWidth, scissorHeight);
@@ -308,8 +307,8 @@ namespace Flummery
 
             GL.Begin(PrimitiveType.Triangles);
             GL.Color4(Color.Green);
-            GL.Vertex3(-2, 10,  0); GL.Vertex3(0, 15, 0); GL.Vertex3(2, 10, 0);
-            GL.Vertex3( 0, 10, -2); GL.Vertex3(0, 15, 0); GL.Vertex3(0, 10, 2);
+            GL.Vertex3(-2, 10, 0); GL.Vertex3(0, 15, 0); GL.Vertex3(2, 10, 0);
+            GL.Vertex3(0, 10, -2); GL.Vertex3(0, 15, 0); GL.Vertex3(0, 10, 2);
             GL.End();
 
             GL.Begin(PrimitiveType.LineStrip);
@@ -320,8 +319,8 @@ namespace Flummery
 
             GL.Begin(PrimitiveType.Triangles);
             GL.Color4(Color.Red);
-            GL.Vertex3( 0, -2, 10); GL.Vertex3(0, 0, 15); GL.Vertex3(0, 2, 10);
-            GL.Vertex3(-2,  0, 10); GL.Vertex3(0, 0, 15); GL.Vertex3(2, 0, 10);
+            GL.Vertex3(0, -2, 10); GL.Vertex3(0, 0, 15); GL.Vertex3(0, 2, 10);
+            GL.Vertex3(-2, 0, 10); GL.Vertex3(0, 0, 15); GL.Vertex3(2, 0, 10);
             GL.End();
 
             GL.Enable(EnableCap.DepthTest);

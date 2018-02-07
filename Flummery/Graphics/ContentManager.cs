@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
 using Flummery.ContentPipeline;
 
 namespace Flummery
@@ -13,8 +14,8 @@ namespace Flummery
         public static bool LoadOrDefaultFile(string Filename, string FileExtension, out string FilePath)
         {
             string[] hints = Hints.Split(';');
-            var fileNames = Filename.Split(';');
-            var extensions = FileExtension.Split(';');
+            string[] fileNames = Filename.Split(';');
+            string[] extensions = FileExtension.Split(';');
 
             foreach (string file in fileNames)
             {
@@ -35,7 +36,7 @@ namespace Flummery
 
         public static void AddHint(string hint)
         {
-            var list = new List<string>(Hints.Split(';'));
+            List<string> list = new List<string>(Hints.Split(';'));
             int index = list.IndexOf(hint);
 
             if (index > -1) { list.RemoveAt(index); }
@@ -56,8 +57,8 @@ namespace Flummery
 
             if (assets.ContainsKey(key)) { return (T)assets[key].Clone(); }
 
-            var importer = new T2();
-            var path = importer.Find(assetName, assetPath);
+            T2 importer = new T2();
+            string path = importer.Find(assetName, assetPath);
             Asset content = null;
 
             if (path != null)
@@ -66,8 +67,10 @@ namespace Flummery
             }
             else
             {
-                content = new T();
-                content.Name = assetName;
+                content = new T
+                {
+                    Name = assetName
+                };
             }
 
             if (content != null)
@@ -86,16 +89,16 @@ namespace Flummery
         public void LoadMany<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T: AssetList, new()
                                                                                                          where T2: ContentImporter, new()
         {
-            var importer = new T2();
-            var path = importer.Find(assetName, assetPath);
+            T2 importer = new T2();
+            string path = importer.Find(assetName, assetPath);
 
             if (path != null)
             {
-                var content = importer.ImportMany(path);
+                AssetList content = importer.ImportMany(path);
 
                 if (content != null)
                 {
-                    foreach (var asset in content.Entries)
+                    foreach (Asset asset in content.Entries)
                     {
                         string key = asset.GetType().ToString() + asset.Name;
 

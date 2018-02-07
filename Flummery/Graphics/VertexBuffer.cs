@@ -19,12 +19,13 @@ namespace Flummery
 
         public Vertex Clone()
         {
-            Vertex v = new Vertex();
-
-            v.Position = this.Position;
-            v.Normal = this.Normal;
-            v.UV = this.UV;
-            v.Colour = this.Colour;
+            Vertex v = new Vertex
+            {
+                Position = Position,
+                Normal = Normal,
+                UV = UV,
+                Colour = Colour
+            };
 
             return v;
         }
@@ -35,8 +36,8 @@ namespace Flummery
         List<Vertex> data = new List<Vertex>();
         int vbo;
 
-        public int Length { get { return (data != null ? data.Count : 0); } }
-        public List<Vertex> Data { get { return data; } }
+        public int Length => (data != null ? data.Count : 0);
+        public List<Vertex> Data => data;
 
         public int AddVertex(Vertex v)
         {
@@ -46,28 +47,28 @@ namespace Flummery
 
         public void ModifyVertexPosition(int index, Vector3 position)
         {
-            var v = data[index];
+            Vertex v = data[index];
             v.Position = position;
             data[index] = v;
         }
 
         public void ModifyVertexNormal(int index, Vector3 normal)
         {
-            var v = data[index];
+            Vertex v = data[index];
             v.Normal = normal;
             data[index] = v;
         }
 
         public void ModifyVertexUVs(int index, Vector4 uv)
         {
-            var v = data[index];
+            Vertex v = data[index];
             v.UV = uv;
             data[index] = v;
         }
 
         public void ModifyVertexColour(int index, Color4 colour)
         {
-            var v = data[index];
+            Vertex v = data[index];
             v.Colour = colour;
             data[index] = v;
         }
@@ -77,6 +78,7 @@ namespace Flummery
             if (data != null) { this.data = data; }
 
             GL.GenBuffers(1, out vbo);
+
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
             GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(this.data.Count * Vertex.Stride), this.data.ToArray(), BufferUsageHint.DynamicDraw);
         }

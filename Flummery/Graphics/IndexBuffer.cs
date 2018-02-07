@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenTK;
+
 using OpenTK.Graphics.OpenGL;
 
 namespace Flummery
@@ -10,8 +10,8 @@ namespace Flummery
         List<int> indicies;
         int ibo;
 
-        public List<int> Data { get { return indicies; } }
-        public int Length { get { return indicies.Count; } }
+        public List<int> Data => indicies;
+        public int Length => indicies.Count;
 
         public IndexBuffer()
         {
@@ -21,6 +21,7 @@ namespace Flummery
         public void Initialise()
         {
             GL.GenBuffers(1, out ibo);
+
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indicies.Count * sizeof(int)), indicies.ToArray(), BufferUsageHint.StaticDraw);
         }

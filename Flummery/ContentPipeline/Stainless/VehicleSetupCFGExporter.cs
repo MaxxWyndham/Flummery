@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-using ToxicRagers.CarmageddonReincarnation.Formats;
+﻿using ToxicRagers.CarmageddonReincarnation.Formats;
 
 namespace Flummery.ContentPipeline.Stainless
 {
@@ -9,7 +6,7 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string path)
         {
-            var model = (asset as Model);
+            Model model = (asset as Model);
 
             if (model.SupportingDocuments.ContainsKey("VehicleSetupConfig"))
             {
@@ -17,32 +14,36 @@ namespace Flummery.ContentPipeline.Stainless
             }
             else
             {
-                var vehicleSetup = new VehicleSetupConfig();
+                VehicleSetupConfig vehicleSetup = new VehicleSetupConfig();
 
                 vehicleSetup.Attachments.Add(
-                    new VehicleAttachment { 
-                        Type = VehicleAttachment.AttachmentType.DynamicsWheels 
+                    new VehicleAttachment
+                    {
+                        Type = VehicleAttachment.AttachmentType.DynamicsWheels
                     }
                 );
 
                 vehicleSetup.WheelModules.Add(
-                    new VehicleWheelModule { 
-                        Type = VehicleWheelModule.WheelModuleType.SkidMarks, 
-                        SkidMarkImage = "skidmark" 
+                    new VehicleWheelModule
+                    {
+                        Type = VehicleWheelModule.WheelModuleType.SkidMarks,
+                        SkidMarkImage = "skidmark"
                     }
                 );
 
                 vehicleSetup.WheelModules.Add(
-                    new VehicleWheelModule { 
-                        Type = VehicleWheelModule.WheelModuleType.TyreParticles, 
-                        TyreParticleVFX = "effects.drift" 
+                    new VehicleWheelModule
+                    {
+                        Type = VehicleWheelModule.WheelModuleType.TyreParticles,
+                        TyreParticleVFX = "effects.drift"
                     }
                 );
 
                 vehicleSetup.WheelModules.Add(
-                    new VehicleWheelModule { 
-                        Type = VehicleWheelModule.WheelModuleType.SkidNoise, 
-                        SkidNoiseSound = "sounds\\tyre\\skid1,sounds\\tyre\\skid2" 
+                    new VehicleWheelModule
+                    {
+                        Type = VehicleWheelModule.WheelModuleType.SkidNoise,
+                        SkidNoiseSound = "sounds\\tyre\\skid1,sounds\\tyre\\skid2"
                     }
                 );
 
@@ -58,7 +59,7 @@ namespace Flummery.ContentPipeline.Stainless
                     new VehicleWheelMap
                     {
                         Name = "default",
-                        Localisation = string.Format("FE_CAR_{0}_RIM_DEFAULT", this.ExportSettings.GetSetting<string>("VehicleName")),
+                        Localisation = $"FE_CAR_{ExportSettings.GetSetting<string>("VehicleName")}_RIM_DEFAULT",
                         Wheels = new VehicleAttachmentComplicatedWheels
                         {
                             FLWheel = "default_eagle_R",

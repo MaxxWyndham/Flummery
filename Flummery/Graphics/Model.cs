@@ -16,9 +16,9 @@ namespace Flummery
         ModelBoneCollection bones;
         List<ModelMesh> meshes;
 
-        public ModelBoneCollection Bones { get { return bones; } }
-        public List<ModelMesh> Meshes { get { return meshes; } }
-        public ModelBone Root { get { return bones[0]; } }
+        public ModelBoneCollection Bones => bones;
+        public List<ModelMesh> Meshes => meshes;
+        public ModelBone Root => bones[0];
 
         public Model()
         {
@@ -28,12 +28,13 @@ namespace Flummery
 
         public override Asset Clone()
         {
-            var m = new Model();
+            Model m = new Model
+            {
+                bones = new ModelBoneCollection(bones),
+                meshes = meshes.ConvertAll(mesh => new ModelMesh(mesh))
+            };
 
-            m.bones = new ModelBoneCollection(this.bones);
-            m.meshes = this.meshes.ConvertAll(mesh => new ModelMesh(mesh));
-
-            foreach (var kvp in this.supportingDocuments)
+            foreach (KeyValuePair<string, object> kvp in supportingDocuments)
             {
                 m.supportingDocuments[kvp.Key] = kvp.Value;
             }
@@ -43,9 +44,9 @@ namespace Flummery
 
         public void SetRenderStyle(RenderStyle style)
         {
-            foreach (var mesh in meshes)
+            foreach (ModelMesh mesh in meshes)
             {
-                foreach (var part in mesh.MeshParts)
+                foreach (ModelMeshPart part in mesh.MeshParts)
                 {
                     part.RenderStyle = style;
                 }
@@ -75,15 +76,17 @@ namespace Flummery
         public int AddMesh(ModelMesh mesh, int ParentBoneIndex = 0)
         {
             bool bAddBone = true;
-            ModelBone b = new ModelBone();
-            b.Index = -1;
+            ModelBone b = new ModelBone
+            {
+                Index = -1
+            };
 
             if (bones.Count > 0)
             {
                 b.Parent = bones[ParentBoneIndex];
                 bones[ParentBoneIndex].Children.Add(b);
 
-                int childBoneCount = countChildrenOf(ParentBoneIndex);
+                int childBoneCount = CountChildrenOf(ParentBoneIndex);
                 if (ParentBoneIndex + childBoneCount < bones.Count)
                 {
                     int index = ParentBoneIndex + childBoneCount;
@@ -119,12 +122,12 @@ namespace Flummery
             return b.Index;
         }
 
-        protected int countChildrenOf(int parentIndex, int childCount = 0)
+        protected int CountChildrenOf(int parentIndex, int childCount = 0)
         {
-            foreach (var child in bones[parentIndex].Children)
+            foreach (ModelBone child in bones[parentIndex].Children)
             {
                 childCount++;
-                if (child.Index > -1) { childCount = countChildrenOf(child.Index, childCount); }
+                if (child.Index > -1) { childCount = CountChildrenOf(child.Index, childCount); }
             }
 
             return childCount;
@@ -132,10 +135,10 @@ namespace Flummery
 
         public void ImportBone(ModelBone bone, int parentBoneIndex)
         {
-            var cloneBone = bone.Clone();
-            var boneList = cloneBone.AllChildren();
+            ModelBone cloneBone = bone.Clone();
+            ModelBoneCollection boneList = cloneBone.AllChildren();
 
-            var parent = bones[parentBoneIndex];
+            ModelBone parent = bones[parentBoneIndex];
 
             for (int i = 0; i < boneList.Count; i++)
             {
@@ -143,7 +146,7 @@ namespace Flummery
 
                 if (boneList[i].Mesh != null)
                 {
-                    var mesh = boneList[i].Mesh;
+                    ModelMesh mesh = boneList[i].Mesh;
                     mesh.Parent = boneList[i];
                     meshes.Add(mesh); 
                 }
@@ -168,7 +171,7 @@ namespace Flummery
             bones[BoneIndex].Parent = bones[NewParentBoneIndex];
             bones[NewParentBoneIndex].Children.Add(bones[BoneIndex]);
 
-            var bone = bones[BoneIndex];
+            ModelBone bone = bones[BoneIndex];
             bones.RemoveAt(BoneIndex);
             newBoneIndex = NewParentBoneIndex + (BoneIndex < NewParentBoneIndex ? 0 : 1);
             bones.Insert(newBoneIndex, bone);
@@ -200,13 +203,13 @@ namespace Flummery
 
         public ModelMesh FindMesh(string name)
         {
-            foreach (var mesh in meshes) { if (mesh.Name == name) { return mesh; } }
+            foreach (ModelMesh mesh in meshes) { if (mesh.Name == name) { return mesh; } }
             return null;
         }
 
         public ModelMesh FindMesh(object tag)
         {
-            foreach (var mesh in meshes) { if (mesh.Tag.Equals(tag)) { return mesh; } }
+            foreach (ModelMesh mesh in meshes) { if (mesh.Tag.Equals(tag)) { return mesh; } }
             return null;
         }
 
@@ -240,12 +243,12 @@ namespace Flummery
 
         public List<Material> GetMaterials()
         {
-            var l = new List<Material>();
-            var index = new List<long>();
+            List<Material> l = new List<Material>();
+            List<long> index = new List<long>();
 
-            foreach (var mesh in meshes)
+            foreach (ModelMesh mesh in meshes)
             {
-                foreach (var part in mesh.MeshParts)
+                foreach (ModelMeshPart part in mesh.MeshParts)
                 {
                     if (part.Material != null && !index.Contains(part.Material.Key))
                     {
@@ -275,7 +278,7 @@ namespace Flummery
             CopyAbsoluteBoneTransformsTo(transforms);
             Matrix4 m = SceneManager.Current.Transform;
 
-            foreach (var mesh in meshes)
+            foreach (ModelMesh mesh in meshes)
             {
                 GL.PushMatrix();
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Flummery
 {
@@ -11,13 +10,13 @@ namespace Flummery
         {
             foreach (ModelBone bone in bones)
             {
-                this.Add(bone.Clone());
+                Add(bone.Clone());
             }
         }
 
         public void ReIndex()
         {
-            for (int i = 0; i < this.Count; i++) { this[i].Index = i; }
+            for (int i = 0; i < Count; i++) { this[i].Index = i; }
         }
     }
 }

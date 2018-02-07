@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
@@ -50,7 +51,7 @@ namespace Flummery
 
         private void scene_OnContextChage(object sender, ContextChangeEventArgs e)
         {
-            tslContext.Text = string.Format("{0} : {1}", e.GameContext.ToString().Replace("_", " "), e.ModeContext);
+            tslContext.Text = $"{e.GameContext.ToString().Replace("_", " ")} : {e.ModeContext}";
         }
 
         void input_OnBindingsChanged(object sender, EventArgs e)
@@ -60,11 +61,11 @@ namespace Flummery
 
         public void UpdateKeyboardShortcuts()
         {
-            tsbSelect.ToolTipText = string.Format("{0} ({1})", tsbSelect.Text, Properties.Settings.Default.KeysCameraSelect);
-            tsbPan.ToolTipText = string.Format("{0} ({1})", tsbPan.Text, Properties.Settings.Default.KeysCameraPan);
-            tsbZoom.ToolTipText = string.Format("{0} ({1})", tsbZoom.Text, Properties.Settings.Default.KeysCameraZoom);
-            tsbRotate.ToolTipText = string.Format("{0} ({1})", tsbRotate.Text, Properties.Settings.Default.KeysCameraRotate);
-            tsbFrame.ToolTipText = string.Format("{0} ({1})", tsbFrame.Text, Properties.Settings.Default.KeysCameraFrame);
+            tsbSelect.ToolTipText = $"{tsbSelect.Text} ({Properties.Settings.Default.KeysCameraSelect})";
+            tsbPan.ToolTipText = $"{tsbPan.Text} ({Properties.Settings.Default.KeysCameraPan})";
+            tsbZoom.ToolTipText = $"{tsbZoom.Text} ({Properties.Settings.Default.KeysCameraZoom})";
+            tsbRotate.ToolTipText = $"{tsbRotate.Text} ({Properties.Settings.Default.KeysCameraRotate})";
+            tsbFrame.ToolTipText = $"{tsbFrame.Text} ({Properties.Settings.Default.KeysCameraFrame})";
         }
 
         private void pnlViewport_Load(object sender, EventArgs e)
@@ -154,7 +155,7 @@ namespace Flummery
         void glcViewport_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (!bRendered) { return; }
-            viewman.MouseUp( e.X, e.Y);
+            viewman.MouseUp(e.X, e.Y);
         }
 
         void glcViewport_MouseWheel(object sender, MouseEventArgs e)

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 
 namespace Flummery
 {
@@ -26,8 +23,17 @@ namespace Flummery
         private Vector2 previousMouseDragPosition;
         private MouseMode mode = MouseMode.Select;
 
-        public bool HasFocus { get { return bHasFocus; } set { bHasFocus = value; } }
-        public MouseMode Mode { get { return mode; } set { mode = value; } }
+        public bool HasFocus
+        {
+            get => bHasFocus;
+            set => bHasFocus = value;
+        }
+
+        public MouseMode Mode
+        {
+            get => mode;
+            set => mode = value;
+        }
 
         int actionScaling = 3;
         float[] actionScales = new float[] { 0.01f, 0.1f, 0.5f, 1.0f, 5.0f, 10.0f };
@@ -44,16 +50,16 @@ namespace Flummery
 
         public ViewportManager()
         {
-            var top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitY };
+            Viewport top = new Viewport { Name = "Top", Position = Viewport.Quadrant.TopLeft, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitY };
             top.Camera.SetRotation(0, MathHelper.DegreesToRadians(-90), MathHelper.DegreesToRadians(180));
 
-            var right = new Viewport { Name = "Side", Position = Viewport.Quadrant.TopRight, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitX };
+            Viewport right = new Viewport { Name = "Side", Position = Viewport.Quadrant.TopRight, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitX };
             right.Camera.SetRotation(MathHelper.DegreesToRadians(-90), 0, 0);
 
-            var front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitZ };
+            Viewport front = new Viewport { Name = "Front", Position = Viewport.Quadrant.BottomLeft, ProjectionMode = ProjectionType.Orthographic, Axis = Vector3.UnitZ };
             front.Camera.SetRotation(MathHelper.DegreesToRadians(180), 0, 0);
 
-            var threedee = new Viewport { Name = "3D", Position = Viewport.Quadrant.BottomRight };
+            Viewport threedee = new Viewport { Name = "3D", Position = Viewport.Quadrant.BottomRight };
             threedee.Camera.SetRotation(0, MathHelper.DegreesToRadians(-135), MathHelper.DegreesToRadians(135));
 
             viewports.Add(top);
@@ -70,12 +76,12 @@ namespace Flummery
             Current = this;
         }
 
-        public Viewport Active { get { return active; } }
+        public Viewport Active => active;
 
         public void Initialise()
         {
             if (!FlummeryApplication.Active) { return; }
-            foreach (var viewport in viewports) { viewport.Resize(); }
+            foreach (Viewport viewport in viewports) { viewport.Resize(); }
         }
 
         public void AddViewport(Viewport viewport)
@@ -85,19 +91,19 @@ namespace Flummery
 
         public void Maximise(Viewport chosen)
         {
-            foreach (var viewport in viewports) { viewport.Enabled = false; }
+            foreach (Viewport viewport in viewports) { viewport.Enabled = false; }
 
             chosen.Enabled = true;
             chosen.SetWidthHeightPosition(Viewport.Size.Full, Viewport.Size.Full, Viewport.Quadrant.BottomLeft);
 
-            foreach (var viewport in viewports) { viewport.Resize(); }
+            foreach (Viewport viewport in viewports) { viewport.Resize(); }
         }
 
         public void Minimise(Viewport chosen)
         {
-            foreach (var viewport in viewports) { viewport.Enabled = true; }
+            foreach (Viewport viewport in viewports) { viewport.Enabled = true; }
             chosen.ResetWidthHeightPosition();
-            foreach (var viewport in viewports) { viewport.Resize(); }
+            foreach (Viewport viewport in viewports) { viewport.Resize(); }
         }
 
         public void ActionScaleUp()
@@ -122,7 +128,7 @@ namespace Flummery
 
         public void SetActionScale(float scale)
         {
-            foreach (var viewport in viewports) { viewport.Camera.SetActionScale(scale); }
+            foreach (Viewport viewport in viewports) { viewport.Camera.SetActionScale(scale); }
         }
 
         public void MouseMove(int X, int Y)
@@ -131,7 +137,7 @@ namespace Flummery
 
             if (!isMouseDown)
             {
-                foreach (var viewport in viewports)
+                foreach (Viewport viewport in viewports)
                 {
                     if (!viewport.Enabled) { continue; }
 
@@ -140,7 +146,7 @@ namespace Flummery
                         viewport.Active = true;
                         active = viewport;
 
-                        if (OnMouseMove != null) { OnMouseMove(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y))); }
+                        OnMouseMove?.Invoke(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y)));
                     }
                     else
                     {
@@ -160,8 +166,7 @@ namespace Flummery
         {
             isMouseDown = true;
 
-            if (OnMouseDown != null) { OnMouseDown(this, new ViewportMouseMoveEventArgs(this.Active.ConvertScreenToWorldCoords(X, Y))); }
-
+            OnMouseDown?.Invoke(this, new ViewportMouseMoveEventArgs(Active.ConvertScreenToWorldCoords(X, Y)));
             previousMouseDragPosition = new Vector2(X, Y);
         }
 
@@ -172,7 +177,7 @@ namespace Flummery
 
         public void MouseScroll(int delta)
         {
-            float fDelta = (float)(delta) * active.Camera.ZoomSpeed;
+            float fDelta = delta * active.Camera.ZoomSpeed;
             if (!active.Enabled) { return; }
 
             if (isMouseDown)
@@ -229,11 +234,11 @@ namespace Flummery
         {
             if (SceneManager.Current.Models.Count == 0) { return; }
 
-            var mesh = SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Mesh;
+            ModelMesh mesh = SceneManager.Current.Models[SceneManager.Current.SelectedModelIndex].Bones[SceneManager.Current.SelectedBoneIndex].Mesh;
 
             if (mesh != null)
             {
-                foreach (var viewport in viewports)
+                foreach (Viewport viewport in viewports)
                 {
                     viewport.Camera.Frame(mesh);
                 }
@@ -242,7 +247,7 @@ namespace Flummery
 
         public void Update(float dt)
         {
-            foreach (var viewport in viewports)
+            foreach (Viewport viewport in viewports)
             {
                 if (!viewport.Enabled) { continue; }
 
@@ -252,7 +257,7 @@ namespace Flummery
 
         public void Draw()
         {
-            foreach (var viewport in viewports)
+            foreach (Viewport viewport in viewports)
             {
                 if (!viewport.Enabled) { continue; }
 

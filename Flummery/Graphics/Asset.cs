@@ -25,25 +25,22 @@ namespace Flummery
 
         public string FileName
         {
-            get { return filename; }
-            set { filename = value; }
+            get => filename;
+            set => filename = value;
         }
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get => name;
+            set => name = value;
         }
 
-        public Dictionary<string, object> SupportingDocuments
-        {
-            get { return supportingDocuments; }
-        }
+        public Dictionary<string, object> SupportingDocuments => supportingDocuments;
 
         public object Tag
         {
-            get { return tag; }
-            set { tag = value; }
+            get => tag;
+            set => tag = value;
         }
 
         public Asset()
@@ -51,8 +48,8 @@ namespace Flummery
             supportingDocuments = new Dictionary<string, object>();
         }
 
-        public long Key { get { return key; } }
-        public bool Linked { get { return link != null; } }
+        public long Key => key;
+        public bool Linked => link != null;
 
         public virtual Asset Clone()
         {
@@ -70,10 +67,7 @@ namespace Flummery
     {
         protected List<Asset> assets;
 
-        public List<Asset> Entries
-        {
-            get { return assets; }
-        }
+        public List<Asset> Entries => assets;
 
         public AssetList()
         {

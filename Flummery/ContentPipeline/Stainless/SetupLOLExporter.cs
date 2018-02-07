@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-using ToxicRagers.CarmageddonReincarnation.Formats;
+﻿using ToxicRagers.CarmageddonReincarnation.Formats;
 
 namespace Flummery.ContentPipeline.Stainless
 {
@@ -9,7 +6,7 @@ namespace Flummery.ContentPipeline.Stainless
     {
         public override void Export(Asset asset, string path)
         {
-            var model = (asset as Model);
+            Model model = (asset as Model);
 
             if (model.SupportingDocuments.ContainsKey("Setup"))
             {
@@ -17,7 +14,7 @@ namespace Flummery.ContentPipeline.Stainless
             }
             else
             {
-                var setup = new Setup();
+                Setup setup = new Setup();
 
                 switch (ExportSettings.GetSetting<SetupContext>("Context"))
                 {

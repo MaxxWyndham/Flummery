@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
+
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -18,33 +18,33 @@ namespace Flummery
         PrimitiveType primitiveType = PrimitiveType.Triangles;
         RenderStyle renderStyle = RenderStyle.Scene;
 
-        public IndexBuffer IndexBuffer { get { return indexBuffer; } }
-        public VertexBuffer VertexBuffer { get { return vertexBuffer; } }
+        public IndexBuffer IndexBuffer => indexBuffer;
+        public VertexBuffer VertexBuffer => vertexBuffer;
 
         public RenderStyle RenderStyle
         {
-            get { return renderStyle; }
-            set { renderStyle = value; }
+            get => renderStyle;
+            set => renderStyle = value;
         }
 
         public object Key
         {
-            get { return key; }
-            set { key = value; }
+            get => key;
+            set => key = value;
         }
 
         public PrimitiveType PrimitiveType
         {
-            get { return primitiveType; }
-            set { primitiveType = value; }
+            get => primitiveType;
+            set => primitiveType = value;
         }
 
-        public int VertexCount { get { return vertexBuffer.Length; } }
+        public int VertexCount => vertexBuffer.Length;
 
         public Material Material
         {
-            get { return material; }
-            set { material = value; }
+            get => material;
+            set => material = value;
         }
 
         public ModelMeshPart()
@@ -53,6 +53,17 @@ namespace Flummery
             indexBuffer = new IndexBuffer();
 
             colour = FlummeryApplication.PickRandomColour();
+        }
+
+        public ModelMeshPart Clone()
+        {
+            ModelMeshPart part = new ModelMeshPart();
+
+            part.IndexBuffer.Data.AddRange(IndexBuffer.Data);
+            part.VertexBuffer.Data.AddRange(VertexBuffer.Data);
+            part.Finalise();
+
+            return part;
         }
 
         public int AddVertex(Vector3 position, Vector3 normal, Vector2 texcoords, bool bAddIndex = true)
@@ -67,7 +78,7 @@ namespace Flummery
 
         public int AddVertex(Vector3 position, Vector3 normal, Vector4 texcoords, OpenTK.Graphics.Color4 colour, bool bAddIndex = true)
         {
-            var v = new Vertex {
+            Vertex v = new Vertex {
                 Position = position,
                 Normal = normal,
                 UV = texcoords,
@@ -91,10 +102,12 @@ namespace Flummery
         {
             for (int i = 0; i < 3; i++)
             {
-                var v = new Vertex();
-                v.Position = positions[i];
-                v.Normal = normals[i];
-                v.UV = new Vector4(texcoords[i].X, texcoords[i].Y, 0, 1);
+                Vertex v = new Vertex
+                {
+                    Position = positions[i],
+                    Normal = normals[i],
+                    UV = new Vector4(texcoords[i].X, texcoords[i].Y, 0, 1)
+                };
 
                 int index = vertexBuffer.Data.FindIndex(vert =>
                     vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
@@ -126,7 +139,7 @@ namespace Flummery
 
             for (int i = 0; i < ib.Count; i++)
             {
-                var v = vb[ib[i]];
+                Vertex v = vb[ib[i]];
 
                 int index = vertexBuffer.Data.FindIndex(vert =>
                     vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
@@ -166,7 +179,7 @@ namespace Flummery
 
         public void Draw()
         {
-            var data = indexBuffer.Data;
+            List<int> data = indexBuffer.Data;
 
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
@@ -234,7 +247,7 @@ namespace Flummery
 
                 foreach (int i in indexBuffer.Data)
                 {
-                    var v = vertexBuffer.Data[i];
+                    Vertex v = vertexBuffer.Data[i];
 
                     GL.TexCoord4(v.UV);
                     GL.Normal3(v.Normal);
@@ -256,7 +269,7 @@ namespace Flummery
 
                 foreach (int i in indexBuffer.Data)
                 {
-                    var v = vertexBuffer.Data[i];
+                    Vertex v = vertexBuffer.Data[i];
 
                     GL.LineWidth(2f);
                     GL.Color3(Color.White);

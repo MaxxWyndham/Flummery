@@ -87,6 +87,7 @@ namespace Flummery
         public MaterialList Materials => materials;
 
         public Matrix4 Transform => sceneTransform;
+        public CoordinateSystem CoordSystem => coords;
 
         public Model SelectedModel
         {
@@ -143,7 +144,7 @@ namespace Flummery
                 Asset = new Model()
             };
 
-            var sphere = new Sphere(0.125f, 7, 7);
+            Sphere sphere = new Sphere(0.125f, 7, 7);
             ModelManipulator.SetVertexColour(sphere, 0, 255, 0, 255);
             ((Model)node.Asset).AddMesh(sphere);
             ((Model)node.Asset).SetRenderStyle(RenderStyle.Wireframe);
@@ -157,7 +158,7 @@ namespace Flummery
         public Asset Add(Asset asset)
         {
             int index = -1;
-            var m = (asset as Model);
+            Model m = (asset as Model);
 
             if (m != null)
             {
@@ -170,7 +171,7 @@ namespace Flummery
                     {
                         case BoneType.Light:
                         case BoneType.VFX:
-                            var entity = new Entity
+                            Entity entity = new Entity
                             {
                                 Name = bone.Name,
                                 EntityType = bone.Type.ToString().ToEnum<EntityType>(),
@@ -182,14 +183,21 @@ namespace Flummery
                             break;
                     }
                 }
+
+                OnAdd?.Invoke(this, new AddEventArgs(asset, index));
             }
             else
             {
-                index = materials.Entries.Count;
-                materials.Entries.Add(asset as Material);
-            }
+                index = materials.Entries.IndexOf(asset as Material);
 
-            OnAdd?.Invoke(this, new AddEventArgs(asset, index));
+                if (index == -1)
+                {
+                    index = materials.Entries.Count;
+                    materials.Entries.Add(asset as Material);
+
+                    OnAdd?.Invoke(this, new AddEventArgs(asset, index));
+                }
+            }
             return asset;
         }
 
@@ -347,12 +355,12 @@ namespace Flummery
 
             Lights();
 
-            foreach (var model in models)
+            foreach (Model model in models)
             {
                 model.Draw();
             }
 
-            foreach (var entity in entities)
+            foreach (Entity entity in entities)
             {
                 entity.Draw();
             }

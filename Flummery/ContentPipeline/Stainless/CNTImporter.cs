@@ -19,14 +19,14 @@ namespace Flummery.ContentPipeline.Stainless
 
             rootPath = Path.GetDirectoryName(path);
 
-            ProcessCNT(cnt, model);
+            processCNT(cnt, model);
 
             SceneManager.Current.UpdateProgress(string.Format("Loaded {0}", cnt.Name));
 
             return model;
         }
 
-        static void ProcessCNT(CNT cnt, Model model, int ParentBoneIndex = 0)
+        static void processCNT(CNT cnt, Model model, int ParentBoneIndex = 0)
         {
             int boneIndex;
 
@@ -34,7 +34,7 @@ namespace Flummery.ContentPipeline.Stainless
 
             if (cnt.Section == CNT.NodeType.MODL || cnt.Section == CNT.NodeType.SKIN)
             {
-                var m = SceneManager.Current.Content.Load<Model, MDLImporter>(cnt.Model, rootPath);
+                Model m = SceneManager.Current.Content.Load<Model, MDLImporter>(cnt.Model, rootPath);
                 boneIndex = model.AddMesh(m.Meshes[0], ParentBoneIndex);
             }
             else
@@ -59,7 +59,7 @@ namespace Flummery.ContentPipeline.Stainless
                             }
                             else
                             {
-                                SceneManager.Current.RaiseError(cnt.LightName + ".light not found!");
+                                //SceneManager.Current.RaiseError(cnt.LightName + ".light not found!");
                             }
 
                             model.Bones[boneIndex].AttachmentFile = cnt.LightName;
@@ -84,7 +84,7 @@ namespace Flummery.ContentPipeline.Stainless
 
             foreach (CNT subcnt in cnt.Children)
             {
-                ProcessCNT(subcnt, model, boneIndex);
+                processCNT(subcnt, model, boneIndex);
             }
         }
     }

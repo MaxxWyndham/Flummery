@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 
 using ToxicRagers.Helpers;
+using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Stainless.Formats;
-
-using OpenTK;
 
 namespace Flummery.ContentPipeline.Stainless
 {
@@ -17,8 +14,8 @@ namespace Flummery.ContentPipeline.Stainless
         {
             rootPath = Path.GetDirectoryName(path);
 
-            var model = (asset as Model);
-            var cnt = new CNT();
+            Model model = (asset as Model);
+            CNT cnt = new CNT();
 
             TravelTree(model.Root, ref cnt, true);
 
@@ -27,7 +24,7 @@ namespace Flummery.ContentPipeline.Stainless
 
         public static void TravelTree(ModelBone bone, ref CNT parent, bool root = false)
         {
-            var cnt = new CNT();
+            CNT cnt = new CNT();
             if (root) { cnt = parent; }
 
             cnt.Name = bone.Name;
@@ -52,14 +49,13 @@ namespace Flummery.ContentPipeline.Stainless
 
                     if (cnt.EmbeddedLight)
                     {
-                        cnt.Light = (ToxicRagers.CarmageddonReincarnation.Formats.LIGHT)bone.Attachment;                        
+                        cnt.Light = (LIGHT)bone.Attachment;                        
                     }
                     else
                     {
                         cnt.LightName = bone.AttachmentFile;
 
-                        var light = bone.Attachment as ToxicRagers.CarmageddonReincarnation.Formats.LIGHT;
-                        if (light != null)
+                        if (bone.Attachment is LIGHT light)
                         {
                             light.Save(Path.Combine(rootPath, cnt.LightName + ".light"));
                         }
@@ -76,7 +72,7 @@ namespace Flummery.ContentPipeline.Stainless
                     break;
             }
             
-            foreach (var b in bone.Children)
+            foreach (ModelBone b in bone.Children)
             {
                 TravelTree(b, ref cnt);
             }

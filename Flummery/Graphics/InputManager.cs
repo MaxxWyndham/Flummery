@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
-using OpenTK.Input;
-
 namespace Flummery
 {
     public enum KeyBinding
@@ -61,9 +59,9 @@ namespace Flummery
 
             bindingLookup.Keys.CopyTo(b, 0);
 
-            foreach (var binding in b)
+            foreach (KeyBinding binding in b)
             {
-                var newKey = (char)Properties.Settings.Default[binding.ToString()];
+                char newKey = (char)Properties.Settings.Default[binding.ToString()];
 
                 if (bindingLookup[binding] == newKey) { continue; }
 
@@ -72,14 +70,14 @@ namespace Flummery
                 bindingLookup[binding] = newKey;
             }
 
-            if (OnBindingsChanged != null) { OnBindingsChanged(this, new EventArgs()); }
+            OnBindingsChanged?.Invoke(this, new EventArgs());
         }
 
         public bool UpdateBinding(char oldKey, char newKey)
         {
             newKey = char.ToUpper(newKey);
 
-            var binding = bindingLookup.Where(b => b.Value == oldKey).Select(b => b.Key).First();
+            KeyBinding binding = bindingLookup.Where(b => b.Value == oldKey).Select(b => b.Key).First();
 
             if (bindings.ContainsKey(newKey)) 
             {
@@ -100,7 +98,7 @@ namespace Flummery
         {
             if (!FlummeryApplication.Active) { return true; }
 
-            var key = char.ToUpper(e.KeyChar);
+            char key = char.ToUpper(e.KeyChar);
 
             if (bindings.ContainsKey(key))
             {
@@ -167,71 +165,71 @@ namespace Flummery
         [Description("Select"), Category("Camera Controls")]
         public char Select
         {
-            get { return Properties.Settings.Default.KeysCameraSelect; }
-            set { Properties.Settings.Default.KeysCameraSelect = value; }
+            get => Properties.Settings.Default.KeysCameraSelect;
+            set => Properties.Settings.Default.KeysCameraSelect = value;
         }
 
         [Description("Activates the Camera Pan mode"), Category("Camera Controls")]
         public char Pan
         {
-            get { return Properties.Settings.Default.KeysCameraPan; }
-            set { Properties.Settings.Default.KeysCameraPan = value; }
+            get => Properties.Settings.Default.KeysCameraPan;
+            set => Properties.Settings.Default.KeysCameraPan = value;
         }
 
         [Description("Activates the Camera Zoom mode"), Category("Camera Controls")]
         public char Zoom
         {
-            get { return Properties.Settings.Default.KeysCameraZoom; }
-            set { Properties.Settings.Default.KeysCameraZoom = value; }
+            get => Properties.Settings.Default.KeysCameraZoom;
+            set => Properties.Settings.Default.KeysCameraZoom = value;
         }
 
         [Description("Activates the Camera Rotate mode"), Category("Camera Controls")]
         public char Rotate
         {
-            get { return Properties.Settings.Default.KeysCameraRotate; }
-            set { Properties.Settings.Default.KeysCameraRotate = value; }
+            get => Properties.Settings.Default.KeysCameraRotate;
+            set => Properties.Settings.Default.KeysCameraRotate = value;
         }
 
         [Description("Frames the currectly selected mesh"), Category("Camera Controls")]
         public char Frame
         {
-            get { return Properties.Settings.Default.KeysCameraFrame; }
-            set { Properties.Settings.Default.KeysCameraFrame = value; }
+            get => Properties.Settings.Default.KeysCameraFrame;
+            set => Properties.Settings.Default.KeysCameraFrame = value;
         }
 
         [DisplayName("Action-Scale Up"), Description("Increases the current Action Scaling"), Category("Camera Controls")]
         public char ActionScaleUp
         {
-            get { return Properties.Settings.Default.KeysActionScaleUp; }
-            set { Properties.Settings.Default.KeysActionScaleUp = value; }
+            get => Properties.Settings.Default.KeysActionScaleUp;
+            set => Properties.Settings.Default.KeysActionScaleUp = value;
         }
 
         [DisplayName("Action-Scale Down"), Description("Decreases the current Action Scaling"), Category("Camera Controls")]
         public char ActionScaleDown
         {
-            get { return Properties.Settings.Default.KeysActionScaleDown; }
-            set { Properties.Settings.Default.KeysActionScaleDown = value; }
+            get => Properties.Settings.Default.KeysActionScaleDown;
+            set => Properties.Settings.Default.KeysActionScaleDown = value;
         }
 
         [DisplayName("Clear Selection"), Description("Deselects the currently selected mesh"), Category("Scene")]
         public char ClearSelection
         {
-            get { return Properties.Settings.Default.KeysClearSelection; }
-            set { Properties.Settings.Default.KeysClearSelection = value; }
+            get => Properties.Settings.Default.KeysClearSelection;
+            set => Properties.Settings.Default.KeysClearSelection = value;
         }
 
         [DisplayName("Cycle Render Mode"), Description("Cycles through the available render modes"), Category("Scene")]
         public char CycleRenderMode
         {
-            get { return Properties.Settings.Default.KeysRenderMode; }
-            set { Properties.Settings.Default.KeysRenderMode = value; }
+            get => Properties.Settings.Default.KeysRenderMode;
+            set => Properties.Settings.Default.KeysRenderMode = value;
         }
 
         [DisplayName("Toggle Coordinate System"), Description("Swaps between Left-handed and Right-handed co-ordinate systems"), Category("Scene")]
         public char ToggleCoordinateSystem
         {
-            get { return Properties.Settings.Default.KeysCoordinateSystem; }
-            set { Properties.Settings.Default.KeysCoordinateSystem = value; }
+            get => Properties.Settings.Default.KeysCoordinateSystem;
+            set => Properties.Settings.Default.KeysCoordinateSystem = value;
         }
     }
 }
