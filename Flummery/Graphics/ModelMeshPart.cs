@@ -47,6 +47,12 @@ namespace Flummery
             set => material = value;
         }
 
+        public Color Colour
+        {
+            get => colour;
+            set => colour = value;
+        }
+
         public ModelMeshPart()
         {
             vertexBuffer = new VertexBuffer();
@@ -57,7 +63,11 @@ namespace Flummery
 
         public ModelMeshPart Clone()
         {
-            ModelMeshPart part = new ModelMeshPart();
+            ModelMeshPart part = new ModelMeshPart
+            {
+                Material = material,
+                colour = colour
+            };
 
             part.IndexBuffer.Data.AddRange(IndexBuffer.Data);
             part.VertexBuffer.Data.AddRange(VertexBuffer.Data);
@@ -183,6 +193,7 @@ namespace Flummery
 
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
+
             GL.BindTexture(TextureTarget.Texture2D, (material != null && material.Texture != null ? material.Texture.ID : 0));
 
             GL.DepthFunc(DepthFunction.Lequal);
@@ -194,40 +205,7 @@ namespace Flummery
                 switch (renderStyle)
                 {
                     case RenderStyle.Scene:
-                        switch (SceneManager.Current.RenderMode)
-                        {
-                            case SceneManager.RenderMeshMode.Solid:
-                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
-                                break;
-
-                            case SceneManager.RenderMeshMode.Wireframe:
-                                GL.Disable(EnableCap.Texture2D);
-                                GL.Disable(EnableCap.Lighting);
-                                GL.Disable(EnableCap.Light0);
-                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
-                                GL.Color4(colour);
-                                break;
-
-                            case SceneManager.RenderMeshMode.SolidWireframe:
-                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
-                                vertexBuffer.Draw(indexBuffer, primitiveType);
-                                GL.PolygonOffset(1.0f, 2);
-                                GL.Disable(EnableCap.Texture2D);
-                                GL.Color4(Color.White);
-                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
-                                break;
-
-                            case SceneManager.RenderMeshMode.VertexColour:
-                                GL.Disable(EnableCap.Texture2D);
-                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
-                                vertexBuffer.Draw(indexBuffer, primitiveType);
-
-                                GL.Disable(EnableCap.Lighting);
-                                GL.Disable(EnableCap.Light0);
-                                GL.PolygonOffset(1.0f, 2);
-                                GL.PolygonMode(MaterialFace.Front, PolygonMode.Point);
-                                break;
-                        }
+                        SceneManager.Current.RenderMode.Draw(this);
                         break;
 
                     case RenderStyle.Wireframe:
@@ -236,6 +214,7 @@ namespace Flummery
                         GL.Disable(EnableCap.Lighting);
                         GL.Disable(EnableCap.Light0);
                         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                        GL.Color4(colour);
                         break;
                 }
 

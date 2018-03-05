@@ -61,6 +61,11 @@ namespace Flummery
             link = item;
             this.linkType = linkType;
         }
+
+        public T GetSupportingDocument<T>(string documentName)
+        {
+            return (T)supportingDocuments[documentName];
+        }
     }
 
     public abstract class AssetList

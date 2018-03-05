@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace Flummery.ContentPipeline
 {
-    public abstract class ContentImporter    
+    public abstract class ContentImporter
     {
         public virtual string GetExtension() { return ""; }
         public virtual string GetHints(string currentPath) { return null; }
@@ -16,11 +15,9 @@ namespace Flummery.ContentPipeline
             if (assetName.IndexOf(".") > -1) { assetName = assetName.Substring(0, assetName.LastIndexOf(".")); }
 
             string hints = GetHints(currentPath);
-            if (hints != null) { foreach (var hint in hints.Split(';')) { ContentManager.AddHint(hint); } }
+            if (hints != null) { foreach (string hint in hints.Split(';')) { ContentManager.AddHint(hint); } }
 
-            string path;
-
-            if (ContentManager.LoadOrDefaultFile(assetName, GetExtension(), out path))
+            if (ContentManager.LoadOrDefaultFile(assetName, GetExtension(), out string path))
             {
                 return path;
             }

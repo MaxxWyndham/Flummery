@@ -39,39 +39,39 @@ namespace Flummery
 
         public string UniqueIdentifier
         {
-            get { return uniqueIdentifier; }
-            set { uniqueIdentifier = value; }
+            get => uniqueIdentifier;
+            set => uniqueIdentifier = value;
         }
 
         public EntityType EntityType
         {
-            get { return entityType; }
-            set { entityType = value; }
+            get => entityType;
+            set => entityType = value;
         }
 
         public Matrix4 Transform
         {
-            get { return transform; }
-            set { transform = value; }
+            get => transform;
+            set => transform = value;
         }
 
         public Asset Asset
         {
-            get { return asset; }
-            set { asset = value; }
+            get => asset;
+            set => asset = value;
         }
 
         public AssetType AssetType
         {
-            get { return assetType; }
-            set { assetType = value; }
+            get => assetType;
+            set => assetType = value;
         }
 
         public void Draw()
         {
             if (Linked)
             {
-                var parentTransform = ((ModelBone)link).CombinedTransform;
+                Matrix4 parentTransform = ((ModelBone)link).CombinedTransform;
 
                 if (linkType == LinkType.All)
                 {
@@ -81,7 +81,7 @@ namespace Flummery
                 {
                     transform = Matrix4.Identity;
 
-                    var v = parentTransform.ExtractTranslation();
+                    Vector3 v = parentTransform.ExtractTranslation();
                     parentTransform.Normalize();
                     parentTransform.M41 = v.X;
                     parentTransform.M42 = v.Y;
@@ -93,13 +93,13 @@ namespace Flummery
                 }
             }
 
-            var mS = SceneManager.Current.Transform;
-            var mT = transform;
+            Matrix4 mS = SceneManager.Current.Transform;
+            Matrix4 mT = transform;
 
             switch (assetType)
             {
                 case AssetType.Model:
-                    var model = asset as Model;
+                    Model model = asset as Model;
                     if (model != null)
                     {
                         GL.PushMatrix();
@@ -116,7 +116,7 @@ namespace Flummery
                 case AssetType.Sprite:
                     if (asset == null)
                     {
-                        var sprite = new ModelMeshPart();
+                        ModelMeshPart sprite = new ModelMeshPart();
                         sprite.AddVertex(new Vector3(-0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 1));
                         sprite.AddVertex(new Vector3(-0.25f, 0.25f, 0.0f), Vector3.UnitY, new Vector2(0, 0));
                         sprite.AddVertex(new Vector3(0.25f, 0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 0));
@@ -130,16 +130,18 @@ namespace Flummery
                         sprite.VertexBuffer.Initialise();
                         sprite.Material = new Material { Name = "Entity.Asset", Texture = SceneManager.Current.Content.Load<Texture, PNGImporter>("entity_" + entityType.ToString().ToLower(), Path.GetDirectoryName(Application.ExecutablePath) + @"\data\icons\") };
                         sprite.PrimitiveType = PrimitiveType.Quads;
-                        var spritemesh = new ModelMesh();
+
+                        ModelMesh spritemesh = new ModelMesh();
                         spritemesh.AddModelMeshPart(sprite);
-                        var spritemodel = new Model();
+
+                        Model spritemodel = new Model();
                         spritemodel.AddMesh(spritemesh);
                         asset = spritemodel;
                     }
 
                     GL.PushMatrix();
 
-                    var position = Matrix4.CreateTranslation(mT.ExtractTranslation());
+                    Matrix4 position = Matrix4.CreateTranslation(mT.ExtractTranslation());
 
                     GL.MultMatrix(ref mS);
                     GL.MultMatrix(ref position);

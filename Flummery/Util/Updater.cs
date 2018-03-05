@@ -1,6 +1,6 @@
 using System;
-using System.IO;
-using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
@@ -22,29 +22,27 @@ namespace Flummery.Util
         }
 
         public string UpdateUrl = "http://www.flummery.co.uk/fuss/update.php?client_version={0}";
-        private WebRequest webRequest;
-
-        Action<bool, Update[]> responseCallback;
 
         public void Check(string currentVersion, Action<bool, Update[]> callback)
         {
-            responseCallback = callback;
-            webRequest = WebRequest.Create(string.Format(UpdateUrl, currentVersion));
+            Uri uri = new Uri(string.Format(UpdateUrl, currentVersion));
 
-            webRequest.BeginGetResponse(new AsyncCallback(finishRequest), null);
+            (new HttpClient())
+                .GetAsync(new Uri(string.Format(UpdateUrl, currentVersion)))
+                .ContinueWith((requestTask) => finishRequest(requestTask, callback));
         }
 
-        private void finishRequest(IAsyncResult result)
+        private void finishRequest(Task<HttpResponseMessage> result, Action<bool, Update[]> callback)
         {
             try
             {
-                UpdateResponse response = JsonConvert.DeserializeObject<UpdateResponse>(new StreamReader(webRequest.GetResponse().GetResponseStream()).ReadToEnd());
+                UpdateResponse response = JsonConvert.DeserializeObject<UpdateResponse>(result.Result.Content.ReadAsStringAsync().Result);
 
-                responseCallback(response.success, response.updates);
+                callback(response.success, response.updates);
             }
             catch
             {
-                responseCallback(false, null);
+                callback(false, null);
             }
         }
     }

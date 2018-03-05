@@ -31,7 +31,6 @@
             this.btnPanelTitle = new System.Windows.Forms.Button();
             this.pnlPanel = new System.Windows.Forms.Panel();
             this.lblScale = new System.Windows.Forms.Label();
-            this.btnFreezeScale = new System.Windows.Forms.Button();
             this.lblScaleZ = new System.Windows.Forms.Label();
             this.lblScaleY = new System.Windows.Forms.Label();
             this.lblScaleX = new System.Windows.Forms.Label();
@@ -39,7 +38,6 @@
             this.txtScaleY = new System.Windows.Forms.TextBox();
             this.txtScaleX = new System.Windows.Forms.TextBox();
             this.lblRotation = new System.Windows.Forms.Label();
-            this.btnFreezeRotation = new System.Windows.Forms.Button();
             this.lblRotationZ = new System.Windows.Forms.Label();
             this.lblRotationY = new System.Windows.Forms.Label();
             this.lblRotationX = new System.Windows.Forms.Label();
@@ -47,7 +45,6 @@
             this.txtRotationY = new System.Windows.Forms.TextBox();
             this.txtRotationX = new System.Windows.Forms.TextBox();
             this.lblPosition = new System.Windows.Forms.Label();
-            this.btnFreezePosition = new System.Windows.Forms.Button();
             this.lblPositionZ = new System.Windows.Forms.Label();
             this.lblPositionY = new System.Windows.Forms.Label();
             this.lblPositionX = new System.Windows.Forms.Label();
@@ -56,6 +53,9 @@
             this.txtPositionX = new System.Windows.Forms.TextBox();
             this.rdoRelative = new System.Windows.Forms.RadioButton();
             this.rdoAbsolute = new System.Windows.Forms.RadioButton();
+            this.btnFreezeScale = new System.Windows.Forms.Button();
+            this.btnFreezeRotation = new System.Windows.Forms.Button();
+            this.btnFreezePosition = new System.Windows.Forms.Button();
             this.pnlPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,7 +65,7 @@
             this.btnPanelTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPanelTitle.Location = new System.Drawing.Point(5, 5);
             this.btnPanelTitle.Name = "btnPanelTitle";
-            this.btnPanelTitle.Size = new System.Drawing.Size(294, 23);
+            this.btnPanelTitle.Size = new System.Drawing.Size(300, 23);
             this.btnPanelTitle.TabIndex = 47;
             this.btnPanelTitle.Text = "Transform";
             this.btnPanelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -105,7 +105,7 @@
             this.pnlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPanel.Location = new System.Drawing.Point(5, 28);
             this.pnlPanel.Name = "pnlPanel";
-            this.pnlPanel.Size = new System.Drawing.Size(294, 130);
+            this.pnlPanel.Size = new System.Drawing.Size(300, 130);
             this.pnlPanel.TabIndex = 48;
             // 
             // lblScale
@@ -117,24 +117,13 @@
             this.lblScale.TabIndex = 64;
             this.lblScale.Text = "Scale";
             // 
-            // btnFreezeScale
-            // 
-            this.btnFreezeScale.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFreezeScale.Enabled = false;
-            this.btnFreezeScale.Image = global::Flummery.Properties.Resources.interface_freeze_16x16;
-            this.btnFreezeScale.Location = new System.Drawing.Point(264, 98);
-            this.btnFreezeScale.Name = "btnFreezeScale";
-            this.btnFreezeScale.Size = new System.Drawing.Size(25, 27);
-            this.btnFreezeScale.TabIndex = 71;
-            this.btnFreezeScale.UseVisualStyleBackColor = true;
-            // 
             // lblScaleZ
             // 
             this.lblScaleZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblScaleZ.BackColor = System.Drawing.Color.Red;
             this.lblScaleZ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblScaleZ.ForeColor = System.Drawing.Color.White;
-            this.lblScaleZ.Location = new System.Drawing.Point(193, 102);
+            this.lblScaleZ.Location = new System.Drawing.Point(199, 102);
             this.lblScaleZ.Name = "lblScaleZ";
             this.lblScaleZ.Size = new System.Drawing.Size(16, 20);
             this.lblScaleZ.TabIndex = 70;
@@ -147,7 +136,7 @@
             this.lblScaleY.BackColor = System.Drawing.Color.Green;
             this.lblScaleY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblScaleY.ForeColor = System.Drawing.Color.White;
-            this.lblScaleY.Location = new System.Drawing.Point(121, 102);
+            this.lblScaleY.Location = new System.Drawing.Point(127, 102);
             this.lblScaleY.Name = "lblScaleY";
             this.lblScaleY.Size = new System.Drawing.Size(16, 20);
             this.lblScaleY.TabIndex = 69;
@@ -160,7 +149,7 @@
             this.lblScaleX.BackColor = System.Drawing.Color.Blue;
             this.lblScaleX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblScaleX.ForeColor = System.Drawing.Color.White;
-            this.lblScaleX.Location = new System.Drawing.Point(50, 102);
+            this.lblScaleX.Location = new System.Drawing.Point(56, 102);
             this.lblScaleX.Name = "lblScaleX";
             this.lblScaleX.Size = new System.Drawing.Size(16, 20);
             this.lblScaleX.TabIndex = 68;
@@ -170,7 +159,7 @@
             // txtScaleZ
             // 
             this.txtScaleZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScaleZ.Location = new System.Drawing.Point(208, 102);
+            this.txtScaleZ.Location = new System.Drawing.Point(214, 102);
             this.txtScaleZ.Name = "txtScaleZ";
             this.txtScaleZ.Size = new System.Drawing.Size(50, 20);
             this.txtScaleZ.TabIndex = 67;
@@ -181,7 +170,7 @@
             // txtScaleY
             // 
             this.txtScaleY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScaleY.Location = new System.Drawing.Point(137, 102);
+            this.txtScaleY.Location = new System.Drawing.Point(143, 102);
             this.txtScaleY.Name = "txtScaleY";
             this.txtScaleY.Size = new System.Drawing.Size(50, 20);
             this.txtScaleY.TabIndex = 66;
@@ -192,7 +181,7 @@
             // txtScaleX
             // 
             this.txtScaleX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScaleX.Location = new System.Drawing.Point(65, 102);
+            this.txtScaleX.Location = new System.Drawing.Point(71, 102);
             this.txtScaleX.Name = "txtScaleX";
             this.txtScaleX.Size = new System.Drawing.Size(50, 20);
             this.txtScaleX.TabIndex = 65;
@@ -209,24 +198,13 @@
             this.lblRotation.TabIndex = 56;
             this.lblRotation.Text = "Rotation";
             // 
-            // btnFreezeRotation
-            // 
-            this.btnFreezeRotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFreezeRotation.Enabled = false;
-            this.btnFreezeRotation.Image = global::Flummery.Properties.Resources.interface_freeze_16x16;
-            this.btnFreezeRotation.Location = new System.Drawing.Point(264, 65);
-            this.btnFreezeRotation.Name = "btnFreezeRotation";
-            this.btnFreezeRotation.Size = new System.Drawing.Size(25, 27);
-            this.btnFreezeRotation.TabIndex = 63;
-            this.btnFreezeRotation.UseVisualStyleBackColor = true;
-            // 
             // lblRotationZ
             // 
             this.lblRotationZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRotationZ.BackColor = System.Drawing.Color.Red;
             this.lblRotationZ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblRotationZ.ForeColor = System.Drawing.Color.White;
-            this.lblRotationZ.Location = new System.Drawing.Point(193, 69);
+            this.lblRotationZ.Location = new System.Drawing.Point(199, 69);
             this.lblRotationZ.Name = "lblRotationZ";
             this.lblRotationZ.Size = new System.Drawing.Size(16, 20);
             this.lblRotationZ.TabIndex = 62;
@@ -239,7 +217,7 @@
             this.lblRotationY.BackColor = System.Drawing.Color.Green;
             this.lblRotationY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblRotationY.ForeColor = System.Drawing.Color.White;
-            this.lblRotationY.Location = new System.Drawing.Point(121, 69);
+            this.lblRotationY.Location = new System.Drawing.Point(127, 69);
             this.lblRotationY.Name = "lblRotationY";
             this.lblRotationY.Size = new System.Drawing.Size(16, 20);
             this.lblRotationY.TabIndex = 61;
@@ -252,7 +230,7 @@
             this.lblRotationX.BackColor = System.Drawing.Color.Blue;
             this.lblRotationX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblRotationX.ForeColor = System.Drawing.Color.White;
-            this.lblRotationX.Location = new System.Drawing.Point(50, 69);
+            this.lblRotationX.Location = new System.Drawing.Point(56, 69);
             this.lblRotationX.Name = "lblRotationX";
             this.lblRotationX.Size = new System.Drawing.Size(16, 20);
             this.lblRotationX.TabIndex = 60;
@@ -262,7 +240,7 @@
             // txtRotationZ
             // 
             this.txtRotationZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRotationZ.Location = new System.Drawing.Point(208, 69);
+            this.txtRotationZ.Location = new System.Drawing.Point(214, 69);
             this.txtRotationZ.Name = "txtRotationZ";
             this.txtRotationZ.Size = new System.Drawing.Size(50, 20);
             this.txtRotationZ.TabIndex = 59;
@@ -273,7 +251,7 @@
             // txtRotationY
             // 
             this.txtRotationY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRotationY.Location = new System.Drawing.Point(137, 69);
+            this.txtRotationY.Location = new System.Drawing.Point(143, 69);
             this.txtRotationY.Name = "txtRotationY";
             this.txtRotationY.Size = new System.Drawing.Size(50, 20);
             this.txtRotationY.TabIndex = 58;
@@ -284,7 +262,7 @@
             // txtRotationX
             // 
             this.txtRotationX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRotationX.Location = new System.Drawing.Point(65, 69);
+            this.txtRotationX.Location = new System.Drawing.Point(71, 69);
             this.txtRotationX.Name = "txtRotationX";
             this.txtRotationX.Size = new System.Drawing.Size(50, 20);
             this.txtRotationX.TabIndex = 57;
@@ -301,24 +279,13 @@
             this.lblPosition.TabIndex = 49;
             this.lblPosition.Text = "Position";
             // 
-            // btnFreezePosition
-            // 
-            this.btnFreezePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFreezePosition.Enabled = false;
-            this.btnFreezePosition.Image = global::Flummery.Properties.Resources.interface_freeze_16x16;
-            this.btnFreezePosition.Location = new System.Drawing.Point(264, 32);
-            this.btnFreezePosition.Name = "btnFreezePosition";
-            this.btnFreezePosition.Size = new System.Drawing.Size(25, 27);
-            this.btnFreezePosition.TabIndex = 55;
-            this.btnFreezePosition.UseVisualStyleBackColor = true;
-            // 
             // lblPositionZ
             // 
             this.lblPositionZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPositionZ.BackColor = System.Drawing.Color.Red;
             this.lblPositionZ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPositionZ.ForeColor = System.Drawing.Color.White;
-            this.lblPositionZ.Location = new System.Drawing.Point(193, 36);
+            this.lblPositionZ.Location = new System.Drawing.Point(199, 36);
             this.lblPositionZ.Name = "lblPositionZ";
             this.lblPositionZ.Size = new System.Drawing.Size(16, 20);
             this.lblPositionZ.TabIndex = 54;
@@ -331,7 +298,7 @@
             this.lblPositionY.BackColor = System.Drawing.Color.Green;
             this.lblPositionY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPositionY.ForeColor = System.Drawing.Color.White;
-            this.lblPositionY.Location = new System.Drawing.Point(121, 36);
+            this.lblPositionY.Location = new System.Drawing.Point(127, 36);
             this.lblPositionY.Name = "lblPositionY";
             this.lblPositionY.Size = new System.Drawing.Size(16, 20);
             this.lblPositionY.TabIndex = 53;
@@ -344,7 +311,7 @@
             this.lblPositionX.BackColor = System.Drawing.Color.Blue;
             this.lblPositionX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPositionX.ForeColor = System.Drawing.Color.White;
-            this.lblPositionX.Location = new System.Drawing.Point(50, 36);
+            this.lblPositionX.Location = new System.Drawing.Point(56, 36);
             this.lblPositionX.Name = "lblPositionX";
             this.lblPositionX.Size = new System.Drawing.Size(16, 20);
             this.lblPositionX.TabIndex = 52;
@@ -354,7 +321,7 @@
             // txtPositionZ
             // 
             this.txtPositionZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPositionZ.Location = new System.Drawing.Point(208, 36);
+            this.txtPositionZ.Location = new System.Drawing.Point(214, 36);
             this.txtPositionZ.Name = "txtPositionZ";
             this.txtPositionZ.Size = new System.Drawing.Size(50, 20);
             this.txtPositionZ.TabIndex = 51;
@@ -365,7 +332,7 @@
             // txtPositionY
             // 
             this.txtPositionY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPositionY.Location = new System.Drawing.Point(137, 36);
+            this.txtPositionY.Location = new System.Drawing.Point(143, 36);
             this.txtPositionY.Name = "txtPositionY";
             this.txtPositionY.Size = new System.Drawing.Size(50, 20);
             this.txtPositionY.TabIndex = 50;
@@ -376,7 +343,7 @@
             // txtPositionX
             // 
             this.txtPositionX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPositionX.Location = new System.Drawing.Point(65, 36);
+            this.txtPositionX.Location = new System.Drawing.Point(71, 36);
             this.txtPositionX.Name = "txtPositionX";
             this.txtPositionX.Size = new System.Drawing.Size(50, 20);
             this.txtPositionX.TabIndex = 49;
@@ -388,7 +355,7 @@
             // 
             this.rdoRelative.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rdoRelative.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rdoRelative.Location = new System.Drawing.Point(212, 3);
+            this.rdoRelative.Location = new System.Drawing.Point(218, 3);
             this.rdoRelative.Name = "rdoRelative";
             this.rdoRelative.Size = new System.Drawing.Size(77, 23);
             this.rdoRelative.TabIndex = 48;
@@ -411,6 +378,39 @@
             this.rdoAbsolute.UseVisualStyleBackColor = true;
             this.rdoAbsolute.CheckedChanged += new System.EventHandler(this.rdoRelativity_CheckedChanged);
             // 
+            // btnFreezeScale
+            // 
+            this.btnFreezeScale.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFreezeScale.Enabled = false;
+            this.btnFreezeScale.Image = global::Flummery.Properties.Resources.interface_freeze_16x16;
+            this.btnFreezeScale.Location = new System.Drawing.Point(270, 98);
+            this.btnFreezeScale.Name = "btnFreezeScale";
+            this.btnFreezeScale.Size = new System.Drawing.Size(25, 27);
+            this.btnFreezeScale.TabIndex = 71;
+            this.btnFreezeScale.UseVisualStyleBackColor = true;
+            // 
+            // btnFreezeRotation
+            // 
+            this.btnFreezeRotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFreezeRotation.Enabled = false;
+            this.btnFreezeRotation.Image = global::Flummery.Properties.Resources.interface_freeze_16x16;
+            this.btnFreezeRotation.Location = new System.Drawing.Point(270, 65);
+            this.btnFreezeRotation.Name = "btnFreezeRotation";
+            this.btnFreezeRotation.Size = new System.Drawing.Size(25, 27);
+            this.btnFreezeRotation.TabIndex = 63;
+            this.btnFreezeRotation.UseVisualStyleBackColor = true;
+            // 
+            // btnFreezePosition
+            // 
+            this.btnFreezePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFreezePosition.Enabled = false;
+            this.btnFreezePosition.Image = global::Flummery.Properties.Resources.interface_freeze_16x16;
+            this.btnFreezePosition.Location = new System.Drawing.Point(270, 32);
+            this.btnFreezePosition.Name = "btnFreezePosition";
+            this.btnFreezePosition.Size = new System.Drawing.Size(25, 27);
+            this.btnFreezePosition.TabIndex = 55;
+            this.btnFreezePosition.UseVisualStyleBackColor = true;
+            // 
             // Transform
             // 
             this.AutoScroll = true;
@@ -420,7 +420,7 @@
             this.MinimumSize = new System.Drawing.Size(304, 0);
             this.Name = "Transform";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Size = new System.Drawing.Size(304, 163);
+            this.Size = new System.Drawing.Size(310, 163);
             this.pnlPanel.ResumeLayout(false);
             this.pnlPanel.PerformLayout();
             this.ResumeLayout(false);

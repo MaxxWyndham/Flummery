@@ -6,7 +6,7 @@ using Flummery.ContentPipeline;
 
 namespace Flummery
 {
-    public class ContentManager
+    public partial class ContentManager
     {
         Dictionary<string, Asset> assets = new Dictionary<string, Asset>(StringComparer.InvariantCultureIgnoreCase);
         public static string Hints = "";

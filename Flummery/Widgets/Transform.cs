@@ -244,7 +244,7 @@ namespace Flummery.Controls
                     break;
             }
 
-            SceneManager.Current.Change(ChangeType.Transform, SceneManager.Current.SelectedBoneIndex);
+            SceneManager.Current.Change(ChangeType.Transform, ChangeContext.Model, SceneManager.Current.SelectedBoneIndex);
 
             resetWidget();
         }

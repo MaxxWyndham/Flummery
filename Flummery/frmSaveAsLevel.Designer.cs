@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSaveAsLevel));
             this.btnPath = new System.Windows.Forms.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.lblPath = new System.Windows.Forms.Label();
@@ -326,9 +327,10 @@
             this.Controls.Add(this.pbProgress);
             this.Controls.Add(this.gbProgress);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = global::Flummery.Properties.Resources.icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(0, 181);
+            this.MinimumSize = new System.Drawing.Size(16, 181);
             this.Name = "frmSaveAsLevel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Save As... Level";

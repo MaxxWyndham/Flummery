@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Flummery
 {
     public class Material : Asset
     {
-        Texture texture;
+        Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
+        protected string firstKey = null;
 
         public Texture Texture
         {
-            get { return texture; }
-            set { texture = value; }
+            get => textures.Count > 0 ? textures[firstKey] : null;
+            set
+            {
+                if (textures.Count == 0) { firstKey = value.Name; }
+                textures[value.Name] = value;
+            }
         }
 
-        public Material()
-        {
-            texture = new Texture();
-        }
+        public List<Texture> Textures => textures.Values.ToList();
     }
 
     public class MaterialList : AssetList 

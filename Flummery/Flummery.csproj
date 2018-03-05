@@ -77,7 +77,9 @@
       <HintPath>..\packages\OpenTK.GLControl.1.1.2349.61993\lib\NET40\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -106,28 +108,32 @@
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
     <Compile Include="ContentPipeline\Core\TIFExporter.cs" />
     <Compile Include="ContentPipeline\ExportSettings.cs" />
-    <Compile Include="ContentPipeline\Stainless\ACTExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\ACTImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\C1CarImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\CNTExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\CNTImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\DATExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\DATImporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\ACTExporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\ACTImporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\C1CarImporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\CNTExporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\CNTImporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\DATExporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\DATImporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\MT2Importer.cs" />
+    <Compile Include="ContentPipeline\NuCarma\MTLImporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\VehicleSetupLOLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\IMGExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\IMGImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\LIGHTImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\MaterialImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\MATExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\MDLExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\MDLImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\PIXImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\SetupLOLExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\StructureXMLExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\SystemsDamageXMLExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\TDXExporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\TDXImporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\LIGHTImporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\MaterialImporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\MATExporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\MATImporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\MDLExporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\MDLImporter.cs" />
+    <Compile Include="ContentPipeline\CarmaClassic\PIXImporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\SetupLOLExporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\StructureXMLExporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\SystemsDamageXMLExporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\TDXExporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\TDXImporter.cs" />
     <Compile Include="ContentPipeline\Core\TIFImporter.cs" />
-    <Compile Include="ContentPipeline\Stainless\VehicleSetupCFGExporter.cs" />
+    <Compile Include="ContentPipeline\NuCarma\VehicleSetupCFGExporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\HIEImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\MSHSImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\TXImporter.cs" />
@@ -152,6 +158,12 @@
     <Compile Include="frmChangeNodeType.Designer.cs">
       <DependentUpon>frmChangeNodeType.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmClassicMaterialEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClassicMaterialEditor.Designer.cs">
+      <DependentUpon>frmClassicMaterialEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMaterialEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,17 +182,23 @@
     <Compile Include="frmNewObject.Designer.cs">
       <DependentUpon>frmNewObject.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmNuCarmaSetupLOL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNuCarmaSetupLOL.Designer.cs">
+      <DependentUpon>frmNuCarmaSetupLOL.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPreferences.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmPreferences.Designer.cs">
       <DependentUpon>frmPreferences.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmReincarnationMaterialEditor.cs">
+    <Compile Include="frmNuCarmaMaterialEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmReincarnationMaterialEditor.Designer.cs">
-      <DependentUpon>frmReincarnationMaterialEditor.cs</DependentUpon>
+    <Compile Include="frmNuCarmaMaterialEditor.Designer.cs">
+      <DependentUpon>frmNuCarmaMaterialEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="frmReincarnationWheelPreview.cs">
       <SubType>Form</SubType>
@@ -238,6 +256,7 @@
     <Compile Include="Graphics\Entity.cs" />
     <Compile Include="Graphics\IndexBuffer.cs" />
     <Compile Include="Graphics\InputManager.cs" />
+    <Compile Include="Graphics\RenderModes.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\ModelBone.cs" />
     <Compile Include="frmMain.cs">
@@ -294,6 +313,12 @@
     <Compile Include="Widgets\Lighting.Designer.cs">
       <DependentUpon>Lighting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Widgets\Skins.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Widgets\Skins.Designer.cs">
+      <DependentUpon>Skins.cs</DependentUpon>
+    </Compile>
     <Compile Include="Widgets\Transform.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -330,6 +355,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmClassicMaterialEditor.resx">
+      <DependentUpon>frmClassicMaterialEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMaterialEditor.resx">
       <DependentUpon>frmMaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -339,11 +367,14 @@
     <EmbeddedResource Include="frmNewObject.resx">
       <DependentUpon>frmNewObject.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmNuCarmaSetupLOL.resx">
+      <DependentUpon>frmNuCarmaSetupLOL.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPreferences.resx">
       <DependentUpon>frmPreferences.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReincarnationMaterialEditor.resx">
-      <DependentUpon>frmReincarnationMaterialEditor.cs</DependentUpon>
+    <EmbeddedResource Include="frmNuCarmaMaterialEditor.resx">
+      <DependentUpon>frmNuCarmaMaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmReincarnationWheelPreview.resx">
       <DependentUpon>frmReincarnationWheelPreview.cs</DependentUpon>
@@ -399,6 +430,9 @@
     </Compile>
     <EmbeddedResource Include="Widgets\Lighting.resx">
       <DependentUpon>Lighting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Widgets\Skins.resx">
+      <DependentUpon>Skins.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Widgets\Transform.resx">
       <DependentUpon>Transform.cs</DependentUpon>
@@ -462,6 +496,8 @@
     <None Include="data\icons\interface_light_16x16.png" />
     <None Include="data\icons\interface_driver_16x16.png" />
     <None Include="data\icons\interface_vfx_16x16.png" />
+    <None Include="data\icons\interface_eye_16x16.png" />
+    <None Include="data\icons\interface_eye_blind_16x16.png" />
     <Content Include="data\test.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -489,8 +525,14 @@
       <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
       <Name>ToxicRagers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Flummery.Plugin\Flummery.Plugin.csproj">
+      <Project>{1077661c-a13b-4b4e-95fd-30454b39bd9a}</Project>
+      <Name>Flummery.Plugin</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -499,10 +541,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Fody.2.3.23\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.3.23\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.2.4.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.4.4\build\Fody.targets'))" />
   </Target>
   <Import Project="..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" />
-  <Import Project="..\packages\Fody.2.3.23\build\Fody.targets" Condition="Exists('..\packages\Fody.2.3.23\build\Fody.targets')" />
+  <Import Project="..\packages\Fody.2.4.4\build\Fody.targets" Condition="Exists('..\packages\Fody.2.4.4\build\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

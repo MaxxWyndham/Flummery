@@ -57,26 +57,17 @@ namespace Flummery.ContentPipeline.Core
 
                 string file = Path.GetFileName(fullFile);
 
-                switch (Path.GetExtension(file))
+                t = SceneManager.Current.Content.Load(Path.GetFileName(file));
+                if (t == null) { t = new Texture(); }
+
+                switch (fbx.Elements.Find(e => e.ID == "Connections").Children.Where(c => (long)c.Properties[1].Value == (long)texture.Properties[0].Value).First().Properties.Last().Value.ToString())
                 {
-                    case ".bmp":
-                        t = SceneManager.Current.Content.Load<Texture, BMPImporter>(Path.GetFileNameWithoutExtension(file));
+                    case "NormalMap":
+                        t.Type = Texture.TextureType.Normal;
                         break;
 
-                    case ".png":
-                        t = SceneManager.Current.Content.Load<Texture, PNGImporter>(Path.GetFileNameWithoutExtension(file));
-                        break;
-
-                    case ".tif":
-                        t = SceneManager.Current.Content.Load<Texture, TIFImporter>(Path.GetFileNameWithoutExtension(file));
-                        break;
-
-                    case ".tga":
-                        t = SceneManager.Current.Content.Load<Texture, TGAImporter>(Path.GetFileNameWithoutExtension(file));
-                        break;
-
-                    default:
-                        t = new Texture();
+                    case "SpecularColor":
+                        t.Type = Texture.TextureType.Specular;
                         break;
                 }
 
@@ -84,7 +75,7 @@ namespace Flummery.ContentPipeline.Core
                 {
                     components.Add((long)texture.Properties[0].Value, t);
 
-                    Console.WriteLine("Added texture \"{0}\" ({1})", file, texture.Properties[0].Value);
+                    Console.WriteLine($"Added texture \"{file}\" ({texture.Properties[0].Value})");
                 }
             }
 
@@ -559,7 +550,7 @@ namespace Flummery.ContentPipeline.Core
                         case "Flummery.Texture":
                             if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.Material")
                             {
-                                if (loaded.Add(keyB))
+                                if (loaded.Add(keyA))
                                 {
                                     ((Material)components[keyB]).Texture = (Texture)components[keyA];
                                     //SceneManager.Current.Add((Material)components[keyB]);

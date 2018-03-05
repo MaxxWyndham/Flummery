@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using Flummery.ContentPipeline;
 using Flummery.ContentPipeline.Core;
-using Flummery.ContentPipeline.Stainless;
+using Flummery.ContentPipeline.NuCarma;
 
 namespace Flummery
 {
@@ -16,7 +16,6 @@ namespace Flummery
         {
             InitializeComponent();
         }
-
 
         private void frmTDXConvert_Load(object sender, EventArgs e)
         {
@@ -32,38 +31,11 @@ namespace Flummery
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
-                var fi = new FileInfo(ofdBrowse.FileName);
+                FileInfo fi = new FileInfo(ofdBrowse.FileName);
 
-                switch (fi.Extension.ToLower())
+                if ((t = SceneManager.Current.Content.Load(fi.Name, fi.DirectoryName)) != null)
                 {
-                    case ".bmp":
-                        t = SceneManager.Current.Content.Load<Texture, BMPImporter>(fi.Name, fi.DirectoryName);
-                        break;
-
-                    case ".jpg":
-                        t = SceneManager.Current.Content.Load<Texture, JPGImporter>(fi.Name, fi.DirectoryName);
-                        break;
-
-                    case ".png":
-                        t = SceneManager.Current.Content.Load<Texture, PNGImporter>(fi.Name, fi.DirectoryName);
-                        break;
-
-                    case ".tif":
-                        t = SceneManager.Current.Content.Load<Texture, TIFImporter>(fi.Name, fi.DirectoryName);
-                        break;
-
-                    case ".tga":
-                        t = SceneManager.Current.Content.Load<Texture, TGAImporter>(fi.Name, fi.DirectoryName);
-                        break;
-
-                    case ".tdx":
-                        t = SceneManager.Current.Content.Load<Texture, TDXImporter>(fi.Name, fi.DirectoryName);
-                        break;
-                }
-
-                if (t != null)
-                {
-                    var b = t.GetBitmap();
+                    System.Drawing.Bitmap b = t.GetBitmap();
 
                     pbPreview.Image = t.GetThumbnail(1024, false);
                     lblFile.Text = string.Format(lblFile.Tag.ToString(), fi.Name);
@@ -76,7 +48,7 @@ namespace Flummery
 
         private void cmdClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnSave_Click(object sender, EventArgs e)

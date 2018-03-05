@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Flummery.Controls;
-using Flummery.ContentPipeline.Core;
 
 namespace Flummery
 {
@@ -23,146 +16,53 @@ namespace Flummery
             InitializeComponent();
 
             this.mi = mi;
-
-            SetMaterial(M);
-
-            this.Width = 440;
-            gbPropColour.Left = 12;
-            gbPropLighting.Left = 12;
-            gbPropFlags.Left = 12;
-            gbPropData.Left = 12;
-        }
-
-        public void SetMaterial(Material M)
-        {
             m = M;
 
-            txtName.Text = M.Name;
-            SetTexture(M.Texture);
+            txtMaterialName.Text = M.Name;
 
-            foreach (Control c in gbPropFlags.Controls)
+            foreach (Texture texture in M.Textures)
             {
-                //if (c is CheckBox) { ((CheckBox)c).Checked = M.GetFlag(Int32.Parse(c.Name.Substring(3))); }
+                openFileFor(texture.Type.ToString().Substring(0, 4), texture.FileName);
             }
         }
 
-        private void SetTexture(Texture t)
+        private void btnDiffLoad_Click(object sender, EventArgs e)
         {
-            txtTexture.Text = t.Name;
-            pbPreview.Image = t.GetThumbnail();
-            mi.SetThumbnail((Bitmap)pbPreview.Image);
+            loadFileFor("Diff");
         }
 
-        void rdoProperties_CheckedChanged(object sender, System.EventArgs e)
+        private void btnNormLoad_Click(object sender, EventArgs e)
         {
-            RadioButton rdo = sender as RadioButton;
-
-            if (!rdo.Checked) { return; }
-
-            gbPropColour.Visible = false;
-            gbPropLighting.Visible = false;
-            gbPropFlags.Visible = false;
-            gbPropData.Visible = false;
-
-            switch (rdo.Text)
-            {
-                case "Colour":
-                    gbPropColour.Visible = true;
-                    break;
-                case "Lighting":
-                    gbPropLighting.Visible = true;
-                    break;
-                case "Flags":
-                    gbPropFlags.Visible = true;
-                    break;
-                case "Data":
-                    gbPropData.Visible = true;
-                    break;
-                default:
-                    MessageBox.Show(rdo.Text);
-                    break;
-            }
+            loadFileFor("Norm");
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void btnSpecLoad_Click(object sender, EventArgs e)
         {
-            this.Close();
+            loadFileFor("Spec");
         }
 
-        private void chkFlags_CheckedChanged(object sender, EventArgs e)
+        private void loadFileFor(string context)
         {
-            CheckBox chk = sender as CheckBox;
-            int flag = Int32.Parse(chk.Name.Substring(3));
-        }
-
-        private void btnLoad_Click(object sender, EventArgs e)
-        {
-            ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga;*.bmp|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga|BMP (*.bmp)|*.bmp";
+            ofdBrowse.Filter = ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga;*.bmp;*.tdx|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga|BMP (*.bmp)|*.bmp|TDX (*.tdx)|*.tdx";
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
-                loadTexture(ofdBrowse.FileName);
+                openFileFor(context, ofdBrowse.FileName);
             }
         }
 
-        private void btnReload_Click(object sender, EventArgs e)
+        private void openFileFor(string context, string filename)
         {
-            if (File.Exists(m.Texture.FileName)) { loadTexture(m.Texture.FileName); }
-        }
+            Texture texture = SceneManager.Current.Content.Load(Path.GetFileName(filename), Path.GetDirectoryName(filename));
 
-        private void loadTexture(string path)
-        {
-            var fi = new FileInfo(path);
-
-            switch (fi.Extension)
-            {
-                case ".bmp":
-                    m.Texture = SceneManager.Current.Content.Load<Texture, BMPImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
-                    break;
-
-                case ".jpg":
-                    m.Texture = SceneManager.Current.Content.Load<Texture, JPGImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
-                    break;
-
-                case ".png":
-                    m.Texture = SceneManager.Current.Content.Load<Texture, PNGImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
-                    break;
-
-                case ".tif":
-                    m.Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
-                    break;
-
-                case ".tga":
-                    m.Texture = SceneManager.Current.Content.Load<Texture, TGAImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
-                    break;
-            }
-
-            SetTexture(m.Texture);
-        }
-
-        private void btnApply_Click(object sender, EventArgs e)
-        {
-            ApplySettings();
-        }
-
-        protected void ApplySettings()
-        {
-            m.Name = txtName.Text;
-            mi.MaterialName = txtName.Text;
-            mi.SetThumbnail((Bitmap)pbPreview.Image);
+            Controls.Find($"lbl{context}Path", true)[0].Text = Path.GetFileName(filename);
+            (Controls.Find($"pb{context}Preview", true)[0] as PictureBox).Image = texture.GetThumbnail(1024, false);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            ApplySettings();
-            this.Close();
-        }
-
-        private void pbPreview_Click(object sender, EventArgs e)
-        {
-            var preview = new pnlTexturePreview();
-            preview.SetImage(m.Texture.GetBitmap());
-            preview.Show(FlummeryApplication.UI.DockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Float);
+            m.Name = txtMaterialName.Text;
+            mi.Name = txtMaterialName.Text;
         }
     }
 }

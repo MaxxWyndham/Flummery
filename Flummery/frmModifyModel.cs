@@ -31,34 +31,34 @@ namespace Flummery
         {
             string name = ((RadioButton)sender).Name.Substring(3);
 
-            foreach (Control c in this.Controls)
+            foreach (Control c in Controls)
             {
                 if (c is GroupBox) { c.Visible = false; }
             }
 
-            var groupBox = this.Controls.Find("gb" + name, true);
+            Control[] groupBox = Controls.Find($"gb{name}", true);
             if (groupBox.Length > 0) { groupBox[0].Visible = !groupBox[0].Visible; }
         }
 
         // Scale START
         private void rdoScale_CheckedChanged(object sender, EventArgs e)
         {
-            foreach (Control c in this.gbScaling.Controls) { if (c is TextBox) { c.Enabled = false; } }
+            foreach (Control c in gbScaling.Controls) { if (c is TextBox) { c.Enabled = false; } }
 
             switch (((RadioButton)sender).Name)
             {
                 case "rdoScaleWholeModel":
-                    this.txtScaleWholeModel.Enabled = true;
+                    txtScaleWholeModel.Enabled = true;
                     break;
 
                 case "rdoScaleByAxis":
-                    this.txtScaleAxisX.Enabled = true;
-                    this.txtScaleAxisY.Enabled = true;
-                    this.txtScaleAxisZ.Enabled = true;
+                    txtScaleAxisX.Enabled = true;
+                    txtScaleAxisY.Enabled = true;
+                    txtScaleAxisZ.Enabled = true;
                     break;
 
                 case "rdoScaleRadius":
-                    this.txtScaleRadius.Enabled = true;
+                    txtScaleRadius.Enabled = true;
                     break;
             }
         }
@@ -67,12 +67,12 @@ namespace Flummery
         private void btnOK_Click(object sender, EventArgs e)
         {
             applyTransforms();
-            this.Close();
+            Close();
         }
 
         private void applyTransforms()
         {
-            var bones = (chkHierarchy.Checked ? SceneManager.Current.Models[modelIndex].Bones[boneIndex].AllChildren() : new ModelBoneCollection { SceneManager.Current.Models[modelIndex].Bones[boneIndex] });
+            ModelBoneCollection bones = (chkHierarchy.Checked ? SceneManager.Current.Models[modelIndex].Bones[boneIndex].AllChildren() : new ModelBoneCollection { SceneManager.Current.Models[modelIndex].Bones[boneIndex] });
 
             if (rdoScaling.Checked)
             {

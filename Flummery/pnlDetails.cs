@@ -6,7 +6,8 @@ namespace Flummery
     public enum Panes
     {
         Transform,
-        Lighting
+        Lighting,
+        Skins
     }
 
     public partial class PnlDetails : DockContent
@@ -29,8 +30,10 @@ namespace Flummery
         {
             Lighting.RegisterEventHandlers();
             Transform.RegisterEventHandlers();
+            Skins.RegisterEventHandlers();
 
             SceneManager.Current.OnSelect += scene_OnSelect;
+            SceneManager.Current.OnSelectRoot += scene_OnSelectRoot;
             SceneManager.Current.OnReset += scene_OnReset;
         }
 
@@ -39,16 +42,28 @@ namespace Flummery
             setSelection(e.Item as ModelBone);
         }
 
+        void scene_OnSelectRoot(object sender, SelectRootEventArgs e)
+        {
+            switch (e.Mode)
+            {
+                case ContextMode.Car:
+                    Skins.Visible = true;
+                    break;
+            }
+        }
+
         private void setSelection(ModelBone bone)
         {
             Transform.Visible = (bone != null);
             Lighting.Visible = (bone.Type == BoneType.Light);
+            Skins.Visible = false;
         }
 
         private void scene_OnReset(object sender, ResetEventArgs e)
         {
             Transform.Visible = false;
             Lighting.Visible = false;
+            Skins.Visible = false;
         }
     }
 }

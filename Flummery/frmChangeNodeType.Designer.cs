@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.gbPane = new System.Windows.Forms.GroupBox();
+            this.chkNewLight = new System.Windows.Forms.CheckBox();
             this.lblOr = new System.Windows.Forms.Label();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.btnBrowse = new System.Windows.Forms.Button();
@@ -41,7 +42,6 @@
             this.rdoTypeVFX = new System.Windows.Forms.RadioButton();
             this.ofdBrowse = new System.Windows.Forms.OpenFileDialog();
             this.lblWarning = new System.Windows.Forms.Label();
-            this.chkNewLight = new System.Windows.Forms.CheckBox();
             this.gbPane.SuspendLayout();
             this.gbNodeType.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +61,16 @@
             this.gbPane.TabIndex = 0;
             this.gbPane.TabStop = false;
             this.gbPane.Text = "Settings";
+            // 
+            // chkNewLight
+            // 
+            this.chkNewLight.AutoSize = true;
+            this.chkNewLight.Location = new System.Drawing.Point(9, 66);
+            this.chkNewLight.Name = "chkNewLight";
+            this.chkNewLight.Size = new System.Drawing.Size(109, 17);
+            this.chkNewLight.TabIndex = 10;
+            this.chkNewLight.Text = "create a new one";
+            this.chkNewLight.UseVisualStyleBackColor = true;
             // 
             // lblOr
             // 
@@ -193,16 +203,6 @@
             this.lblWarning.TabIndex = 9;
             this.lblWarning.Text = "doing this may cause things to go horribly wrong";
             // 
-            // chkNewLight
-            // 
-            this.chkNewLight.AutoSize = true;
-            this.chkNewLight.Location = new System.Drawing.Point(9, 66);
-            this.chkNewLight.Name = "chkNewLight";
-            this.chkNewLight.Size = new System.Drawing.Size(109, 17);
-            this.chkNewLight.TabIndex = 10;
-            this.chkNewLight.Text = "create a new one";
-            this.chkNewLight.UseVisualStyleBackColor = true;
-            // 
             // frmChangeNodeType
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,7 +213,11 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.gbPane);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmChangeNodeType";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Change Node Type...";
             this.Load += new System.EventHandler(this.frmChangeNodeType_Load);
             this.gbPane.ResumeLayout(false);

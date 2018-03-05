@@ -14,7 +14,7 @@ namespace Flummery
         private void lblEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process proc = new Process();
-            proc.StartInfo.FileName = string.Format("mailto:errol@toxic-ragers.co.uk?subject=Flummery v{0}", FlummeryApplication.Version);
+            proc.StartInfo.FileName = $"mailto:errol@toxic-ragers.co.uk?subject=Flummery v{FlummeryApplication.Version}";
             proc.Start();
         }
 
@@ -26,8 +26,13 @@ namespace Flummery
         private void btnUpdateCheck_Click(object sender, EventArgs e)
         {
             frmUpdater updateForm = new frmUpdater();
-            updateForm.checkUpdate();
+            updateForm.CheckUpdate();
             updateForm.ShowDialog(this);
+        }
+
+        private void btnDonate_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://www.paypal.me/errolerrolson/");
         }
     }
 }

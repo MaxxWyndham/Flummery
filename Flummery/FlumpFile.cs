@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace Flummery
@@ -8,7 +7,7 @@ namespace Flummery
     {
         Dictionary<string, string> settings;
 
-        public Dictionary<string, string> Settings { get { return settings; } }
+        public Dictionary<string, string> Settings => settings;
 
         public FlumpFile()
         {
@@ -21,7 +20,7 @@ namespace Flummery
 
             if (File.Exists(path))
             {
-                using (var sr = new StreamReader(path))
+                using (StreamReader sr = new StreamReader(path))
                 {
                     while (!sr.EndOfStream)
                     {
@@ -41,11 +40,11 @@ namespace Flummery
 
         public void Save(string path)
         {
-            using (var sw = new StreamWriter(path))
+            using (StreamWriter sw = new StreamWriter(path))
             {
-                foreach (var kvp in settings)
+                foreach (KeyValuePair<string, string> kvp in settings)
                 {
-                    sw.WriteLine(string.Format("{0}:={1}", kvp.Key, kvp.Value));
+                    sw.WriteLine($"{kvp.Key}:={kvp.Value}");
                 }
             }
         }

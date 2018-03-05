@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 using Flummery.ContentPipeline.Core;
-using Flummery.ContentPipeline.Stainless;
+using Flummery.ContentPipeline.CarmaClassic;
+using Flummery.ContentPipeline.NuCarma;
 using Flummery.Util;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 using ToxicRagers.Carmageddon2.Formats;
+using ToxicRagers.CarmageddonReincarnation.Formats;
+using ToxicRagers.CarmageddonReincarnation.Helpers;
 
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -29,6 +33,9 @@ namespace Flummery
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            CultureInfo.DefaultThreadCurrentCulture = FlummeryApplication.Culture;
+            CultureInfo.DefaultThreadCurrentUICulture = FlummeryApplication.Culture;
+
             Toolkit.Init();
 
             Text += " v" + FlummeryApplication.Version;
@@ -68,25 +75,86 @@ namespace Flummery
             SceneManager.Current.OnError += scene_OnError;
             SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
-            if (Properties.Settings.Default.CheckForUpdates) { CheckUpdate(); }
+            //SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Car);
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Car);
 
             FlummeryApplication.UI = this;
         }
 
-        public void CheckUpdate()
+        private void frmMain_Shown(object sender, EventArgs e)
         {
-            new Updater().Check(FlummeryApplication.Version, finishRequest);
-        }
-
-        private void finishRequest(bool result, Updater.Update[] updates)
-        {
-            if (result == true && updates.Count() > 0)
+            if (Properties.Settings.Default.CheckForUpdates)
             {
-                frmUpdater updateForm = new frmUpdater() { Updates = updates };
-                updateForm.ShowDialog();
+                void finishRequest(bool result, Updater.Update[] updates)
+                {
+                    if (result == true && updates.Count() > 0)
+                    {
+                        frmUpdater updateForm = new frmUpdater() { Updates = updates };
+                        updateForm.ShowDialog();
+                    }
+                }
+
+                new Updater().Check(FlummeryApplication.Version, finishRequest);
             }
+
+            //(new frmMaterialEditor()).Show();
+
+            //(VFXAnchors.Load(@"H:\Carmageddon\MaxDamage\Vehicles\default_vfx_anchors.lol")).Save(@"H:\");
+
+            //Map.Load(@"H:\Backups\D\Carmageddon Installations\Carmageddon 2 - 2009 dickery\data\RACES\timber1\timber1.txt");
+
+            //foreach (string folder in Directory.GetDirectories(@"H:\Carmageddon\MaxDamage\Vehicles\"))
+            //{
+            //    foreach (string file in Directory.GetFiles(folder))
+            //    {
+            //        if (string.Compare(Path.GetExtension(file), ".lol") == 0)
+            //        {
+            //            LOL lol = LOL.Load(file);
+
+            //            File.WriteAllText(file, lol.Document);
+            //        }
+            //    }
+            //}
+
+            //Model m = new Model();
+            //m.AddMesh(new Sphere(0.5f, 25, 25));
+            //SceneManager.Current.Models.Add(m);
+
+            //SceneManager.Current.Change(ChangeType.Munge, -1);
+
+            //var car = new ToxicRagers.Carmageddon.Helpers.DocumentParser(@"D:\Carmageddon Installations\Carmageddon\CARMA\DATA\32X20X8\CARS\ANNIECAR.TXT");
+
+            //TDX tdx = TDX.Load(@"E:\Carmageddon_Reincarnation\Data_Core\Content\Environments\island\Diffuse_D.tdx");
+
+            //ToxicRagers.Stainless.Formats.ZAD zad;
+
+            //for (int i = 0; i < 16; i++)
+            //{
+            //    zad = ToxicRagers.Stainless.Formats.ZAD.Load(string.Format(@"E:\Carmageddon_Reincarnation\ZAD_VT\island\Pages_{0:x1}.zad", i));
+            //    foreach (var entry in zad.Contents.OrderBy(ex => ex.Offset))
+            //    {
+            //        zad.Extract(entry, string.Format(@"E:\island\{0:x1}\", i));
+            //    }
+
+            //    zad = ToxicRagers.Stainless.Formats.ZAD.Create(string.Format(@"E:\island\Pages_{0:x1}.zad", i), ToxicRagers.Stainless.Formats.ZADType.VirtualTexture);
+            //    foreach (string directory in Directory.GetDirectories(string.Format(@"E:\island\{0:x1}\", i))) { zad.AddDirectory(directory); }
+
+            //    zad = ToxicRagers.Stainless.Formats.ZAD.Load(string.Format(@"E:\island\Pages_{0:x1}.zad", i));
+            //    foreach (var entry in zad.Contents)
+            //    {
+            //        zad.Extract(entry, string.Format(@"E:\island\_{0:x1}\", i));
+            //    }
+            //}
+
+            //ToxicRagers.Helpers.IO.LoopDirectoriesIn(@"H:\Carmageddon\MaxDamage\ZADVT\", (d) =>
+            //{
+            //    foreach (FileInfo fi in d.GetFiles("*.tdx"))
+            //    {
+            //        TDX result = TDX.Load(fi.FullName);
+            //        Application.DoEvents();
+            //    }
+            //}
+            //);
         }
 
         void scene_OnProgress(object sender, ProgressEventArgs e)
@@ -140,7 +208,7 @@ namespace Flummery
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
                         Model m = SceneManager.Current.Content.Load<Model, FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
-                        SceneManager.Current.UpdateProgress(string.Format("Imported {0}", Path.GetFileName(ofdBrowse.FileName)));
+                        SceneManager.Current.UpdateProgress($"Imported {Path.GetFileName(ofdBrowse.FileName)}");
                     }
                     break;
 
@@ -268,6 +336,23 @@ namespace Flummery
                         SceneManager.Current.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.SetContext(ContextGame.Carmageddon1, ContextMode.Car);
+
+                        //if (SceneManager.Current.SelectedModel.SupportingDocuments.ContainsKey("Car"))
+                        //{
+                        //    var car = SceneManager.Current.SelectedModel.GetSupportingDocument<ToxicRagers.Carmageddon.Formats.Car>("Car");
+
+                        //    foreach (var point in car.Crushes[1].Points)
+                        //    {
+                        //        Entity entity = new Entity
+                        //        {
+                        //            EntityType = EntityType.Wheel,
+                        //            AssetType = AssetType.Sprite,
+                        //            Transform = Matrix4.CreateTranslation(0, 0.5f, 0)
+                        //        };
+
+                        //        SceneManager.Current.Entities.Add(entity);
+                        //    }
+                        //}
                     }
                     break;
 
@@ -304,7 +389,7 @@ namespace Flummery
                         string txtFile = Path.Combine(Path.GetDirectoryName(ofdBrowse.FileName), Path.GetFileNameWithoutExtension(ofdBrowse.FileName) + ".txt");
 
                         Model race = SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
-                        //if (File.Exists(txtFile)) { race.SupportingDocuments["TXT"] = ToxicRagers.Carmageddon2.Formats.Map.Load(txtFile); }
+                        if (File.Exists(txtFile)) { race.SupportingDocuments["TXT"] = Map.Load(txtFile); }
 
                         SceneManager.Current.SetContext(ContextGame.Carmageddon2, ContextMode.Level);
                     }
@@ -316,7 +401,7 @@ namespace Flummery
 
                         ModelBoneCollection bones = SceneManager.Current.Models[0].Bones[0].AllChildren();
 
-                        SceneManager.Current.UpdateProgress("Applying Carmageddon Reincarnation scale");
+                        SceneManager.Current.UpdateProgress("Applying Carmageddon: Max Damage scale");
 
                         ModelManipulator.Scale(bones, Matrix4.CreateScale(6.9f, 6.9f, -6.9f), true);
                         ModelManipulator.FlipFaces(bones, true);
@@ -357,14 +442,14 @@ namespace Flummery
                                 {
                                     string key = bone.Name.Substring(2, 2);
 
-                                    entity.UniqueIdentifier = "errol_B00BIE" + key + "_" + i.ToString("000");
+                                    entity.UniqueIdentifier = $"errol_B00BIE{key}_{i.ToString("000")}";
                                     entity.EntityType = EntityType.Powerup;
 
                                     ToxicRagers.Carmageddon2.C2Powerup pup = ToxicRagers.Carmageddon2.Powerups.LookupID(int.Parse(key));
 
                                     if (pup.InCR)
                                     {
-                                        entity.Name = "pup_" + pup.Name;
+                                        entity.Name = $"pup_{pup.Name}";
                                         entity.Tag = pup.Model;
                                     }
                                     else
@@ -376,9 +461,9 @@ namespace Flummery
                                 else
                                 {
                                     // accessory
-                                    entity.UniqueIdentifier = "errol_HEAD00" + bone.Name.Substring(1, 2) + "_" + i.ToString("000");
+                                    entity.UniqueIdentifier = $"errol_HEAD00{bone.Name.Substring(1, 2)}_{i.ToString("000")}";
                                     entity.EntityType = EntityType.Accessory;
-                                    entity.Name = "C2_" + bone.Mesh.Name.Substring(3);
+                                    entity.Name = $"C2_{bone.Mesh.Name.Substring(3)}";
                                 }
 
                                 entity.Transform = bone.CombinedTransform;
@@ -389,11 +474,25 @@ namespace Flummery
                             }
                         }
 
+                        if (SceneManager.Current.Models[0].SupportingDocuments.ContainsKey("TXT"))
+                        {
+                            Map map = SceneManager.Current.Models[0].GetSupportingDocument<Map>("TXT");
+
+                            Entity entity = new Entity
+                            {
+                                EntityType = EntityType.Grid,
+                                AssetType = AssetType.Sprite,
+                                Transform = Matrix4.CreateTranslation(map.GridPosition.X * 6.9f, map.GridPosition.Y * 6.9f, map.GridPosition.Z * -6.9f)
+                            };
+
+                            SceneManager.Current.Entities.Add(entity);
+                        }
+
                         SceneManager.Current.UpdateProgress("Processing complete!");
 
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
-                        SceneManager.Current.Change(ChangeType.Munge, -1);
+                        SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
 
                         SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Level);
                     }
@@ -504,7 +603,7 @@ namespace Flummery
 
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
 
-                        SceneManager.Current.Change(ChangeType.Munge, -1);
+                        SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
 
                         SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Car);
                     }
@@ -523,7 +622,6 @@ namespace Flummery
                     break;
             }
         }
-
 
         private void openContent(string filter)
         {
@@ -556,7 +654,7 @@ namespace Flummery
 
                         if (File.Exists(accessorytxt))
                         {
-                            accessory.SupportingDocuments["Accessory"] = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(accessorytxt);
+                            accessory.SupportingDocuments["Accessory"] = Accessory.Load(accessorytxt);
                         }
 
                         SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Accessory);
@@ -565,10 +663,12 @@ namespace Flummery
 
                 case "Environment":
                     openContent("Carmageddon ReinCARnation Environment files (level.cnt)|level.cnt");
+                    SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Level);
                     break;
 
                 case "Pedestrian":
                     openContent("Carmageddon ReinCARnation Pedestrians (bodyform.cnt)|bodyform.cnt");
+                    SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Ped);
                     break;
 
                 case "Vehicle":
@@ -579,13 +679,59 @@ namespace Flummery
                         SceneManager.Current.Reset();
 
                         string assetFolder = Path.GetDirectoryName(ofdBrowse.FileName) + "\\";
+
                         Model vehicle = (Model)SceneManager.Current.Add(SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileName(ofdBrowse.FileName), assetFolder));
 
                         // Load supporting documents
-                        if (File.Exists(assetFolder + "setup.lol")) { vehicle.SupportingDocuments["Setup"] = ToxicRagers.CarmageddonReincarnation.Formats.Setup.Load(assetFolder + "setup.lol"); }
-                        if (File.Exists(assetFolder + "Structure.xml")) { vehicle.SupportingDocuments["Structure"] = ToxicRagers.CarmageddonReincarnation.Formats.Structure.Load(assetFolder + "Structure.xml"); }
-                        if (File.Exists(assetFolder + "SystemsDamage.xml")) { vehicle.SupportingDocuments["SystemsDamage"] = ToxicRagers.CarmageddonReincarnation.Formats.SystemsDamage.Load(assetFolder + "SystemsDamage.xml"); }
-                        if (File.Exists(assetFolder + "vehicle_setup.cfg")) { vehicle.SupportingDocuments["VehicleSetupConfig"] = ToxicRagers.CarmageddonReincarnation.Formats.VehicleSetupConfig.Load(assetFolder + "vehicle_setup.cfg"); }
+                        if (File.Exists(assetFolder + "setup.lol")) { vehicle.SupportingDocuments["Setup"] = Setup.Load(assetFolder + "setup.lol"); }
+                        if (File.Exists(assetFolder + "Structure.xml"))
+                        {
+                            List<string> findMaterials(StructurePart part)
+                            {
+                                List<string> materials = new List<string>();
+
+                                materials.AddRange(part.DamageSettings.Methods.Where(m => m.Name == "CrushDamageMaterial" && m.HasBeenSet).Select(m => m.Parameters[2].Value.ToString()));
+
+                                foreach (StructurePart child in part.Parts)
+                                {
+                                    materials.AddRange(findMaterials(child));
+                                }
+
+                                return materials;
+                            }
+
+                            Structure structure = Structure.Load(assetFolder + "Structure.xml");
+
+                            foreach (string material in findMaterials(structure.Root))
+                            {
+                                SceneManager.Current.Content.Load<Material, MT2Importer>(material, assetFolder, true);
+                            }
+
+                            vehicle.SupportingDocuments["Structure"] = structure;
+                        }
+
+                        if (File.Exists(assetFolder + "SystemsDamage.xml")) { vehicle.SupportingDocuments["SystemsDamage"] = SystemsDamage.Load(assetFolder + "SystemsDamage.xml"); }
+
+                        if (File.Exists(assetFolder + "vehicle_setup.cfg"))
+                        {
+                            vehicle.SupportingDocuments["VehicleSetupConfig"] = VehicleSetupConfig.Load(assetFolder + "vehicle_setup.cfg");
+
+                            foreach (VehicleMaterialMap materialMap in vehicle.GetSupportingDocument<VehicleSetupConfig>("VehicleSetupConfig").MaterialMaps)
+                            {
+                                foreach (KeyValuePair<string, string> kvp in materialMap.Substitutions)
+                                {
+                                    SceneManager.Current.Content.Load<Material, MT2Importer>(kvp.Value, assetFolder, true);
+                                }
+                            }
+                        }
+
+                        if (File.Exists(assetFolder + "vehicle_setup.lol")) { vehicle.SupportingDocuments["VehicleSetup"] = VehicleSetup.Load(assetFolder + "vehicle_setup.lol"); }
+                        if (File.Exists(assetFolder + "vfx_anchors.lol")) { vehicle.SupportingDocuments["VFXAnchors"] = VFXAnchors.Load(assetFolder + "vfx_anchors.lol"); }
+
+                        if (File.Exists(assetFolder + "collision.cnt")) { vehicle.SupportingDocuments["Collision"] = SceneManager.Current.Content.Load<Model, CNTImporter>("collision.cnt", assetFolder); }
+                        if (File.Exists(assetFolder + "opponent_collision.cnt")) { vehicle.SupportingDocuments["OpponentCollision"] = SceneManager.Current.Content.Load<Model, CNTImporter>("opponent_collision.cnt", assetFolder); }
+
+                        //if (File.Exists(assetFolder + "CrashSoundsConfig_Car.xml")) { vehicle.SupportingDocuments["SystemsDamage"] = SystemsDamage.Load(assetFolder + "SystemsDamage.xml"); }
 
                         foreach (ModelBone bone in vehicle.Bones)
                         {
@@ -617,6 +763,7 @@ namespace Flummery
                 case "Accessory.txt files":
                 case "Routes.txt files":
                 case "vehicle_setup.cfg files":
+                case "vehicle_setup.lol files":
                 case "Structure.xml files":
                 case "SystemsDamage.xml files":
                 case "Setup.lol files":
@@ -833,15 +980,15 @@ namespace Flummery
                                 break;
 
                             case "mt2":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.MT2.Load(fi.FullName);
+                                result = MT2.Load(fi.FullName);
                                 break;
 
                             case "tdx":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(fi.FullName);
+                                result = TDX.Load(fi.FullName);
                                 break;
 
                             case "light":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.LIGHT.Load(fi.FullName);
+                                result = LIGHT.Load(fi.FullName);
                                 break;
 
                             case "xt2":
@@ -849,27 +996,31 @@ namespace Flummery
                                 break;
 
                             case "accessory.txt":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(fi.FullName);
+                                result = Accessory.Load(fi.FullName);
                                 break;
 
                             case "routes.txt":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.Routes.Load(fi.FullName);
+                                result = Routes.Load(fi.FullName);
                                 break;
 
                             case "vehicle_setup.cfg":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.VehicleSetupConfig.Load(fi.FullName);
+                                result = VehicleSetupConfig.Load(fi.FullName);
+                                break;
+
+                            case "vehicle_setup.lol":
+                                result = VehicleSetup.Load(fi.FullName);
                                 break;
 
                             case "structure.xml":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.Structure.Load(fi.FullName);
+                                result = Structure.Load(fi.FullName);
                                 break;
 
                             case "systemsdamage.xml":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.SystemsDamage.Load(fi.FullName);
+                                result = SystemsDamage.Load(fi.FullName);
                                 break;
 
                             case "setup.lol":
-                                result = ToxicRagers.CarmageddonReincarnation.Formats.Setup.Load(fi.FullName);
+                                result = Setup.Load(fi.FullName);
                                 break;
 
                             case "txt":
@@ -927,7 +1078,7 @@ namespace Flummery
                         }
                     }
 
-                    SceneManager.Current.Change(ChangeType.Munge, -1);
+                    SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
                     break;
             }
         }
@@ -1059,7 +1210,7 @@ namespace Flummery
 
                     if (addNew.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Add, addNew.NewBoneKey, modelBoneKey);
+                        SceneManager.Current.Change(ChangeType.Add, ChangeContext.Model, addNew.NewBoneKey, modelBoneKey);
                     }
                     break;
 
@@ -1069,7 +1220,7 @@ namespace Flummery
 
                     if (removeObject.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Delete, modelBoneKey, removeObject.RemovedBone);
+                        SceneManager.Current.Change(ChangeType.Delete, ChangeContext.Model, modelBoneKey, removeObject.RemovedBone);
                     }
                     break;
 
@@ -1079,7 +1230,7 @@ namespace Flummery
 
                     if (geometry.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Transform, modelBoneKey);
+                        SceneManager.Current.Change(ChangeType.Transform, ChangeContext.Model, modelBoneKey);
                     }
                     break;
 
@@ -1089,7 +1240,7 @@ namespace Flummery
 
                     if (transform.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Transform, modelBoneKey);
+                        SceneManager.Current.Change(ChangeType.Transform, ChangeContext.Model, modelBoneKey);
                     }
                     break;
 
@@ -1099,7 +1250,7 @@ namespace Flummery
 
                     if (rename.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.Rename, modelBoneKey, rename.NewName);
+                        SceneManager.Current.Change(ChangeType.Rename, ChangeContext.Model, modelBoneKey, rename.NewName);
                     }
                     break;
 
@@ -1109,7 +1260,7 @@ namespace Flummery
 
                     if (changeType.ShowDialog(this) == DialogResult.OK)
                     {
-                        SceneManager.Current.Change(ChangeType.ChangeType, modelBoneKey);
+                        SceneManager.Current.Change(ChangeType.ChangeType, ChangeContext.Model, modelBoneKey);
                     }
                     break;
 
@@ -1167,51 +1318,6 @@ namespace Flummery
         private void frmMain_Resize(object sender, EventArgs e)
         {
             FlummeryApplication.Active = (WindowState != FormWindowState.Minimized);
-        }
-
-        private void frmMain_Shown(object sender, EventArgs e)
-        {
-            //foreach (string file in Directory.GetFiles(@"G:\Carmageddon_Reincarnation\Data_Core\Content\Shaders\scripts"))
-            //{
-            //    if (Path.GetExtension(file) == ".lol")
-            //    {
-            //        var lol = ToxicRagers.CarmageddonReincarnation.Formats.LOL.Load(file);
-
-            //        File.WriteAllText(Path.Combine(Path.GetDirectoryName(file), "lua", Path.GetFileName(file)), lol.Document);
-            //    }
-            //}
-
-            //Model m = new Model();
-            //m.AddMesh(new Sphere(0.5f, 25, 25));
-            //SceneManager.Current.Models.Add(m);
-
-            //SceneManager.Current.Change(ChangeType.Munge, -1);
-
-            //var car = new ToxicRagers.Carmageddon.Helpers.DocumentParser(@"D:\Carmageddon Installations\Carmageddon\CARMA\DATA\32X20X8\CARS\ANNIECAR.TXT");
-
-            //ToxicRagers.CarmageddonReincarnation.Formats.TDX tdx = ToxicRagers.CarmageddonReincarnation.Formats.TDX.Load(@"E:\Carmageddon_Reincarnation\Data_Core\Content\Environments\island\Diffuse_D.tdx");
-
-            //ToxicRagers.Stainless.Formats.ZAD zad;
-
-            //for (int i = 0; i < 16; i++)
-            //{
-            //    zad = ToxicRagers.Stainless.Formats.ZAD.Load(string.Format(@"E:\Carmageddon_Reincarnation\ZAD_VT\island\Pages_{0:x1}.zad", i));
-            //    foreach (var entry in zad.Contents.OrderBy(ex => ex.Offset))
-            //    {
-            //        zad.Extract(entry, string.Format(@"E:\island\{0:x1}\", i));
-            //    }
-
-            //    zad = ToxicRagers.Stainless.Formats.ZAD.Create(string.Format(@"E:\island\Pages_{0:x1}.zad", i), ToxicRagers.Stainless.Formats.ZADType.VirtualTexture);
-            //    foreach (string directory in Directory.GetDirectories(string.Format(@"E:\island\{0:x1}\", i))) { zad.AddDirectory(directory); }
-
-            //    zad = ToxicRagers.Stainless.Formats.ZAD.Load(string.Format(@"E:\island\Pages_{0:x1}.zad", i));
-            //    foreach (var entry in zad.Contents)
-            //    {
-            //        zad.Extract(entry, string.Format(@"E:\island\_{0:x1}\", i));
-            //    }
-            //}
-
-            Console.WriteLine("Done");
         }
     }
 }

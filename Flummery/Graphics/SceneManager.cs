@@ -19,34 +19,33 @@ namespace Flummery
         ChangeType
     }
 
+    public enum ChangeContext
+    {
+        Model,
+        Material
+    }
+
     public enum ContextGame
     {
+        None,
         Carmageddon1,
         Carmageddon2,
         CarmageddonTDR2000,
         CarmageddonReincarnation
     }
 
+    // These values correspond with the index of icons in ilNodeIcons
     public enum ContextMode
     {
-        Generic,
-        Accessory,
-        Car,
-        Level,
-        Ped
+        Generic = 0,
+        Accessory = 4,
+        Car = 5,
+        Level = 6,
+        Ped = 7
     }
 
     public class SceneManager
     {
-        public enum RenderMeshMode
-        {
-            Solid,
-            SolidWireframe,
-            Wireframe,
-            VertexColour,
-            Count
-        }
-
         public enum CoordinateSystem
         {
             LeftHanded,
@@ -59,7 +58,9 @@ namespace Flummery
         int selectedModelIndex = 0;
         BoundingBox bb = null;
 
-        RenderMeshMode renderMode = RenderMeshMode.Solid;
+        List<IRenderMode> renderModes = new List<IRenderMode>();
+        int currentRenderMode = 0;
+
         List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
         MaterialList materials = new MaterialList();
@@ -80,7 +81,7 @@ namespace Flummery
 
         public bool CanUseVertexBuffer => bVertexBuffer;
         public ContentManager Content => content;
-        public RenderMeshMode RenderMode => renderMode;
+        public IRenderMode RenderMode => renderModes[currentRenderMode];
 
         public List<Entity> Entities => entities;
         public List<Model> Models => models;
@@ -99,9 +100,8 @@ namespace Flummery
             }
         }
 
-        public ContextGame CurrentGame => currentGame;
-
-        public ContextMode CurrentMode => currentMode;
+        public ContextGame Game => currentGame;
+        public ContextMode Mode => currentMode;
 
         public int SelectedModelIndex => selectedModelIndex;
         public int SelectedBoneIndex => selectedBoneIndex;
@@ -110,6 +110,7 @@ namespace Flummery
         public delegate void ResetHandler(object sender, ResetEventArgs e);
         public delegate void AddHandler(object sender, AddEventArgs e);
         public delegate void SelectHandler(object sender, SelectEventArgs e);
+        public delegate void SelectRootHandler(object sender, SelectRootEventArgs e);
         public delegate void ChangeHandler(object sender, ChangeEventArgs e);
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
         public delegate void ErrorHandler(object sender, ErrorEventArgs e);
@@ -118,6 +119,7 @@ namespace Flummery
         public event ResetHandler OnReset;
         public event AddHandler OnAdd;
         public event SelectHandler OnSelect;
+        public event SelectRootHandler OnSelectRoot;
         public event ChangeHandler OnChange;
         public event ProgressHandler OnProgress;
         public event ErrorHandler OnError;
@@ -149,6 +151,14 @@ namespace Flummery
             ((Model)node.Asset).AddMesh(sphere);
             ((Model)node.Asset).SetRenderStyle(RenderStyle.Wireframe);
             entities.Add(node);
+
+            renderModes.Add(new Solid());
+            renderModes.Add(new Wireframe());
+            renderModes.Add(new SolidWireframe());
+            renderModes.Add(new VertexColour());
+
+            // these will be registered by the plugins eventuallly
+            renderModes.Add(new CrushData());
 
             InputManager.Current.RegisterBinding('d', KeyBinding.KeysClearSelection, ClearBoundingBox);
             InputManager.Current.RegisterBinding('w', KeyBinding.KeysRenderMode, CycleRenderMode);
@@ -201,9 +211,9 @@ namespace Flummery
             return asset;
         }
 
-        public void Change(ChangeType type, int index, object additionalInfo = null)
+        public void Change(ChangeType type, ChangeContext context, int index, object additionalInfo = null)
         {
-            OnChange?.Invoke(this, new ChangeEventArgs(type, index, additionalInfo));
+            OnChange?.Invoke(this, new ChangeEventArgs(type, context, index, additionalInfo));
         }
 
         public void SetContext(ContextGame game)
@@ -271,8 +281,12 @@ namespace Flummery
 
         public void CycleRenderMode()
         {
-            renderMode = (RenderMeshMode)((int)renderMode + 1);
-            if (renderMode == RenderMeshMode.Count) { renderMode = RenderMeshMode.Solid; }
+            do
+            {
+                currentRenderMode++;
+                if (currentRenderMode == renderModes.Count) { currentRenderMode = 0; }
+            }
+            while (!renderModes[currentRenderMode].IsValid());
         }
 
         public void Reset()
@@ -378,7 +392,11 @@ namespace Flummery
 
         public void SetSelectedBone(int modelIndex, int boneIndex)
         {
-            if (modelIndex == -1) { return; }
+            if (modelIndex == -1)
+            {
+                if (boneIndex == -1) { OnSelectRoot?.Invoke(this, new SelectRootEventArgs()); }
+                return;
+            }
 
             selectedModelIndex = modelIndex;
             selectedBoneIndex = boneIndex;
@@ -416,15 +434,23 @@ namespace Flummery
         }
     }
 
+    public class SelectRootEventArgs : EventArgs
+    {
+        public ContextMode Mode => SceneManager.Current.Mode;
+        public ContextGame Game => SceneManager.Current.Game;
+    }
+
     public class ChangeEventArgs : EventArgs
     {
         public ChangeType Change { get; private set; }
+        public ChangeContext Context { get; private set; }
         public int Index { get; private set; }
         public object AdditionalInformation { get; private set; }
 
-        public ChangeEventArgs(ChangeType type, int index, object additionalInfo = null)
+        public ChangeEventArgs(ChangeType type, ChangeContext context, int index, object additionalInfo = null)
         {
             Change = type;
+            Context = context;
             Index = index;
             AdditionalInformation = additionalInfo;
         }

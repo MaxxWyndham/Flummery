@@ -4,11 +4,11 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline.Stainless;
+using Flummery.ContentPipeline.NuCarma;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
-
-using OpenTK;
+using ToxicRagers.CarmageddonReincarnation.Formats.Materials;
+using ToxicRagers.Stainless.Formats;
 
 namespace Flummery
 {
@@ -42,7 +42,7 @@ namespace Flummery
             if (fbdBrowse.ShowDialog() == DialogResult.OK)
             {
                 if (!Directory.Exists(fbdBrowse.SelectedPath)) { Directory.CreateDirectory(fbdBrowse.SelectedPath); }
-                txtPath.Text = fbdBrowse.SelectedPath + "\\";
+                txtPath.Text = fbdBrowse.SelectedPath;
 
                 setLevel();
 
@@ -63,7 +63,7 @@ namespace Flummery
                 btnOK.Enabled = true;
             }
 
-            flump = FlumpFile.Load(txtPath.Text + "level.flump");
+            flump = FlumpFile.Load(Path.Combine(txtPath.Text, "level.flump"));
             txtPrettyLevelName.Text = (flump.Settings.ContainsKey("level.pretty.name") ? flump.Settings["level.pretty.name"] : "");
             txtRaceName.Text = (flump.Settings.ContainsKey("level.race.name") ? flump.Settings["level.race.name"] : "");
 
@@ -95,7 +95,7 @@ namespace Flummery
             lblProgress.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             progressMax = 30;
 
-            (new CNTExporter()).Export(SceneManager.Current.Models[0], txtPath.Text + "level.cnt");
+            (new CNTExporter()).Export(SceneManager.Current.Models[0], Path.Combine(txtPath.Text, "level.cnt"));
             (new MDLExporter()).Export(SceneManager.Current.Models[0], txtPath.Text);
 
             lblProgress.Text = "✓";
@@ -110,26 +110,20 @@ namespace Flummery
             lblProgress.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             progressMax = 50;
 
-            var textures = new List<string>();
+            List<string> textures = new List<string>();
 
-            foreach (var material in SceneManager.Current.Materials)
+            foreach (Material material in SceneManager.Current.Materials)
             {
-                string fileName = txtPath.Text + "\\" + material.Texture.Name;
+                string fileName = Path.Combine(txtPath.Text, "NON_VT", material.Texture.Name);
 
                 if (!textures.Contains(material.Texture.Name))
                 {
-                    if (!File.Exists(fileName + ".tdx"))
+                    if (!File.Exists($"{fileName}.tdx"))
                     {
-                        var tx = new TDXExporter();
+                        TDXExporter tx = new TDXExporter();
                         tx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
-                        tx.Export(material.Texture, txtPath.Text);
+                        tx.Export(material.Texture, Path.Combine(txtPath.Text, "NON_VT"));
                     }
-
-                    //if (!File.Exists(fileName + ".img"))
-                    //{
-                    //    var tx = new IMGExporter();
-                    //    tx.Export(material.Texture, txtPath.Text);
-                    //}
 
                     textures.Add(material.Texture.Name);
                 }
@@ -147,15 +141,18 @@ namespace Flummery
             lblProgress.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             progressMax = 60;
 
-            foreach (var material in SceneManager.Current.Materials)
+            foreach (Material material in SceneManager.Current.Materials)
             {
-                string fileName = Path.Combine(txtPath.Text, material.Name + ".mt2");
+                string fileName = Path.Combine(txtPath.Text, $"{material.Name}.mt2");
 
                 if (!File.Exists(fileName))
                 {
-                    var simple = new ToxicRagers.CarmageddonReincarnation.Formats.Materials.simple_base();
-                    simple.DiffuseColour = material.Texture.Name;
-                    simple.Walkable = Troolean.True;
+                    simple_base simple = new simple_base
+                    {
+                        DiffuseColour = material.Texture.Name,
+                        Walkable = Troolean.True
+                    };
+
                     simple.Save(fileName);
                 }
             }
@@ -185,8 +182,8 @@ namespace Flummery
             using (StreamWriter w = File.CreateText(Path.Combine(txtPath.Text, "environment.lol")))
             {
                 w.WriteLine("module((...), environment_config, package.seeall)");
-                w.WriteLine(string.Format(@"txt[""fe_environment_{0}""] = ""{1}""", txtLevel.Text.ToLower(), txtPrettyLevelName.Text));
-                w.WriteLine(string.Format("name = txt.fe_environment_{0}", txtLevel.Text.ToLower()));
+                w.WriteLine($@"txt[""fe_environment_{txtLevel.Text.ToLower()}""] = ""{txtPrettyLevelName.Text}""");
+                w.WriteLine($"name = txt.fe_environment_{txtLevel.Text.ToLower()}");
             }
 
             using (StreamWriter w = File.CreateText(Path.Combine(txtPath.Text, "environment.txt")))
@@ -210,10 +207,10 @@ namespace Flummery
                 w.WriteLine("Pretty sure this doesn't show up in the UI anymore");
                 w.WriteLine();
                 w.WriteLine("[RACE_IMAGES]");
-                w.WriteLine("race\\" + level + "_01");
+                w.WriteLine($"race\\{level}_01");
                 w.WriteLine();
                 w.WriteLine("[RACE_BACKGROUNDS]");
-                w.WriteLine("race\\" + level + "_01");
+                w.WriteLine($"race\\{level}_01");
                 w.WriteLine();
                 w.WriteLine("[VERSION]");
                 w.WriteLine("2.500000");
@@ -240,18 +237,18 @@ namespace Flummery
 
                         for (int i = 0; i < SceneManager.Current.Entities.Count; i++)
                         {
-                            var entity = SceneManager.Current.Entities[i];
-                            var w = (entity.EntityType == EntityType.Accessory ? wacc : wpup);
+                            Entity entity = SceneManager.Current.Entities[i];
+                            StreamWriter w = (entity.EntityType == EntityType.Accessory || entity.EntityType == EntityType.Grid ? wacc : wpup);
 
-                            w.WriteLine("\t" + (entity.UniqueIdentifier != null ? entity.UniqueIdentifier : "entity" + i.ToString("0000")) + " = {");
-                            w.WriteLine("\t\ttype = \"" + entity.Name + "\",");
-                            if (entity.EntityType == EntityType.Powerup) { w.WriteLine("\t\tname = \"" + entity.Tag + "\","); }
+                            w.WriteLine($"\t{(entity.UniqueIdentifier ?? $"entity{i.ToString("0000")}")} = {{");
+                            w.WriteLine($"\t\ttype = \"{entity.Name}\",");
+                            if (entity.EntityType == EntityType.Powerup) { w.WriteLine($"\t\tname = \"{entity.Tag}\","); }
                             w.WriteLine("\t\tlayer = \"race01\",");
                             w.WriteLine("\t\ttransform = {");
-                            w.WriteLine("\t\t\t{" + entity.Transform.M11 + "," + entity.Transform.M21 + "," + entity.Transform.M31 + "},");
-                            w.WriteLine("\t\t\t{" + entity.Transform.M12 + "," + entity.Transform.M22 + "," + entity.Transform.M32 + "},");
-                            w.WriteLine("\t\t\t{" + entity.Transform.M13 + "," + entity.Transform.M23 + "," + entity.Transform.M33 + "},");
-                            w.WriteLine("\t\t\t{" + entity.Transform.M41 + "," + entity.Transform.M42 + "," + entity.Transform.M43 + "}");
+                            w.WriteLine($"\t\t\t{{{entity.Transform.M11},{entity.Transform.M21},{entity.Transform.M31}}},");
+                            w.WriteLine($"\t\t\t{{{entity.Transform.M12},{entity.Transform.M22},{entity.Transform.M32}}},");
+                            w.WriteLine($"\t\t\t{{{entity.Transform.M13},{entity.Transform.M23},{entity.Transform.M33}}},");
+                            w.WriteLine($"\t\t\t{{{entity.Transform.M41},{entity.Transform.M42},{entity.Transform.M43}}},");
                             w.WriteLine("\t\t},");
                             w.WriteLine("\t\tcolour = { 255, 255, 255 }");
                             w.Write("\t}");
@@ -280,90 +277,121 @@ namespace Flummery
             {
                 w.WriteLine("view:loadSky(\"sky\")");
                 w.WriteLine("view:loadLight(\"sun\")");
-                w.WriteLine("view:loadPostFX(\"post_process." + txtLevel.Text.ToLower().Replace(" ", "_") + "\")");
+                w.WriteLine($"view:loadPostFX(\"post_process.{txtLevel.Text.ToLower().Replace(" ", "_")}\")");
                 //w.WriteLine("view:loadShProbes(\"Reprocessor\")");
-                w.WriteLine("if view.setBigShadowMapAutoFitEnabled ~= nil then");
-                w.WriteLine("  view:setBigShadowMapAutoFitEnabled(false)");
-                w.WriteLine("  view:setBigShadowMapResolution(2048, 2048)");
-                w.WriteLine("  view:setUseBigShadowMapBeyondShadowEnd(true)");
-                w.WriteLine("end");
-                w.WriteLine("view:setVehicleAmbientShadowStrength(0.6, 0.6, 0.6)");
-                w.WriteLine("view:setDynamicCubeMapClippingPlanes(0.1, 60)");
-                w.WriteLine("view:setClippingPlanes(0.3, 1300)");
-                w.WriteLine("view:setAmbient(100, 70, 50)");
-                w.WriteLine("view:setSphericalHarmonicsScale(1)");
-                w.WriteLine("view:setFogEnabled(true)");
-                w.WriteLine("view:setFogColour(240, 240, 300)");
-                w.WriteLine("view:setFogStart(0)");
-                w.WriteLine("view:setFogEnd(500)");
-                w.WriteLine("view:setFogAlphaStart(0)");
-                w.WriteLine("view:setFogAlphaEnd(200)");
-                w.WriteLine("view:setUnderwaterAmbient(50, 60, 60)");
-                w.WriteLine("view:setUnderwaterFogEnabled(true)");
-                w.WriteLine("view:setUnderwaterFogColour(80, 90, 120)");
-                w.WriteLine("view:setUnderwaterFogStart(0)");
-                w.WriteLine("view:setUnderwaterFogEnd(16)");
-                w.WriteLine("view:setUnderwaterFogAlphaStart(0)");
-                w.WriteLine("view:setUnderwaterFogAlphaEnd(200)");
-                w.WriteLine("view:setAOSampleOffset(1)");
-                w.WriteLine("view:setAOBlur(true)");
-                w.WriteLine("view:setAOBilateralSensitivity(100)");
-                w.WriteLine("view:setAOBias(0.5)");
-                w.WriteLine("view:setAOPowerExponent(2)");
-                w.WriteLine("view:setShadowBias(1E-06)");
-                w.WriteLine("view:setShadowSlopeBias(2)");
-                w.WriteLine("view:setShadowMapCount(4)");
-                w.WriteLine("view:setShadowMapPoolStats(\"1:1024:1024:8\")");
-                w.WriteLine("view:setShadowMapPoolAllocateBestAvailable(false)");
-                w.WriteLine("view:setShadowSplitResolution(1024, 1024)");
-                w.WriteLine("view:setShadowSplitManualUse(false)");
-                w.WriteLine("view:setShadowSplitDistribution(0.8)");
-                w.WriteLine("view:setShadowEnd(200)");
-                w.WriteLine("track:setSplashColour(\"\", 255, 255, 255, 102)");
+                w.WriteLine(@"
+                    if view.setBigShadowMapAutoFitEnabled ~= nil then
+                      view:setBigShadowMapAutoFitEnabled(false)
+                      view:setBigShadowMapResolution(2048, 2048)
+                      view:setUseBigShadowMapBeyondShadowEnd(true)
+                    end
+                    view.VehicleAmbientShadowStrength = {
+                      1,
+                      1,
+                      1
+                    }
+                    view.DynamicCubeMapClippingPlanes = {0.1, 120}
+                    view.ClippingPlanes = {0.3, 700}
+                    view.Ambient = {
+                      28,
+                      22,
+                      16
+                    }
+                    view.SphericalHarmonicsScale = 0.25
+                    view.FogEnabled = true
+                    view.FogColour = {
+                      120,
+                      130,
+                      150
+                    }
+                    view.FogStart = 0
+                    view.FogEnd = 900
+                    view.FogAlphaStart = 0
+                    view.FogAlphaEnd = 0
+                    view.UnderwaterAmbient = {
+                      51,
+                      102,
+                      204
+                    }
+                    view.UnderwaterFogEnabled = true
+                    view.UnderwaterFogColour = {
+                      32,
+                      96,
+                      128
+                    }
+                    view.UnderwaterFogStart = 0
+                    view.UnderwaterFogEnd = 120
+                    view.UnderwaterFogAlphaStart = 0
+                    view.UnderwaterFogAlphaEnd = 0
+                    view.AOSampleOffset = 0.5
+                    view.AOBlur = true
+                    view.AOBilateralSensitivity = 8
+                    view.AOBias = 0.01
+                    view.AOScale = 0.5
+                    view.AOPowerExponent = 6
+                    view.ShadowBias = 0.0001
+                    view.ShadowSlopeBias = 2
+                    view.NumShadowMaps = 4
+                    view.ShadowMapPoolStats = ""1:1024:1024:8""
+                    view.ShadowSplitResolution = { 1024, 1024}
+                    view.ShadowSplitManualUse = false
+                    view.ShadowSplitDistribution = 0.8
+                    view.ShadowEnd = 160
+                    view.SunPos = {
+                      0,
+                      3536,
+                      -3536
+                    }
+                    track:setSubstanceTyreParticles(""ROAD_TARMAC"", ""Effect"", ""w_kick_dusty_dirt_track"")
+                    track:setSubstanceTyreParticles(""RACE_TARMAC"", ""Effect"", ""w_kick_dusty_dirt_track"")
+                    track:setSplashColour("""", 255, 255, 255, 255)
+                ");
             }
 
             if (!File.Exists(Path.Combine(txtPath.Text, "sun.light")))
             {
-                var sun = new ToxicRagers.CarmageddonReincarnation.Formats.LIGHT();
-
-                sun.Type = LIGHT.LightType.Directional;
-                sun.Range = 100;
-                sun.Inner = 22.5f;
-                sun.Outer = 45;
-                sun.R = 234 / 255.0f;
-                sun.G = 202 / 255.0f;
-                sun.B = 149 / 255.0f;
-                sun.Intensity = 1.0f;
-                sun.Flags = LIGHT.LightFlags.CastShadow;
-                sun.SplitCount = 4;
-                sun.SplitDistribution = 0.8f;
-                sun.ShadowResolutionX = 1024;
-                sun.ShadowResolutionY = 1024;
-                sun.ShadowIntensity = 1;
-                sun.GoboScaleX = 1;
-                sun.GoboScaleY = 1;
-                sun.ShadowBias = 0.00001f;
-                sun.LightNearClip = 1;
-                sun.ShadowDistance = 160;
-                sun.UseEdgeColour = true;
-                sun.EdgeColourR = 121;
-                sun.EdgeColourG = 121;
-                sun.EdgeColourB = 121;
+                LIGHT sun = new LIGHT
+                {
+                    Type = LIGHT.LightType.Directional,
+                    Range = 100,
+                    Inner = 22.5f,
+                    Outer = 45,
+                    R = 234 / 255.0f,
+                    G = 202 / 255.0f,
+                    B = 149 / 255.0f,
+                    Intensity = 1.0f,
+                    Flags = LIGHT.LightFlags.CastShadow | LIGHT.LightFlags.Unknown8,
+                    SplitCount = 4,
+                    SplitDistribution = 0.8f,
+                    ShadowResolutionX = 1024,
+                    ShadowResolutionY = 1024,
+                    ShadowIntensity = 1,
+                    GoboScaleX = 1,
+                    GoboScaleY = 1,
+                    ShadowBias = 0.00001f,
+                    LightNearClip = 1,
+                    ShadowDistance = 160,
+                    UseEdgeColour = true,
+                    EdgeColourR = 121,
+                    EdgeColourG = 121,
+                    EdgeColourB = 121
+                };
 
                 sun.Save(Path.Combine(txtPath.Text, "sun.light"));
             }
 
             if (!File.Exists(Path.Combine(txtPath.Text, "sun.cnt")))
             {
-                var cnt = new ToxicRagers.Stainless.Formats.CNT();
-
-                cnt.Name = "sun";
-                cnt.Transform = ToxicRagers.Helpers.Matrix3D.CreateRotationZ(-119.520f) *
-                                ToxicRagers.Helpers.Matrix3D.CreateRotationY(  46.042f) *
-                                ToxicRagers.Helpers.Matrix3D.CreateRotationX( 112.176f);
-                cnt.Section = ToxicRagers.Stainless.Formats.CNT.NodeType.LITg;
-                cnt.EmbeddedLight = false;
-                cnt.LightName = "sun";
+                CNT cnt = new CNT
+                {
+                    Name = "sun",
+                    Transform = ToxicRagers.Helpers.Matrix3D.CreateRotationZ(-119.520f) *
+                                ToxicRagers.Helpers.Matrix3D.CreateRotationY(46.042f) *
+                                ToxicRagers.Helpers.Matrix3D.CreateRotationX(112.176f),
+                    Section = CNT.NodeType.LITg,
+                    EmbeddedLight = false,
+                    LightName = "sun"
+                };
 
                 cnt.Save(Path.Combine(txtPath.Text, "sun.cnt"));
             }
@@ -373,10 +401,10 @@ namespace Flummery
                 Directory.CreateDirectory(Path.Combine(txtPath.Text, "post_process"));
             }
 
-            if (!File.Exists(Path.Combine(txtPath.Text, "post_process", txtLevel.Text.ToLower().Replace(" ", "_") + ".lol")))
+            if (!File.Exists(Path.Combine(txtPath.Text, "post_process", $"{txtLevel.Text.ToLower().Replace(" ", "_")}.lol")))
             {
-                var postFX = new ToxicRagers.CarmageddonReincarnation.Formats.PostFX();
-                postFX.Save(Path.Combine(txtPath.Text, "post_process", txtLevel.Text.ToLower().Replace(" ", "_") + ".lol"));
+                PostFX postFX = new PostFX();
+                postFX.Save(Path.Combine(txtPath.Text, "post_process", $"{txtLevel.Text.ToLower().Replace(" ", "_")}.lol"));
             }
 
             lblProgress.Text = "✓";
@@ -391,14 +419,17 @@ namespace Flummery
             lblProgress.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             progressMax = 100;
 
-            var minge = new ToxicRagers.CarmageddonReincarnation.Formats.MINGE();
-            minge.Name = txtPrettyLevelName.Text;
-            minge.Author = Properties.Settings.Default.PersonalAuthor;
-            minge.Website = Properties.Settings.Default.PersonalWebsite;
-            minge.Type = MINGE.ModType.Level;
-            minge.Save(Path.Combine(txtPath.Text, txtLevel.Text + ".minge"));
+            MINGE minge = new MINGE
+            {
+                Name = txtPrettyLevelName.Text,
+                Author = Properties.Settings.Default.PersonalAuthor,
+                Website = Properties.Settings.Default.PersonalWebsite,
+                Type = MINGE.ModType.Level
+            };
 
-            var zad = ToxicRagers.Stainless.Formats.ZAD.Create(Path.Combine(txtPath.Text, txtLevel.Text + ".zip"));
+            minge.Save(Path.Combine(txtPath.Text, $"{txtLevel.Text}.minge"));
+
+            ZAD zad = ZAD.Create(Path.Combine(txtPath.Text, $"{txtLevel.Text}.zip"));
             zad.AddDirectory(Path.GetDirectoryName(txtPath.Text));
 
             lblProgress.Text = "✓";
@@ -406,7 +437,7 @@ namespace Flummery
             lblInfo.Text = "CarMODgeddon ZIP file";
             pbProgress.Value = progressMax;
 
-            flump.Save(txtPath.Text + "level.flump");
+            flump.Save(Path.Combine(txtPath.Text, "level.flump"));
 
             timer.Stop();
             SceneManager.Current.OnProgress -= scene_OnProgress;
@@ -415,7 +446,7 @@ namespace Flummery
 
             Application.DoEvents();
 
-            SceneManager.Current.UpdateProgress(string.Format("Level '{0}' saved successfully!", level));
+            SceneManager.Current.UpdateProgress($"Level '{level}' saved successfully!");
         }
 
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

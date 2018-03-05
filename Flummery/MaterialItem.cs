@@ -25,31 +25,33 @@ namespace Flummery.Controls
             set => m = value;
         }
 
-        public event EventHandler DblClick;
-        public event EventHandler SngClick;
-
         public MaterialItem()
         {
             InitializeComponent();
 
-            Click += new EventHandler(MaterialItem_Click);
-            DoubleClick += new EventHandler(MaterialItem_DoubleClick);
+            Click += new EventHandler(materialItem_Click);
+            DoubleClick += new EventHandler(materialItem_DoubleClick);
 
             foreach (Control c in Controls)
             {
-                c.Click += new EventHandler(MaterialItem_Click);
-                c.DoubleClick += new EventHandler(MaterialItem_DoubleClick);
+                c.Click += new EventHandler(materialItem_Click);
+                c.DoubleClick += new EventHandler(materialItem_DoubleClick);
             }
         }
 
-        void MaterialItem_Click(object sender, EventArgs e)
+        void materialItem_Click(object sender, EventArgs e)
         {
             Form editor;
 
-            switch (SceneManager.Current.CurrentGame)
+            switch (SceneManager.Current.Game)
             {
                 case ContextGame.CarmageddonReincarnation:
-                    editor = new frmReincarnationMaterialEditor(this, m);
+                    editor = new frmNuCarmaMaterialEditor(this, m);
+                    break;
+
+                case ContextGame.Carmageddon1:
+                case ContextGame.Carmageddon2:
+                    editor = new frmClassicMaterialEditor(this, m);
                     break;
 
                 default:
@@ -57,14 +59,14 @@ namespace Flummery.Controls
                     break;
             }
 
-            editor.ShowDialog(ParentForm);
-
-            SngClick?.Invoke(this, e);
+            if (editor.ShowDialog(ParentForm) == DialogResult.OK)
+            {
+                SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Material, -1, m);
+            }
         }
 
-        void MaterialItem_DoubleClick(object sender, EventArgs e)
+        void materialItem_DoubleClick(object sender, EventArgs e)
         {
-            DblClick?.Invoke(this, e);
         }
 
         public void SetThumbnail(Bitmap b)

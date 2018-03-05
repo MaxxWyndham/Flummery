@@ -29,7 +29,6 @@ namespace Flummery
         public void Draw()
         {
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
-
         }
 
         public void AddIndex(int index)

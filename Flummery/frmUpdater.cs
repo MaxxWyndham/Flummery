@@ -14,16 +14,13 @@ namespace Flummery
 
         public Updater.Update[] Updates
         {
-            get
-            {
-                return updates;
-            }
+            get => updates;
 
             set
             {
                 complete = true;
                 updates = value;
-                UpdateViewState();
+                updateViewState();
             }
         }
 
@@ -32,18 +29,20 @@ namespace Flummery
             InitializeComponent();
         }
 
-        public void checkUpdate() {
+        public void CheckUpdate()
+        {
             new Updater().Check(FlummeryApplication.Version, finishRequest);
         }
 
         private void finishRequest(bool result, Updater.Update[] updates)
         {
-            Invoke((Action)delegate {
-                this.Updates = updates;
+            Invoke((Action)delegate
+            {
+                Updates = updates;
             });
         }
 
-        private void UpdateViewState()
+        private void updateViewState()
         {
             if (complete == false)
             {
@@ -55,59 +54,62 @@ namespace Flummery
             }
             else if (updates != null && updates.Count() > 0)
             {
-                labelHeader.Text = "Update to version " + updates[ updates.Count() - 1 ].version + " is ready for download!";
+                labelHeader.Text = "Update to version " + updates[updates.Count() - 1].version + " is ready for download!";
                 btnClose.Visible = true;
                 btnDownload.Visible = true;
                 btnCancel.Visible = false;
                 txtChangelog.Visible = true;
 
-                UpdateChangelog();
+                updateChangelog();
             }
             else
             {
-                this.labelHeader.Text = "You're running the latest version!";
-                this.btnClose.Visible = true;
-                this.btnDownload.Visible = false;
-                this.btnCancel.Visible = false;
+                labelHeader.Text = "You're running the latest version!";
+                btnClose.Visible = true;
+                btnDownload.Visible = false;
+                btnCancel.Visible = false;
                 txtChangelog.Visible = false;
             }
 
-            this.CenterToScreen();
+            CenterToScreen();
         }
 
-        private void UpdateChangelog() {
+        private void updateChangelog()
+        {
             string changelog = "";
-            foreach (Updater.Update update in updates.Reverse()) {
+
+            foreach (Updater.Update update in updates.Reverse())
+            {
                 changelog += "Update " + update.version + "\r\n" + update.changelog + "\r\n\r\n";
             }
 
-            this.txtChangelog.Text = changelog;
-            this.txtChangelog.Select(0, 0);
+            txtChangelog.Text = changelog;
+            txtChangelog.Select(0, 0);
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
             Process proc = new Process();
-            proc.StartInfo.FileName = updates[ updates.Count() - 1 ].update;
+            proc.StartInfo.FileName = updates[updates.Count() - 1].update;
             proc.Start();
 
-            this.Close();
+            Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void frmUpdate_Shown(object sender, EventArgs e)
         {
-            this.UpdateViewState();
-            this.CenterToScreen();
+            updateViewState();
+            CenterToScreen();
         }
     }
 }

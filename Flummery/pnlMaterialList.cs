@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 using Flummery.Controls;
 
@@ -8,6 +8,8 @@ namespace Flummery
 {
     public partial class pnlMaterialList : DockContent
     {
+        private List<Material> materials = new List<Material>();
+
         public pnlMaterialList()
         {
             InitializeComponent();
@@ -18,24 +20,33 @@ namespace Flummery
             {
                 foreach (Material m in SceneManager.Current.Materials)
                 {
-                    addMaterial(m);
+                    materials.Add(m);
                 }
             }
+
+            redraw();
         }
 
         public void RegisterEventHandlers()
         {
             SceneManager.Current.OnAdd += scene_OnAdd;
+            SceneManager.Current.OnChange += scene_OnChange;
             SceneManager.Current.OnReset += scene_OnReset;
+        }
+
+        private void scene_OnChange(object sender, ChangeEventArgs e)
+        {
+            if (e.Context != ChangeContext.Material) { return; }
+
+
         }
 
         void scene_OnAdd(object sender, AddEventArgs e)
         {
-            Material t = (e.Item as Material);
-
-            if (t != null)
+            if (e.Item is Material m)
             {
-                addMaterial(t);
+                materials.Add(m);
+                addMaterial(m);
             }
         }
 
@@ -54,7 +65,18 @@ namespace Flummery
 
         void scene_OnReset(object sender, ResetEventArgs e)
         {
+            materials.Clear();
+            redraw();
+        }
+
+        private void redraw()
+        {
             flpMaterials.Controls.Clear();
+
+            foreach (Material m in materials)
+            {
+                addMaterial(m);
+            }
         }
     }
 }

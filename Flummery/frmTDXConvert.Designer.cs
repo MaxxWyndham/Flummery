@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTDXConvert));
             this.pbPreview = new System.Windows.Forms.PictureBox();
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -111,10 +112,6 @@
             this.cmdClose.UseVisualStyleBackColor = true;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
             // 
-            // ofdBrowse
-            // 
-            this.ofdBrowse.FileName = "openFileDialog1";
-            // 
             // lblFile
             // 
             this.lblFile.AutoSize = true;
@@ -139,6 +136,7 @@
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.pbPreview);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = global::Flummery.Properties.Resources.icon;
             this.MaximizeBox = false;
             this.Name = "frmTDXConvert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -87,7 +87,8 @@ namespace Flummery
         {
             ibo.Draw();
 
-            bool bWireframe = (SceneManager.Current.RenderMode == SceneManager.RenderMeshMode.Wireframe);
+            //bool bWireframe = (SceneManager.Current.RenderMode == SceneManager.RenderMeshMode.Wireframe);
+            bool bWireframe = true;
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 

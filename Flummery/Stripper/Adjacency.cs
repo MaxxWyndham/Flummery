@@ -86,7 +86,8 @@ namespace Flummery.Stripper
                     tmp[count++] = face;
                     if (count == 3)
                     {
-                        throw new NotImplementedException("Gah");
+                        return;
+                        //throw new NotImplementedException("Gah");
                     }
                 }
                 else

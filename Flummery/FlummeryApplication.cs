@@ -15,7 +15,7 @@ namespace Flummery
             new FlummeryContributor { Name = "nobby", Website = "www.carmageddon.com" }, 
             new FlummeryContributor { Name = "shane", Website = "www.carmageddon.com" }, 
             new FlummeryContributor { Name = "fatcat", Website = "" }, 
-            new FlummeryContributor { Name = "alextsk", Website = "alextsekot.artstation.com" },
+            new FlummeryContributor { Name = "alextsk", Website = "alextsekot.com" },
             new FlummeryContributor { Name = "cwaboard", Website = "www.cwaboard.co.uk" },
             new FlummeryContributor { Name = "art0rz", Website = "github.com/art0rz" }
         };

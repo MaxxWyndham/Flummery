@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Root");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Scene");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pnlOverview));
             this.tvNodes = new System.Windows.Forms.TreeView();
             this.ilNodeIcons = new System.Windows.Forms.ImageList(this.components);
@@ -48,12 +48,13 @@
             this.tvNodes.ImageList = this.ilNodeIcons;
             this.tvNodes.Location = new System.Drawing.Point(12, 12);
             this.tvNodes.Name = "tvNodes";
-            treeNode1.Name = "nRoot";
+            treeNode1.Name = "nScene";
             treeNode1.Tag = "-1";
-            treeNode1.Text = "Root";
+            treeNode1.Text = "Scene";
             this.tvNodes.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
             this.tvNodes.SelectedImageIndex = 0;
+            this.tvNodes.ShowRootLines = false;
             this.tvNodes.Size = new System.Drawing.Size(133, 214);
             this.tvNodes.TabIndex = 0;
             this.tvNodes.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvNodes_ItemDrag);
@@ -70,6 +71,10 @@
             this.ilNodeIcons.Images.SetKeyName(1, "interface_mesh_16x16.png");
             this.ilNodeIcons.Images.SetKeyName(2, "interface_vfx_16x16.png");
             this.ilNodeIcons.Images.SetKeyName(3, "interface_light_16x16.png");
+            this.ilNodeIcons.Images.SetKeyName(4, "interface_accessory_16x16.png");
+            this.ilNodeIcons.Images.SetKeyName(5, "interface_car_16x16.png");
+            this.ilNodeIcons.Images.SetKeyName(6, "interface_level_16x16.png");
+            this.ilNodeIcons.Images.SetKeyName(7, "interface_ped_16x16.png");
             // 
             // lblCoords
             // 

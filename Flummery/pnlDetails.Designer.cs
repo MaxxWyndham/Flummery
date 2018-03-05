@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             this.pnlPanel = new System.Windows.Forms.Panel();
-            this.Transform = new Flummery.Controls.Transform();
+            this.Skins = new Flummery.Controls.Skins();
             this.Lighting = new Flummery.Controls.Lighting();
+            this.Transform = new Flummery.Controls.Transform();
             this.pnlPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -38,6 +39,7 @@
             // 
             this.pnlPanel.AutoScroll = true;
             this.pnlPanel.AutoSize = true;
+            this.pnlPanel.Controls.Add(this.Skins);
             this.pnlPanel.Controls.Add(this.Lighting);
             this.pnlPanel.Controls.Add(this.Transform);
             this.pnlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -45,6 +47,31 @@
             this.pnlPanel.Name = "pnlPanel";
             this.pnlPanel.Size = new System.Drawing.Size(284, 488);
             this.pnlPanel.TabIndex = 0;
+            // 
+            // Skins
+            // 
+            this.Skins.AutoSize = true;
+            this.Skins.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Skins.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Skins.Location = new System.Drawing.Point(0, 1206);
+            this.Skins.Name = "Skins";
+            this.Skins.Padding = new System.Windows.Forms.Padding(5);
+            this.Skins.Size = new System.Drawing.Size(267, 70);
+            this.Skins.TabIndex = 2;
+            this.Skins.Visible = false;
+            // 
+            // Lighting
+            // 
+            this.Lighting.AutoSize = true;
+            this.Lighting.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Lighting.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Lighting.Location = new System.Drawing.Point(0, 163);
+            this.Lighting.MinimumSize = new System.Drawing.Size(210, 0);
+            this.Lighting.Name = "Lighting";
+            this.Lighting.Padding = new System.Windows.Forms.Padding(5);
+            this.Lighting.Size = new System.Drawing.Size(267, 1043);
+            this.Lighting.TabIndex = 1;
+            this.Lighting.Visible = false;
             // 
             // Transform
             // 
@@ -57,30 +84,18 @@
             this.Transform.MinimumSize = new System.Drawing.Size(174, 0);
             this.Transform.Name = "Transform";
             this.Transform.Padding = new System.Windows.Forms.Padding(5);
-            this.Transform.Size = new System.Drawing.Size(267, 394);
+            this.Transform.Size = new System.Drawing.Size(267, 163);
             this.Transform.TabIndex = 0;
             this.Transform.Visible = false;
             // 
-            // Lighting
-            // 
-            this.Lighting.AutoSize = true;
-            this.Lighting.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Lighting.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Lighting.Location = new System.Drawing.Point(0, 394);
-            this.Lighting.Name = "Lighting";
-            this.Lighting.Padding = new System.Windows.Forms.Padding(5);
-            this.Lighting.Size = new System.Drawing.Size(267, 1043);
-            this.Lighting.TabIndex = 1;
-            this.Lighting.Visible = false;
-            // 
-            // pnlDetails
+            // PnlDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 488);
             this.Controls.Add(this.pnlPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "pnlDetails";
+            this.Name = "PnlDetails";
             this.Text = "Details";
             this.pnlPanel.ResumeLayout(false);
             this.pnlPanel.PerformLayout();
@@ -94,6 +109,6 @@
         private System.Windows.Forms.Panel pnlPanel;
         private Controls.Lighting Lighting;
         private Controls.Transform Transform;
-
+        private Controls.Skins Skins;
     }
 }
