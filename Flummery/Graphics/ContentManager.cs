@@ -86,8 +86,8 @@ namespace Flummery
             return default(T);
         }
 
-        public void LoadMany<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T: AssetList, new()
-                                                                                                         where T2: ContentImporter, new()
+        public void LoadMany<T, T2>(string assetName, string assetPath = null, bool bAddToScene = false) where T : AssetList, new()
+                                                                                                         where T2 : ContentImporter, new()
         {
             T2 importer = new T2();
             string path = importer.Find(assetName, assetPath);
@@ -103,7 +103,7 @@ namespace Flummery
                         string key = asset.GetType().ToString() + asset.Name;
 
                         if (!assets.ContainsKey(key))
-                        { 
+                        {
                             assets[key] = asset;
                             if (bAddToScene) { SceneManager.Current.Add(asset); }
                         }

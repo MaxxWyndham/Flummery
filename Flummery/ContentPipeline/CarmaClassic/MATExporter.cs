@@ -11,6 +11,8 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
             foreach (Material material in materials.Entries) 
             {
+                if (material == null) { continue; }
+
                 mat.Materials.Add(
                     new MATMaterial(
                         material.Name,

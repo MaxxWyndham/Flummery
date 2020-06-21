@@ -21,7 +21,7 @@ namespace Flummery
         public List<Texture> Textures => textures.Values.ToList();
     }
 
-    public class MaterialList : AssetList 
+    public class MaterialList : AssetList
     {
         public MaterialList() : base() { }
 

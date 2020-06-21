@@ -13,11 +13,16 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
         public override string GetHints(string currentPath)
         {
-            string hints = (currentPath != null ? currentPath + ";" : "");
+            string hints = string.Empty;
 
-            if (Properties.Settings.Default.PathCarmageddon1 != null && currentPath.Contains(Properties.Settings.Default.PathCarmageddon1))
+            if (currentPath != null && Directory.Exists(currentPath))
             {
-                if (Directory.Exists(Properties.Settings.Default.PathCarmageddon1 + "DATA\\ACTORS\\")) { hints += Properties.Settings.Default.PathCarmageddon1 + "DATA\\ACTORS\\;"; }
+                hints = $"{currentPath};";
+
+                if (Directory.Exists(Path.Combine(Directory.GetParent(currentPath).FullName, "ACTORS")))
+                {
+                    hints += $"{Path.Combine(Directory.GetParent(currentPath).FullName, "ACTORS")};";
+                }
             }
 
             return hints;
@@ -33,6 +38,7 @@ namespace Flummery.ContentPipeline.CarmaClassic
             path = Path.GetDirectoryName(path);
 
             Model dat = SceneManager.Current.Content.Load<Model, DATImporter>($"{Path.GetFileNameWithoutExtension(fileName)}.dat", path);
+            if (dat.SupportingDocuments.ContainsKey("Source")) { model.SupportingDocuments.Add("Source", dat.GetSupportingDocument<DAT>("Source")); }
             Material material = null;
 
             foreach (ACTNode section in act.Sections)
@@ -46,7 +52,7 @@ namespace Flummery.ContentPipeline.CarmaClassic
                         break;
 
                     case Section.Material:
-                        material = (Material)SceneManager.Current.Materials.Entries.Find(m => m.Name == section.Material);
+                        material = (Material)SceneManager.Current.Materials.Entries.Find(m => m != null && m.Name == section.Material);
                         if (material == null)
                         {
                             material = new Material() { Name = section.Material };
@@ -55,14 +61,20 @@ namespace Flummery.ContentPipeline.CarmaClassic
                         break;
 
                     case Section.Model:
-                        model.SetMesh(new ModelMesh(dat.FindMesh((section.Model.Contains(".") ? section.Model.Substring(0, section.Model.IndexOf(".")) : section.Model))), boneIndex);
-                        if (material != null)
+                        ModelMesh mesh = dat.FindMesh(section.Model);
+
+                        if (mesh != null)
                         {
-                            foreach (ModelMesh modelmesh in model.Meshes)
+                            model.SetMesh(new ModelMesh(mesh), boneIndex);
+
+                            if (material != null)
                             {
-                                foreach (ModelMeshPart meshpart in modelmesh.MeshParts)
+                                foreach (ModelMesh modelmesh in model.Meshes)
                                 {
-                                    if (meshpart.Material == null) { meshpart.Material = material; }
+                                    foreach (ModelMeshPart meshpart in modelmesh.MeshParts)
+                                    {
+                                        if (meshpart.Material == null) { meshpart.Material = material; }
+                                    }
                                 }
                             }
                         }

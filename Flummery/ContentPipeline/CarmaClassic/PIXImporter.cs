@@ -10,11 +10,16 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
         public override string GetHints(string currentPath)
         {
-            string hints = (currentPath != null ? currentPath + ";" : "");
+            string hints = string.Empty;
 
-            if (Properties.Settings.Default.PathCarmageddon1 != null && currentPath.Contains(Properties.Settings.Default.PathCarmageddon1))
+            if (currentPath != null && Directory.Exists(currentPath))
             {
-                if (Directory.Exists(Properties.Settings.Default.PathCarmageddon1 + "DATA\\PIXELMAP\\")) { hints += Properties.Settings.Default.PathCarmageddon1 + "DATA\\PIXELMAP\\;"; }
+                hints = $"{currentPath};";
+
+                if (Directory.Exists(Path.Combine(Directory.GetParent(currentPath).FullName, "PIXELMAP")))
+                {
+                    hints += $"{Path.Combine(Directory.GetParent(currentPath).FullName, "PIXELMAP")};";
+                }
             }
 
             return hints;

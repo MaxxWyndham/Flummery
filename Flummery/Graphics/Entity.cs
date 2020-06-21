@@ -26,7 +26,8 @@ namespace Flummery
         Powerup,
         RaceNode,
         Wheel,
-        VFX
+        VFX,
+        Crush
     }
 
     public class Entity : Asset
@@ -36,6 +37,8 @@ namespace Flummery
         Matrix4 transform;
         Asset asset;
         AssetType assetType = AssetType.Model;
+
+        bool isLollipop = false;
 
         public string UniqueIdentifier
         {
@@ -65,6 +68,12 @@ namespace Flummery
         {
             get => assetType;
             set => assetType = value;
+        }
+
+        public bool Lollipop
+        {
+            get => isLollipop;
+            set => isLollipop = value;
         }
 
         public void Draw()
@@ -143,11 +152,22 @@ namespace Flummery
 
                     Matrix4 position = Matrix4.CreateTranslation(mT.ExtractTranslation());
 
+
                     GL.MultMatrix(ref mS);
                     GL.MultMatrix(ref position);
 
+
+                    if (isLollipop)
+                    {
+                        Matrix4 rotation = ViewportManager.Current.Active.Camera.Rotation;
+                        Matrix4 scale = Matrix4.CreateScale(0.1f);
+
+                        GL.MultMatrix(ref rotation);
+                        GL.MultMatrix(ref scale);
+                    }
+
                     GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
                     ((Model)asset).Draw();
                     GL.Disable(EnableCap.Blend);
 

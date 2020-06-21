@@ -34,11 +34,14 @@ namespace Flummery
         ProjectionType projectionMode = ProjectionType.Perspective;
 
         public Vector3 Position => position;
+        public Vector3 Up => cameraRotation.Up();
         public float Speed => speed;
         public float RotationSpeed => rotationSpeed;
         public float ZoomSpeed => zoomSpeed;
 
         public Matrix4 View => viewMatrix;
+        public Matrix4 Rotation => cameraRotation;
+
         public ProjectionType ProjectionMode
         {
             get => projectionMode;

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+
 using ToxicRagers.Helpers;
 using ToxicRagers.TDR2000.Formats;
+
 using OpenTK;
 
 namespace Flummery.ContentPipeline.TDR2000
@@ -28,6 +30,8 @@ namespace Flummery.ContentPipeline.TDR2000
             }
 
             ProcessNode(hie.Root, model, mshses, hie);
+
+            ModelManipulator.FlipAxis(model, Axis.X, true);
 
             //ModelMesh mesh = new ModelMesh();
             //mesh.Name = "DEFAULT";
@@ -88,7 +92,7 @@ namespace Flummery.ContentPipeline.TDR2000
 
                     model.SetName(node.Name, boneIndex);
                     model.SetTransform(
-                        new Matrix4 (
+                        new Matrix4(
                             node.Transform.M11, node.Transform.M12, node.Transform.M13, 0,
                             node.Transform.M21, node.Transform.M22, node.Transform.M23, 0,
                             node.Transform.M31, node.Transform.M32, node.Transform.M33, 0,

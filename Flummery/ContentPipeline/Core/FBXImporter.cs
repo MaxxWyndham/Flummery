@@ -625,7 +625,7 @@ namespace Flummery.ContentPipeline.Core
                 model.Santise();
 
                 if (worldMatrix != Matrix4.Identity) { ModelManipulator.Freeze(model, worldMatrix); }
-                ModelManipulator.FlipAxis(model.Root.Mesh, Axis.X, true);
+                ModelManipulator.FlipAxis(model, Axis.X, true);
 
                 return model;
             }

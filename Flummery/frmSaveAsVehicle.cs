@@ -124,7 +124,7 @@ namespace Flummery
                         {
                             TDXExporter tx = new TDXExporter();
                             tx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
-                            tx.Export(texture, txtPath.Text);
+                            tx.Export(texture, $"{fileName}.tdx");
                         }
 
                         textures.Add(texture.FileName);

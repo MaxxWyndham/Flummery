@@ -12,14 +12,16 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
         public override string GetHints(string currentPath)
         {
-            string hints = (currentPath != null ? currentPath + ";" : "");
+            string hints = string.Empty;
 
-            if (Properties.Settings.Default.PathCarmageddon1 != null &&
-                currentPath.Contains(Properties.Settings.Default.PathCarmageddon1))
+            if (currentPath != null && Directory.Exists(currentPath))
             {
-                string matPath = Path.Combine(Properties.Settings.Default.PathCarmageddon1, "DATA", "MATERIAL");
+                hints = $"{currentPath};";
 
-                if (Directory.Exists(matPath)) { hints += $"{matPath};"; }
+                if (Directory.Exists(Path.Combine(Directory.GetParent(currentPath).FullName, "MATERIAL")))
+                {
+                    hints += $"{Path.Combine(Directory.GetParent(currentPath).FullName, "MATERIAL")};";
+                }
             }
 
             return hints;
@@ -50,7 +52,7 @@ namespace Flummery.ContentPipeline.CarmaClassic
                         new Material
                         {
                             Name = material.Name,
-                            Texture = SceneManager.Current.Content.Load<Texture, PIXImporter>(material.Texture, Path.GetDirectoryName(path))
+                            Texture = SceneManager.Current.Content.Load<Texture, PIXImporter>(material.Texture, Path.GetDirectoryName(path), true)
                         }
                     );
                 }

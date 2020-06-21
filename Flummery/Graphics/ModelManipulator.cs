@@ -191,12 +191,12 @@ namespace Flummery
             }
         }
 
-        public static void FlipAxis(ModelMesh model, Axis axis, bool bApplyToHierarchy = false)
+        public static void FlipAxis(Model model, Axis axis, bool bApplyToHierarchy = false)
         {
             Vector3 transform = Vector3.One;
             List<string> processed = new List<string>();
 
-            ModelBoneCollection bones = (bApplyToHierarchy ? model.Parent.AllChildren() : new ModelBoneCollection { model.Parent });
+            ModelBoneCollection bones = (bApplyToHierarchy ? model.Root.AllChildren() : new ModelBoneCollection { model.Root });
 
             switch (axis)
             {

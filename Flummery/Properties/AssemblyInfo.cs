@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Flummery")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Tastes so good!")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MaxxTek Ltd")]
+[assembly: AssemblyCompany("Toxic Ragers")]
 [assembly: AssemblyProduct("Flummery")]
-[assembly: AssemblyCopyright("© Maxx Wyndham 2014-2015")]
+[assembly: AssemblyCopyright("© Maxx Wyndham 2014-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.3.7.6")]
-[assembly: AssemblyFileVersion("0.3.7.6")]
+[assembly: AssemblyVersion("0.3.8.9")]
+[assembly: AssemblyFileVersion("0.3.8.9")]

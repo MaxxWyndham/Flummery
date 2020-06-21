@@ -12,11 +12,16 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
         public override string GetHints(string currentPath)
         {
-            string hints = (currentPath != null ? currentPath + ";" : "");
+            string hints = string.Empty;
 
-            if (Properties.Settings.Default.PathCarmageddon1 != null && currentPath.Contains(Properties.Settings.Default.PathCarmageddon1))
+            if (currentPath != null && Directory.Exists(currentPath))
             {
-                if (Directory.Exists(Properties.Settings.Default.PathCarmageddon1 + "DATA\\MODELS\\")) { hints += Properties.Settings.Default.PathCarmageddon1 + "DATA\\MODELS\\;"; }
+                hints = $"{currentPath};";
+
+                if (Directory.Exists(Path.Combine(Directory.GetParent(currentPath).FullName, "MODELS")))
+                {
+                    hints += $"{Path.Combine(Directory.GetParent(currentPath).FullName, "MODELS")};";
+                }
             }
 
             return hints;
@@ -28,6 +33,8 @@ namespace Flummery.ContentPipeline.CarmaClassic
             SceneManager.Current.Content.LoadMany<MaterialList, MATImporter>($"{Path.GetFileNameWithoutExtension(path)}.mat", Path.GetDirectoryName(path), true);
             Model model = new Model();
 
+            model.SupportingDocuments.Add("Source", dat);
+
             foreach (DatMesh datmesh in dat.DatMeshes)
             {
                 Console.WriteLine(datmesh.Name);
@@ -35,10 +42,10 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
                 ModelMesh mesh = new ModelMesh
                 {
-                    Name = (datmesh.Name.Contains(".") ? datmesh.Name.Substring(0, datmesh.Name.IndexOf(".")) : datmesh.Name)
+                    Name = datmesh.Name
                 };
 
-                SceneManager.Current.UpdateProgress(string.Format("Processing {0}", mesh.Name));
+                SceneManager.Current.UpdateProgress($"Processing {mesh.Name}");
 
                 for (int i = -1; i < datmesh.Mesh.Materials.Count; i++)
                 {
@@ -46,7 +53,7 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
                     if (i > -1)
                     {
-                        Asset material = SceneManager.Current.Materials.Entries.Find(m => m.Name == datmesh.Mesh.Materials[i]);
+                        Asset material = SceneManager.Current.Materials.Entries.Find(m => m != null && m.Name == datmesh.Mesh.Materials[i]);
 
                         if (material == null)
                         {

@@ -1,14 +1,13 @@
-﻿using System;
-using System.IO;
-using ToxicRagers.Helpers;
+﻿using System.IO;
+
 using ToxicRagers.TDR2000.Formats;
-using OpenTK;
+
 
 namespace Flummery.ContentPipeline.TDR2000
 {
     class MSHSImporter : ContentImporter
     {
-        public override string GetExtension() { return "mshs"; }
+        public override string GetExtension() { return "mshs;msh"; }
 
         public override Asset Import(string path)
         {
@@ -18,22 +17,26 @@ namespace Flummery.ContentPipeline.TDR2000
             string name = Path.GetFileNameWithoutExtension(path);
             int meshnum = 0;
 
-            foreach (var tdrmesh in mshs.Meshes)
+            foreach (TDRMesh tdrmesh in mshs.Meshes)
             {
-                ModelMesh mesh = new ModelMesh();
-                mesh.Name = name + meshnum++.ToString("0000");
+                ModelMesh mesh = new ModelMesh
+                {
+                    Name = $"{name}{meshnum++:0000}"
+                };
 
-                ModelMeshPart meshpart = new ModelMeshPart();
-                meshpart.PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles;
+                ModelMeshPart meshpart = new ModelMeshPart
+                {
+                    PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles
+                };
 
-                SceneManager.Current.UpdateProgress(string.Format("Processing {0}", mesh.Name));
+                SceneManager.Current.UpdateProgress($"Processing {mesh.Name}");
 
                 for (int i = 0; i < tdrmesh.Faces.Count; i++)
                 {
-                    var face = tdrmesh.Faces[i];
-                    var v1 = tdrmesh.Vertexes[face.V1];
-                    var v2 = tdrmesh.Vertexes[face.V2];
-                    var v3 = tdrmesh.Vertexes[face.V3];
+                    TDRFace face = tdrmesh.Faces[i];
+                    TDRVertex v1 = tdrmesh.Vertexes[face.V1];
+                    TDRVertex v2 = tdrmesh.Vertexes[face.V2];
+                    TDRVertex v3 = tdrmesh.Vertexes[face.V3];
 
                     meshpart.AddFace(
                         new OpenTK.Vector3[] {
@@ -57,6 +60,8 @@ namespace Flummery.ContentPipeline.TDR2000
                 mesh.AddModelMeshPart(meshpart);
                 model.SetName(mesh.Name, model.AddMesh(mesh));
             }
+
+            
 
             return model;
         }

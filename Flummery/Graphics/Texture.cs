@@ -76,19 +76,19 @@ namespace Flummery
             switch (format)
             {
                 case "ATI2":
-                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.CompressedRedRgtc1, width, height, 0, data.Length, data);
+                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, InternalFormat.CompressedRedRgtc1, width, height, 0, data.Length, data);
                     break;
 
                 case "A8R8G8B8":
-                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.CompressedRgba, width, height, 0, data.Length, data);
+                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, InternalFormat.CompressedRgba, width, height, 0, data.Length, data);
                     break;
 
                 case "DXT1":
-                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, width, height, 0, data.Length, data);
+                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, InternalFormat.CompressedRgbaS3tcDxt1Ext, width, height, 0, data.Length, data);
                     break;
 
                 case "DXT5":
-                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.CompressedRgbaS3tcDxt5Ext, width, height, 0, data.Length, data);
+                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, InternalFormat.CompressedRgbaS3tcDxt5Ext, width, height, 0, data.Length, data);
                     break;
 
                 default:

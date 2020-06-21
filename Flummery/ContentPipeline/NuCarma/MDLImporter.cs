@@ -13,6 +13,31 @@ namespace Flummery.ContentPipeline.NuCarma
     {
         public override string GetExtension() { return "mdl"; }
 
+        //public override string GetHints(string currentPath)
+        //{
+        //    string hints = string.Empty;
+
+        //    while (Directory.Exists(Directory.GetParent(currentPath).FullName))
+        //    {
+        //        if (Directory.Exists(Path.Combine(Directory.GetParent(currentPath).FullName, "Models")))
+        //        {
+
+        //        }
+        //    }
+
+        //    if (currentPath != null && Directory.Exists(Directory.GetParent(currentPath).FullName))
+        //    {
+        //        hints = $"{currentPath};";
+
+        //        if (Directory.Exists(Path.Combine(Directory.GetParent(currentPath).FullName, "PIXELMAP")))
+        //        {
+        //            hints += $"{Path.Combine(Directory.GetParent(currentPath).FullName, "PIXELMAP")};";
+        //        }
+        //    }
+
+        //    return hints;
+        //}
+
         public override Asset Import(string path)
         {
             MDL mdl = MDL.Load(path);

@@ -112,7 +112,7 @@ namespace Flummery
             {
                 actionScaling++;
                 SetActionScale(actionScales[actionScaling]);
-                FlummeryApplication.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                FlummeryApplication.UI.SetActionScalingText($"Action Scaling: {actionScales[actionScaling]:F3}");
             }
         }
 
@@ -122,7 +122,7 @@ namespace Flummery
             {
                 actionScaling--;
                 SetActionScale(actionScales[actionScaling]);
-                FlummeryApplication.UI.SetActionScalingText("Action Scaling: " + actionScales[actionScaling].ToString("0.000"));
+                FlummeryApplication.UI.SetActionScalingText($"Action Scaling: {actionScales[actionScaling]:F3}");
             }
         }
 

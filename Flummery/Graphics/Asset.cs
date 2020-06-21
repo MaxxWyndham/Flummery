@@ -12,7 +12,7 @@ namespace Flummery
         All = Position | Rotation | Scale
     }
 
-    public abstract class Asset 
+    public abstract class Asset
     {
         protected string filename;
         protected string name;

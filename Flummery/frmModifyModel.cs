@@ -101,7 +101,7 @@ namespace Flummery
             {
                 if (rdoInvert.Checked)
                 {
-                    ModelManipulator.FlipAxis(SceneManager.Current.Models[modelIndex].Bones[boneIndex].Mesh, cboInvertAxis.SelectedItem.ToString().ToEnum<Axis>(), chkHierarchy.Checked);
+                    //ModelManipulator.FlipAxis(SceneManager.Current.Models[modelIndex].Bones[boneIndex].Mesh, cboInvertAxis.SelectedItem.ToString().ToEnum<Axis>(), chkHierarchy.Checked);
                 }
                 else if (rdoMeshBoneSwap.Checked)
                 {

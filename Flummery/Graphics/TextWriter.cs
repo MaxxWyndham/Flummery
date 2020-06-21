@@ -117,7 +117,7 @@ namespace Flummery
         {
             GL.Enable(EnableCap.Blend);
             GL.Color4(255,255,255,0);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, textureID);
 

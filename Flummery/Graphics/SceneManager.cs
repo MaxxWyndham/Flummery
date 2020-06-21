@@ -60,8 +60,6 @@ namespace Flummery
 
         List<IRenderMode> renderModes = new List<IRenderMode>();
         int currentRenderMode = 0;
-
-        List<Entity> entities = new List<Entity>();
         List<Model> models = new List<Model>();
         MaterialList materials = new MaterialList();
 
@@ -83,7 +81,7 @@ namespace Flummery
         public ContentManager Content => content;
         public IRenderMode RenderMode => renderModes[currentRenderMode];
 
-        public List<Entity> Entities => entities;
+        public List<Entity> Entities { get; } = new List<Entity>();
         public List<Model> Models => models;
         public MaterialList Materials => materials;
 
@@ -150,7 +148,7 @@ namespace Flummery
             ModelManipulator.SetVertexColour(sphere, 0, 255, 0, 255);
             ((Model)node.Asset).AddMesh(sphere);
             ((Model)node.Asset).SetRenderStyle(RenderStyle.Wireframe);
-            entities.Add(node);
+            Entities.Add(node);
 
             renderModes.Add(new Solid());
             renderModes.Add(new Wireframe());
@@ -189,7 +187,7 @@ namespace Flummery
                             };
                             entity.LinkWith(bone);
 
-                            entities.Add(entity);
+                            Entities.Add(entity);
                             break;
                     }
                 }
@@ -292,12 +290,12 @@ namespace Flummery
         public void Reset()
         {
             content.Reset();
-            entities.Clear();
+            Entities.Clear();
             models.Clear();
             materials.Entries.Clear();
             bb = null;
 
-            entities.Add(node);
+            Entities.Add(node);
 
             OnReset?.Invoke(this, new ResetEventArgs());
         }
@@ -374,7 +372,7 @@ namespace Flummery
                 model.Draw();
             }
 
-            foreach (Entity entity in entities)
+            foreach (Entity entity in Entities)
             {
                 entity.Draw();
             }

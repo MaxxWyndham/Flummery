@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Windows.Forms;
 using Flummery.ContentPipeline.Core;
 using Flummery.ContentPipeline.CarmaClassic;
 using Flummery.ContentPipeline.NuCarma;
+using Flummery.Plugin;
 using Flummery.Util;
 
 using OpenTK;
@@ -19,6 +21,7 @@ using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.CarmageddonReincarnation.Helpers;
 
 using WeifenLuo.WinFormsUI.Docking;
+using ToxicRagers.Stainless.Formats;
 
 namespace Flummery
 {
@@ -30,6 +33,7 @@ namespace Flummery
         }
 
         public DockPanel DockPanel => dockPanel;
+        public PluginHandler pluginHandler = new PluginHandler();
 
         private void frmMain_Load(object sender, EventArgs e)
         {
@@ -46,6 +50,8 @@ namespace Flummery
             PnlViewport viewport = new PnlViewport();
             pnlMaterialList materials = new pnlMaterialList();
             PnlDetails details = new PnlDetails();
+
+            pluginHandler.InitialiseModules();
 
             viewport.Show(dockPanel, DockState.Document);
             materials.Show(dockPanel, DockState.DockBottom);
@@ -77,6 +83,12 @@ namespace Flummery
 
             //SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Car);
 
+            foreach (Lazy<IMenu, IPluginAttribute> menu in pluginHandler.Menus)
+            {
+                if (menu.Value.PluginMenu == null) { continue; }
+
+                this.menu.Items.Add(menu.Value.PluginMenu);
+            }
 
             FlummeryApplication.UI = this;
         }
@@ -102,6 +114,18 @@ namespace Flummery
             //(VFXAnchors.Load(@"H:\Carmageddon\MaxDamage\Vehicles\default_vfx_anchors.lol")).Save(@"H:\");
 
             //Map.Load(@"H:\Backups\D\Carmageddon Installations\Carmageddon 2 - 2009 dickery\data\RACES\timber1\timber1.txt");
+
+            //ToxicRagers.Helpers.IO.LoopDirectoriesIn(@"H:\Carmageddon\MaxDamage\Peds\", (d) =>
+            //{
+            //    foreach (FileInfo fi in d.GetFiles("*.lol"))
+            //    {
+            //        LOL lol = LOL.Load(fi.FullName);
+            //        File.WriteAllText(fi.FullName, lol.Document);
+
+            //        Application.DoEvents();
+            //    }
+            //}
+            //);
 
             //foreach (string folder in Directory.GetDirectories(@"H:\Carmageddon\MaxDamage\Vehicles\"))
             //{
@@ -155,6 +179,75 @@ namespace Flummery
             //    }
             //}
             //);
+
+            //var wad = ToxicRagers.Stainless.Formats.WAD.Load(@"H:\Carmageddon\Carmageddon_Android_1384560647\assets\DATA_ANDROID.WAD");
+
+            //foreach (var entry in wad.Contents)
+            //{
+            //    wad.Extract(entry, @"H:\Carmageddon\Carmageddon_Android_1384560647\assets\butts\");
+            //}
+
+            //foreach (var x in Directory.GetFiles(@"C:\Users\errol\Downloads\Data_IOS\DATA\CONTENT\TEXTURES", "*.tdx", SearchOption.TopDirectoryOnly)) {
+            //    ToxicRagers.CarmageddoniOS.Formats.TDX.ProcessTDX(x, @"C:\Users\errol\Downloads\Data_IOS\DATA\CONTENT\TEXTURES\converted_files");
+            //}
+
+            ////ToxicRagers.Helpers.Logger.LogToFile(ToxicRagers.Helpers.Logger.LogLevel.All, "--------------------");
+            //var cnt = ToxicRagers.Stainless.Formats.CNT.Load(@"C:\Users\errol\Downloads\LEVELS\CITY_A\LEVEL.CNT");
+            //var stop = new Stopwatch();
+            //stop.Start();
+            //var mdl = ToxicRagers.Stainless.Formats.MDL.Load(@"C:\Users\errol\Downloads\LEVELS\CITY_A\MODEL0.MDL");
+            //var oct = ToxicRagers.Helpers.Octree.CreateFromModel(mdl);
+            //stop.Stop();
+            //Console.WriteLine(stop.Elapsed.Duration().ToString());
+            //oct.Save(@"f:\oct.ree");
+
+            //var viv = ToxicRagers.NFSHotPursuit.Formats.VIV.Load(@"C:\Users\errol\Downloads\Parkland\persist.viv");
+
+            //foreach (var entry in viv.Contents)
+            //{
+            //    viv.Extract(entry, @"H:\NFS\");
+            //}
+
+            //var fsh = ToxicRagers.NFSHotPursuit.Formats.FSH.Load(@"H:\NFS\track.fsh");
+            //foreach (var entry in fsh.Contents)
+            //{
+            //    fsh.Extract(entry, @"H:\NFS\Texture\");
+            //}
+
+            //var o = ToxicRagers.NFSHotPursuit.Formats.O.Load(@"H:\NFS\trackg.o");
+
+            //var o = ToxicRagers.TDR2000.Formats.FUNC.Load(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Cars\Blood&Bone\blood_bonesconvsoft_null\blood&BoneCamberGrip.func");
+
+            //foreach (string car in new string[] { "2CV", "APC", "BigAPC", "Bratt", "Buster", "Charger", "Dumpster", "Eagle", "EdHunter", "Grim", "Harry", "Hawk", "Hazard", "Hotrod", "Jeep", "Junior", "Kutter", "Mini", "Otis", "Pickup", "Pitbull", "Pork", "Screwie", "Starsky", "Stella", "Tartlet", "Van", "Viper", "Vlad2", "XJ220" })
+            //{
+            //    ToxicRagers.CarmageddonPSX.Helpers.ProcessCar(car.ToUpper(), car, @"D:\\WIP\\ToPort\\CarmaPSX\\", @"H:\\PSX\\Cars\\");
+            //}
+
+            //ToxicRagers.PSX.Formats.TIM.Load(@"D:\\WIP\\ToPort\\CarmaPSX\\LEVELS\\DESERT\\1\\DESERT1.TIM").GetBitmap().Save(@"H:\\PSX\\DESERT1.png", System.Drawing.Imaging.ImageFormat.Png);
+
+            //foreach (string file in Directory.GetFiles(@"D:\\WIP\\ToPort\\CarmaPSX\\HUD\\", "*.tim"))
+            //{
+            //    ToxicRagers.PSX.Formats.TIM.Load(file).GetBitmap().Save(Path.Combine(@"H:\\PSX", $"{Path.GetFileNameWithoutExtension(file)}.png"), System.Drawing.Imaging.ImageFormat.Png);
+            //}
+
+            //var tpc = ToxicRagers.TwistedMetal2.Formats.TPC.Load(@"C:\\Users\\errol\\Downloads\\Twisted-Metal-2_Win_EN_ISO-Version\\Twisted_Metal_2_ISO\\TH.TPC");
+            //int i = 0;
+            //foreach (var tim in tpc.Textures)
+            //{
+            //    tim.GetBitmap().Save($@"H:\\PSX\\TH{i++}.png", System.Drawing.Imaging.ImageFormat.Png);
+            //}
+
+            //ToxicRagers.PSX.Formats.TIM.Load(@"C:\\Users\\errol\\Downloads\\Twisted-Metal-2_Win_EN_ISO-Version\\Twisted_Metal_2_ISO\\THINFO.TIM").GetBitmap().Save(@"H:\\PSX\\THINFO.png", System.Drawing.Imaging.ImageFormat.Png);
+
+            //var dpc = ToxicRagers.TwistedMetal2.Formats.DPC.Load(@"C:\\Users\\errol\\Downloads\\Twisted-Metal-2_Win_EN_ISO-Version\\Twisted_Metal_2_ISO\\TH.DPC");
+
+            //foreach (string file in Directory.GetFiles(@"D:\Carmageddon Installations\Carmageddon 2 - 2009 dickery\data\RACES\", "*.txt", SearchOption.AllDirectories))
+            //{
+            //    var txt = ToxicRagers.Carmageddon2.Formats.Map.Load(file);
+            //    if (txt != null) { txt.Save(Path.Combine(Path.GetDirectoryName(file), $"{Path.GetFileNameWithoutExtension(file)}.new.txt")); }
+            //}
+
+            //Application.Exit();
         }
 
         void scene_OnProgress(object sender, ProgressEventArgs e)
@@ -180,7 +273,7 @@ namespace Flummery
 
             switch (mi.Text)
             {
-                case "&New":
+                case " & New":
                     SceneManager.Current.Reset();
                     break;
 
@@ -206,7 +299,7 @@ namespace Flummery
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
                         SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
-                        Model m = SceneManager.Current.Content.Load<Model, FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
+                        Model _ = SceneManager.Current.Content.Load<Model, FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress($"Imported {Path.GetFileName(ofdBrowse.FileName)}");
                     }
@@ -337,22 +430,113 @@ namespace Flummery
 
                         SceneManager.Current.SetContext(ContextGame.Carmageddon1, ContextMode.Car);
 
-                        //if (SceneManager.Current.SelectedModel.SupportingDocuments.ContainsKey("Car"))
-                        //{
-                        //    var car = SceneManager.Current.SelectedModel.GetSupportingDocument<ToxicRagers.Carmageddon.Formats.Car>("Car");
+                        if (false && SceneManager.Current.SelectedModel.SupportingDocuments.ContainsKey("Car"))
+                        {
+                            var car = SceneManager.Current.SelectedModel.GetSupportingDocument<ToxicRagers.Carmageddon.Formats.Car>("Car");
+                            var dat = SceneManager.Current.SelectedModel.GetSupportingDocument<DAT>("Source");
 
-                        //    foreach (var point in car.Crushes[1].Points)
-                        //    {
-                        //        Entity entity = new Entity
-                        //        {
-                        //            EntityType = EntityType.Wheel,
-                        //            AssetType = AssetType.Sprite,
-                        //            Transform = Matrix4.CreateTranslation(0, 0.5f, 0)
-                        //        };
+                            string rootMesh = SceneManager.Current.SelectedModel.Root.Mesh.Name;
 
-                        //        SceneManager.Current.Entities.Add(entity);
-                        //    }
-                        //}
+                            HashSet<int> points = new HashSet<int>();
+                            int meshIndex = dat.DatMeshes.FindIndex(dm => dm.Name == rootMesh);
+
+                            int testVertIndex = -1;
+                            bool allTheVerts = true;
+
+                            foreach (var point in car.Crushes[1].Points)
+                            {
+                                var vert = dat.DatMeshes[meshIndex].Mesh.Verts[point.VertexIndex];
+
+                                points.Add(point.VertexIndex);
+
+                                Entity entity = new Entity
+                                {
+                                    EntityType = EntityType.Crush,
+                                    AssetType = AssetType.Sprite,
+                                    Transform = Matrix4.CreateTranslation(vert.X, vert.Y, vert.Z) * SceneManager.Current.SelectedModel.Bones[0].Transform,
+                                    Lollipop = true
+                                };
+
+                                if (point.VertexIndex == testVertIndex || allTheVerts)
+                                {
+                                    float dX = vert.X;
+                                    float dY = vert.Y;
+                                    float dZ = vert.Z;
+
+                                    float distance = (float)Math.Sqrt(dX * dX + dY * dY + dZ * dZ);
+
+                                    //Console.WriteLine($"{point.VertexIndex}\t{vert.X}\t{vert.Y}\t{vert.Z}\t{point.LimitMin.X}\t{point.LimitMax.X}\t{point.LimitMin.Y}\t{point.LimitMax.Y}\t{point.LimitMin.Z}\t{point.LimitMax.Z}\t{point.SoftnessNeg.X}\t{point.SoftnessPos.X}\t{point.SoftnessNeg.Y}\t{point.SoftnessPos.Y}\t{point.SoftnessNeg.Z}\t{point.SoftnessPos.Z}");
+
+                                    SceneManager.Current.Entities.Add(entity);
+                                }
+
+                                int neighbour_index = -1;
+
+                                foreach (var neighbour in point.Neighbours)
+                                {
+                                    if (neighbour.VertexIndex == 0)
+                                    {
+                                        neighbour_index += (int)neighbour.Factor;
+                                        continue;
+                                    }
+
+                                    neighbour_index += neighbour.VertexIndex;
+
+                                    points.Add(neighbour_index);
+
+                                    var neighVert = dat.DatMeshes[meshIndex].Mesh.Verts[neighbour_index];
+
+                                    Entity neighbourEntity = new Entity
+                                    {
+                                        EntityType = EntityType.Wheel,
+                                        AssetType = AssetType.Sprite,
+                                        Transform = Matrix4.CreateTranslation(neighVert.X, neighVert.Y, neighVert.Z) * SceneManager.Current.SelectedModel.Bones[0].Transform,
+                                        Lollipop = true
+                                    };
+
+                                    SceneManager.Current.Entities.Add(neighbourEntity);
+
+                                    //Console.WriteLine(neighbour.Factor);
+                                    //Console.WriteLine($"\tNeighbour vert {neighbour_index} ({neighbour.VertexIndex})");
+                                }
+                            }
+
+                            //Console.WriteLine(string.Join(", ", points.OrderBy(p => p)));
+
+                            for (int i = 0; i < dat.DatMeshes[meshIndex].Mesh.Verts.Count; i++)
+                            {
+                                if (points.Add(i))
+                                {
+                                    Console.WriteLine($"{i}: {dat.DatMeshes[meshIndex].Mesh.Verts[i].X}, {dat.DatMeshes[meshIndex].Mesh.Verts[i].Y}, {dat.DatMeshes[meshIndex].Mesh.Verts[i].Z}");
+
+                                    Entity neighbourEntity = new Entity
+                                    {
+                                        EntityType = EntityType.Wheel,
+                                        AssetType = AssetType.Sprite,
+                                        Transform = Matrix4.CreateTranslation(dat.DatMeshes[meshIndex].Mesh.Verts[i].X, dat.DatMeshes[meshIndex].Mesh.Verts[i].Y, dat.DatMeshes[meshIndex].Mesh.Verts[i].Z) * SceneManager.Current.SelectedModel.Bones[0].Transform,
+                                        Lollipop = true
+                                    };
+
+                                    SceneManager.Current.Entities.Add(neighbourEntity);
+                                }
+                            }
+
+                            //for (int i = 0; i < dat.DatMeshes[0].Mesh.Verts.Count; i++)
+                            //{
+                            //    if (i == testVertIndex) { continue; }
+
+                            //    var x = dat.DatMeshes[0].Mesh.Verts[i];
+                            //    var y = dat.DatMeshes[0].Mesh.Verts[testVertIndex];
+
+                            //    float dX = y.X - x.X;
+                            //    float dY = y.Y - x.Y;
+                            //    float dZ = y.Z - x.Z;
+
+                            //    float distance = (float)Math.Sqrt(dX * dX + dY * dY + dZ * dZ);
+
+                            //    Console.WriteLine($"{i}\t{testVertIndex}\t{distance}");
+                            //}
+                        }
                     }
                     break;
 
@@ -392,109 +576,6 @@ namespace Flummery
                         if (File.Exists(txtFile)) { race.SupportingDocuments["TXT"] = Map.Load(txtFile); }
 
                         SceneManager.Current.SetContext(ContextGame.Carmageddon2, ContextMode.Level);
-                    }
-                    break;
-
-                case "Process Level for Carmageddon Reincarnation":
-                    {
-                        if (SceneManager.Current.Models.Count == 0) { return; }
-
-                        ModelBoneCollection bones = SceneManager.Current.Models[0].Bones[0].AllChildren();
-
-                        SceneManager.Current.UpdateProgress("Applying Carmageddon: Max Damage scale");
-
-                        ModelManipulator.Scale(bones, Matrix4.CreateScale(6.9f, 6.9f, -6.9f), true);
-                        ModelManipulator.FlipFaces(bones, true);
-
-                        SceneManager.Current.UpdateProgress("Fixing material names");
-
-                        foreach (Material material in SceneManager.Current.Materials)
-                        {
-                            if (material.Name.Contains(".")) { material.Name = material.Name.Substring(0, material.Name.IndexOf(".")); }
-                            material.Name = material.Name.Replace("\\", "");
-
-                            MATMaterial m = (material.SupportingDocuments["Source"] as MATMaterial);
-                            if (!m.HasTexture)
-                            {
-                                using (Bitmap bmp = new Bitmap(16, 16))
-                                using (Graphics g = Graphics.FromImage(bmp))
-                                {
-                                    g.FillRectangle(new SolidBrush(Color.FromArgb(m.DiffuseColour[3], m.DiffuseColour[0], m.DiffuseColour[1], m.DiffuseColour[2])), 0, 0, 16, 16);
-
-                                    Texture t = new Texture();
-                                    t.CreateFromBitmap(bmp, string.Format("{4}_R{0:x2}G{1:x2}B{2:x2}A{3:x2}", m.DiffuseColour[0], m.DiffuseColour[1], m.DiffuseColour[2], m.DiffuseColour[3], material.Name));
-                                    material.Texture = t;
-                                }
-                            }
-                        }
-
-                        SceneManager.Current.UpdateProgress("Processing powerups and accessories");
-
-                        for (int i = bones.Count - 1; i >= 0; i--)
-                        {
-                            ModelBone bone = bones[i];
-
-                            if (bone.Name.StartsWith("&"))
-                            {
-                                Entity entity = new Entity();
-
-                                if (bone.Name.StartsWith("&£"))
-                                {
-                                    string key = bone.Name.Substring(2, 2);
-
-                                    entity.UniqueIdentifier = $"errol_B00BIE{key}_{i.ToString("000")}";
-                                    entity.EntityType = EntityType.Powerup;
-
-                                    ToxicRagers.Carmageddon2.C2Powerup pup = ToxicRagers.Carmageddon2.Powerups.LookupID(int.Parse(key));
-
-                                    if (pup.InCR)
-                                    {
-                                        entity.Name = $"pup_{pup.Name}";
-                                        entity.Tag = pup.Model;
-                                    }
-                                    else
-                                    {
-                                        entity.Name = "pup_Credits";
-                                        entity.Tag = pup.Model;
-                                    }
-                                }
-                                else
-                                {
-                                    // accessory
-                                    entity.UniqueIdentifier = $"errol_HEAD00{bone.Name.Substring(1, 2)}_{i.ToString("000")}";
-                                    entity.EntityType = EntityType.Accessory;
-                                    entity.Name = $"C2_{bone.Mesh.Name.Substring(3)}";
-                                }
-
-                                entity.Transform = bone.CombinedTransform;
-                                entity.AssetType = AssetType.Sprite;
-                                SceneManager.Current.Entities.Add(entity);
-
-                                SceneManager.Current.Models[0].RemoveBone(bone.Index);
-                            }
-                        }
-
-                        if (SceneManager.Current.Models[0].SupportingDocuments.ContainsKey("TXT"))
-                        {
-                            Map map = SceneManager.Current.Models[0].GetSupportingDocument<Map>("TXT");
-
-                            Entity entity = new Entity
-                            {
-                                EntityType = EntityType.Grid,
-                                AssetType = AssetType.Sprite,
-                                Transform = Matrix4.CreateTranslation(map.GridPosition.X * 6.9f, map.GridPosition.Y * 6.9f, map.GridPosition.Z * -6.9f)
-                            };
-
-                            SceneManager.Current.Entities.Add(entity);
-                        }
-
-                        SceneManager.Current.UpdateProgress("Processing complete!");
-
-                        SceneManager.Current.SetCoordinateSystem(SceneManager.CoordinateSystem.LeftHanded);
-
-                        SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
-
-                        SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Level);
                     }
                     break;
 
@@ -1030,6 +1111,15 @@ namespace Flummery
                             case "zad":
                                 result = ToxicRagers.Stainless.Formats.ZAD.Load(fi.FullName);
                                 break;
+
+                            case "msh":
+                            case "mshs":
+                                result = ToxicRagers.TDR2000.Formats.MSHS.Load(fi.FullName);
+                                break;
+
+                            case "dcol":
+                                result = ToxicRagers.TDR2000.Formats.DCOL.Load(fi.FullName);
+                                break;
                         }
 
                         if (result != null) { success++; } else { fail++; }
@@ -1080,6 +1170,11 @@ namespace Flummery
 
                     SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
                     break;
+
+                case "DCOL files":
+                case "MSH files":
+                    processAll(mi.Text);
+                    break;
             }
         }
 
@@ -1109,6 +1204,8 @@ namespace Flummery
 
                         foreach (Material material in SceneManager.Current.Materials)
                         {
+                            if (material == null) { continue; }
+
                             if (material.Texture.Name != null && textures.Add(material.Texture.Name))
                             {
                                 TIFExporter tx = new TIFExporter();
