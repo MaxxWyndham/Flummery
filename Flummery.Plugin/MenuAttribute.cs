@@ -8,7 +8,7 @@ namespace Flummery.Plugin
     public class MenuAttribute : ExportAttribute, IPluginAttribute
     {
         public MenuAttribute(string name)
-            : base(typeof(IMenu))
+            : base(typeof(MenuItem))
         {
             Name = name;
         }

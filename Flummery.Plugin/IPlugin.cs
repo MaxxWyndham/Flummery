@@ -1,11 +1,23 @@
-﻿namespace Flummery.Plugin
+﻿using System.Collections.Generic;
+
+namespace Flummery.Plugin
 {
     public interface IPlugin
     {
         string Name { get; }
 
-        ICommandDispatcher Commands { get; }
+        List<MenuItem> FileOpenItems { get; }
 
-        IPluginHandler PluginHandler { get; }
+        List<MenuItem> FileImportItems { get; }
+
+        List<MenuItem> FileSaveForItems { get; }
+
+        List<MenuItem> FileSaveAsItems { get; }
+
+        List<MenuItem> FileExportItems { get; }
+
+        List<MenuItem> Tools { get; }
+
+        List<MenuItem> ProcessAllItems { get; }
     }
 }
