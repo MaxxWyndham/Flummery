@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarmageddonClassic", "Plugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarmageddonMaxDamage", "Plugins\CarmageddonMaxDamage\CarmageddonMaxDamage.csproj", "{97AADEF0-A89E-4917-9C69-911E2C2B870E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDR2000", "Plugins\TDR2000\TDR2000.csproj", "{605B7F61-B927-4A11-84B5-25CA29D24E3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,18 @@ Global
 		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|x86.ActiveCfg = Release|Any CPU
 		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|x86.Build.0 = Release|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Debug|x86.Build.0 = Debug|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Release|x86.ActiveCfg = Release|Any CPU
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +128,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BAEB9734-8231-4C9A-8577-2C10DFCAAD02} = {4F45889C-CF29-4CDF-8E3E-90ACE3591BFE}
 		{97AADEF0-A89E-4917-9C69-911E2C2B870E} = {4F45889C-CF29-4CDF-8E3E-90ACE3591BFE}
+		{605B7F61-B927-4A11-84B5-25CA29D24E3B} = {4F45889C-CF29-4CDF-8E3E-90ACE3591BFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F88FFC56-63F0-447D-B613-AB374F3342F7}
