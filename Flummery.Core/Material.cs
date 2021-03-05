@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Flummery.Core
 {
@@ -18,5 +19,7 @@ namespace Flummery.Core
                 textures[value.Name] = value;
             }
         }
+
+        public List<Texture> Textures => textures.Values.ToList();
     }
 }
