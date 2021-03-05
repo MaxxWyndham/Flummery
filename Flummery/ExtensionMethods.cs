@@ -1,55 +1,9 @@
 ﻿using System;
 
-using Flummery;
-
-using OpenTK;
-
 namespace OpenTK
 {
     public static class ExtensionMethods
     {
-        public static Vector3 Right(this Matrix4 m)
-        {
-            return new Vector3(m.M11, m.M12, m.M13);
-        }
-
-        public static Vector3 Up(this Matrix4 m)
-        {
-            return new Vector3(m.M21, m.M22, m.M23);
-        }
-
-        public static Vector3 Forward(this Matrix4 m)
-        {
-            return -(new Vector3(m.M31, m.M32, m.M33));
-        }
-
-        public static void NormaliseRight(this Matrix4 m)
-        {
-            var v = m.Right();
-            v.Normalize();
-            m.M11 = v.X;
-            m.M12 = v.Y;
-            m.M13 = v.Z;
-        }
-
-        public static void NormaliseUp(this Matrix4 m)
-        {
-            var v = m.Up();
-            v.Normalize();
-            m.M21 = v.X;
-            m.M22 = v.Y;
-            m.M23 = v.Z;
-        }
-
-        public static void NormaliseForward(this Matrix4 m)
-        {
-            var v = m.Forward();
-            v.Normalize();
-            m.M31 = v.X;
-            m.M32 = v.Y;
-            m.M33 = v.Z;
-        }
-
         public static Vector3 Position(this Matrix4 m)
         {
             return new Vector3(m.M41, m.M42, m.M43);
@@ -97,55 +51,11 @@ namespace OpenTK
 
             return true;
         }
-
-        public static Vector3 ToEuler(this Quaternion q, RotationOrder order)
-        {
-            Vector3 r = Vector3.Zero;
-
-            float r11, r12, r21, r31, r32;
-            r11 = r12 = r21 = r31 = r32 = 0;
-
-            switch (order)
-            {
-                case RotationOrder.OrderXYZ:
-                    r11 = -2.0f * (q.X * q.Y - q.W * q.Z); // was r31
-                    r21 =  2.0f * (q.X * q.Z + q.W * q.Y);
-                    r31 = -2.0f * (q.Y * q.Z - q.W * q.X); // was r11
-                    r12 = q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z; // was r32
-                    r32 = q.W * q.W - q.X * q.X - q.Y * q.Y + q.Z * q.Z; // was r12
-                    break;
-
-                case RotationOrder.OrderYZX:
-                    r11 = -2.0f * (q.X * q.Z - q.W * q.Y);
-                    r12 = q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z;
-                    r21 = 2.0f * (q.X * q.Y + q.W * q.Z);
-                    r31 = -2.0f * (q.Y * q.Z - q.W * q.X);
-                    r32 = q.W * q.W - q.X * q.X + q.Y * q.Y - q.Z * q.Z;
-                    break;
-            }
-
-            r.X = (Single)MathHelper.RadiansToDegrees(Math.Atan2(r31, r32));
-            r.Y = (Single)MathHelper.RadiansToDegrees(Math.Asin(r21));
-            r.Z = (Single)MathHelper.RadiansToDegrees(Math.Atan2(r11, r12));
-
-            return r;
-        }
     }
 }
 
 namespace Flummery
 {
-    public enum RotationOrder
-    {
-        OrderXYZ,
-        OrderXZY,
-        OrderYZX,
-        OrderYXZ,
-        OrderZXY,
-        OrderZYX,
-        OrderSphericXYZ
-    }
-
     public static class ExtensionMethods
     {
         public static string Replace(this string originalString, string oldValue, string newValue, StringComparison comparisonType)

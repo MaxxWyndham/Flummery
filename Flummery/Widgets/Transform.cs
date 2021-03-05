@@ -7,6 +7,8 @@ using System.Windows.Forms;
 
 using ToxicRagers.Helpers;
 
+using Flummery.Core;
+
 namespace Flummery.Controls
 {
     public partial class Transform : UserControl, IWidget
@@ -113,9 +115,9 @@ namespace Flummery.Controls
                 btnFreezeRotation.Enabled = true;
                 btnFreezeScale.Enabled = true;
 
-                OpenTK.Vector3 p = bone.GetPosition();
-                OpenTK.Vector3 r = bone.GetRotation();
-                OpenTK.Vector3 s = bone.GetScale();
+                Vector3 p = bone.GetPosition();
+                Vector3 r = bone.GetRotation();
+                Vector3 s = bone.GetScale();
 
                 txtPositionX.Text = p.X.ToString(FlummeryApplication.Culture);
                 txtPositionY.Text = p.Y.ToString(FlummeryApplication.Culture);

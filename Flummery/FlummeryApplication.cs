@@ -20,18 +20,13 @@ namespace Flummery
             new FlummeryContributor { Name = "art0rz", Website = "github.com/art0rz" }
         };
 
-        private static readonly KnownColor[] knownColourNames = (KnownColor[])Enum.GetValues(typeof(KnownColor));
-
         public static frmMain UI;
         public static bool Active;
         public static CultureInfo Culture = new CultureInfo("en-gb");
-        public static string Version = "0.3.8.9";
+        public static string Version = "0.4.0.0";
         public static Random Random = new Random();
 
-        public static Color PickRandomColour()
-        {
-            return Color.FromKnownColor(knownColourNames[Random.Next(knownColourNames.Length)]);
-        }
+        public static FlummerySettings Settings = new FlummerySettings();
 
         public static FlummeryContributor PickRandomContributor()
         {

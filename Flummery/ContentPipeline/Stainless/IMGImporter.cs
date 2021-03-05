@@ -7,6 +7,9 @@ using ToxicRagers.Stainless.Formats;
 
 using OpenTK;
 
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
 namespace Flummery.ContentPipeline.Stainless
 {
     class IMGImporter : ContentImporter

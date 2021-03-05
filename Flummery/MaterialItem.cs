@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 
+using Flummery.Core;
+
 namespace Flummery.Controls
 {
     public partial class MaterialItem : UserControl
@@ -45,7 +47,7 @@ namespace Flummery.Controls
 
             switch (SceneManager.Current.Game)
             {
-                case ContextGame.CarmageddonReincarnation:
+                case ContextGame.CarmageddonMaxDamage:
                     editor = new frmNuCarmaMaterialEditor(this, m);
                     break;
 

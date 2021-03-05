@@ -7,6 +7,8 @@ using System.Windows.Forms;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 
+using Flummery.Core;
+
 namespace Flummery.Controls
 {
     public partial class Skins : UserControl, IWidget
@@ -37,7 +39,7 @@ namespace Flummery.Controls
         {
             config = (
                 e.Mode == ContextMode.Car && 
-                e.Game == ContextGame.CarmageddonReincarnation &&
+                e.Game == ContextGame.CarmageddonMaxDamage &&
                 SceneManager.Current.SelectedModel.SupportingDocuments.ContainsKey("VehicleSetupConfig") ? 
                 SceneManager.Current.SelectedModel.GetSupportingDocument<VehicleSetupConfig>("VehicleSetupConfig") : 
                 null

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using Flummery.Core;
+
 namespace Flummery
 {
     public partial class frmRename : Form

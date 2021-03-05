@@ -41,44 +41,13 @@
             this.tsmiFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonSplatPack = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonSplatPackActor = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonSplatPackCar = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddon2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddon2Actor = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddon2Race = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonMobile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonMobileVehicle = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonReincarnationAccessory = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonReincarnationEnvironment = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonReincarnationPedestrian = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenCarmageddonReincarnationVehicle = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenNovadrome = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenNovadromeEnvironment = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenNovadromeVehicle = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenTDR2000 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileOpenTDR2000Hierarchy = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileImport = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileImportAutodeskFBXFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileImportBRenderACTFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileImportBRenderDATFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileImportStainlessCNTFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileImportStainlessMDLFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileImportStainlessLIGHTFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileImportTorusMSHSFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileImportWreckfestVHCLFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFileSaveFor = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveForCarmageddon2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveAsCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveAsCarmageddonReincarnationLevel = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileSaveAsCarmageddonReincarnationVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileExport = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileExportAutodeskFBXFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFileExportStainlessCNTFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiView = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,34 +79,8 @@
             this.tsmiToolsGeneral = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsGeneralTDXConvertor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiToolsGeneralProcessAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllCNTFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllLightFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllMDLFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllMT2Files = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllTDXFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllAccessoryTXTFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllRoutesTXTFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllVehicleSetupCFGFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllVehicleSetupLOLFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllStructureXMLFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllSystemsDamageXMLFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllSetupLOLFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllTXTFilesC1Car = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllXT2Files = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllZADFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllMSHSFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsCarmageddon2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsCarmageddonMaxDamage = new System.Windows.Forms.ToolStripMenuItem();
-            this.bulkUnZADToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsCarmageddonReincarnation = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsCarmageddonReincarnationWheelPreview = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmsiToolsTDR2000 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmsiToolsTDR2000RemoveLODFromVehicle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelpAboutFlummery = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiToolsGeneralProcessAllDCOLFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -219,327 +162,72 @@
             // 
             this.tsmiFileNew.Name = "tsmiFileNew";
             this.tsmiFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tsmiFileNew.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileNew.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileNew.Text = "&New";
             this.tsmiFileNew.Click += new System.EventHandler(this.menuClick);
             // 
             // tsmiFileOpen
             // 
-            this.tsmiFileOpen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileOpenCarmageddonSplatPack,
-            this.tsmiFileOpenCarmageddon2,
-            this.tsmiFileOpenCarmageddonMobile,
-            this.tsmiFileOpenCarmageddonReincarnation,
-            this.tsmiFileOpenNovadrome,
-            this.tsmiFileOpenTDR2000});
             this.tsmiFileOpen.Name = "tsmiFileOpen";
-            this.tsmiFileOpen.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileOpen.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileOpen.Text = "&Open...";
-            // 
-            // tsmiFileOpenCarmageddonSplatPack
-            // 
-            this.tsmiFileOpenCarmageddonSplatPack.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileOpenCarmageddonSplatPackActor,
-            this.tsmiFileOpenCarmageddonSplatPackCar});
-            this.tsmiFileOpenCarmageddonSplatPack.Name = "tsmiFileOpenCarmageddonSplatPack";
-            this.tsmiFileOpenCarmageddonSplatPack.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileOpenCarmageddonSplatPack.Text = "Carmageddon / Splat Pack";
-            // 
-            // tsmiFileOpenCarmageddonSplatPackActor
-            // 
-            this.tsmiFileOpenCarmageddonSplatPackActor.Name = "tsmiFileOpenCarmageddonSplatPackActor";
-            this.tsmiFileOpenCarmageddonSplatPackActor.Size = new System.Drawing.Size(103, 22);
-            this.tsmiFileOpenCarmageddonSplatPackActor.Text = "Actor";
-            this.tsmiFileOpenCarmageddonSplatPackActor.Click += new System.EventHandler(this.menuCarmageddonClick);
-            // 
-            // tsmiFileOpenCarmageddonSplatPackCar
-            // 
-            this.tsmiFileOpenCarmageddonSplatPackCar.Name = "tsmiFileOpenCarmageddonSplatPackCar";
-            this.tsmiFileOpenCarmageddonSplatPackCar.Size = new System.Drawing.Size(103, 22);
-            this.tsmiFileOpenCarmageddonSplatPackCar.Text = "Car";
-            this.tsmiFileOpenCarmageddonSplatPackCar.Click += new System.EventHandler(this.menuCarmageddonClick);
-            // 
-            // tsmiFileOpenCarmageddon2
-            // 
-            this.tsmiFileOpenCarmageddon2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileOpenCarmageddon2Actor,
-            this.tsmiFileOpenCarmageddon2Race});
-            this.tsmiFileOpenCarmageddon2.Name = "tsmiFileOpenCarmageddon2";
-            this.tsmiFileOpenCarmageddon2.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileOpenCarmageddon2.Text = "Carmageddon 2";
-            // 
-            // tsmiFileOpenCarmageddon2Actor
-            // 
-            this.tsmiFileOpenCarmageddon2Actor.Name = "tsmiFileOpenCarmageddon2Actor";
-            this.tsmiFileOpenCarmageddon2Actor.Size = new System.Drawing.Size(103, 22);
-            this.tsmiFileOpenCarmageddon2Actor.Text = "Actor";
-            this.tsmiFileOpenCarmageddon2Actor.Click += new System.EventHandler(this.menuCarmageddon2Click);
-            // 
-            // tsmiFileOpenCarmageddon2Race
-            // 
-            this.tsmiFileOpenCarmageddon2Race.Name = "tsmiFileOpenCarmageddon2Race";
-            this.tsmiFileOpenCarmageddon2Race.Size = new System.Drawing.Size(103, 22);
-            this.tsmiFileOpenCarmageddon2Race.Text = "Race";
-            this.tsmiFileOpenCarmageddon2Race.Click += new System.EventHandler(this.menuCarmageddon2Click);
-            // 
-            // tsmiFileOpenCarmageddonMobile
-            // 
-            this.tsmiFileOpenCarmageddonMobile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileOpenCarmageddonMobileVehicle});
-            this.tsmiFileOpenCarmageddonMobile.Name = "tsmiFileOpenCarmageddonMobile";
-            this.tsmiFileOpenCarmageddonMobile.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileOpenCarmageddonMobile.Text = "Carmageddon Mobile";
-            // 
-            // tsmiFileOpenCarmageddonMobileVehicle
-            // 
-            this.tsmiFileOpenCarmageddonMobileVehicle.Name = "tsmiFileOpenCarmageddonMobileVehicle";
-            this.tsmiFileOpenCarmageddonMobileVehicle.Size = new System.Drawing.Size(111, 22);
-            this.tsmiFileOpenCarmageddonMobileVehicle.Text = "Vehicle";
-            this.tsmiFileOpenCarmageddonMobileVehicle.Click += new System.EventHandler(this.menuCarmageddonMobileClick);
-            // 
-            // tsmiFileOpenCarmageddonReincarnation
-            // 
-            this.tsmiFileOpenCarmageddonReincarnation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileOpenCarmageddonReincarnationAccessory,
-            this.tsmiFileOpenCarmageddonReincarnationEnvironment,
-            this.tsmiFileOpenCarmageddonReincarnationPedestrian,
-            this.tsmiFileOpenCarmageddonReincarnationVehicle});
-            this.tsmiFileOpenCarmageddonReincarnation.Name = "tsmiFileOpenCarmageddonReincarnation";
-            this.tsmiFileOpenCarmageddonReincarnation.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileOpenCarmageddonReincarnation.Text = "Carmageddon Reincarnation";
-            // 
-            // tsmiFileOpenCarmageddonReincarnationAccessory
-            // 
-            this.tsmiFileOpenCarmageddonReincarnationAccessory.Name = "tsmiFileOpenCarmageddonReincarnationAccessory";
-            this.tsmiFileOpenCarmageddonReincarnationAccessory.Size = new System.Drawing.Size(142, 22);
-            this.tsmiFileOpenCarmageddonReincarnationAccessory.Text = "Accessory";
-            this.tsmiFileOpenCarmageddonReincarnationAccessory.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiFileOpenCarmageddonReincarnationEnvironment
-            // 
-            this.tsmiFileOpenCarmageddonReincarnationEnvironment.Name = "tsmiFileOpenCarmageddonReincarnationEnvironment";
-            this.tsmiFileOpenCarmageddonReincarnationEnvironment.Size = new System.Drawing.Size(142, 22);
-            this.tsmiFileOpenCarmageddonReincarnationEnvironment.Text = "Environment";
-            this.tsmiFileOpenCarmageddonReincarnationEnvironment.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiFileOpenCarmageddonReincarnationPedestrian
-            // 
-            this.tsmiFileOpenCarmageddonReincarnationPedestrian.Name = "tsmiFileOpenCarmageddonReincarnationPedestrian";
-            this.tsmiFileOpenCarmageddonReincarnationPedestrian.Size = new System.Drawing.Size(142, 22);
-            this.tsmiFileOpenCarmageddonReincarnationPedestrian.Text = "Pedestrian";
-            this.tsmiFileOpenCarmageddonReincarnationPedestrian.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiFileOpenCarmageddonReincarnationVehicle
-            // 
-            this.tsmiFileOpenCarmageddonReincarnationVehicle.Name = "tsmiFileOpenCarmageddonReincarnationVehicle";
-            this.tsmiFileOpenCarmageddonReincarnationVehicle.Size = new System.Drawing.Size(142, 22);
-            this.tsmiFileOpenCarmageddonReincarnationVehicle.Text = "Vehicle";
-            this.tsmiFileOpenCarmageddonReincarnationVehicle.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiFileOpenNovadrome
-            // 
-            this.tsmiFileOpenNovadrome.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileOpenNovadromeEnvironment,
-            this.tsmiFileOpenNovadromeVehicle});
-            this.tsmiFileOpenNovadrome.Name = "tsmiFileOpenNovadrome";
-            this.tsmiFileOpenNovadrome.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileOpenNovadrome.Text = "Novadrome";
-            // 
-            // tsmiFileOpenNovadromeEnvironment
-            // 
-            this.tsmiFileOpenNovadromeEnvironment.Name = "tsmiFileOpenNovadromeEnvironment";
-            this.tsmiFileOpenNovadromeEnvironment.Size = new System.Drawing.Size(142, 22);
-            this.tsmiFileOpenNovadromeEnvironment.Text = "Environment";
-            this.tsmiFileOpenNovadromeEnvironment.Click += new System.EventHandler(this.menuNovadromeClick);
-            // 
-            // tsmiFileOpenNovadromeVehicle
-            // 
-            this.tsmiFileOpenNovadromeVehicle.Name = "tsmiFileOpenNovadromeVehicle";
-            this.tsmiFileOpenNovadromeVehicle.Size = new System.Drawing.Size(142, 22);
-            this.tsmiFileOpenNovadromeVehicle.Text = "Vehicle";
-            this.tsmiFileOpenNovadromeVehicle.Click += new System.EventHandler(this.menuNovadromeClick);
-            // 
-            // tsmiFileOpenTDR2000
-            // 
-            this.tsmiFileOpenTDR2000.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileOpenTDR2000Hierarchy});
-            this.tsmiFileOpenTDR2000.Name = "tsmiFileOpenTDR2000";
-            this.tsmiFileOpenTDR2000.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileOpenTDR2000.Text = "TDR2000";
-            // 
-            // tsmiFileOpenTDR2000Hierarchy
-            // 
-            this.tsmiFileOpenTDR2000Hierarchy.Name = "tsmiFileOpenTDR2000Hierarchy";
-            this.tsmiFileOpenTDR2000Hierarchy.Size = new System.Drawing.Size(125, 22);
-            this.tsmiFileOpenTDR2000Hierarchy.Text = "Hierarchy";
-            this.tsmiFileOpenTDR2000Hierarchy.Click += new System.EventHandler(this.menuTDR2000Click);
             // 
             // tsmiFileImport
             // 
             this.tsmiFileImport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileImportAutodeskFBXFile,
-            this.tsmiFileImportBRenderACTFile,
-            this.tsmiFileImportBRenderDATFile,
-            this.tsmiFileImportStainlessCNTFile,
-            this.tsmiFileImportStainlessMDLFile,
-            this.tsmiFileImportStainlessLIGHTFile,
-            this.tsmiFileImportTorusMSHSFile,
-            this.tsmiFileImportWreckfestVHCLFile});
+            this.tsmiFileImportAutodeskFBXFile});
             this.tsmiFileImport.Name = "tsmiFileImport";
-            this.tsmiFileImport.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileImport.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileImport.Text = "&Import";
             // 
             // tsmiFileImportAutodeskFBXFile
             // 
             this.tsmiFileImportAutodeskFBXFile.Name = "tsmiFileImportAutodeskFBXFile";
-            this.tsmiFileImportAutodeskFBXFile.Size = new System.Drawing.Size(189, 22);
+            this.tsmiFileImportAutodeskFBXFile.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileImportAutodeskFBXFile.Text = "Autodesk FBX File...";
             this.tsmiFileImportAutodeskFBXFile.Click += new System.EventHandler(this.menuImportClick);
-            // 
-            // tsmiFileImportBRenderACTFile
-            // 
-            this.tsmiFileImportBRenderACTFile.Name = "tsmiFileImportBRenderACTFile";
-            this.tsmiFileImportBRenderACTFile.Size = new System.Drawing.Size(189, 22);
-            this.tsmiFileImportBRenderACTFile.Text = "BRender ACT File...";
-            this.tsmiFileImportBRenderACTFile.Click += new System.EventHandler(this.menuImportClick);
-            // 
-            // tsmiFileImportBRenderDATFile
-            // 
-            this.tsmiFileImportBRenderDATFile.Name = "tsmiFileImportBRenderDATFile";
-            this.tsmiFileImportBRenderDATFile.Size = new System.Drawing.Size(189, 22);
-            this.tsmiFileImportBRenderDATFile.Text = "BRender DAT File...";
-            this.tsmiFileImportBRenderDATFile.Click += new System.EventHandler(this.menuImportClick);
-            // 
-            // tsmiFileImportStainlessCNTFile
-            // 
-            this.tsmiFileImportStainlessCNTFile.Name = "tsmiFileImportStainlessCNTFile";
-            this.tsmiFileImportStainlessCNTFile.Size = new System.Drawing.Size(189, 22);
-            this.tsmiFileImportStainlessCNTFile.Text = "Stainless CNT File...";
-            this.tsmiFileImportStainlessCNTFile.Click += new System.EventHandler(this.menuImportClick);
-            // 
-            // tsmiFileImportStainlessMDLFile
-            // 
-            this.tsmiFileImportStainlessMDLFile.Name = "tsmiFileImportStainlessMDLFile";
-            this.tsmiFileImportStainlessMDLFile.Size = new System.Drawing.Size(189, 22);
-            this.tsmiFileImportStainlessMDLFile.Text = "Stainless MDL File...";
-            this.tsmiFileImportStainlessMDLFile.Click += new System.EventHandler(this.menuImportClick);
-            // 
-            // tsmiFileImportStainlessLIGHTFile
-            // 
-            this.tsmiFileImportStainlessLIGHTFile.Name = "tsmiFileImportStainlessLIGHTFile";
-            this.tsmiFileImportStainlessLIGHTFile.Size = new System.Drawing.Size(189, 22);
-            this.tsmiFileImportStainlessLIGHTFile.Text = "Stainless LIGHT File...";
-            this.tsmiFileImportStainlessLIGHTFile.Click += new System.EventHandler(this.menuImportClick);
-            // 
-            // tsmiFileImportTorusMSHSFile
-            // 
-            this.tsmiFileImportTorusMSHSFile.Name = "tsmiFileImportTorusMSHSFile";
-            this.tsmiFileImportTorusMSHSFile.Size = new System.Drawing.Size(189, 22);
-            this.tsmiFileImportTorusMSHSFile.Text = "Torus MSHS File...";
-            this.tsmiFileImportTorusMSHSFile.Click += new System.EventHandler(this.menuImportClick);
-            // 
-            // tsmiFileImportWreckfestVHCLFile
-            // 
-            this.tsmiFileImportWreckfestVHCLFile.Name = "tsmiFileImportWreckfestVHCLFile";
-            this.tsmiFileImportWreckfestVHCLFile.Size = new System.Drawing.Size(189, 22);
-            this.tsmiFileImportWreckfestVHCLFile.Text = "Wreckfest VHCL File...";
-            this.tsmiFileImportWreckfestVHCLFile.Click += new System.EventHandler(this.menuImportClick);
             // 
             // tsmiFileSeparator1
             // 
             this.tsmiFileSeparator1.Name = "tsmiFileSeparator1";
-            this.tsmiFileSeparator1.Size = new System.Drawing.Size(138, 6);
+            this.tsmiFileSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiFileSaveFor
             // 
-            this.tsmiFileSaveFor.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileSaveForCarmageddon2,
-            this.tsmiFileSaveForCarmageddonReincarnation});
             this.tsmiFileSaveFor.Name = "tsmiFileSaveFor";
-            this.tsmiFileSaveFor.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileSaveFor.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileSaveFor.Text = "Save For...";
-            // 
-            // tsmiFileSaveForCarmageddon2
-            // 
-            this.tsmiFileSaveForCarmageddon2.Name = "tsmiFileSaveForCarmageddon2";
-            this.tsmiFileSaveForCarmageddon2.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileSaveForCarmageddon2.Text = "Carmageddon 2";
-            this.tsmiFileSaveForCarmageddon2.ToolTipText = "This will save the current scene to the selected ACT file and generate all suppor" +
-    "ting MAT, DAT and TIF files automatically";
-            this.tsmiFileSaveForCarmageddon2.Click += new System.EventHandler(this.menuSaveForClick);
-            // 
-            // tsmiFileSaveForCarmageddonReincarnation
-            // 
-            this.tsmiFileSaveForCarmageddonReincarnation.Name = "tsmiFileSaveForCarmageddonReincarnation";
-            this.tsmiFileSaveForCarmageddonReincarnation.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileSaveForCarmageddonReincarnation.Text = "Carmageddon Reincarnation";
-            this.tsmiFileSaveForCarmageddonReincarnation.ToolTipText = "This will save the current scene to the selected CNT file and generate all suppor" +
-    "ting MDL files automatically";
-            this.tsmiFileSaveForCarmageddonReincarnation.Click += new System.EventHandler(this.menuSaveForClick);
             // 
             // tsmiFileSaveAs
             // 
-            this.tsmiFileSaveAs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileSaveAsCarmageddonReincarnation});
             this.tsmiFileSaveAs.Name = "tsmiFileSaveAs";
-            this.tsmiFileSaveAs.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileSaveAs.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileSaveAs.Text = "Save As...";
-            // 
-            // tsmiFileSaveAsCarmageddonReincarnation
-            // 
-            this.tsmiFileSaveAsCarmageddonReincarnation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileSaveAsCarmageddonReincarnationLevel,
-            this.tsmiFileSaveAsCarmageddonReincarnationVehicle});
-            this.tsmiFileSaveAsCarmageddonReincarnation.Name = "tsmiFileSaveAsCarmageddonReincarnation";
-            this.tsmiFileSaveAsCarmageddonReincarnation.Size = new System.Drawing.Size(226, 22);
-            this.tsmiFileSaveAsCarmageddonReincarnation.Text = "Carmageddon Reincarnation";
-            // 
-            // tsmiFileSaveAsCarmageddonReincarnationLevel
-            // 
-            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Name = "tsmiFileSaveAsCarmageddonReincarnationLevel";
-            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Size = new System.Drawing.Size(111, 22);
-            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Text = "Level";
-            this.tsmiFileSaveAsCarmageddonReincarnationLevel.Click += new System.EventHandler(this.menuSaveAsClick);
-            // 
-            // tsmiFileSaveAsCarmageddonReincarnationVehicle
-            // 
-            this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Name = "tsmiFileSaveAsCarmageddonReincarnationVehicle";
-            this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Size = new System.Drawing.Size(111, 22);
-            this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Text = "Vehicle";
-            this.tsmiFileSaveAsCarmageddonReincarnationVehicle.Click += new System.EventHandler(this.menuSaveAsClick);
             // 
             // tsmiFileExport
             // 
             this.tsmiFileExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiFileExportAutodeskFBXFile,
-            this.tsmiFileExportStainlessCNTFile});
+            this.tsmiFileExportAutodeskFBXFile});
             this.tsmiFileExport.Name = "tsmiFileExport";
-            this.tsmiFileExport.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileExport.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileExport.Text = "&Export";
             // 
             // tsmiFileExportAutodeskFBXFile
             // 
             this.tsmiFileExportAutodeskFBXFile.Name = "tsmiFileExportAutodeskFBXFile";
-            this.tsmiFileExportAutodeskFBXFile.Size = new System.Drawing.Size(177, 22);
+            this.tsmiFileExportAutodeskFBXFile.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileExportAutodeskFBXFile.Text = "Autodesk FBX File...";
             this.tsmiFileExportAutodeskFBXFile.Click += new System.EventHandler(this.menuExportClick);
-            // 
-            // tsmiFileExportStainlessCNTFile
-            // 
-            this.tsmiFileExportStainlessCNTFile.Name = "tsmiFileExportStainlessCNTFile";
-            this.tsmiFileExportStainlessCNTFile.Size = new System.Drawing.Size(177, 22);
-            this.tsmiFileExportStainlessCNTFile.Text = "Stainless CNT File...";
-            this.tsmiFileExportStainlessCNTFile.Click += new System.EventHandler(this.menuExportClick);
             // 
             // tsmiFileSeparator2
             // 
             this.tsmiFileSeparator2.Name = "tsmiFileSeparator2";
-            this.tsmiFileSeparator2.Size = new System.Drawing.Size(138, 6);
+            this.tsmiFileSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiFileExit
             // 
             this.tsmiFileExit.Name = "tsmiFileExit";
-            this.tsmiFileExit.Size = new System.Drawing.Size(141, 22);
+            this.tsmiFileExit.Size = new System.Drawing.Size(180, 22);
             this.tsmiFileExit.Text = "E&xit";
             this.tsmiFileExit.Click += new System.EventHandler(this.menuClick);
             // 
@@ -556,14 +244,14 @@
             // tsmiViewPreferences
             // 
             this.tsmiViewPreferences.Name = "tsmiViewPreferences";
-            this.tsmiViewPreferences.Size = new System.Drawing.Size(135, 22);
+            this.tsmiViewPreferences.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPreferences.Text = "Preferences";
             this.tsmiViewPreferences.Click += new System.EventHandler(this.menuViewClick);
             // 
             // tsmiViewSeparator1
             // 
             this.tsmiViewSeparator1.Name = "tsmiViewSeparator1";
-            this.tsmiViewSeparator1.Size = new System.Drawing.Size(132, 6);
+            this.tsmiViewSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiViewPanels
             // 
@@ -572,27 +260,27 @@
             this.tsmiViewPanelsMaterialList,
             this.tsmiViewPanelsOverview});
             this.tsmiViewPanels.Name = "tsmiViewPanels";
-            this.tsmiViewPanels.Size = new System.Drawing.Size(135, 22);
+            this.tsmiViewPanels.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanels.Text = "Panels";
             // 
             // tsmiViewPanelsDetails
             // 
             this.tsmiViewPanelsDetails.Name = "tsmiViewPanelsDetails";
-            this.tsmiViewPanelsDetails.Size = new System.Drawing.Size(138, 22);
+            this.tsmiViewPanelsDetails.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanelsDetails.Text = "Details";
             this.tsmiViewPanelsDetails.Click += new System.EventHandler(this.menuViewClick);
             // 
             // tsmiViewPanelsMaterialList
             // 
             this.tsmiViewPanelsMaterialList.Name = "tsmiViewPanelsMaterialList";
-            this.tsmiViewPanelsMaterialList.Size = new System.Drawing.Size(138, 22);
+            this.tsmiViewPanelsMaterialList.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanelsMaterialList.Text = "Material List";
             this.tsmiViewPanelsMaterialList.Click += new System.EventHandler(this.menuViewClick);
             // 
             // tsmiViewPanelsOverview
             // 
             this.tsmiViewPanelsOverview.Name = "tsmiViewPanelsOverview";
-            this.tsmiViewPanelsOverview.Size = new System.Drawing.Size(138, 22);
+            this.tsmiViewPanelsOverview.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanelsOverview.Text = "Overview";
             this.tsmiViewPanelsOverview.Click += new System.EventHandler(this.menuViewClick);
             // 
@@ -732,11 +420,7 @@
             // tsmiTools
             // 
             this.tsmiTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiToolsGeneral,
-            this.tsmiToolsCarmageddon2,
-            this.tsmiToolsCarmageddonMaxDamage,
-            this.tsmiToolsCarmageddonReincarnation,
-            this.tmsiToolsTDR2000});
+            this.tsmiToolsGeneral});
             this.tsmiTools.Name = "tsmiTools";
             this.tsmiTools.Size = new System.Drawing.Size(46, 20);
             this.tsmiTools.Text = "&Tools";
@@ -747,219 +431,21 @@
             this.tsmiToolsGeneralTDXConvertor,
             this.tsmiToolsGeneralProcessAll});
             this.tsmiToolsGeneral.Name = "tsmiToolsGeneral";
-            this.tsmiToolsGeneral.Size = new System.Drawing.Size(229, 22);
+            this.tsmiToolsGeneral.Size = new System.Drawing.Size(114, 22);
             this.tsmiToolsGeneral.Text = "General";
             // 
             // tsmiToolsGeneralTDXConvertor
             // 
             this.tsmiToolsGeneralTDXConvertor.Name = "tsmiToolsGeneralTDXConvertor";
-            this.tsmiToolsGeneralTDXConvertor.Size = new System.Drawing.Size(180, 22);
+            this.tsmiToolsGeneralTDXConvertor.Size = new System.Drawing.Size(151, 22);
             this.tsmiToolsGeneralTDXConvertor.Text = "TDX Convertor";
             this.tsmiToolsGeneralTDXConvertor.Click += new System.EventHandler(this.menuToolsClick);
             // 
             // tsmiToolsGeneralProcessAll
             // 
-            this.tsmiToolsGeneralProcessAll.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiToolsGeneralProcessAllCNTFiles,
-            this.tsmiToolsGeneralProcessAllLightFiles,
-            this.tsmiToolsGeneralProcessAllMDLFiles,
-            this.tsmiToolsGeneralProcessAllMT2Files,
-            this.tsmiToolsGeneralProcessAllTDXFiles,
-            this.tsmiToolsGeneralProcessAllAccessoryTXTFiles,
-            this.tsmiToolsGeneralProcessAllRoutesTXTFiles,
-            this.tsmiToolsGeneralProcessAllVehicleSetupCFGFiles,
-            this.tsmiToolsGeneralProcessAllVehicleSetupLOLFiles,
-            this.tsmiToolsGeneralProcessAllStructureXMLFiles,
-            this.tsmiToolsGeneralProcessAllSystemsDamageXMLFiles,
-            this.tsmiToolsGeneralProcessAllSetupLOLFiles,
-            this.tsmiToolsGeneralProcessAllTXTFilesC1Car,
-            this.tsmiToolsGeneralProcessAllXT2Files,
-            this.tsmiToolsGeneralProcessAllZADFiles,
-            this.tsmiToolsGeneralProcessAllMSHSFiles,
-            this.tsmiToolsGeneralProcessAllDCOLFiles});
             this.tsmiToolsGeneralProcessAll.Name = "tsmiToolsGeneralProcessAll";
-            this.tsmiToolsGeneralProcessAll.Size = new System.Drawing.Size(180, 22);
+            this.tsmiToolsGeneralProcessAll.Size = new System.Drawing.Size(151, 22);
             this.tsmiToolsGeneralProcessAll.Text = "Process all...";
-            // 
-            // tsmiToolsGeneralProcessAllCNTFiles
-            // 
-            this.tsmiToolsGeneralProcessAllCNTFiles.Name = "tsmiToolsGeneralProcessAllCNTFiles";
-            this.tsmiToolsGeneralProcessAllCNTFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllCNTFiles.Text = "CNT files";
-            this.tsmiToolsGeneralProcessAllCNTFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllLightFiles
-            // 
-            this.tsmiToolsGeneralProcessAllLightFiles.Name = "tsmiToolsGeneralProcessAllLightFiles";
-            this.tsmiToolsGeneralProcessAllLightFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllLightFiles.Text = "LIGHT files";
-            this.tsmiToolsGeneralProcessAllLightFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllMDLFiles
-            // 
-            this.tsmiToolsGeneralProcessAllMDLFiles.Name = "tsmiToolsGeneralProcessAllMDLFiles";
-            this.tsmiToolsGeneralProcessAllMDLFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllMDLFiles.Text = "MDL files";
-            this.tsmiToolsGeneralProcessAllMDLFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllMT2Files
-            // 
-            this.tsmiToolsGeneralProcessAllMT2Files.Name = "tsmiToolsGeneralProcessAllMT2Files";
-            this.tsmiToolsGeneralProcessAllMT2Files.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllMT2Files.Text = "MT2 files";
-            this.tsmiToolsGeneralProcessAllMT2Files.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllTDXFiles
-            // 
-            this.tsmiToolsGeneralProcessAllTDXFiles.Name = "tsmiToolsGeneralProcessAllTDXFiles";
-            this.tsmiToolsGeneralProcessAllTDXFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllTDXFiles.Text = "TDX files";
-            this.tsmiToolsGeneralProcessAllTDXFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllAccessoryTXTFiles
-            // 
-            this.tsmiToolsGeneralProcessAllAccessoryTXTFiles.Name = "tsmiToolsGeneralProcessAllAccessoryTXTFiles";
-            this.tsmiToolsGeneralProcessAllAccessoryTXTFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllAccessoryTXTFiles.Text = "Accessory.txt files";
-            this.tsmiToolsGeneralProcessAllAccessoryTXTFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllRoutesTXTFiles
-            // 
-            this.tsmiToolsGeneralProcessAllRoutesTXTFiles.Name = "tsmiToolsGeneralProcessAllRoutesTXTFiles";
-            this.tsmiToolsGeneralProcessAllRoutesTXTFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllRoutesTXTFiles.Text = "Routes.txt files";
-            this.tsmiToolsGeneralProcessAllRoutesTXTFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllVehicleSetupCFGFiles
-            // 
-            this.tsmiToolsGeneralProcessAllVehicleSetupCFGFiles.Name = "tsmiToolsGeneralProcessAllVehicleSetupCFGFiles";
-            this.tsmiToolsGeneralProcessAllVehicleSetupCFGFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllVehicleSetupCFGFiles.Text = "vehicle_setup.cfg files";
-            this.tsmiToolsGeneralProcessAllVehicleSetupCFGFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllVehicleSetupLOLFiles
-            // 
-            this.tsmiToolsGeneralProcessAllVehicleSetupLOLFiles.Name = "tsmiToolsGeneralProcessAllVehicleSetupLOLFiles";
-            this.tsmiToolsGeneralProcessAllVehicleSetupLOLFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllVehicleSetupLOLFiles.Text = "vehicle_setup.lol files";
-            this.tsmiToolsGeneralProcessAllVehicleSetupLOLFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllStructureXMLFiles
-            // 
-            this.tsmiToolsGeneralProcessAllStructureXMLFiles.Name = "tsmiToolsGeneralProcessAllStructureXMLFiles";
-            this.tsmiToolsGeneralProcessAllStructureXMLFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllStructureXMLFiles.Text = "Structure.xml files";
-            this.tsmiToolsGeneralProcessAllStructureXMLFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllSystemsDamageXMLFiles
-            // 
-            this.tsmiToolsGeneralProcessAllSystemsDamageXMLFiles.Name = "tsmiToolsGeneralProcessAllSystemsDamageXMLFiles";
-            this.tsmiToolsGeneralProcessAllSystemsDamageXMLFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllSystemsDamageXMLFiles.Text = "SystemsDamage.xml files";
-            this.tsmiToolsGeneralProcessAllSystemsDamageXMLFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllSetupLOLFiles
-            // 
-            this.tsmiToolsGeneralProcessAllSetupLOLFiles.Name = "tsmiToolsGeneralProcessAllSetupLOLFiles";
-            this.tsmiToolsGeneralProcessAllSetupLOLFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllSetupLOLFiles.Text = "Setup.lol files";
-            this.tsmiToolsGeneralProcessAllSetupLOLFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllTXTFilesC1Car
-            // 
-            this.tsmiToolsGeneralProcessAllTXTFilesC1Car.Name = "tsmiToolsGeneralProcessAllTXTFilesC1Car";
-            this.tsmiToolsGeneralProcessAllTXTFilesC1Car.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllTXTFilesC1Car.Text = "TXT files (C1 Car)";
-            this.tsmiToolsGeneralProcessAllTXTFilesC1Car.Click += new System.EventHandler(this.menuCarmageddonClick);
-            // 
-            // tsmiToolsGeneralProcessAllXT2Files
-            // 
-            this.tsmiToolsGeneralProcessAllXT2Files.Name = "tsmiToolsGeneralProcessAllXT2Files";
-            this.tsmiToolsGeneralProcessAllXT2Files.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllXT2Files.Text = "XT2 files";
-            this.tsmiToolsGeneralProcessAllXT2Files.Click += new System.EventHandler(this.menuNovadromeClick);
-            // 
-            // tsmiToolsGeneralProcessAllZADFiles
-            // 
-            this.tsmiToolsGeneralProcessAllZADFiles.Name = "tsmiToolsGeneralProcessAllZADFiles";
-            this.tsmiToolsGeneralProcessAllZADFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllZADFiles.Text = "ZAD files";
-            this.tsmiToolsGeneralProcessAllZADFiles.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsGeneralProcessAllMSHSFiles
-            // 
-            this.tsmiToolsGeneralProcessAllMSHSFiles.Name = "tsmiToolsGeneralProcessAllMSHSFiles";
-            this.tsmiToolsGeneralProcessAllMSHSFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllMSHSFiles.Text = "MSH files";
-            this.tsmiToolsGeneralProcessAllMSHSFiles.Click += new System.EventHandler(this.menuTDR2000Click);
-            // 
-            // tsmiToolsCarmageddon2
-            // 
-            this.tsmiToolsCarmageddon2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation});
-            this.tsmiToolsCarmageddon2.Name = "tsmiToolsCarmageddon2";
-            this.tsmiToolsCarmageddon2.Size = new System.Drawing.Size(229, 22);
-            this.tsmiToolsCarmageddon2.Text = "Carmageddon 2";
-            // 
-            // tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation
-            // 
-            this.tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation.Name = "tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation";
-            this.tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation.Size = new System.Drawing.Size(317, 22);
-            this.tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation.Text = "Process Car for Carmageddon Reincarnation";
-            this.tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation.Click += new System.EventHandler(this.menuCarmageddon2Click);
-            // 
-            // tsmiToolsCarmageddonMaxDamage
-            // 
-            this.tsmiToolsCarmageddonMaxDamage.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bulkUnZADToolStripMenuItem});
-            this.tsmiToolsCarmageddonMaxDamage.Name = "tsmiToolsCarmageddonMaxDamage";
-            this.tsmiToolsCarmageddonMaxDamage.Size = new System.Drawing.Size(229, 22);
-            this.tsmiToolsCarmageddonMaxDamage.Text = "Carmageddon: Max Damage";
-            // 
-            // bulkUnZADToolStripMenuItem
-            // 
-            this.bulkUnZADToolStripMenuItem.Name = "bulkUnZADToolStripMenuItem";
-            this.bulkUnZADToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.bulkUnZADToolStripMenuItem.Text = "Bulk UnZAD";
-            this.bulkUnZADToolStripMenuItem.Click += new System.EventHandler(this.menuCarmageddonMaxDamageClick);
-            // 
-            // tsmiToolsCarmageddonReincarnation
-            // 
-            this.tsmiToolsCarmageddonReincarnation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiToolsCarmageddonReincarnationWheelPreview,
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD});
-            this.tsmiToolsCarmageddonReincarnation.Name = "tsmiToolsCarmageddonReincarnation";
-            this.tsmiToolsCarmageddonReincarnation.Size = new System.Drawing.Size(229, 22);
-            this.tsmiToolsCarmageddonReincarnation.Text = "Carmageddon: Reincarnation";
-            // 
-            // tsmiToolsCarmageddonReincarnationWheelPreview
-            // 
-            this.tsmiToolsCarmageddonReincarnationWheelPreview.Name = "tsmiToolsCarmageddonReincarnationWheelPreview";
-            this.tsmiToolsCarmageddonReincarnationWheelPreview.Size = new System.Drawing.Size(151, 22);
-            this.tsmiToolsCarmageddonReincarnationWheelPreview.Text = "Wheel Preview";
-            this.tsmiToolsCarmageddonReincarnationWheelPreview.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tsmiToolsCarmageddonReincarnationBulkUnZAD
-            // 
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Name = "tsmiToolsCarmageddonReincarnationBulkUnZAD";
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Size = new System.Drawing.Size(151, 22);
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Text = "Bulk UnZAD";
-            this.tsmiToolsCarmageddonReincarnationBulkUnZAD.Click += new System.EventHandler(this.menuCarmageddonReincarnationClick);
-            // 
-            // tmsiToolsTDR2000
-            // 
-            this.tmsiToolsTDR2000.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmsiToolsTDR2000RemoveLODFromVehicle});
-            this.tmsiToolsTDR2000.Name = "tmsiToolsTDR2000";
-            this.tmsiToolsTDR2000.Size = new System.Drawing.Size(229, 22);
-            this.tmsiToolsTDR2000.Text = "TDR2000";
-            // 
-            // tmsiToolsTDR2000RemoveLODFromVehicle
-            // 
-            this.tmsiToolsTDR2000RemoveLODFromVehicle.Name = "tmsiToolsTDR2000RemoveLODFromVehicle";
-            this.tmsiToolsTDR2000RemoveLODFromVehicle.Size = new System.Drawing.Size(212, 22);
-            this.tmsiToolsTDR2000RemoveLODFromVehicle.Text = "Remove LOD from Vehicle";
-            this.tmsiToolsTDR2000RemoveLODFromVehicle.Click += new System.EventHandler(this.menuTDR2000Click);
             // 
             // tsmiHelp
             // 
@@ -975,13 +461,6 @@
             this.tsmiHelpAboutFlummery.Size = new System.Drawing.Size(164, 22);
             this.tsmiHelpAboutFlummery.Text = "About Flummery";
             this.tsmiHelpAboutFlummery.Click += new System.EventHandler(this.menuClick);
-            // 
-            // tsmiToolsGeneralProcessAllDCOLFiles
-            // 
-            this.tsmiToolsGeneralProcessAllDCOLFiles.Name = "tsmiToolsGeneralProcessAllDCOLFiles";
-            this.tsmiToolsGeneralProcessAllDCOLFiles.Size = new System.Drawing.Size(208, 22);
-            this.tsmiToolsGeneralProcessAllDCOLFiles.Text = "DCOL files";
-            this.tsmiToolsGeneralProcessAllDCOLFiles.Click += new System.EventHandler(this.menuTDR2000Click);
             // 
             // frmMain
             // 
@@ -1024,39 +503,11 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileNew;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileOpen;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonSplatPack;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonSplatPackActor;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonSplatPackCar;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddon2;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddon2Actor;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonMobile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonMobileVehicle;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnation;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationAccessory;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationEnvironment;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationPedestrian;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddonReincarnationVehicle;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenNovadrome;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenNovadromeEnvironment;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenNovadromeVehicle;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenTDR2000;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenTDR2000Hierarchy;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImport;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportAutodeskFBXFile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportBRenderACTFile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportBRenderDATFile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessCNTFile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessMDLFile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportTorusMSHSFile;
         private System.Windows.Forms.ToolStripSeparator tsmiFileSeparator1;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveFor;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAs;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnation;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnationLevel;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveAsCarmageddonReincarnationVehicle;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExport;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExportAutodeskFBXFile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileExportStainlessCNTFile;
         private System.Windows.Forms.ToolStripSeparator tsmiFileSeparator2;
         private System.Windows.Forms.ToolStripMenuItem tsmiFileExit;
         private System.Windows.Forms.ToolStripMenuItem tsmiView;
@@ -1078,49 +529,20 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneral;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralTDXConvertor;
         private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAll;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllCNTFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllLightFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllMDLFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllMT2Files;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllTDXFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllAccessoryTXTFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllRoutesTXTFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllVehicleSetupCFGFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllStructureXMLFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllSystemsDamageXMLFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllSetupLOLFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllTXTFilesC1Car;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllXT2Files;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddon2;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnation;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnationWheelPreview;
         private System.Windows.Forms.ToolStripMenuItem tsmiHelp;
         private System.Windows.Forms.ToolStripMenuItem tsmiHelpAboutFlummery;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveForCarmageddon2;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileSaveForCarmageddonReincarnation;
-        private System.Windows.Forms.ToolStripMenuItem tmsiToolsTDR2000;
-        private System.Windows.Forms.ToolStripMenuItem tmsiToolsTDR2000RemoveLODFromVehicle;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllZADFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonReincarnationBulkUnZAD;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportStainlessLIGHTFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiObjectOptimise;
         private System.Windows.Forms.ToolStripMenuItem tsmiObjectData;
         private System.Windows.Forms.ToolStripMenuItem tsmiObjectDataAddChangeType;
         private System.Windows.Forms.ToolStripMenuItem tsmiObjectDataRemove;
         private System.Windows.Forms.ToolStripSeparator tsmiObjectSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddon2ProcessCarForCarmageddonReincarnation;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileOpenCarmageddon2Race;
         private System.Windows.Forms.ToolStripSeparator tsmiViewSeparator1;
         private System.Windows.Forms.ToolStripMenuItem tsmiViewPanels;
         private System.Windows.Forms.ToolStripMenuItem tsmiViewPanelsDetails;
         private System.Windows.Forms.ToolStripMenuItem tsmiViewPanelsMaterialList;
         private System.Windows.Forms.ToolStripMenuItem tsmiViewPanelsOverview;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportWreckfestVHCLFile;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsCarmageddonMaxDamage;
-        private System.Windows.Forms.ToolStripMenuItem bulkUnZADToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllVehicleSetupLOLFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllMSHSFiles;
-        private System.Windows.Forms.ToolStripMenuItem tsmiToolsGeneralProcessAllDCOLFiles;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileImport;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFileImportAutodeskFBXFile;
     }
 }
 

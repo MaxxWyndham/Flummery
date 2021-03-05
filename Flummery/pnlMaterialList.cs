@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Flummery.Controls;
+using Flummery.Core;
 
 using WeifenLuo.WinFormsUI.Docking;
 

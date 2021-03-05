@@ -2,9 +2,8 @@
 using System.IO;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline;
-using Flummery.ContentPipeline.Core;
-using Flummery.ContentPipeline.NuCarma;
+using Flummery.Core;
+using Flummery.Core.ContentPipeline;
 
 namespace Flummery
 {
@@ -77,8 +76,8 @@ namespace Flummery
                         break;
 
                     case ".tdx":
-                        cx = new TDXExporter();
-                        cx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
+                        //cx = new TDXExporter();
+                        //cx.ExportSettings.AddSetting("Format", ToxicRagers.Helpers.D3DFormat.DXT5);
                         break;
                 }
 

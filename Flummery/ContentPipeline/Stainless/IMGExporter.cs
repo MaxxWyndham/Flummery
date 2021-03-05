@@ -5,6 +5,9 @@ using System.IO;
 using ToxicRagers.Stainless.Formats;
 using ToxicRagers.Helpers;
 
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
 namespace Flummery.ContentPipeline.Stainless
 {
     class IMGExporter : ContentExporter

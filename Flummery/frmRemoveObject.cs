@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Flummery.Core;
+
 namespace Flummery
 {
     public partial class frmRemoveObject : Form

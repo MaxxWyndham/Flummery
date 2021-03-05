@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 using ToxicRagers.Helpers;
 
+using Flummery.Core;
 
 namespace Flummery
 {

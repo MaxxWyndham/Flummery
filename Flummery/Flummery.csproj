@@ -101,7 +101,7 @@
     <Compile Include="ContentPipeline\Stainless\IMGImporter.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FlummeryApplication.cs" />
-    <Compile Include="FlumpFile.cs" />
+    <Compile Include="FlummerySettings.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,6 +222,7 @@
     <Compile Include="PowerOfTwoUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Renderer\OpenTK.cs" />
     <Compile Include="Util\Updater.cs" />
     <Compile Include="Widgets\Lighting.cs">
       <SubType>UserControl</SubType>
@@ -340,15 +341,6 @@
     <None Include="app.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\flummery.png" />

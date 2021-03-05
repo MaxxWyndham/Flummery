@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using OpenTK;
+
+using Flummery.Core;
 
 namespace Flummery
 {
     public class Capsule : Primitive
     {
-        public Capsule(Vector3 p0, Vector3 p1, Single radius)
+        public Capsule(Vector3 p0, Vector3 p1, float radius)
         {
             ModelMeshPart mesh = new ModelMeshPart();
 

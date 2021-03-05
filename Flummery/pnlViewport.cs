@@ -5,9 +5,10 @@ using System.Windows.Forms;
 
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 using WeifenLuo.WinFormsUI.Docking;
+
+using Flummery.Core;
 
 namespace Flummery
 {
@@ -15,7 +16,7 @@ namespace Flummery
     {
         public static GLControl Control;
         ViewportManager viewman;
-        Stopwatch sw = new Stopwatch();
+        readonly Stopwatch sw = new Stopwatch();
         double accumulator = 0;
         bool bRendered = false;
 
@@ -61,11 +62,11 @@ namespace Flummery
 
         public void UpdateKeyboardShortcuts()
         {
-            tsbSelect.ToolTipText = $"{tsbSelect.Text} ({Properties.Settings.Default.KeysCameraSelect})";
-            tsbPan.ToolTipText = $"{tsbPan.Text} ({Properties.Settings.Default.KeysCameraPan})";
-            tsbZoom.ToolTipText = $"{tsbZoom.Text} ({Properties.Settings.Default.KeysCameraZoom})";
-            tsbRotate.ToolTipText = $"{tsbRotate.Text} ({Properties.Settings.Default.KeysCameraRotate})";
-            tsbFrame.ToolTipText = $"{tsbFrame.Text} ({Properties.Settings.Default.KeysCameraFrame})";
+            //tsbSelect.ToolTipText = $"{tsbSelect.Text} ({Properties.Settings.Default.KeysCameraSelect})";
+            //tsbPan.ToolTipText = $"{tsbPan.Text} ({Properties.Settings.Default.KeysCameraPan})";
+            //tsbZoom.ToolTipText = $"{tsbZoom.Text} ({Properties.Settings.Default.KeysCameraZoom})";
+            //tsbRotate.ToolTipText = $"{tsbRotate.Text} ({Properties.Settings.Default.KeysCameraRotate})";
+            //tsbFrame.ToolTipText = $"{tsbFrame.Text} ({Properties.Settings.Default.KeysCameraFrame})";
         }
 
         private void pnlViewport_Load(object sender, EventArgs e)
@@ -99,37 +100,31 @@ namespace Flummery
             sw.Start();
             Application.Idle += new EventHandler(application_Idle);
 
-            viewman.Initialise();
+            viewman.Initialise(Control.Width, Control.Height);
 
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraSelect, KeyBinding.KeysCameraSelect, SetModeSelect);
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraPan, KeyBinding.KeysCameraPan, SetModePan);
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraZoom, KeyBinding.KeysCameraZoom, SetModeZoom);
-            InputManager.Current.RegisterBinding(Properties.Settings.Default.KeysCameraRotate, KeyBinding.KeysCameraRotate, SetModeRotate);
+            InputManager.Current.RegisterInputAction(SetModeSelect, "CameraModeSelect", "Activates the Camera Select mode", "Camera Controls");
+            InputManager.Current.RegisterInputAction(SetModePan, "CameraModePan", "Activates the Camera Pan mode", "Camera Controls");
+            InputManager.Current.RegisterInputAction(SetModeZoom, "CameraModeZoom", "Activates the Camera Zoom mode", "Camera Controls");
+            InputManager.Current.RegisterInputAction(SetModeRotate, "CameraModeRotate", "Activates the Camera Rotate mode", "Camera Controls");
         }
 
         private void gLControlInit()
         {
-            GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
-            GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
-            GL.Hint(HintTarget.PointSmoothHint, HintMode.Nicest);
-            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
-            GL.ShadeModel(ShadingModel.Smooth);
-            GL.PointSize(3.0f);
-            GL.Enable(EnableCap.CullFace);
+
         }
 
         private void glcViewport_Click(object sender, EventArgs e)
         {
-            MouseEventArgs mouse = (MouseEventArgs)e;
+            MouseEventArgs me = (MouseEventArgs)e;
+            MouseEvent mouse = new MouseEvent { X = me.X, Y = me.Y, Button = (Core.MouseButtons)me.Button };
 
             if (viewman.Active.RightClickLabel(mouse))
             {
                 foreach (ToolStripItem item in cmsViewport.Items)
                 {
-                    ToolStripMenuItem entry = (item as ToolStripMenuItem);
-                    if (entry == null) { continue; }
+                    if (!(item is ToolStripMenuItem entry)) { continue; }
 
-                    entry.Checked = (entry.Text == viewman.Active.Name);
+                    entry.Checked = entry.Text == viewman.Active.Name;
 
                     if (entry.Text == "Maximise") { entry.Enabled = !viewman.Active.Maximised; }
                     if (entry.Text == "Minimise") { entry.Enabled = viewman.Active.Maximised; }
@@ -146,15 +141,17 @@ namespace Flummery
             viewman.MouseMove(e.X, e.Y);
         }
 
-        void glcViewport_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        void glcViewport_MouseDown(object sender, MouseEventArgs e)
         {
             if (!bRendered) { return; }
+
             viewman.MouseDown(e.X, e.Y);
         }
 
-        void glcViewport_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        void glcViewport_MouseUp(object sender, MouseEventArgs e)
         {
             if (!bRendered) { return; }
+
             viewman.MouseUp(e.X, e.Y);
         }
 
@@ -172,7 +169,7 @@ namespace Flummery
 
         private void glcViewport_Resize(object sender, EventArgs e)
         {
-            if (viewman != null) { viewman.Initialise(); }
+            if (viewman != null) { viewman.Initialise(Control.Width, Control.Height); }
         }
 
         private void tsmiViewportMaximise_Click(object sender, EventArgs e)
@@ -204,18 +201,13 @@ namespace Flummery
 
         private void draw()
         {
-            GL.Disable(EnableCap.ScissorTest);
-            GL.ClearColor(Color.Blue);
-            GL.Viewport(0, 0, Control.Width, Control.Height);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.Enable(EnableCap.ScissorTest);
+            SceneManager.Current.Renderer.Disable("ScissorTest");
+            SceneManager.Current.Renderer.ClearColor(Color.Blue);
+            SceneManager.Current.Renderer.Viewport(0, 0, Control.Width, Control.Height);
+            SceneManager.Current.Renderer.Clear("ColorBufferBit", "DepthBufferBit");
+            SceneManager.Current.Renderer.Enable("ScissorTest");
 
             viewman.Draw();
-
-            if (Control == null)
-            {
-                Console.WriteLine();
-            }
 
             Control.SwapBuffers();
 

@@ -9,7 +9,8 @@ using System.Text;
 using System.Windows.Forms;
 
 using Flummery.Controls;
-using Flummery.ContentPipeline.Core;
+using Flummery.Core;
+using Flummery.Core.ContentPipeline;
 
 namespace Flummery
 {

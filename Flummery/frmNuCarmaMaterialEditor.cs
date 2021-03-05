@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows.Forms;
 
 using Flummery.Controls;
+using Flummery.Core;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;

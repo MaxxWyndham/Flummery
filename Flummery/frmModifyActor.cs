@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
-using OpenTK;
+
+using ToxicRagers.Helpers;
+
+using Flummery.Core;
 
 namespace Flummery
 {
@@ -55,7 +58,7 @@ namespace Flummery
         private void btnOK_Click(object sender, EventArgs e)
         {
             var culture = new CultureInfo("en-GB");
-            var transform = new Matrix4(
+            var transform = new Matrix4D(
                                             Convert.ToSingle(txtM11.Text, culture), Convert.ToSingle(txtM12.Text, culture), Convert.ToSingle(txtM13.Text, culture), 0,
                                             Convert.ToSingle(txtM21.Text, culture), Convert.ToSingle(txtM22.Text, culture), Convert.ToSingle(txtM23.Text, culture), 0,
                                             Convert.ToSingle(txtM31.Text, culture), Convert.ToSingle(txtM32.Text, culture), Convert.ToSingle(txtM33.Text, culture), 0,

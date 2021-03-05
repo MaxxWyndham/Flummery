@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline.NuCarma;
+using Flummery.Core;
 
 using ToxicRagers.Helpers;
 
@@ -133,7 +133,7 @@ namespace Flummery
             switch (type)
             {
                 case BoneType.Mesh:
-                    SceneManager.Current.Models[modelIndex].SetMesh(SceneManager.Current.Content.Load<Model, MDLImporter>(Path.GetFileNameWithoutExtension(fileToAttach), Path.GetDirectoryName(fileToAttach)).Meshes[0], boneIndex);
+                    //SceneManager.Current.Models[modelIndex].SetMesh(SceneManager.Current.Content.Load<Model, MDLImporter>(Path.GetFileNameWithoutExtension(fileToAttach), Path.GetDirectoryName(fileToAttach)).Meshes[0], boneIndex);
                     oldBone.AttachmentFile = null;
                     break;
 
@@ -147,7 +147,7 @@ namespace Flummery
                     }
                     else
                     {
-                        oldBone.Attachment = SceneManager.Current.Content.Load<Model, LIGHTImporter>(Path.GetFileNameWithoutExtension(fileToAttach), Path.GetDirectoryName(fileToAttach)).Bones[0].Attachment;
+                        //oldBone.Attachment = SceneManager.Current.Content.Load<Model, LIGHTImporter>(Path.GetFileNameWithoutExtension(fileToAttach), Path.GetDirectoryName(fileToAttach)).Bones[0].Attachment;
                         oldBone.AttachmentFile = Path.GetFileNameWithoutExtension(fileToAttach);
                     }
                     break;

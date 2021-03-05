@@ -4,6 +4,8 @@ using System.Windows.Forms;
 
 using ToxicRagers.Helpers;
 
+using Flummery.Core;
+
 namespace Flummery
 {
     public partial class frmModifyModel : Form
@@ -76,11 +78,11 @@ namespace Flummery
 
             if (rdoScaling.Checked)
             {
-                OpenTK.Matrix4 scaleMatrix = OpenTK.Matrix4.Identity;
+                Matrix4D scaleMatrix = Matrix4D.Identity;
 
                 if (rdoScaleWholeModel.Checked)
                 {
-                    scaleMatrix = OpenTK.Matrix4.CreateScale(
+                    scaleMatrix = Matrix4D.CreateScale(
                         txtScaleWholeModel.Text.ToSingle(), 
                         txtScaleWholeModel.Text.ToSingle(), 
                         txtScaleWholeModel.Text.ToSingle()
@@ -88,7 +90,7 @@ namespace Flummery
                 }
                 else if (rdoScaleByAxis.Checked)
                 {
-                    scaleMatrix = OpenTK.Matrix4.CreateScale(
+                    scaleMatrix = Matrix4D.CreateScale(
                         txtScaleAxisX.Text.ToSingle(), 
                         txtScaleAxisY.Text.ToSingle(), 
                         txtScaleAxisZ.Text.ToSingle()

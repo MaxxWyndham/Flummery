@@ -3,6 +3,8 @@ using System.Windows.Forms;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 
+using Flummery.Core;
+
 namespace Flummery.Controls
 {
     public partial class Lighting : UserControl, IWidget

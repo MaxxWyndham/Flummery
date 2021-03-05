@@ -1,5 +1,7 @@
 ﻿using WeifenLuo.WinFormsUI.Docking;
 
+using Flummery.Core;
+
 namespace Flummery
 {
     // Correspond to Flummery.Widgets

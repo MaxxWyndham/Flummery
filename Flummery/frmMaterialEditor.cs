@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using Flummery.Controls;
+using Flummery.Core;
 
 namespace Flummery
 {
