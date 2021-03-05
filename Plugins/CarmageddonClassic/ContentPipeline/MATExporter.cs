@@ -1,6 +1,9 @@
 ﻿using ToxicRagers.Carmageddon2.Formats;
 
-namespace Flummery.ContentPipeline.CarmaClassic
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 {
     class MATExporter : ContentExporter
     {

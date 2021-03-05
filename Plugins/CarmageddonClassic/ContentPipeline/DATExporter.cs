@@ -4,13 +4,16 @@ using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.Carmageddon2.Helpers;
 using ToxicRagers.Helpers;
 
-namespace Flummery.ContentPipeline.CarmaClassic
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 {
     class DATExporter : ContentExporter
     {
         public override void Export(Asset asset, string path)
         {
-            Model model = (asset as Model);
+            Model model = asset as Model;
             DAT dat = new DAT();
 
             foreach (ModelMesh mesh in model.Meshes)

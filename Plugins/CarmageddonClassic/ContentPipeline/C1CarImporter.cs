@@ -4,7 +4,10 @@ using System.IO;
 
 using ToxicRagers.Carmageddon.Formats;
 
-namespace Flummery.ContentPipeline.CarmaClassic
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 {
     class C1CarImporter : ContentImporter
     {

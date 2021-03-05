@@ -1,7 +1,10 @@
 ﻿using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.Helpers;
 
-namespace Flummery.ContentPipeline.CarmaClassic
+using Flummery.Core;
+using Flummery.Core.ContentPipeline;
+
+namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 {
     class ACTExporter : ContentExporter
     {

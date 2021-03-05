@@ -2,7 +2,10 @@
 
 using ToxicRagers.Carmageddon.Formats;
 
-namespace Flummery.ContentPipeline.CarmaClassic
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 {
     class PIXImporter : ContentImporter
     {
@@ -52,11 +55,6 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
                 textures.Entries.Add(texture);
             }
-
-
-            //texture.SetData(tdx.Name, tdx.Format.ToString(), tdx.MipMaps[0].Width, tdx.MipMaps[0].Height, tdx.MipMaps[0].Data);
-            //texture.SupportingDocuments["Source"] = tdx;
-            //texture.FileName = path;
 
             return textures;
         }

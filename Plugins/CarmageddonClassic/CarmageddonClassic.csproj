@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,7 +12,7 @@
     <AssemblyName>CarmageddonClassic</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -33,15 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,39 +50,43 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CarmageddonClassic.cs" />
+    <Compile Include="ContentPipeline\ACTExporter.cs" />
+    <Compile Include="ContentPipeline\ACTImporter.cs" />
+    <Compile Include="ContentPipeline\C1CarImporter.cs" />
+    <Compile Include="ContentPipeline\DATExporter.cs" />
+    <Compile Include="ContentPipeline\DATImporter.cs" />
+    <Compile Include="ContentPipeline\MATExporter.cs" />
+    <Compile Include="ContentPipeline\MATImporter.cs" />
+    <Compile Include="ContentPipeline\PIXImporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
+    <ProjectReference Include="..\..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
       <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
       <Name>ToxicRagers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Flummery.Core\Flummery.Core.csproj">
+    <ProjectReference Include="..\..\Flummery.Core\Flummery.Core.csproj">
       <Project>{b97aa7dc-7375-424e-848c-6f6f4625efc8}</Project>
       <Name>Flummery.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Flummery.Plugin\Flummery.Plugin.csproj">
+    <ProjectReference Include="..\..\Flummery.Plugin\Flummery.Plugin.csproj">
       <Project>{1077661c-a13b-4b4e-95fd-30454b39bd9a}</Project>
       <Name>Flummery.Plugin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FodyWeavers.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll" "$(SolutionDir)Flummery\bin\Debug\plugins\"</PostBuildEvent>
+  </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Fody.2.4.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.4.4\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('..\..\packages\Fody.6.2.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.6.2.0\build\Fody.targets'))" />
   </Target>
-  <Import Project="..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll" "$(SolutionDir)Flummery\bin\Debug\plugins\"</PostBuildEvent>
-  </PropertyGroup>
-  <Import Project="..\packages\Fody.2.4.4\build\Fody.targets" Condition="Exists('..\packages\Fody.2.4.4\build\Fody.targets')" />
+  <Import Project="..\..\packages\Fody.6.2.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.6.2.0\build\Fody.targets')" />
 </Project>

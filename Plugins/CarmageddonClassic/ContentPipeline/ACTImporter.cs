@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 
+using ToxicRagers.Helpers;
 using ToxicRagers.Carmageddon2.Formats;
 
-using OpenTK;
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
 
-namespace Flummery.ContentPipeline.CarmaClassic
+namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 {
     class ACTImporter : ContentImporter
     {
@@ -82,7 +84,7 @@ namespace Flummery.ContentPipeline.CarmaClassic
 
                     case Section.Matrix:
                         model.SetTransform(
-                            new Matrix4(
+                            new Matrix4D(
                                 section.Transform.M11, section.Transform.M12, section.Transform.M13, 0,
                                 section.Transform.M21, section.Transform.M22, section.Transform.M23, 0,
                                 section.Transform.M31, section.Transform.M32, section.Transform.M33, 0,

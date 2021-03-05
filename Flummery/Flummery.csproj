@@ -97,13 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentPipeline\BurnoutParadise\BOMImporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\ACTExporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\ACTImporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\C1CarImporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\CNTExporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\CNTImporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\DATExporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\DATImporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\MT2Importer.cs" />
     <Compile Include="ContentPipeline\NuCarma\MTLImporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\VehicleSetupLOLExporter.cs" />
@@ -111,11 +106,8 @@
     <Compile Include="ContentPipeline\Stainless\IMGImporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\LIGHTImporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\MaterialImporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\MATExporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\MATImporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\MDLExporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\MDLImporter.cs" />
-    <Compile Include="ContentPipeline\CarmaClassic\PIXImporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\SetupLOLExporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\StructureXMLExporter.cs" />
     <Compile Include="ContentPipeline\NuCarma\SystemsDamageXMLExporter.cs" />
