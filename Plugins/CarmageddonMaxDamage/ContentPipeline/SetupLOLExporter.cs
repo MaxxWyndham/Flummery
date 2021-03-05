@@ -1,8 +1,11 @@
 ﻿using ToxicRagers.CarmageddonReincarnation.Formats;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
-    class SetupLOLExporter : ContentExporter
+    public class SetupLOLExporter : ContentExporter
     {
         public override void Export(Asset asset, string path)
         {

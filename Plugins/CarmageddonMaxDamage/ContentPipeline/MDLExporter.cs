@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using ToxicRagers.Helpers.Stripper;
 using ToxicRagers.Stainless.Formats;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
-    class MDLExporter : ContentExporter
+    public class MDLExporter : ContentExporter
     {
         public override void Export(Asset asset, string path)
         {
@@ -47,7 +51,7 @@ namespace Flummery.ContentPipeline.NuCarma
                         mdl.Faces.Add(new MDLFace(materialIndex, 0, masterVertOffset + meshpart.IndexBuffer.Data[i + 0], masterVertOffset + meshpart.IndexBuffer.Data[i + 1], masterVertOffset + meshpart.IndexBuffer.Data[i + 2]));
                     }
 
-                    Stripper.Stripper stripper = new Stripper.Stripper(meshpart.IndexBuffer.Data.Count / 3, meshpart.IndexBuffer.Data.ToArray())
+                    Stripper stripper = new Stripper(meshpart.IndexBuffer.Data.Count / 3, meshpart.IndexBuffer.Data.ToArray())
                     {
                         OneSided = true,
                         ConnectAllStrips = true

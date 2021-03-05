@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{97AADEF0-A89E-4917-9C69-911E2C2B870E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CarmageddonMaxDamage</RootNamespace>
+    <AssemblyName>CarmageddonMaxDamage</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CarmageddonMaxDamage.cs" />
+    <Compile Include="ContentPipeline\CNTExporter.cs" />
+    <Compile Include="ContentPipeline\CNTImporter.cs" />
+    <Compile Include="ContentPipeline\LIGHTImporter.cs" />
+    <Compile Include="ContentPipeline\MaterialImporter.cs" />
+    <Compile Include="ContentPipeline\MDLExporter.cs" />
+    <Compile Include="ContentPipeline\MDLImporter.cs" />
+    <Compile Include="ContentPipeline\MT2Importer.cs" />
+    <Compile Include="ContentPipeline\MTLImporter.cs" />
+    <Compile Include="ContentPipeline\SetupLOLExporter.cs" />
+    <Compile Include="ContentPipeline\StructureXMLExporter.cs" />
+    <Compile Include="ContentPipeline\SystemsDamageXMLExporter.cs" />
+    <Compile Include="ContentPipeline\TDXExporter.cs" />
+    <Compile Include="ContentPipeline\TDXImporter.cs" />
+    <Compile Include="ContentPipeline\VehicleSetupCFGExporter.cs" />
+    <Compile Include="ContentPipeline\VehicleSetupLOLExporter.cs" />
+    <Compile Include="WheelPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WheelPreview.Designer.cs">
+      <DependentUpon>WheelPreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SaveAsLevel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveAsLevel.Designer.cs">
+      <DependentUpon>SaveAsLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SaveAsVehicle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveAsVehicle.Designer.cs">
+      <DependentUpon>SaveAsVehicle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
+      <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
+      <Name>ToxicRagers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Flummery.Core\Flummery.Core.csproj">
+      <Project>{b97aa7dc-7375-424e-848c-6f6f4625efc8}</Project>
+      <Name>Flummery.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Flummery.Plugin\Flummery.Plugin.csproj">
+      <Project>{1077661c-a13b-4b4e-95fd-30454b39bd9a}</Project>
+      <Name>Flummery.Plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WheelPreview.resx">
+      <DependentUpon>WheelPreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveAsLevel.resx">
+      <DependentUpon>SaveAsLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveAsVehicle.resx">
+      <DependentUpon>SaveAsVehicle.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll" "$(SolutionDir)Flummery\bin\Debug\plugins\"</PostBuildEvent>
+  </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('..\..\packages\Fody.6.2.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.6.2.0\build\Fody.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Fody.6.2.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.6.2.0\build\Fody.targets')" />
+</Project>

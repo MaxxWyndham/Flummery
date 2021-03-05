@@ -3,9 +3,12 @@ using System.IO;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
-    class LIGHTImporter : ContentImporter
+    public class LIGHTImporter : ContentImporter
     {
         public override string GetExtension() { return "light"; }
 

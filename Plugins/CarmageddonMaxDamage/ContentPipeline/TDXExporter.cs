@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Runtime.InteropServices;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
-using ToxicRagers.Generics;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
-    class TDXExporter : ContentExporter
+    public class TDXExporter : ContentExporter
     {
         public override void Export(Asset asset, string path)
         {

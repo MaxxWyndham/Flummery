@@ -4,26 +4,27 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline.NuCarma;
+using Flummery.Core;
+using Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.CarmageddonReincarnation.Formats.Materials;
 using ToxicRagers.Stainless.Formats;
 
-namespace Flummery
+namespace Flummery.Plugin.CarmageddonMaxDamage
 {
-    public partial class frmSaveAsLevel : Form
+    public partial class SaveAsLevel : Form
     {
         FlumpFile flump;
         string level;
 
         Label lblInfo = null;
         Label lblProgress = null;
-        System.Timers.Timer timer = new System.Timers.Timer(200);
-        string[] frames = new string[] { "◐", "◓", "◑", "◒" };
+        readonly System.Timers.Timer timer = new System.Timers.Timer(200);
+        readonly string[] frames = new string[] { "◐", "◓", "◑", "◒" };
         int progressMax = 0;
 
-        public frmSaveAsLevel()
+        public SaveAsLevel()
         {
             InitializeComponent();
 
@@ -31,7 +32,7 @@ namespace Flummery
             timer.SynchronizingObject = this;
             timer.Elapsed += timer_Elapsed;
 
-            txtPath.Text = (Directory.Exists(Properties.Settings.Default.SaveAsLevelPath) ? Properties.Settings.Default.SaveAsLevelPath : "");
+            //txtPath.Text = Directory.Exists(Properties.Settings.Default.SaveAsLevelPath) ? Properties.Settings.Default.SaveAsLevelPath : "";
             setLevel();
         }
 
@@ -46,8 +47,8 @@ namespace Flummery
 
                 setLevel();
 
-                Properties.Settings.Default.SaveAsLevelPath = txtPath.Text;
-                Properties.Settings.Default.Save();
+                //Properties.Settings.Default.SaveAsLevelPath = txtPath.Text;
+                //Properties.Settings.Default.Save();
             }
         }
 
@@ -240,7 +241,7 @@ namespace Flummery
                             Entity entity = SceneManager.Current.Entities[i];
                             StreamWriter w = (entity.EntityType == EntityType.Accessory || entity.EntityType == EntityType.Grid ? wacc : wpup);
 
-                            w.WriteLine($"\t{(entity.UniqueIdentifier ?? $"entity{i.ToString("0000")}")} = {{");
+                            w.WriteLine($"\t{(entity.UniqueIdentifier ?? $"entity{i:0000}")} = {{");
                             w.WriteLine($"\t\ttype = \"{entity.Name}\",");
                             if (entity.EntityType == EntityType.Powerup) { w.WriteLine($"\t\tname = \"{entity.Tag}\","); }
                             w.WriteLine("\t\tlayer = \"race01\",");
@@ -422,8 +423,8 @@ namespace Flummery
             MINGE minge = new MINGE
             {
                 Name = txtPrettyLevelName.Text,
-                Author = Properties.Settings.Default.PersonalAuthor,
-                Website = Properties.Settings.Default.PersonalWebsite,
+                //Author = Properties.Settings.Default.PersonalAuthor,
+                //Website = Properties.Settings.Default.PersonalWebsite,
                 Type = MINGE.ModType.Level
             };
 

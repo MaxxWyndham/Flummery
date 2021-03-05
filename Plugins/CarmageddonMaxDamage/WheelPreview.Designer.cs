@@ -1,6 +1,6 @@
-﻿namespace Flummery
+﻿namespace Flummery.Plugin.CarmageddonMaxDamage
 {
-    partial class frmReincarnationWheelPreview
+    partial class WheelPreview
     {
         /// <summary>
         /// Required designer variable.
@@ -105,7 +105,7 @@
             this.Name = "frmReincarnationWheelPreview";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wheel Preview";
-            this.Load += new System.EventHandler(this.frmReincarnationWheelPreview_Load);
+            this.Load += new System.EventHandler(this.wheelPreview_Load);
             this.ResumeLayout(false);
 
         }

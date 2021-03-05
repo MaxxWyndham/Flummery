@@ -4,9 +4,12 @@ using ToxicRagers.Helpers;
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Stainless.Formats;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
-    class CNTExporter : ContentExporter
+    public class CNTExporter : ContentExporter
     {
         static string rootPath;
 

@@ -2,7 +2,10 @@
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
     class MT2Importer : ContentImporter
     {
@@ -12,11 +15,11 @@ namespace Flummery.ContentPipeline.NuCarma
         {
             string hints = (currentPath != null ? currentPath + ";" : "");
 
-            if (Properties.Settings.Default.PathCarmageddonReincarnation != null &&
-                currentPath.Contains(Properties.Settings.Default.PathCarmageddonReincarnation))
-            {
-                if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\")) { hints += Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\;"; }
-            }
+            //if (Properties.Settings.Default.PathCarmageddonReincarnation != null &&
+            //    currentPath.Contains(Properties.Settings.Default.PathCarmageddonReincarnation))
+            //{
+            //    if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\")) { hints += Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\;"; }
+            //}
 
             return hints;
         }

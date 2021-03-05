@@ -1,11 +1,13 @@
 ﻿using System.IO;
 
-using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Stainless.Formats;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
-    class MTLImporter : ContentImporter
+    public class MTLImporter : ContentImporter
     {
         public override string GetExtension() { return "mtl"; }
 
@@ -13,11 +15,11 @@ namespace Flummery.ContentPipeline.NuCarma
         {
             string hints = (currentPath != null ? currentPath + ";" : "");
 
-            if (Properties.Settings.Default.PathCarmageddonReincarnation != null &&
-                currentPath.Contains(Properties.Settings.Default.PathCarmageddonReincarnation))
-            {
-                if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\")) { hints += Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\;"; }
-            }
+            //if (Properties.Settings.Default.PathCarmageddonReincarnation != null &&
+            //    currentPath.Contains(Properties.Settings.Default.PathCarmageddonReincarnation))
+            //{
+            //    if (Directory.Exists(Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\")) { hints += Properties.Settings.Default.PathCarmageddonReincarnation + "Data_Core\\Content\\Textures\\;"; }
+            //}
 
             return hints;
         }

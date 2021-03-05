@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using OpenTK;
-
+using ToxicRagers.Helpers;
 using ToxicRagers.Stainless.Formats;
 
-namespace Flummery.ContentPipeline.NuCarma
+using Flummery.Core.ContentPipeline;
+using Flummery.Core;
+
+namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 {
-    class MDLImporter : ContentImporter
+    public class MDLImporter : ContentImporter
     {
         public override string GetExtension() { return "mdl"; }
 

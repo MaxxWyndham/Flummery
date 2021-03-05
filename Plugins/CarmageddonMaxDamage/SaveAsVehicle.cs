@@ -4,15 +4,16 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using Flummery.ContentPipeline.NuCarma;
+using Flummery.Core;
+using Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.CarmageddonReincarnation.Formats.Materials;
 using ToxicRagers.Stainless.Formats;
 
-namespace Flummery
+namespace Flummery.Plugin.CarmageddonMaxDamage
 {
-    public partial class frmSaveAsVehicle : Form
+    public partial class SaveAsVehicle : Form
     {
         FlumpFile flump;
         string car;
@@ -23,7 +24,7 @@ namespace Flummery
         string[] frames = new string[] { "◐", "◓", "◑", "◒" };
         int progressMax = 0;
 
-        public frmSaveAsVehicle()
+        public SaveAsVehicle()
         {
             InitializeComponent();
 
@@ -31,7 +32,7 @@ namespace Flummery
             timer.SynchronizingObject = this;
             timer.Elapsed += timer_Elapsed;
 
-            txtPath.Text = Properties.Settings.Default.SaveAsVehiclePath;
+            //txtPath.Text = Properties.Settings.Default.SaveAsVehiclePath;
             setCar();
         }
 
@@ -46,8 +47,8 @@ namespace Flummery
 
                 setCar();
 
-                Properties.Settings.Default.SaveAsVehiclePath = txtPath.Text;
-                Properties.Settings.Default.Save();
+                //Properties.Settings.Default.SaveAsVehiclePath = txtPath.Text;
+                //Properties.Settings.Default.Save();
             }
         }
 
@@ -273,8 +274,8 @@ namespace Flummery
             MINGE minge = new MINGE
             {
                 Name = txtPrettyCarName.Text,
-                Author = Properties.Settings.Default.PersonalAuthor,
-                Website = Properties.Settings.Default.PersonalWebsite,
+                //Author = Properties.Settings.Default.PersonalAuthor,
+                //Website = Properties.Settings.Default.PersonalWebsite,
                 Type = MINGE.ModType.Vehicle
             };
 

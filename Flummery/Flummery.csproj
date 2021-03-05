@@ -97,23 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentPipeline\BurnoutParadise\BOMImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\CNTExporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\CNTImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\MT2Importer.cs" />
-    <Compile Include="ContentPipeline\NuCarma\MTLImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\VehicleSetupLOLExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\IMGExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\IMGImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\LIGHTImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\MaterialImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\MDLExporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\MDLImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\SetupLOLExporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\StructureXMLExporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\SystemsDamageXMLExporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\TDXExporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\TDXImporter.cs" />
-    <Compile Include="ContentPipeline\NuCarma\VehicleSetupCFGExporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\HIEImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\MSHSImporter.cs" />
     <Compile Include="ContentPipeline\TDR2000\TXImporter.cs" />
@@ -162,12 +147,6 @@
     <Compile Include="frmNewObject.Designer.cs">
       <DependentUpon>frmNewObject.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmNuCarmaSetupLOL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmNuCarmaSetupLOL.Designer.cs">
-      <DependentUpon>frmNuCarmaSetupLOL.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmPreferences.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,12 +159,6 @@
     <Compile Include="frmNuCarmaMaterialEditor.Designer.cs">
       <DependentUpon>frmNuCarmaMaterialEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmReincarnationWheelPreview.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmReincarnationWheelPreview.Designer.cs">
-      <DependentUpon>frmReincarnationWheelPreview.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmRemoveObject.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,18 +170,6 @@
     </Compile>
     <Compile Include="frmRename.Designer.cs">
       <DependentUpon>frmRename.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmSaveAsLevel.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSaveAsLevel.Designer.cs">
-      <DependentUpon>frmSaveAsLevel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmSaveAsVehicle.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSaveAsVehicle.Designer.cs">
-      <DependentUpon>frmSaveAsVehicle.cs</DependentUpon>
     </Compile>
     <Compile Include="frmTDXConvert.cs">
       <SubType>Form</SubType>
@@ -321,29 +282,17 @@
     <EmbeddedResource Include="frmNewObject.resx">
       <DependentUpon>frmNewObject.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmNuCarmaSetupLOL.resx">
-      <DependentUpon>frmNuCarmaSetupLOL.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmPreferences.resx">
       <DependentUpon>frmPreferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNuCarmaMaterialEditor.resx">
       <DependentUpon>frmNuCarmaMaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReincarnationWheelPreview.resx">
-      <DependentUpon>frmReincarnationWheelPreview.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmRemoveObject.resx">
       <DependentUpon>frmRemoveObject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRename.resx">
       <DependentUpon>frmRename.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSaveAsLevel.resx">
-      <DependentUpon>frmSaveAsLevel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSaveAsVehicle.resx">
-      <DependentUpon>frmSaveAsVehicle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTDXConvert.resx">
       <DependentUpon>frmTDXConvert.cs</DependentUpon>

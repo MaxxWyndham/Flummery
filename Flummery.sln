@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flummery.Core", "Flummery.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarmageddonClassic", "Plugins\CarmageddonClassic\CarmageddonClassic.csproj", "{BAEB9734-8231-4C9A-8577-2C10DFCAAD02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarmageddonMaxDamage", "Plugins\CarmageddonMaxDamage\CarmageddonMaxDamage.csproj", "{97AADEF0-A89E-4917-9C69-911E2C2B870E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,12 +95,25 @@ Global
 		{BAEB9734-8231-4C9A-8577-2C10DFCAAD02}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BAEB9734-8231-4C9A-8577-2C10DFCAAD02}.Release|x86.ActiveCfg = Release|Any CPU
 		{BAEB9734-8231-4C9A-8577-2C10DFCAAD02}.Release|x86.Build.0 = Release|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Debug|x86.Build.0 = Debug|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|x86.ActiveCfg = Release|Any CPU
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BAEB9734-8231-4C9A-8577-2C10DFCAAD02} = {4F45889C-CF29-4CDF-8E3E-90ACE3591BFE}
+		{97AADEF0-A89E-4917-9C69-911E2C2B870E} = {4F45889C-CF29-4CDF-8E3E-90ACE3591BFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F88FFC56-63F0-447D-B613-AB374F3342F7}
