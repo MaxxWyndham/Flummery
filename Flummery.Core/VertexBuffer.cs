@@ -101,7 +101,7 @@ namespace Flummery.Core
 
             SceneManager.Current.Renderer.VertexPointer(3, "Float", 56, new IntPtr(0));
             SceneManager.Current.Renderer.NormalPointer("Float", 56, new IntPtr(vec3Size));
-            SceneManager.Current.Renderer.TexCoordPointer(4, "Float", 56, new IntPtr(2 * vec3Size));
+            SceneManager.Current.Renderer.TexCoordPointer(2, "Float", 56, new IntPtr(2 * vec3Size));
             if (!bWireframe) { SceneManager.Current.Renderer.ColorPointer(4, "Float", 56, new IntPtr((2 * vec3Size) + vec4Size)); }
 
             SceneManager.Current.Renderer.DrawElements(primitiveType, ibo.Length, "UnsignedInt", IntPtr.Zero);
