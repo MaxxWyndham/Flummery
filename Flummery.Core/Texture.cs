@@ -2,9 +2,10 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
-//using Flummery.ContentPipeline.Core;
-//using Flummery.ContentPipeline.NuCarma;
+using Flummery.Core.ContentPipeline;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
 
@@ -117,36 +118,24 @@ namespace Flummery.Core
     {
         public Texture Load(string assetName, string assetPath = null)
         {
-            Texture t = null;
+            string extension = Path.GetExtension(assetName).ToLower().Substring(1);
+            Type type = typeof(ContentImporter);
+            Type importer = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract)
+                .Where(p => ((ContentImporter)Activator.CreateInstance(p)).GetExtension() == extension)
+                .FirstOrDefault();
 
-            switch (Path.GetExtension(assetName).ToLower())
+            if (importer != null)
             {
-                case ".bmp":
-                    t = SceneManager.Current.Content.Load<Texture, ContentPipeline.BMPImporter>(assetName, assetPath);
-                    break;
+                MethodInfo method = typeof(ContentManager).GetMethods()
+                    .FirstOrDefault(m => m.Name == nameof(ContentManager.Load) && m.IsGenericMethod);
+                MethodInfo generic = method.MakeGenericMethod(typeof(Texture), importer);
 
-                case ".jpg":
-                    t = SceneManager.Current.Content.Load<Texture, ContentPipeline.JPGImporter>(assetName, assetPath);
-                    break;
-
-                case ".png":
-                    t = SceneManager.Current.Content.Load<Texture, ContentPipeline.PNGImporter>(assetName, assetPath);
-                    break;
-
-                case ".tif":
-                    t = SceneManager.Current.Content.Load<Texture, ContentPipeline.TIFImporter>(assetName, assetPath);
-                    break;
-
-                case ".tga":
-                    t = SceneManager.Current.Content.Load<Texture, ContentPipeline.TGAImporter>(assetName, assetPath);
-                    break;
-
-                //case ".tdx":
-                //    t = SceneManager.Current.Content.Load<Texture, TDXImporter>(assetName, assetPath);
-                //    break;
+                return (Texture)generic.Invoke(SceneManager.Current.Content, new object[] { assetName, assetPath, false });
             }
 
-            return t;
+            return null;
         }
     }
 }
