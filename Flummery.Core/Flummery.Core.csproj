@@ -53,6 +53,7 @@
     <Compile Include="ContentPipeline\ContentImporter.cs" />
     <Compile Include="ContentPipeline\Core\BMPExporter.cs" />
     <Compile Include="ContentPipeline\Core\BMPImporter.cs" />
+    <Compile Include="ContentPipeline\Core\DDSExporter.cs" />
     <Compile Include="ContentPipeline\Core\DDSImporter.cs" />
     <Compile Include="ContentPipeline\Core\FBXExporter.cs" />
     <Compile Include="ContentPipeline\Core\FBXImporter.cs" />
