@@ -66,6 +66,7 @@
     <Compile Include="ContentPipeline\Core\TIFImporter.cs" />
     <Compile Include="ContentPipeline\ExportSettings.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FlumpFile.cs" />
     <Compile Include="IndexBuffer.cs" />
     <Compile Include="InputManager.cs" />

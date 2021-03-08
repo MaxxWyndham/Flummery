@@ -86,6 +86,8 @@ namespace Flummery.Core
 
         public CoordinateSystem CoordinateSystem { get; private set; } = CoordinateSystem.LeftHanded;
 
+        public Random Random { get; } = new Random();
+
         public Model SelectedModel
         {
             get

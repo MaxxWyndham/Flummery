@@ -22,7 +22,7 @@ namespace Flummery.Core
 
         public object Tag { get; set; }
 
-        public long Key { get; } = DateTime.Now.Ticks;
+        public long Key { get; } = SceneManager.Current.Random.NextLong();
 
         public LinkType LinkType { get; private set; }
 
