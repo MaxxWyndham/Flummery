@@ -68,7 +68,7 @@ namespace Flummery.Core
 
         public Entity Node;
 
-        public bool CanUseVertexBuffer { get; }
+        public bool CanUseVertexBuffer { get; set; }
 
         public ContentManager Content { get; } = new ContentManager();
 
@@ -124,20 +124,18 @@ namespace Flummery.Core
         public event ErrorHandler OnError;
         public event ContextChangeHandler OnContextChange;
 
-        public static void Create(IRenderer renderer, bool useVertexBuffer = true)
+        public static void Create(IRenderer renderer)
         {
-            new SceneManager(renderer, useVertexBuffer);
+            new SceneManager(renderer);
         }
 
-        public SceneManager(IRenderer renderer, bool useVertexBuffer = true)
+        public SceneManager(IRenderer renderer)
         {
             Current = this;
 
             Console.WriteLine("Initialising...");
 
             Renderer = renderer;
-
-            CanUseVertexBuffer = useVertexBuffer;
 
             Node = new Entity
             {

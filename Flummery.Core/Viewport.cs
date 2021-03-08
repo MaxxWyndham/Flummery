@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-//using System.Windows.Forms;
 
 using ToxicRagers.Helpers;
 
@@ -29,7 +28,7 @@ namespace Flummery.Core
         Quadrant oldposition;
 
         ProjectionType mode = ProjectionType.Perspective;
-        TextWriter tw;
+        TextWriter tw = null;
 
         public int X { get; private set; }
 
@@ -73,7 +72,7 @@ namespace Flummery.Core
         public Viewport()
         {
             Camera = new Camera() { ProjectionMode = mode, Zoom = 2 };
-            tw = new TextWriter(vw, vh, 50, 20);
+            tw = new TextWriter(50, 20);
         }
 
         public bool IsActive(int x, int y)
@@ -176,7 +175,7 @@ namespace Flummery.Core
             vw = (w / (int)width) - 2;
             vh = (h / (int)height) - 2;
 
-            tw = new TextWriter(vw, vh, vw, vh);
+            tw.SetWidthHeight(vw, vh);
             tw.AddLine(Name, new PointF(5, 5), Brushes.Blue);
             //tw.AddLine(name, new PointF(vw / 2 + 9, vh / 2 - 5), Brushes.Red, Fonts.AxisLabel);
 
@@ -204,7 +203,6 @@ namespace Flummery.Core
 
         public void Update(float dt)
         {
-            tw.UpdateText();
             Camera.Update(dt);
         }
 

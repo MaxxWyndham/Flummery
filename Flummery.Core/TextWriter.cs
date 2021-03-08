@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
@@ -21,47 +20,37 @@ namespace Flummery.Core
 
         public List<TextEntry> Lines { get; } = new List<TextEntry>();
 
-        private readonly Bitmap textBitmap;
-        private int textureID;
-        private Size clientSize;
+        public Bitmap TextBitmap { get; private set; }
 
-        public void Update(int ind, string newText)
+        private int textureID = -1;
+
+        public TextWriter(int width, int height)
         {
-            if (ind < Lines.Count)
-            {
-                //lines[ind] = newText;
-                UpdateText();
-            }
+            SetWidthHeight(width, height);
         }
 
-        public TextWriter(int viewportWidth, int viewportHeight, int width, int height)
+        private void createTexture()
         {
-            textBitmap = new Bitmap(width, height);
-            clientSize = new Size(viewportWidth, viewportHeight);
-            textureID = createTexture();
-        }
-
-        private int createTexture()
-        {
-            if (SceneManager.Current == null) { return 0; }
-
-            Bitmap bitmap = textBitmap;
-            SceneManager.Current.Renderer.GenTextures(1, out int textureID);
+            if (textureID == -1) { SceneManager.Current.Renderer.GenTextures(1, out textureID); }
             SceneManager.Current.Renderer.BindTexture("Texture2D", textureID);
 
-            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            BitmapData data = TextBitmap.LockBits(new Rectangle(0, 0, TextBitmap.Width, TextBitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             SceneManager.Current.Renderer.TexImage2D("Texture2D", 0, "Rgba", data.Width, data.Height, 0, "Bgra", "UnsignedByte", data.Scan0);
             SceneManager.Current.Renderer.TexParameter("Texture2D", "TextureMinFilter", 0x2601);
             SceneManager.Current.Renderer.TexParameter("Texture2D", "TextureMagFilter", 0x2601);
             SceneManager.Current.Renderer.Finish();
-            bitmap.UnlockBits(data);
+            TextBitmap.UnlockBits(data);
+        }
 
-            return textureID;
+        public void SetWidthHeight(int width, int height)
+        {
+            TextBitmap = new Bitmap(width, height);
+            createTexture();
         }
 
         public void Dispose()
         {
-            if (textureID > 0) { SceneManager.Current.Renderer.DeleteTexture(textureID); }
+            if (textureID != -1) { SceneManager.Current.Renderer.DeleteTexture(textureID); }
         }
 
         public void Clear()
@@ -88,7 +77,7 @@ namespace Flummery.Core
         {
             if (Lines.Count > 0)
             {
-                using (Graphics gfx = Graphics.FromImage(textBitmap))
+                using (Graphics gfx = Graphics.FromImage(TextBitmap))
                 {
                     gfx.Clear(Color.Black);
 
@@ -100,18 +89,18 @@ namespace Flummery.Core
                     }
                 }
 
-                textBitmap.MakeTransparent(Color.Black);
+                TextBitmap.MakeTransparent(Color.Black);
 
-                BitmapData data = textBitmap.LockBits(new Rectangle(0, 0, textBitmap.Width, textBitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                SceneManager.Current.Renderer.TexSubImage2D("Texture2D", 0, 0, 0, textBitmap.Width, textBitmap.Height, "Bgra", "UnsignedByte", data.Scan0);
-                textBitmap.UnlockBits(data);
+                BitmapData data = TextBitmap.LockBits(new Rectangle(0, 0, TextBitmap.Width, TextBitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                SceneManager.Current.Renderer.TexSubImage2D("Texture2D", 0, 0, 0, TextBitmap.Width, TextBitmap.Height, "Bgra", "UnsignedByte", data.Scan0);
+                TextBitmap.UnlockBits(data);
             }
         }
 
         public void Draw()
         {
             SceneManager.Current.Renderer.Enable("Blend");
-            SceneManager.Current.Renderer.Color4(255,255,255,0);
+            SceneManager.Current.Renderer.Color4(255, 255, 255, 0);
             SceneManager.Current.Renderer.BlendFunc("SrcAlpha", "OneMinusSrcAlpha");
             SceneManager.Current.Renderer.Enable("Texture2D");
             SceneManager.Current.Renderer.BindTexture("Texture2D", textureID);
@@ -122,9 +111,9 @@ namespace Flummery.Core
 
             SceneManager.Current.Renderer.Begin(PrimitiveType.Quads);
             SceneManager.Current.Renderer.TexCoord2(0, 1); SceneManager.Current.Renderer.Vertex2(0, 0);
-            SceneManager.Current.Renderer.TexCoord2(1, 1); SceneManager.Current.Renderer.Vertex2(textBitmap.Width, 0);
-            SceneManager.Current.Renderer.TexCoord2(1, 0); SceneManager.Current.Renderer.Vertex2(textBitmap.Width, textBitmap.Height);
-            SceneManager.Current.Renderer.TexCoord2(0, 0); SceneManager.Current.Renderer.Vertex2(0, textBitmap.Height);
+            SceneManager.Current.Renderer.TexCoord2(1, 1); SceneManager.Current.Renderer.Vertex2(TextBitmap.Width, 0);
+            SceneManager.Current.Renderer.TexCoord2(1, 0); SceneManager.Current.Renderer.Vertex2(TextBitmap.Width, TextBitmap.Height);
+            SceneManager.Current.Renderer.TexCoord2(0, 0); SceneManager.Current.Renderer.Vertex2(0, TextBitmap.Height);
             SceneManager.Current.Renderer.End();
 
             SceneManager.Current.Renderer.TexEnv("TextureEnv", "TextureEnvMode", 0x2100);

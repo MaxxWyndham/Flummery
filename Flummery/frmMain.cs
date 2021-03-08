@@ -41,6 +41,7 @@ namespace Flummery
             Text += $" v{FlummeryApplication.Version}";
 
             InputManager inputManager = new InputManager();
+            SceneManager.Create(new Renderer.OpenTKRenderer());
 
             pnlOverview overview = new pnlOverview();
             PnlViewport viewport = new PnlViewport();
@@ -54,9 +55,8 @@ namespace Flummery
             overview.Show(dockPanel, DockState.DockLeft);
             details.Show(dockPanel, DockState.DockRight);
 
-            List<string> extensions = new List<string>(GL.GetString(StringName.Extensions).Split(' '));
-            SceneManager.Create(new Renderer.OpenTKRenderer(), extensions.Contains("GL_ARB_vertex_buffer_object"));
-            
+            SceneManager.Current.CanUseVertexBuffer = GL.GetString(StringName.Extensions).Split(' ').Contains("GL_ARB_vertex_buffer_object");
+
             dockPanel.DockLeftPortion = 300;
             dockPanel.DockRightPortion = 315;
             dockPanel.DockBottomPortion = 105;

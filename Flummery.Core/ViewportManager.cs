@@ -71,8 +71,6 @@ namespace Flummery.Core
 
         public void Initialise(int w, int h)
         {
-            if (SceneManager.Current == null) { return; }
-
             width = w;
             height = h;
 
