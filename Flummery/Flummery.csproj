@@ -99,7 +99,6 @@
     <Compile Include="ContentPipeline\BurnoutParadise\BOMImporter.cs" />
     <Compile Include="ContentPipeline\Stainless\IMGExporter.cs" />
     <Compile Include="ContentPipeline\Stainless\IMGImporter.cs" />
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FlummeryApplication.cs" />
     <Compile Include="FlummerySettings.cs" />
     <Compile Include="frmAbout.cs">
