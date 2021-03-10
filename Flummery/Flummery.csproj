@@ -229,12 +229,6 @@
     <Compile Include="Widgets\Lighting.Designer.cs">
       <DependentUpon>Lighting.cs</DependentUpon>
     </Compile>
-    <Compile Include="Widgets\Skins.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Widgets\Skins.Designer.cs">
-      <DependentUpon>Skins.cs</DependentUpon>
-    </Compile>
     <Compile Include="Widgets\Transform.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -330,9 +324,6 @@
     </Compile>
     <EmbeddedResource Include="Widgets\Lighting.resx">
       <DependentUpon>Lighting.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Widgets\Skins.resx">
-      <DependentUpon>Skins.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Widgets\Transform.resx">
       <DependentUpon>Transform.cs</DependentUpon>

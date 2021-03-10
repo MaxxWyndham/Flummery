@@ -32,7 +32,6 @@ namespace Flummery
         {
             Lighting.RegisterEventHandlers();
             Transform.RegisterEventHandlers();
-            Skins.RegisterEventHandlers();
 
             SceneManager.Current.OnSelect += scene_OnSelect;
             SceneManager.Current.OnSelectRoot += scene_OnSelectRoot;
@@ -46,26 +45,18 @@ namespace Flummery
 
         void scene_OnSelectRoot(object sender, SelectRootEventArgs e)
         {
-            switch (e.Mode)
-            {
-                case ContextMode.Car:
-                    Skins.Visible = true;
-                    break;
-            }
         }
 
         private void setSelection(ModelBone bone)
         {
-            Transform.Visible = (bone != null);
-            Lighting.Visible = (bone.Type == BoneType.Light);
-            Skins.Visible = false;
+            Transform.Visible = bone != null;
+            Lighting.Visible = bone.Type == BoneType.Light;
         }
 
         private void scene_OnReset(object sender, ResetEventArgs e)
         {
             Transform.Visible = false;
             Lighting.Visible = false;
-            Skins.Visible = false;
         }
     }
 }

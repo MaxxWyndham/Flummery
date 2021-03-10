@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.pnlPanel = new System.Windows.Forms.Panel();
-            this.Skins = new Flummery.Controls.Skins();
             this.Lighting = new Flummery.Controls.Lighting();
             this.Transform = new Flummery.Controls.Transform();
             this.pnlPanel.SuspendLayout();
@@ -39,7 +38,6 @@
             // 
             this.pnlPanel.AutoScroll = true;
             this.pnlPanel.AutoSize = true;
-            this.pnlPanel.Controls.Add(this.Skins);
             this.pnlPanel.Controls.Add(this.Lighting);
             this.pnlPanel.Controls.Add(this.Transform);
             this.pnlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -47,18 +45,6 @@
             this.pnlPanel.Name = "pnlPanel";
             this.pnlPanel.Size = new System.Drawing.Size(284, 488);
             this.pnlPanel.TabIndex = 0;
-            // 
-            // Skins
-            // 
-            this.Skins.AutoSize = true;
-            this.Skins.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Skins.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Skins.Location = new System.Drawing.Point(0, 1206);
-            this.Skins.Name = "Skins";
-            this.Skins.Padding = new System.Windows.Forms.Padding(5);
-            this.Skins.Size = new System.Drawing.Size(267, 70);
-            this.Skins.TabIndex = 2;
-            this.Skins.Visible = false;
             // 
             // Lighting
             // 
@@ -109,6 +95,5 @@
         private System.Windows.Forms.Panel pnlPanel;
         private Controls.Lighting Lighting;
         private Controls.Transform Transform;
-        private Controls.Skins Skins;
     }
 }
