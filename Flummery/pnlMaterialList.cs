@@ -7,11 +7,11 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Flummery
 {
-    public partial class pnlMaterialList : DockContent
+    public partial class PnlMaterialList : DockContent
     {
         private List<Material> materials = new List<Material>();
 
-        public pnlMaterialList()
+        public PnlMaterialList()
         {
             InitializeComponent();
 

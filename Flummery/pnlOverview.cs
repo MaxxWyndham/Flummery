@@ -8,9 +8,9 @@ using Flummery.Core;
 
 namespace Flummery
 {
-    public partial class pnlOverview : DockContent
+    public partial class PnlOverview : DockContent
     {
-        public pnlOverview()
+        public PnlOverview()
         {
             InitializeComponent();
 
@@ -28,15 +28,12 @@ namespace Flummery
             SceneManager.Current.OnReset += scene_OnReset;
             SceneManager.Current.OnContextChange += scene_OnContextChange;
             ViewportManager.Current.OnMouseMove += viewport_OnMouseMove;
-            
         }
 
         public void Reset()
         {
-            TreeNode n;
-
             tvNodes.Nodes.Clear();
-            n = tvNodes.Nodes.Add("Scene");
+            tvNodes.Nodes.Add("Scene");
 
             tvNodes.Nodes[0].Expand();
 
@@ -294,7 +291,7 @@ namespace Flummery
                 {
                     SceneManager.Current.Models[dstModel].ImportBone(SceneManager.Current.Models[srcModel].Bones[srcBone], dstBone);
                     SceneManager.Current.Models[srcModel].RemoveBone(srcBone);
-                    
+
                     ReindexTree();
                 }
             }
@@ -317,7 +314,7 @@ namespace Flummery
         private void llblShoutOut_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             llblShoutOut.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://" + ((LinkLabel)sender).Tag.ToString());
+            System.Diagnostics.Process.Start($"https://{((LinkLabel)sender).Tag}");
         }
     }
 }

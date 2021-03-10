@@ -162,14 +162,14 @@
             // 
             this.tsmiFileNew.Name = "tsmiFileNew";
             this.tsmiFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tsmiFileNew.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileNew.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileNew.Text = "&New";
             this.tsmiFileNew.Click += new System.EventHandler(this.menuClick);
             // 
             // tsmiFileOpen
             // 
             this.tsmiFileOpen.Name = "tsmiFileOpen";
-            this.tsmiFileOpen.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileOpen.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileOpen.Text = "&Open...";
             // 
             // tsmiFileImport
@@ -177,31 +177,31 @@
             this.tsmiFileImport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFileImportAutodeskFBXFile});
             this.tsmiFileImport.Name = "tsmiFileImport";
-            this.tsmiFileImport.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileImport.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileImport.Text = "&Import";
             // 
             // tsmiFileImportAutodeskFBXFile
             // 
             this.tsmiFileImportAutodeskFBXFile.Name = "tsmiFileImportAutodeskFBXFile";
-            this.tsmiFileImportAutodeskFBXFile.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileImportAutodeskFBXFile.Size = new System.Drawing.Size(177, 22);
             this.tsmiFileImportAutodeskFBXFile.Text = "Autodesk FBX File...";
             this.tsmiFileImportAutodeskFBXFile.Click += new System.EventHandler(this.menuImportClick);
             // 
             // tsmiFileSeparator1
             // 
             this.tsmiFileSeparator1.Name = "tsmiFileSeparator1";
-            this.tsmiFileSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.tsmiFileSeparator1.Size = new System.Drawing.Size(138, 6);
             // 
             // tsmiFileSaveFor
             // 
             this.tsmiFileSaveFor.Name = "tsmiFileSaveFor";
-            this.tsmiFileSaveFor.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileSaveFor.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileSaveFor.Text = "Save For...";
             // 
             // tsmiFileSaveAs
             // 
             this.tsmiFileSaveAs.Name = "tsmiFileSaveAs";
-            this.tsmiFileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileSaveAs.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileSaveAs.Text = "Save As...";
             // 
             // tsmiFileExport
@@ -209,25 +209,25 @@
             this.tsmiFileExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFileExportAutodeskFBXFile});
             this.tsmiFileExport.Name = "tsmiFileExport";
-            this.tsmiFileExport.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileExport.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileExport.Text = "&Export";
             // 
             // tsmiFileExportAutodeskFBXFile
             // 
             this.tsmiFileExportAutodeskFBXFile.Name = "tsmiFileExportAutodeskFBXFile";
-            this.tsmiFileExportAutodeskFBXFile.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileExportAutodeskFBXFile.Size = new System.Drawing.Size(177, 22);
             this.tsmiFileExportAutodeskFBXFile.Text = "Autodesk FBX File...";
             this.tsmiFileExportAutodeskFBXFile.Click += new System.EventHandler(this.menuExportClick);
             // 
             // tsmiFileSeparator2
             // 
             this.tsmiFileSeparator2.Name = "tsmiFileSeparator2";
-            this.tsmiFileSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.tsmiFileSeparator2.Size = new System.Drawing.Size(138, 6);
             // 
             // tsmiFileExit
             // 
             this.tsmiFileExit.Name = "tsmiFileExit";
-            this.tsmiFileExit.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFileExit.Size = new System.Drawing.Size(141, 22);
             this.tsmiFileExit.Text = "E&xit";
             this.tsmiFileExit.Click += new System.EventHandler(this.menuClick);
             // 
@@ -256,15 +256,17 @@
             // tsmiViewPanels
             // 
             this.tsmiViewPanels.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiViewPanelsDetails,
+            this.tsmiViewPanelsOverview,
             this.tsmiViewPanelsMaterialList,
-            this.tsmiViewPanelsOverview});
+            this.tsmiViewPanelsDetails});
             this.tsmiViewPanels.Name = "tsmiViewPanels";
             this.tsmiViewPanels.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanels.Text = "Panels";
             // 
             // tsmiViewPanelsDetails
             // 
+            this.tsmiViewPanelsDetails.Checked = true;
+            this.tsmiViewPanelsDetails.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiViewPanelsDetails.Name = "tsmiViewPanelsDetails";
             this.tsmiViewPanelsDetails.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanelsDetails.Text = "Details";
@@ -272,6 +274,8 @@
             // 
             // tsmiViewPanelsMaterialList
             // 
+            this.tsmiViewPanelsMaterialList.Checked = true;
+            this.tsmiViewPanelsMaterialList.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiViewPanelsMaterialList.Name = "tsmiViewPanelsMaterialList";
             this.tsmiViewPanelsMaterialList.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanelsMaterialList.Text = "Material List";
@@ -279,6 +283,8 @@
             // 
             // tsmiViewPanelsOverview
             // 
+            this.tsmiViewPanelsOverview.Checked = true;
+            this.tsmiViewPanelsOverview.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiViewPanelsOverview.Name = "tsmiViewPanelsOverview";
             this.tsmiViewPanelsOverview.Size = new System.Drawing.Size(180, 22);
             this.tsmiViewPanelsOverview.Text = "Overview";

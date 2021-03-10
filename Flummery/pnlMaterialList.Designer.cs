@@ -1,6 +1,6 @@
 ﻿namespace Flummery
 {
-    partial class pnlMaterialList
+    partial class PnlMaterialList
     {
         /// <summary>
         /// Required designer variable.

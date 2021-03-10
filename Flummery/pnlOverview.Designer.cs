@@ -1,6 +1,6 @@
 ﻿namespace Flummery
 {
-    partial class pnlOverview
+    partial class PnlOverview
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Scene");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pnlOverview));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PnlOverview));
             this.tvNodes = new System.Windows.Forms.TreeView();
             this.ilNodeIcons = new System.Windows.Forms.ImageList(this.components);
             this.lblCoords = new System.Windows.Forms.Label();

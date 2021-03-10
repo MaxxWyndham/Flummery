@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -43,10 +42,14 @@ namespace Flummery
             InputManager inputManager = new InputManager();
             SceneManager.Create(new Renderer.OpenTKRenderer());
 
-            pnlOverview overview = new pnlOverview();
             PnlViewport viewport = new PnlViewport();
-            pnlMaterialList materials = new pnlMaterialList();
+            PnlMaterialList materials = new PnlMaterialList();
+            PnlOverview overview = new PnlOverview();
             PnlDetails details = new PnlDetails();
+
+            materials.FormClosed += materials_FormClosed;
+            overview.FormClosed += overview_FormClosed;
+            details.FormClosed += details_FormClosed;
 
             pluginHandler.InitialiseModules();
 
@@ -101,6 +104,21 @@ namespace Flummery
             //mshs.Save(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\Arena\Level Convsoft\ArenaMesh\ArenaMesh_Flummery.mshs");
 
             //Application.Exit();
+        }
+
+        private void materials_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            tsmiViewPanelsMaterialList.Checked = false;
+        }
+
+        private void details_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            tsmiViewPanelsDetails.Checked = false;
+        }
+
+        private void overview_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            tsmiViewPanelsOverview.Checked = false;
         }
 
         private void frmMain_Shown(object sender, EventArgs e)
@@ -199,52 +217,10 @@ namespace Flummery
             }
         }
 
-        //private void menuCarmageddonMobileClick(object sender, EventArgs e)
-        //{
-        //    ToolStripMenuItem mi = (ToolStripMenuItem)sender;
-
-        //    switch (mi.Text)
-        //    {
-        //        case "Vehicle":
-        //            openContent("Carmageddon Mobile Vehicles (carbody.cnt)|carbody.cnt");
-        //            break;
-        //    }
-        //}
-
-        //private void openContent(string filter)
-        //{
-        //    ofdBrowse.Filter = filter;
-
-        //    if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
-        //    {
-        //        SceneManager.Current.Reset();
-        //        SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
-        //    }
-        //}
-
-        //private void menuNovadromeClick(object sender, EventArgs e)
-        //{
-        //    ToolStripMenuItem mi = (ToolStripMenuItem)sender;
-
-        //    switch (mi.Text)
-        //    {
-        //        case "Environment":
-        //            openContent("Novadrome Environments (level-*.cnt)|level-*.cnt");
-        //            break;
-
-        //        case "Vehicle":
-        //            openContent("Novadrome Vehicles (carbody.cnt)|carbody.cnt");
-        //            break;
-
-        //        case "XT2 files":
-        //            processAll(mi.Text);
-        //            break;
-        //    }
-        //}
-
         private void menuViewClick(object sender, EventArgs e)
         {
             ToolStripMenuItem mi = (ToolStripMenuItem)sender;
+            DockContent panel;
 
             switch (mi.Text)
             {
@@ -256,31 +232,56 @@ namespace Flummery
                     break;
 
                 case "Details":
-                    if (!dockPanel.Contents.Any(p => (p as DockContent).Text == mi.Text))
+                    panel = (DockContent)dockPanel.Contents.FirstOrDefault(p => (p as DockContent).Text == mi.Text);
+
+                    if (panel == null)
                     {
+                        mi.Checked = true;
+
                         PnlDetails details = new PnlDetails();
                         details.Show(dockPanel, DockState.DockRight);
                         details.RegisterEventHandlers();
-
+                        details.FormClosed += details_FormClosed;
+                    }
+                    else
+                    {
+                        panel.Close();
                     }
                     break;
 
                 case "Material List":
-                    if (!dockPanel.Contents.Any(p => (p as DockContent).Text == mi.Text))
+                    panel = (DockContent)dockPanel.Contents.FirstOrDefault(p => (p as DockContent).Text == mi.Text);
+
+                    if (panel == null)
                     {
-                        pnlMaterialList materials = new pnlMaterialList();
+                        mi.Checked = true;
+
+                        PnlMaterialList materials = new PnlMaterialList();
                         materials.Show(dockPanel, DockState.DockBottom);
                         materials.RegisterEventHandlers();
-
+                        materials.FormClosed += materials_FormClosed;
+                    }
+                    else
+                    {
+                        panel.Close();
                     }
                     break;
 
                 case "Overview":
-                    if (!dockPanel.Contents.Any(p => (p as DockContent).Text == mi.Text))
+                    panel = (DockContent)dockPanel.Contents.FirstOrDefault(p => (p as DockContent).Text == mi.Text);
+
+                    if (panel == null)
                     {
-                        pnlOverview overview = new pnlOverview();
+                        mi.Checked = true;
+
+                        PnlOverview overview = new PnlOverview();
                         overview.Show(dockPanel, DockState.DockLeft);
                         overview.RegisterEventHandlers();
+                        overview.FormClosed += overview_FormClosed;
+                    }
+                    else
+                    {
+                        panel.Close();
                     }
                     break;
             }
