@@ -206,7 +206,7 @@
     <Compile Include="pnlOverview.Designer.cs">
       <DependentUpon>pnlOverview.cs</DependentUpon>
     </Compile>
-    <Compile Include="PowerOfTwoUpDown.cs">
+    <Compile Include="Controls\PowerOfTwoUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Renderer\OpenTK.cs" />
