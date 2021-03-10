@@ -13,6 +13,8 @@ namespace Flummery.Plugin.TDR2000
     {
         public string Name { get; } = "TDR2000";
 
+        public List<string> Contexts { get; } = new List<string> { "TDR2000" };
+
         public List<MenuItem> FileOpenItems { get; } = new List<MenuItem>
         {
             new MenuItem
@@ -100,7 +102,7 @@ namespace Flummery.Plugin.TDR2000
             SceneManager.Current.Reset();
             SceneManager.Current.Content.Load<Model, HIEImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonTDR2000, ContextMode.Generic);
+            SceneManager.Current.SetContext("TDR2000", ContextMode.Generic);
         }
 
         public static void ImportMSHS(string path)

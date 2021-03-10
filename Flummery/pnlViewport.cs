@@ -47,7 +47,7 @@ namespace Flummery
         public void RegisterEventHandlers()
         {
             InputManager.Current.OnBindingsChanged += input_OnBindingsChanged;
-            //SceneManager.Current.OnContextChange += scene_OnContextChage;
+            SceneManager.Current.OnContextChange += scene_OnContextChage;
         }
 
         private void scene_OnContextChage(object sender, ContextChangeEventArgs e)
@@ -302,7 +302,7 @@ namespace Flummery
 
         private void tslContext_Click(object sender, EventArgs e)
         {
-            (new frmChangeContext()).ShowDialog(this);
+            new frmChangeContext().ShowDialog(this);
         }
     }
 }

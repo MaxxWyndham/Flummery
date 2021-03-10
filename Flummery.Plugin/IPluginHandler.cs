@@ -8,7 +8,5 @@ namespace Flummery.Plugin
         IEnumerable<Lazy<IPlugin, IPluginAttribute>> Plugins { get; set; }
 
         void InitialiseModules();
-
-        IPlugin GetPluginInstance(string pluginName);
     }
 }

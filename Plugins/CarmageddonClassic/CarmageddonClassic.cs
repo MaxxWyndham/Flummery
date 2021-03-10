@@ -18,6 +18,8 @@ namespace Flummery.Plugin.CarmageddonClassic
     {
         public string Name { get; } = "Carmageddon (Classic)";
 
+        public List<string> Contexts { get; } = new List<string> { "Carmageddon", "Carmageddon 2" };
+
         public List<MenuItem> FileOpenItems { get; } = new List<MenuItem>
         {
             new MenuItem
@@ -103,7 +105,7 @@ namespace Flummery.Plugin.CarmageddonClassic
 
             SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
-            SceneManager.Current.SetContext(ContextGame.Carmageddon1, ContextMode.Generic);
+            SceneManager.Current.SetContext("Carmageddon", ContextMode.Generic);
         }
 
         public static void OpenCarC1(string path)
@@ -112,7 +114,7 @@ namespace Flummery.Plugin.CarmageddonClassic
 
             SceneManager.Current.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
-            SceneManager.Current.SetContext(ContextGame.Carmageddon1, ContextMode.Car);
+            SceneManager.Current.SetContext("Carmageddon", ContextMode.Car);
         }
 
         public static void ImportACT(string path)
@@ -138,7 +140,7 @@ namespace Flummery.Plugin.CarmageddonClassic
             Model race = SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
             if (File.Exists(txtFile)) { race.SupportingDocuments["TXT"] = Map.Load(txtFile); }
 
-            SceneManager.Current.SetContext(ContextGame.Carmageddon2, ContextMode.Level);
+            SceneManager.Current.SetContext("Carmageddon 2", ContextMode.Level);
         }
 
         public static void SaveForCarmageddon2(string path)
@@ -279,7 +281,7 @@ namespace Flummery.Plugin.CarmageddonClassic
 
             SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonMaxDamage, ContextMode.Car);
+            SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Car);
         }
 
         public static void ProcessLevelForCarmageddonMaxDamage()
@@ -381,7 +383,7 @@ namespace Flummery.Plugin.CarmageddonClassic
 
             SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonMaxDamage, ContextMode.Level);
+            SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Level);
         }
     }
 }

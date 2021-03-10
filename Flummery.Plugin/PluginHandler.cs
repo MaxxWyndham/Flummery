@@ -31,22 +31,15 @@ namespace Flummery.Plugin
 
             CompositionContainer cc = new CompositionContainer(catalog);
             cc.ComposeParts(this);
-        }
 
-        public IPlugin GetPluginInstance(string pluginName)
-        {
-            IPlugin instance = null;
-
-            foreach (var l in Plugins)
+            foreach (Lazy<IPlugin, IPluginAttribute> plugin in Plugins)
             {
-                if (l.Metadata.Name == pluginName)
+                foreach (string game in plugin.Value.Contexts)
                 {
-                    instance = l.Value;
-                    break;
+                    if (!SceneManager.Current.Games.Contains(game)) { SceneManager.Current.Games.Add(game); }
                 }
-            }
 
-            return instance;
+            }
         }
 
         public void RegisterFileOpens(ToolStripMenuItem menu, OpenFileDialog openFileDialog)

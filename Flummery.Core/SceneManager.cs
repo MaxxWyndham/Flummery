@@ -22,15 +22,6 @@ namespace Flummery.Core
         Material
     }
 
-    public enum ContextGame
-    {
-        None,
-        Carmageddon1,
-        Carmageddon2,
-        CarmageddonTDR2000,
-        CarmageddonMaxDamage
-    }
-
     // These values correspond with the index of icons in ilNodeIcons
     public enum ContextMode
     {
@@ -98,7 +89,9 @@ namespace Flummery.Core
             }
         }
 
-        public ContextGame Game { get; private set; }
+        public List<string> Games { get; } = new List<string> { "None" };
+
+        public string Game { get; private set; }
 
         public ContextMode Mode { get; private set; }
 
@@ -218,17 +211,17 @@ namespace Flummery.Core
             OnChange?.Invoke(this, new ChangeEventArgs(type, context, index, additionalInfo));
         }
 
-        //    public void SetContext(ContextGame game)
-        //    {
-        //        SetContext(game, Mode);
-        //    }
+        public void SetContext(string game)
+        {
+            SetContext(game, Mode);
+        }
 
-        //    public void SetContext(ContextMode mode)
-        //    {
-        //        SetContext(Game, mode);
-        //    }
+        public void SetContext(ContextMode mode)
+        {
+            SetContext(Game, mode);
+        }
 
-        public void SetContext(ContextGame game, ContextMode mode)
+        public void SetContext(string game, ContextMode mode)
         {
             Game = game;
             Mode = mode;
@@ -443,7 +436,7 @@ namespace Flummery.Core
     {
         public ContextMode Mode => SceneManager.Current.Mode;
 
-        public ContextGame Game => SceneManager.Current.Game;
+        public string Game => SceneManager.Current.Game;
     }
 
     public class ChangeEventArgs : EventArgs
@@ -487,11 +480,11 @@ namespace Flummery.Core
 
     public class ContextChangeEventArgs : EventArgs
     {
-        public ContextGame GameContext { get; private set; }
+        public string GameContext { get; private set; }
 
         public ContextMode ModeContext { get; private set; }
 
-        public ContextChangeEventArgs(ContextGame game, ContextMode mode)
+        public ContextChangeEventArgs(string game, ContextMode mode)
         {
             GameContext = game;
             ModeContext = mode;

@@ -6,6 +6,8 @@ namespace Flummery.Plugin
     {
         string Name { get; }
 
+        List<string> Contexts { get; }
+
         List<MenuItem> FileOpenItems { get; }
 
         List<MenuItem> FileImportItems { get; }

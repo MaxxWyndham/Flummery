@@ -17,6 +17,8 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
     {
         public string Name { get; } = "Carmageddon Max Damage";
 
+        public List<string> Contexts { get; } = new List<string> { "Carmageddon Max Damage" };
+
         public List<MenuItem> FileOpenItems { get; } = new List<MenuItem>
         {
             new MenuItem
@@ -214,7 +216,7 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
                 accessory.SupportingDocuments["Accessory"] = Accessory.Load(accessorytxt);
             }
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonMaxDamage, ContextMode.Accessory);
+            SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Accessory);
         }
 
         public static void OpenEnvironment(string path)
@@ -224,7 +226,7 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
             SceneManager.Current.Reset();
             SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonMaxDamage, ContextMode.Level);
+            SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Level);
         }
 
         public static void OpenPedestrian(string path)
@@ -234,7 +236,7 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
             SceneManager.Current.Reset();
             SceneManager.Current.Content.Load<Model, CNTImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonMaxDamage, ContextMode.Ped);
+            SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Ped);
         }
 
         public static void OpenVehicle(string path)
@@ -316,7 +318,7 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
                 }
             }
 
-            SceneManager.Current.SetContext(ContextGame.CarmageddonMaxDamage, ContextMode.Car);
+            SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Car);
         }
 
         public static void ImportCNT(string path)
