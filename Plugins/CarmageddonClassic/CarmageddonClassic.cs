@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 using ToxicRagers.Carmageddon2;
 using ToxicRagers.Carmageddon2.Formats;
@@ -95,6 +96,24 @@ namespace Flummery.Plugin.CarmageddonClassic
                 ProcessAction = ToxicRagers.Carmageddon.Formats.Car.Load
             }
         };
+
+        public void RegisterEvents()
+        {
+            SceneManager.Current.OnSelectMaterial += current_OnSelectMaterial;
+        }
+
+        private void current_OnSelectMaterial(object sender, SelectMaterialEventArgs e)
+        {
+            if (Contexts.Contains(SceneManager.Current.Game))
+            {
+                Form editor = new MaterialEditor(SceneManager.Current.SelectedMaterial);
+
+                if (editor.ShowDialog() == DialogResult.OK)
+                {
+                    SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Material, -1, SceneManager.Current.SelectedMaterial);
+                }
+            }
+        }
     }
 
     public static class CarmageddonClassic

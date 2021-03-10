@@ -66,6 +66,12 @@
     <Compile Include="ContentPipeline\TDXImporter.cs" />
     <Compile Include="ContentPipeline\VehicleSetupCFGExporter.cs" />
     <Compile Include="ContentPipeline\VehicleSetupLOLExporter.cs" />
+    <Compile Include="MaterialEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MaterialEditor.Designer.cs">
+      <DependentUpon>MaterialEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="WheelPreview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MaterialEditor.resx">
+      <DependentUpon>MaterialEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WheelPreview.resx">
       <DependentUpon>WheelPreview.cs</DependentUpon>
     </EmbeddedResource>

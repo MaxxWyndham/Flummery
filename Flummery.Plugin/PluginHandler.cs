@@ -39,6 +39,7 @@ namespace Flummery.Plugin
                     if (!SceneManager.Current.Games.Contains(game)) { SceneManager.Current.Games.Add(game); }
                 }
 
+                plugin.Value.RegisterEvents();
             }
         }
 

@@ -119,12 +119,6 @@
     <Compile Include="frmChangeNodeType.Designer.cs">
       <DependentUpon>frmChangeNodeType.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmClassicMaterialEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmClassicMaterialEditor.Designer.cs">
-      <DependentUpon>frmClassicMaterialEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmMaterialEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,12 +142,6 @@
     </Compile>
     <Compile Include="frmPreferences.Designer.cs">
       <DependentUpon>frmPreferences.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmNuCarmaMaterialEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmNuCarmaMaterialEditor.Designer.cs">
-      <DependentUpon>frmNuCarmaMaterialEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="frmRemoveObject.cs">
       <SubType>Form</SubType>
@@ -194,10 +182,10 @@
     </Compile>
     <Compile Include="Graphics\Primitives\Capsule.cs" />
     <Compile Include="IWidget.cs" />
-    <Compile Include="MaterialItem.cs">
+    <Compile Include="Controls\MaterialItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MaterialItem.Designer.cs">
+    <Compile Include="Controls\MaterialItem.Designer.cs">
       <DependentUpon>MaterialItem.cs</DependentUpon>
     </Compile>
     <Compile Include="pnlDetails.cs">
@@ -261,9 +249,6 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmClassicMaterialEditor.resx">
-      <DependentUpon>frmClassicMaterialEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmMaterialEditor.resx">
       <DependentUpon>frmMaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -275,9 +260,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPreferences.resx">
       <DependentUpon>frmPreferences.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmNuCarmaMaterialEditor.resx">
-      <DependentUpon>frmNuCarmaMaterialEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRemoveObject.resx">
       <DependentUpon>frmRemoveObject.cs</DependentUpon>
@@ -294,7 +276,7 @@
     <EmbeddedResource Include="frmUpdater.resx">
       <DependentUpon>frmUpdater.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MaterialItem.resx">
+    <EmbeddedResource Include="Controls\MaterialItem.resx">
       <DependentUpon>MaterialItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pnlDetails.resx">

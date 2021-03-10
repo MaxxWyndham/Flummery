@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using ToxicRagers.Helpers;
 
@@ -89,6 +90,8 @@ namespace Flummery.Core
             }
         }
 
+        public Material SelectedMaterial => (Material)Materials.Entries.FirstOrDefault(m => m.Key == SelectedMaterialKey);
+
         public List<string> Games { get; } = new List<string> { "None" };
 
         public string Game { get; private set; }
@@ -98,6 +101,8 @@ namespace Flummery.Core
         public int SelectedModelIndex { get; private set; } = 0;
 
         public int SelectedBoneIndex { get; private set; } = 0;
+
+        public long SelectedMaterialKey { get; private set; } = 0;
 
         public float DeltaTime { get; private set; }
 
@@ -109,6 +114,7 @@ namespace Flummery.Core
         public delegate void ProgressHandler(object sender, ProgressEventArgs e);
         public delegate void ErrorHandler(object sender, ErrorEventArgs e);
         public delegate void ContextChangeHandler(object sender, ContextChangeEventArgs e);
+        public delegate void SelectMaterialHandler(object sender, SelectMaterialEventArgs e);
 
         public event ResetHandler OnReset;
         public event AddHandler OnAdd;
@@ -118,6 +124,7 @@ namespace Flummery.Core
         public event ProgressHandler OnProgress;
         public event ErrorHandler OnError;
         public event ContextChangeHandler OnContextChange;
+        public event SelectMaterialHandler OnSelectMaterial;
 
         public static void Create(IRenderer renderer)
         {
@@ -227,6 +234,13 @@ namespace Flummery.Core
             Mode = mode;
 
             OnContextChange?.Invoke(this, new ContextChangeEventArgs(game, mode));
+        }
+
+        public void SetActiveMaterial(long key)
+        {
+            SelectedMaterialKey = key;
+
+            OnSelectMaterial?.Invoke(this, new SelectMaterialEventArgs(key));
         }
 
         public void ClearBoundingBox()
@@ -488,6 +502,16 @@ namespace Flummery.Core
         {
             GameContext = game;
             ModeContext = mode;
+        }
+    }
+
+    public class SelectMaterialEventArgs : EventArgs
+    {
+        public long MaterialKey { get; private set; }
+
+        public SelectMaterialEventArgs(long key)
+        {
+            MaterialKey = key;
         }
     }
 }

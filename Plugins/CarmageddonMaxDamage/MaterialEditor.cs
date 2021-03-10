@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-using Flummery.Controls;
 using Flummery.Core;
 
 using ToxicRagers.CarmageddonReincarnation.Formats;
@@ -13,21 +12,22 @@ using ToxicRagers.Helpers;
 
 namespace Flummery
 {
-    public partial class frmNuCarmaMaterialEditor : Form
+    public partial class MaterialEditor : Form
     {
-        MaterialItem parent;
         MT2 material;
 
-        public frmNuCarmaMaterialEditor(MaterialItem mi, Material M)
+        public MaterialEditor(Material M)
         {
             InitializeComponent();
 
             cboBaseMaterial.SelectedIndex = 15;
 
-            parent = mi;
-            material = (M.SupportingDocuments["Source"] as MT2);
+            if (M.SupportingDocuments.ContainsKey("Source") && M.SupportingDocuments["Source"] is MT2 m)
+            {
+                material = m;
 
-            setMaterial(material);
+                setMaterial(material);
+            }
 
             if (M.Texture != null) { pbPreview.Image = M.Texture.GetThumbnail(256); }
         }

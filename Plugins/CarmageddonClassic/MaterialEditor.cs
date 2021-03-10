@@ -1,29 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
-using Flummery.Controls;
 using Flummery.Core;
 using Flummery.Core.ContentPipeline;
 
 namespace Flummery
 {
-    public partial class frmClassicMaterialEditor : Form
+    public partial class MaterialEditor : Form
     {
-        MaterialItem mi;
+        //MaterialItem mi;
         Material m;
 
-        public frmClassicMaterialEditor(MaterialItem mi, Material M)
+        public MaterialEditor(/*MaterialItem mi, */Material M)
         {
             InitializeComponent();
 
-            this.mi = mi;
+            //this.mi = mi;
 
             SetMaterial(M);
 
@@ -51,7 +45,7 @@ namespace Flummery
         {
             txtTexture.Text = t.Name;
             pbPreview.Image = t.GetThumbnail();
-            mi.SetThumbnail((Bitmap)pbPreview.Image);
+            //mi.SetThumbnail((Bitmap)pbPreview.Image);
         }
 
         void rdoProperties_CheckedChanged(object sender, System.EventArgs e)
@@ -149,8 +143,8 @@ namespace Flummery
         protected void ApplySettings()
         {
             m.Name = txtName.Text;
-            mi.MaterialName = txtName.Text;
-            mi.SetThumbnail((Bitmap)pbPreview.Image);
+            //mi.MaterialName = txtName.Text;
+            //mi.SetThumbnail((Bitmap)pbPreview.Image);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -159,11 +153,11 @@ namespace Flummery
             Close();
         }
 
-        private void pbPreview_Click(object sender, EventArgs e)
-        {
-            pnlTexturePreview preview = new pnlTexturePreview();
-            preview.SetImage(m.Texture.GetBitmap());
-            preview.Show(FlummeryApplication.UI.DockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Float);
-        }
+        //private void pbPreview_Click(object sender, EventArgs e)
+        //{
+        //    pnlTexturePreview preview = new pnlTexturePreview();
+        //    preview.SetImage(m.Texture.GetBitmap());
+        //    preview.Show(FlummeryApplication.UI.DockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Float);
+        //}
     }
 }

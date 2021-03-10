@@ -198,6 +198,24 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
                 ProcessAction = ZAD.Load
             }
         };
+
+        public void RegisterEvents()
+        {
+            SceneManager.Current.OnSelectMaterial += current_OnSelectMaterial;
+        }
+
+        private void current_OnSelectMaterial(object sender, SelectMaterialEventArgs e)
+        {
+            if (Contexts.Contains(SceneManager.Current.Game))
+            {
+                Form editor = new MaterialEditor(SceneManager.Current.SelectedMaterial);
+
+                if (editor.ShowDialog() == DialogResult.OK)
+                {
+                    SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Material, -1, SceneManager.Current.SelectedMaterial);
+                }
+            }
+        }
     }
 
     public static class CarmageddonMaxDamage

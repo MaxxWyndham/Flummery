@@ -93,6 +93,10 @@ namespace Flummery.Plugin.TDR2000
                 ProcessAction = HIE.Load
             }
         };
+
+        public void RegisterEvents()
+        {
+        }
     }
 
     public static class TDR2000

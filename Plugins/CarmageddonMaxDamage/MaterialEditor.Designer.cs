@@ -1,6 +1,6 @@
 ﻿namespace Flummery
 {
-    partial class frmNuCarmaMaterialEditor
+    partial class MaterialEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -1455,7 +1455,7 @@
             this.lstSamplersAndTexCoordSources.Size = new System.Drawing.Size(253, 166);
             this.lstSamplersAndTexCoordSources.TabIndex = 0;
             // 
-            // frmReincarnationMaterialEditor
+            // MaterialEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1470,11 +1470,10 @@
             this.Controls.Add(this.gbFlags);
             this.Controls.Add(this.gbPreview);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::Flummery.Properties.Resources.icon;
             this.MaximizeBox = false;
-            this.Name = "frmReincarnationMaterialEditor";
+            this.Name = "MaterialEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Carmageddon: Reincarnation Material Editor";
+            this.Text = "Carmageddon: Max Damage Material Editor";
             this.gbPreview.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             this.gbFlags.ResumeLayout(false);

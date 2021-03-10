@@ -21,5 +21,7 @@ namespace Flummery.Plugin
         List<MenuItem> Tools { get; }
 
         List<MenuItem> ProcessAllItems { get; }
+
+        void RegisterEvents();
     }
 }

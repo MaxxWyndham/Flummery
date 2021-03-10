@@ -1,6 +1,6 @@
 ﻿namespace Flummery
 {
-    partial class frmClassicMaterialEditor
+    partial class MaterialEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClassicMaterialEditor));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialEditor));
             this.gbPreview = new System.Windows.Forms.GroupBox();
             this.pbPreview = new System.Windows.Forms.PictureBox();
             this.gbGeneral = new System.Windows.Forms.GroupBox();
@@ -112,7 +112,7 @@
             this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbPreview.TabIndex = 0;
             this.pbPreview.TabStop = false;
-            this.pbPreview.Click += new System.EventHandler(this.pbPreview_Click);
+            //this.pbPreview.Click += new System.EventHandler(this.pbPreview_Click);
             // 
             // gbGeneral
             // 
@@ -704,7 +704,6 @@
             this.Controls.Add(this.gbPropColour);
             this.Controls.Add(this.gbPreview);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::Flummery.Properties.Resources.icon;
             this.MaximizeBox = false;
             this.Name = "frmClassicMaterialEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

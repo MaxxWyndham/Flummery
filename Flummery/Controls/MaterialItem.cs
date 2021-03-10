@@ -43,28 +43,7 @@ namespace Flummery.Controls
 
         void materialItem_Click(object sender, EventArgs e)
         {
-            Form editor;
-
-            switch (SceneManager.Current.Game)
-            {
-                case ContextGame.CarmageddonMaxDamage:
-                    editor = new frmNuCarmaMaterialEditor(this, m);
-                    break;
-
-                case ContextGame.Carmageddon1:
-                case ContextGame.Carmageddon2:
-                    editor = new frmClassicMaterialEditor(this, m);
-                    break;
-
-                default:
-                    editor = new frmMaterialEditor(this, m);
-                    break;
-            }
-
-            if (editor.ShowDialog(ParentForm) == DialogResult.OK)
-            {
-                SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Material, -1, m);
-            }
+            SceneManager.Current.SetActiveMaterial(m.Key);
         }
 
         void materialItem_DoubleClick(object sender, EventArgs e)
