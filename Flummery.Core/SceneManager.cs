@@ -58,7 +58,7 @@ namespace Flummery.Core
         List<IRenderMode> renderModes = new List<IRenderMode>();
         int currentRenderMode = 0;
 
-        public Entity Node;
+        public Entity Node = null;
 
         public bool CanUseVertexBuffer { get; set; }
 
@@ -138,20 +138,6 @@ namespace Flummery.Core
             Console.WriteLine("Initialising...");
 
             Renderer = renderer;
-
-            Node = new Entity
-            {
-                Name = "node",
-                EntityType = EntityType.Bone,
-                AssetType = AssetType.Model,
-                Asset = new Model()
-            };
-
-            //Sphere sphere = new Sphere(0.125f, 7, 7);
-            //ModelManipulator.SetVertexColour(sphere, 0, 255, 0, 255);
-            //((Model)Node.Asset).AddMesh(sphere);
-            //((Model)Node.Asset).SetRenderStyle(RenderStyle.Wireframe);
-            //Entities.Add(Node);
 
             renderModes.Add(new Solid());
             renderModes.Add(new Wireframe());
@@ -334,6 +320,23 @@ namespace Flummery.Core
 
         public void Draw(Camera camera)
         {
+            if (Node == null)
+            {
+                Node = new Entity
+                {
+                    Name = "node",
+                    EntityType = EntityType.Bone,
+                    AssetType = AssetType.Model,
+                    Asset = new Model()
+                };
+
+                Sphere sphere = new Sphere(0.125f, 7, 7);
+                ModelManipulator.SetVertexColour(sphere, 0, 255, 0, 255);
+                ((Model)Node.Asset).AddMesh(sphere);
+                ((Model)Node.Asset).SetRenderStyle(RenderStyle.Wireframe);
+                Entities.Add(Node);
+            }
+
             Matrix4D lookat = camera.View;
 
             Renderer.MatrixMode("Modelview");

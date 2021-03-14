@@ -101,7 +101,7 @@ namespace Flummery.Core
                         sprite.AddVertex(new Vector3(-0.25f, -0.25f, 0.0f), Vector3.UnitY, new Vector2(1, 1));
                         sprite.IndexBuffer.Initialise();
                         sprite.VertexBuffer.Initialise();
-                        //sprite.Material = new Material { Name = "Entity.Asset", Texture = SceneManager.Current.Content.Load<Texture, ContentPipeline.PNGImporter>($"entity_{EntityType.ToString().ToLower()}", Path.GetDirectoryName(Application.ExecutablePath) + @"\data\icons\") };
+                        sprite.Material = new Material { Name = "Entity.Asset", Texture = SceneManager.Current.Content.Load<Texture, ContentPipeline.PNGImporter>($"entity_{EntityType.ToString().ToLower()}") };
                         sprite.PrimitiveType = PrimitiveType.Quads;
 
                         ModelMesh spritemesh = new ModelMesh();

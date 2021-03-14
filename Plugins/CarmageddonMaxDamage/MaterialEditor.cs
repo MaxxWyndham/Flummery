@@ -10,7 +10,7 @@ using Flummery.Core;
 using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
 
-namespace Flummery
+namespace Flummery.Plugin.CarmageddonMaxDamage
 {
     public partial class MaterialEditor : Form
     {

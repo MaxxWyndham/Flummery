@@ -1,4 +1,4 @@
-﻿namespace Flummery
+﻿namespace Flummery.Plugin.CarmageddonMaxDamage
 {
     partial class MaterialEditor
     {

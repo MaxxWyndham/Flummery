@@ -61,7 +61,6 @@
     <Compile Include="ContentPipeline\Core\JPGImporter.cs" />
     <Compile Include="ContentPipeline\Core\PNGExporter.cs" />
     <Compile Include="ContentPipeline\Core\PNGImporter.cs" />
-    <Compile Include="ContentPipeline\Core\TGAExporter.cs" />
     <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
     <Compile Include="ContentPipeline\Core\TIFExporter.cs" />
     <Compile Include="ContentPipeline\Core\TIFImporter.cs" />
