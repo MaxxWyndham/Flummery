@@ -45,18 +45,37 @@ namespace Flummery.Core.ContentPipeline
                 Console.WriteLine($"Added material \"{matName}\" ({material.Properties[0].Value})");
             }
 
+            foreach (FBXElem video in objects.Children.Where(e => e.ID == "Video"))
+            {
+                FBXElem content = video.Children.Find(e => e.ID == "Content");
+                
+                if (content.Properties[0].Size > 4)
+                {
+                    components.Add((long)video.Properties[0].Value, (byte[])content.Properties[0].Value);
+                }
+            }
+
             IEnumerable<FBXElem> textures = objects.Children.Where(e => e.ID == "Texture");
             foreach (FBXElem texture in textures)
             {
-                Texture t = null;
                 string fullFile = texture.Children.Find(e => e.ID == "FileName").Properties[0].Value.ToString();
-
                 if (fullFile.IndexOf('.') == -1) { continue; }
-
                 string file = Path.GetFileName(fullFile);
 
+                Texture t = new Texture();
+
+                long videoKey = (long)fbx.Elements.Find(e => e.ID == "Connections").Children.Where(c => (long)c.Properties[2].Value == (long)texture.Properties[0].Value).First().Properties[1].Value;
+
+                if (components.ContainsKey(videoKey))
+                {
+                    using (FileStream fs = new FileStream(Path.Combine(Path.GetDirectoryName(path), file), FileMode.Create))
+                    using (BinaryWriter bw = new BinaryWriter(fs))
+                    {
+                        bw.Write((byte[])components[videoKey]);
+                    }
+                }
+
                 t = SceneManager.Current.Content.Load(Path.GetFileName(file));
-                if (t == null) { t = new Texture(); }
 
                 switch (fbx.Elements.Find(e => e.ID == "Connections").Children.Where(c => (long)c.Properties[1].Value == (long)texture.Properties[0].Value).First().Properties.Last().Value.ToString())
                 {
@@ -486,7 +505,7 @@ namespace Flummery.Core.ContentPipeline
                 }
             }
 
-            string[] connectionOrder = new string[] { "System.Collections.Generic.List`1[Flummery.ModelMeshPart]", "Flummery.Texture", "Flummery.Material", "Flummery.ModelMesh" };
+            string[] connectionOrder = new string[] { "System.Collections.Generic.List`1[Flummery.Core.ModelMeshPart]", "Flummery.Core.Texture", "Flummery.Core.Material", "Flummery.Core.ModelMesh" };
             FBXElem connections = fbx.Elements.Find(e => e.ID == "Connections");
 
             HashSet<long> loaded = new HashSet<long>();
@@ -504,7 +523,7 @@ namespace Flummery.Core.ContentPipeline
 
                     switch (connectionType)
                     {
-                        case "Flummery.ModelMesh":
+                        case "Flummery.Core.ModelMesh":
                             int boneID;
 
                             if (keyB == 0)
@@ -545,8 +564,8 @@ namespace Flummery.Core.ContentPipeline
                             }
                             break;
 
-                        case "Flummery.Texture":
-                            if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.Material")
+                        case "Flummery.Core.Texture":
+                            if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.Core.Material")
                             {
                                 if (loaded.Add(keyA))
                                 {
@@ -561,8 +580,8 @@ namespace Flummery.Core.ContentPipeline
                             }
                             break;
 
-                        case "System.Collections.Generic.List`1[Flummery.ModelMeshPart]":
-                            if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.ModelMesh")
+                        case "System.Collections.Generic.List`1[Flummery.Core.ModelMeshPart]":
+                            if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.Core.ModelMesh")
                             {
                                 if (triangulationErrors.ContainsKey(keyA))
                                 {
@@ -576,8 +595,8 @@ namespace Flummery.Core.ContentPipeline
                             }
                             break;
 
-                        case "Flummery.Material":
-                            if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.ModelMesh")
+                        case "Flummery.Core.Material":
+                            if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.Core.ModelMesh")
                             {
                                 List<FBXElem> materialLookup = connections.Children.Where(c => (long)c.Properties[2].Value == keyB).ToList();
                                 for (int i = materialLookup.Count - 1; i > -1; i--) { if (!connectionsOfType.Any(c => (long)c.Properties[1].Value == (long)materialLookup[i].Properties[1].Value)) { materialLookup.RemoveAt(i); } }
@@ -622,8 +641,8 @@ namespace Flummery.Core.ContentPipeline
 
                 model.Santise();
 
-                if (worldMatrix != Matrix4D.Identity) { ModelManipulator.Freeze(model, worldMatrix); }
-                ModelManipulator.FlipAxis(model, Axis.X, true);
+                //if (worldMatrix != Matrix4D.Identity) { ModelManipulator.Freeze(model, worldMatrix); }
+                ModelManipulator.FlipAxis(model, Axis.Z, true);
 
                 return model;
             }
@@ -736,6 +755,10 @@ namespace Flummery.Core.ContentPipeline
                     return Matrix4D.CreateRotationX(Maths.DegreesToRadians(-90));
 
                 case CoordinateSystem.pZpYpX:
+                    order = Quaternion.RotationOrder.OrderXYZ;
+                    return Matrix4D.Identity;
+
+                case CoordinateSystem.nZpYnX:
                     order = Quaternion.RotationOrder.OrderXYZ;
                     return Matrix4D.Identity;
 

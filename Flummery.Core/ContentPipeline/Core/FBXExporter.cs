@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 
 using ToxicRagers.Core.Formats;
-using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Helpers;
 
 namespace Flummery.Core.ContentPipeline
@@ -111,9 +110,9 @@ namespace Flummery.Core.ContentPipeline
                                 FBXPropertyElement(FBXPropertyType.Integer, "UpAxis", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "UpAxisSign", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "FrontAxis", "int", "Integer", "", 2),
-                                FBXPropertyElement(FBXPropertyType.Integer, "FrontAxisSign", "int", "Integer", "", 1),
+                                FBXPropertyElement(FBXPropertyType.Integer, "FrontAxisSign", "int", "Integer", "", -1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "CoordAxis", "int", "Integer", "", 0),
-                                FBXPropertyElement(FBXPropertyType.Integer, "CoordAxisSign", "int", "Integer", "", 1),
+                                FBXPropertyElement(FBXPropertyType.Integer, "CoordAxisSign", "int", "Integer", "", -1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "OriginalUpAxis", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Integer, "OriginalUpAxisSign", "int", "Integer", "", 1),
                                 FBXPropertyElement(FBXPropertyType.Double, "UnitScaleFactor", "double", "Number", "", (double)1),
@@ -574,84 +573,77 @@ namespace Flummery.Core.ContentPipeline
                 fbxMaterial.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } });
                 fbxMaterial.Children.Add(new FBXElem { ID = "ShadingModel", Properties = { new FBXProperty { Type = 83, Value = "phong" } } });
                 fbxMaterial.Children.Add(new FBXElem { ID = "MultiLayer", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
-                fbxMaterial.Children.Add(
-                    new FBXElem
+                fbxMaterial.Children.Add(new FBXElem
+                {
+                    ID = "Properties70",
+                    Children =
+                    {
+                        FBXPropertyElement(FBXPropertyType.String, "ShadingModel", "KString", "", "", "phong"),
+                        FBXPropertyElement(FBXPropertyType.Double, "EmissiveFactor", "Number", "", "A", (double)0),
+                        FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)1, (double)1, (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)1, (double)1, (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "TransparentColor", "Color", "", "A", (double)1, (double)1, (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                        FBXPropertyElement(FBXPropertyType.Double, "SpecularFactor", "Number", "", "A", 0.299999982118607),
+                        FBXPropertyElement(FBXPropertyType.Double, "ShininessExponent", "Number", "", "A", (double)2),
+                        FBXPropertyElement(FBXPropertyType.Double, "Emissive", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                        FBXPropertyElement(FBXPropertyType.Double, "Ambient", "Vector3D", "Vector", "", (double)1, (double)1, (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "Diffuse", "Vector3D", "Vector", "", (double)1, (double)1, (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "Specular", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                        FBXPropertyElement(FBXPropertyType.Double, "Shininess", "double", "Number", "", (double)2),
+                        FBXPropertyElement(FBXPropertyType.Double, "Opacity", "double", "Number", "", (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "Reflectivity", "double", "Number", "", (double)0)
+                    }
+                });
+
+                if (material.Texture != null)
+                {
+                    PNGExporter px = new PNGExporter();
+                    string texturePath = Path.Combine(Path.GetDirectoryName(path), $"{material.Texture.Name}.png");
+
+                    px.Export(material.Texture, texturePath);
+
+                    SceneManager.Current.UpdateProgress($"Saved {Path.GetFileName(texturePath)}");
+
+                    FBXElem fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = $"{material.Texture.Name}::Texture" }, new FBXProperty { Type = 83, Value = "" } } };
+                    fbxTexture.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "TextureVideoClip" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 202 } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "TextureName", Properties = { new FBXProperty { Type = 83, Value = $"{material.Texture.Name}::Texture" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "Media", Properties = { new FBXProperty { Type = 83, Value = $"{material.Texture.Name}::Video" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
+                    fbxTexture.Children.Add(new FBXElem
                     {
                         ID = "Properties70",
                         Children =
                         {
-                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", 0.800000011920929, 0.800000011920929, 0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", 0.200000002980232, 0.200000002980232, 0.200000002980232),
-                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)1, (double)1, (double)1),
-                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", 0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)1),
-                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", 0.200000002980232, 0.200000002980232, 0.200000002980232),
-                            FBXPropertyElement(FBXPropertyType.Double, "Emissive", "Vector3D", "Vector", "", 0.800000011920929, 0.800000011920929, 0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "Ambient", "Vector3D", "Vector", "", 0.200000002980232, 0.200000002980232, 0.200000002980232),
-                            FBXPropertyElement(FBXPropertyType.Double, "Diffuse", "Vector3D", "Vector", "", 0.800000011920929, 0.800000011920929, 0.800000011920929),
-                            FBXPropertyElement(FBXPropertyType.Double, "Specular", "Vector3D", "Vector", "", 0.200000002980232, 0.200000002980232, 0.200000002980232),
-                            FBXPropertyElement(FBXPropertyType.Double, "Shininess", "double", "Number", "", (double)20),
-                            FBXPropertyElement(FBXPropertyType.Double, "Opacity", "double", "Number", "", (double)1),
-                            FBXPropertyElement(FBXPropertyType.Double, "Reflectivity", "double", "Number", "", (double)0)
-                        }
-                    }
-                );
-
-                if (material.Texture != null)
-                {
-                    string ddsPath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(material.Texture.FileName);
-                    TDX tdx = (material.Texture.SupportingDocuments["Source"] as TDX);
-                    if (tdx != null)
-                    {
-                        SceneManager.Current.UpdateProgress(string.Format("Saved {0}", Path.GetFileName(ddsPath)));
-
-                        ((DDS)tdx).Save(ddsPath);
-                        ddsPath += ".dds";
-
-                        FBXElem fbxTexture = new FBXElem { ID = "Texture", Properties = { new FBXProperty { Type = 76, Value = material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" }, new FBXProperty { Type = 83, Value = "" } } };
-                        fbxTexture.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "TextureVideoClip" } } });
-                        fbxTexture.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 202 } } });
-                        fbxTexture.Children.Add(new FBXElem { ID = "TextureName", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Texture" } } });
-                        fbxTexture.Children.Add(new FBXElem { ID = "Media", Properties = { new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" } } });
-                        fbxTexture.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
-                        fbxTexture.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
-                        fbxTexture.Children.Add(
-                            new FBXElem
-                            {
-                                ID = "Properties70",
-                                Children =
-                            {
                             FBXPropertyElement(FBXPropertyType.Integer, "PremultiplyAlpha", "bool", "", "", 1),
                             FBXPropertyElement(FBXPropertyType.Integer, "CurrentMappingType", "enum", "", "", 6),
                             FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
-                            }
-                            }
-                        );
+                        }
+                    });
 
-                        fbxConnections.Children.Add(FBXConnection("Material", material.Key, "Texture", material.Texture.Key, FBXPropertyType.String, "DiffuseColor"));
+                    fbxConnections.Children.Add(FBXConnection("Material", material.Key, "Texture", material.Texture.Key, FBXPropertyType.String, "DiffuseColor"));
 
-                        FBXElem fbxVideo = new FBXElem { ID = "Video", Properties = { new FBXProperty { Type = 76, Value = material.Key | material.Texture.Key }, new FBXProperty { Type = 83, Value = material.Texture.Name + "::Video" }, new FBXProperty { Type = 83, Value = "Clip" } } };
-                        fbxVideo.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "Clip" } } });
-                        fbxVideo.Children.Add(
-                            new FBXElem
-                            {
-                                ID = "Properties70",
-                                Children =
-                            {
-                            FBXPropertyElement(FBXPropertyType.String, "Path", "KString", "Url", "", ddsPath)
-                            }
-                            }
-                        );
-                        fbxVideo.Children.Add(new FBXElem { ID = "UseMipMap", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
-                        fbxVideo.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = ddsPath } } });
-                        fbxVideo.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = Path.GetFileName(ddsPath) } } });
-                        fbxVideo.Children.Add(new FBXElem { ID = "Content", Properties = { new FBXProperty { Type = 82, Value = new byte[] { } } } });
+                    FBXElem fbxVideo = new FBXElem { ID = "Video", Properties = { new FBXProperty { Type = 76, Value = material.Key | material.Texture.Key }, new FBXProperty { Type = 83, Value = $"{material.Texture.Name}::Video" }, new FBXProperty { Type = 83, Value = "Clip" } } };
+                    fbxVideo.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "Clip" } } });
+                    fbxVideo.Children.Add(new FBXElem
+                    {
+                        ID = "Properties70",
+                        Children =
+                        {
+                            FBXPropertyElement(FBXPropertyType.String, "Path", "KString", "XRefUrl", "", texturePath)
+                        }
+                    });
+                    fbxVideo.Children.Add(new FBXElem { ID = "UseMipMap", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "Content", Properties = { new FBXProperty { Type = 82, Value = File.ReadAllBytes(texturePath) } } });
 
-                        fbxConnections.Children.Add(FBXConnection("Texture", material.Texture.Key, "Video", material.Key | material.Texture.Key));
+                    fbxConnections.Children.Add(FBXConnection("Texture", material.Texture.Key, "Video", material.Key | material.Texture.Key));
 
-                        fbxObjects.Children.Add(fbxTexture);
-                        fbxObjects.Children.Add(fbxVideo);
-                    }
+                    fbxObjects.Children.Add(fbxTexture);
+                    fbxObjects.Children.Add(fbxVideo);
                 }
 
                 fbxObjects.Children.Add(fbxMaterial);
