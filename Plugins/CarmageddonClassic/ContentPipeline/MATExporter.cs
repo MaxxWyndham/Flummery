@@ -15,6 +15,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
             foreach (Material material in materials.Entries) 
             {
                 if (material == null) { continue; }
+                if (material.Texture == null) { continue; }
 
                 mat.Materials.Add(
                     new MATMaterial(

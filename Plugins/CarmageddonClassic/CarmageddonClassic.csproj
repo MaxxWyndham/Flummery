@@ -53,11 +53,13 @@
     <Compile Include="CarmageddonClassic.cs" />
     <Compile Include="ContentPipeline\ACTExporter.cs" />
     <Compile Include="ContentPipeline\ACTImporter.cs" />
+    <Compile Include="ContentPipeline\C1CarExporter.cs" />
     <Compile Include="ContentPipeline\C1CarImporter.cs" />
     <Compile Include="ContentPipeline\DATExporter.cs" />
     <Compile Include="ContentPipeline\DATImporter.cs" />
     <Compile Include="ContentPipeline\MATExporter.cs" />
     <Compile Include="ContentPipeline\MATImporter.cs" />
+    <Compile Include="ContentPipeline\PIXExporter.cs" />
     <Compile Include="ContentPipeline\PIXImporter.cs" />
     <Compile Include="MaterialEditor.cs">
       <SubType>Form</SubType>
@@ -66,6 +68,12 @@
       <DependentUpon>MaterialEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveAsVehicle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveAsVehicle.Designer.cs">
+      <DependentUpon>SaveAsVehicle.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
@@ -87,6 +95,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MaterialEditor.resx">
       <DependentUpon>MaterialEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveAsVehicle.resx">
+      <DependentUpon>SaveAsVehicle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

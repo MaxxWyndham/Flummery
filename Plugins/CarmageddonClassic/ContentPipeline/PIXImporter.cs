@@ -49,7 +49,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 
             foreach (PIXIE pixelmap in pix.Pixies)
             {
-                Texture texture = new Texture();
+                Texture texture = new Texture { FileName = pixelmap.Name };
 
                 texture.CreateFromBitmap(pixelmap.GetBitmap(), pixelmap.Name);
 

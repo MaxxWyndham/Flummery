@@ -69,7 +69,14 @@ namespace Flummery.Plugin.CarmageddonClassic
             }
         };
 
-        public List<MenuItem> FileSaveAsItems { get; } = null;
+        public List<MenuItem> FileSaveAsItems { get; } = new List<MenuItem>
+        {
+            new MenuItem
+            {
+                Name = "Vehicle",
+                ToolsAction = CarmageddonClassic.SaveAsVehicle
+            }
+        };
 
         public List<MenuItem> FileExportItems { get; } = null;
 
@@ -403,6 +410,11 @@ namespace Flummery.Plugin.CarmageddonClassic
             SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
 
             SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Level);
+        }
+
+        public static void SaveAsVehicle()
+        {
+            new SaveAsVehicle().ShowDialog();
         }
     }
 }

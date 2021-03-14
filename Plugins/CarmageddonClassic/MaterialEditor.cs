@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
 using Flummery.Core;
 using Flummery.Core.ContentPipeline;
 
-namespace Flummery
+namespace Flummery.Plugin.CarmageddonClassic
 {
     public partial class MaterialEditor : Form
     {

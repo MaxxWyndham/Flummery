@@ -10,19 +10,19 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
     {
         public override void Export(Asset asset, string path)
         {
-            Model model = (asset as Model);
+            Model model = asset as Model;
             ACT act = new ACT();
 
-            TravelTree(model.Root, ref act, true);
+            TravelTree(model.Root, ref act);
 
             act.Save(path);
         }
 
-        public static void TravelTree(ModelBone bone, ref ACT act, bool root = false)
+        public static void TravelTree(ModelBone bone, ref ACT act)
         {
             act.AddActor(
                 bone.Name,
-                (bone.Type == BoneType.Mesh && bone.Mesh != null ? bone.Mesh.Name : null),
+                bone.Type == BoneType.Mesh && bone.Mesh != null ? bone.Mesh.Name : null,
                 new Matrix3D(
                     bone.Transform.M11, bone.Transform.M21, bone.Transform.M31,
                     bone.Transform.M12, bone.Transform.M22, bone.Transform.M32,
