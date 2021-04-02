@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Flummery.Core.Entities;
+
 using ToxicRagers.Helpers;
 
 namespace Flummery.Core
@@ -53,12 +55,8 @@ namespace Flummery.Core
 
         public IRenderer Renderer { get; private set; }
 
-        public BoundingBox BoundingBox { get; private set; } = null;
-
         List<IRenderMode> renderModes = new List<IRenderMode>();
         int currentRenderMode = 0;
-
-        public Entity Node = null;
 
         public bool CanUseVertexBuffer { get; set; }
 
@@ -66,7 +64,7 @@ namespace Flummery.Core
 
         public IRenderMode RenderMode => renderModes[currentRenderMode];
 
-        public List<Entity> Entities { get; } = new List<Entity>();
+        public List<IEntity> Entities { get; } = new List<IEntity>();
 
         public List<Model> Models { get; } = new List<Model>();
 
@@ -147,9 +145,16 @@ namespace Flummery.Core
             //        // these will be registered by the plugins eventuallly
             //        renderModes.Add(new CrushData());
 
-            InputManager.Current.RegisterInputAction(ClearBoundingBox, "ClearBoundingBox", "Deselects the currently selected mesh", "Scene");
+            //InputManager.Current.RegisterInputAction(ClearBoundingBox, "ClearBoundingBox", "Deselects the currently selected mesh", "Scene");
             InputManager.Current.RegisterInputAction(CycleRenderMode, "CycleRenderMode", "Cycles through the available render modes", "Scene");
             InputManager.Current.RegisterInputAction(ToggleCoordinateSystem, "ToggleCoordinateSystem", "Swaps between Left-handed and Right-handed co-ordinate systems", "Scene");
+
+            createCoreEntities();
+        }
+
+        private void createCoreEntities()
+        {
+            Entities.Add(new Grid());
         }
 
         public Asset Add(Asset asset)
@@ -167,16 +172,15 @@ namespace Flummery.Core
                     switch (bone.Type)
                     {
                         case BoneType.Light:
-                        case BoneType.VFX:
-                            Entity entity = new Entity
-                            {
-                                Name = bone.Name,
-                                EntityType = bone.Type.ToString().ToEnum<EntityType>(),
-                                AssetType = AssetType.Sprite
-                            };
-                            entity.LinkWith(bone);
+                            Light light = new Light();
+                            light.LinkWith(bone);
+                            Entities.Add(light);
+                            break;
 
-                            Entities.Add(entity);
+                        case BoneType.VFX:
+                            VFX vfx = new VFX();
+                            vfx.LinkWith(bone);
+                            Entities.Add(vfx);
                             break;
                     }
                 }
@@ -229,23 +233,6 @@ namespace Flummery.Core
             OnSelectMaterial?.Invoke(this, new SelectMaterialEventArgs(key));
         }
 
-        public void ClearBoundingBox()
-        {
-            SetBoundingBox(null);
-        }
-
-        public void SetBoundingBox(BoundingBox bb)
-        {
-            Node.LinkWith(null);
-            BoundingBox = bb;
-        }
-
-        public void SetNodePosition(ModelBone bone)
-        {
-            Node.LinkWith(bone, LinkType.Position | LinkType.Rotation);
-            BoundingBox = null;
-        }
-
         public void SetCoordinateSystem(CoordinateSystem c)
         {
             CoordinateSystem = c;
@@ -290,9 +277,8 @@ namespace Flummery.Core
             Entities.Clear();
             Models.Clear();
             Materials.Entries.Clear();
-            BoundingBox = null;
 
-            Entities.Add(Node);
+            createCoreEntities();
 
             OnReset?.Invoke(this, new ResetEventArgs());
         }
@@ -320,65 +306,11 @@ namespace Flummery.Core
 
         public void Draw(Camera camera)
         {
-            if (Node == null)
-            {
-                Node = new Entity
-                {
-                    Name = "node",
-                    EntityType = EntityType.Bone,
-                    AssetType = AssetType.Model,
-                    Asset = new Model()
-                };
-
-                Sphere sphere = new Sphere(0.125f, 7, 7);
-                ModelManipulator.SetVertexColour(sphere, 0, 255, 0, 255);
-                ((Model)Node.Asset).AddMesh(sphere);
-                ((Model)Node.Asset).SetRenderStyle(RenderStyle.Wireframe);
-                Entities.Add(Node);
-            }
-
             Matrix4D lookat = camera.View;
 
             Renderer.MatrixMode("Modelview");
             Renderer.LoadMatrix(ref lookat);
 
-            Renderer.Disable("CullFace");
-            Renderer.Disable("Texture2D");
-            Renderer.Disable("Lighting");
-            Renderer.Disable("Light0");
-
-            Renderer.PolygonMode("FrontAndBack", "Line");
-
-            Renderer.Begin(PrimitiveType.Quads);
-            Renderer.Color4(0f, 1.0f, 0f, 1.0f);
-
-            Renderer.Vertex3(-1.0f, 0, -1.0f);
-            Renderer.Vertex3(0, 0, -1.0f);
-            Renderer.Vertex3(0, 0, 0);
-            Renderer.Vertex3(-1.0f, 0, 0);
-
-            Renderer.Vertex3(0, 0, -1.0f);
-            Renderer.Vertex3(1.0f, 0, -1.0f);
-            Renderer.Vertex3(1.0f, 0, 0);
-            Renderer.Vertex3(0, 0, 0);
-
-            Renderer.Vertex3(-1.0f, 0, 0);
-            Renderer.Vertex3(0, 0, 0);
-            Renderer.Vertex3(0, 0, 1.0f);
-            Renderer.Vertex3(-1.0f, 0, 1.0f);
-
-            Renderer.Vertex3(0, 0, 0);
-            Renderer.Vertex3(1.0f, 0, 0);
-            Renderer.Vertex3(1.0f, 0, 1.0f);
-            Renderer.Vertex3(0, 0, 1.0f);
-            Renderer.End();
-
-            if (BoundingBox != null) { BoundingBox.Draw(); }
-
-            Renderer.Enable("CullFace");
-            Renderer.Enable("Texture2D");
-            Renderer.Enable("Lighting");
-            Renderer.Enable("Light0");
             Renderer.FrontFace(FrontFace);
 
             Lights();
@@ -388,7 +320,7 @@ namespace Flummery.Core
                 model.Draw();
             }
 
-            foreach (Entity entity in Entities)
+            foreach (IEntity entity in Entities)
             {
                 entity.Draw();
             }

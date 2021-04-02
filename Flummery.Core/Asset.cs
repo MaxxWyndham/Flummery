@@ -24,21 +24,9 @@ namespace Flummery.Core
 
         public long Key { get; } = SceneManager.Current.Random.NextLong();
 
-        public LinkType LinkType { get; private set; }
-
-        public object Link { get; private set; }
-
-        public bool Linked => Link != null;
-
         public virtual Asset Clone()
         {
             return this;
-        }
-
-        public void LinkWith(object item, LinkType linkType = LinkType.All)
-        {
-            Link = item;
-            LinkType = linkType;
         }
 
         public T GetSupportingDocument<T>(string documentName)

@@ -41,7 +41,9 @@ namespace Flummery
 
             InputManager inputManager = new InputManager();
             SceneManager.Create(new Renderer.OpenTKRenderer());
-            ContentManager.AddHint($@"{Path.GetDirectoryName(Application.ExecutablePath)}\data\icons\");
+            SceneManager.Current.Content.RootPath = Path.GetDirectoryName(Application.ExecutablePath);
+            ContentManager.AddHint(Path.GetDirectoryName(Application.ExecutablePath));
+            ContentManager.AddHint(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "data", "icons"));
 
             PnlViewport viewport = new PnlViewport();
             PnlMaterialList materials = new PnlMaterialList();

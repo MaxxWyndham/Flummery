@@ -10,7 +10,9 @@ using ToxicRagers.Helpers;
 
 using Flummery.Core;
 using Flummery.Core.ContentPipeline;
+using Flummery.Core.Entities;
 using Flummery.Plugin.CarmageddonClassic.ContentPipeline;
+using Flummery.Plugin.CarmageddonClassic.Entities;
 
 namespace Flummery.Plugin.CarmageddonClassic
 {
@@ -351,39 +353,35 @@ namespace Flummery.Plugin.CarmageddonClassic
 
                 if (bone.Name.StartsWith("&"))
                 {
-                    Entity entity = new Entity();
-
                     if (bone.Name.StartsWith("&£"))
                     {
-                        string key = bone.Name.Substring(2, 2);
-
-                        entity.UniqueIdentifier = $"errol_B00BIE{key}_{i:000}";
-                        entity.EntityType = EntityType.Powerup;
-
-                        C2Powerup pup = Powerups.LookupID(int.Parse(key));
+                        C2Powerup pup = Powerups.LookupID(int.Parse(bone.Name.Substring(2, 2)));
+                        Powerup powerup = new Powerup();
 
                         if (pup.InMD)
                         {
-                            entity.Name = $"pup_{pup.Name}";
-                            entity.Tag = pup.Model;
+                            powerup.Name = $"pup_{pup.Name}";
+                            powerup.Tag = pup.Model;
                         }
                         else
                         {
-                            entity.Name = "pup_Credits";
-                            entity.Tag = pup.Model;
+                            powerup.Name = "pup_Credits";
+                            powerup.Tag = pup.Model;
                         }
+
+                        powerup.Transform = bone.CombinedTransform;
+
+                        SceneManager.Current.Entities.Add(powerup);
                     }
                     else
                     {
-                        // accessory
-                        entity.UniqueIdentifier = $"errol_HEAD00{bone.Name.Substring(1, 2)}_{i:000}";
-                        entity.EntityType = EntityType.Accessory;
-                        entity.Name = $"C2_{bone.Mesh.Name.Substring(3)}";
-                    }
+                        Accessory accessory = new Accessory
+                        {
+                            Name = $"C2_{bone.Mesh.Name.Substring(3)}"
+                        };
 
-                    entity.Transform = bone.CombinedTransform;
-                    entity.AssetType = AssetType.Sprite;
-                    SceneManager.Current.Entities.Add(entity);
+                        SceneManager.Current.Entities.Add(accessory);
+                    }
 
                     SceneManager.Current.Models[0].RemoveBone(bone.Index);
                 }
@@ -393,14 +391,12 @@ namespace Flummery.Plugin.CarmageddonClassic
             {
                 Map map = SceneManager.Current.Models[0].GetSupportingDocument<Map>("TXT");
 
-                Entity entity = new Entity
+                StartingGrid grid = new StartingGrid
                 {
-                    EntityType = EntityType.Grid,
-                    AssetType = AssetType.Sprite,
                     Transform = Matrix4D.CreateTranslation(map.GridPosition.X * 6.9f, map.GridPosition.Y * 6.9f, map.GridPosition.Z * -6.9f)
                 };
 
-                SceneManager.Current.Entities.Add(entity);
+                SceneManager.Current.Entities.Add(grid);
             }
 
             SceneManager.Current.UpdateProgress("Processing complete!");

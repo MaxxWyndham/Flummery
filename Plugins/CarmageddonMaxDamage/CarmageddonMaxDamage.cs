@@ -8,6 +8,7 @@ using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Stainless.Formats;
 
 using Flummery.Core;
+using Flummery.Core.Entities;
 using Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline;
 
 namespace Flummery.Plugin.CarmageddonMaxDamage
@@ -153,7 +154,7 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
             {
                 Name = "Accessory.txt files",
                 Mask = "accessory.txt",
-                ProcessAction = Accessory.Load
+                ProcessAction = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load
             },
             new MenuItem
             {
@@ -231,7 +232,7 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
 
             if (File.Exists(accessorytxt))
             {
-                accessory.SupportingDocuments["Accessory"] = Accessory.Load(accessorytxt);
+                accessory.SupportingDocuments["Accessory"] = ToxicRagers.CarmageddonReincarnation.Formats.Accessory.Load(accessorytxt);
             }
 
             SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Accessory);
@@ -322,17 +323,25 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
             {
                 string boneName = bone.Name.ToLower();
 
-                if (boneName.StartsWith("wheel_") || boneName.StartsWith("vfx_") || boneName.StartsWith("driver"))
-                {
-                    Entity entity = new Entity
-                    {
-                        Name = bone.Name,
-                        EntityType = (boneName.StartsWith("driver") ? EntityType.Driver : (boneName.StartsWith("wheel_") ? EntityType.Wheel : EntityType.VFX)),
-                        AssetType = AssetType.Sprite
-                    };
-                    entity.LinkWith(bone);
+                // Name = bone.Name
 
-                    SceneManager.Current.Entities.Add(entity);
+                if (boneName.StartsWith("wheel_"))
+                {
+                    Core.Entities.Wheel wheel = new Core.Entities.Wheel();
+                    wheel.LinkWith(bone);
+                    SceneManager.Current.Entities.Add(wheel);
+                } 
+                else if (boneName.StartsWith("vfx_"))
+                {
+                    VFX vfx = new VFX();
+                    vfx.LinkWith(bone);
+                    SceneManager.Current.Entities.Add(vfx);
+                } 
+                else if (boneName.StartsWith("driver"))
+                {
+                    Driver driver = new Driver();
+                    driver.LinkWith(bone);
+                    SceneManager.Current.Entities.Add(driver);
                 }
             }
 
@@ -458,13 +467,13 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
             {
                 case DialogResult.OK:
                 case DialogResult.Abort:
-                    foreach (Entity entity in SceneManager.Current.Entities)
+                    foreach (IEntity entity in SceneManager.Current.Entities)
                     {
-                        if (entity.EntityType == EntityType.Wheel)
-                        {
-                            entity.Asset = result == DialogResult.OK ? preview.Wheel : null;
-                            entity.AssetType = result == DialogResult.OK ? AssetType.Model : AssetType.Sprite;
-                        }
+                        //if (entity.EntityType == EntityType.Wheel)
+                        //{
+                        //    entity.Asset = result == DialogResult.OK ? preview.Wheel : null;
+                        //    entity.AssetType = result == DialogResult.OK ? AssetType.Model : AssetType.Sprite;
+                        //}
                     }
                     break;
             }

@@ -226,39 +226,47 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
 
             if (SceneManager.Current.Entities.Count > 0)
             {
+                using (StreamWriter wacc = File.CreateText(Path.Combine(txtPath.Text, "level.lol")))
                 using (StreamWriter wpup = File.CreateText(Path.Combine(txtPath.Text, "powerups.lol")))
                 {
-                    using (StreamWriter wacc = File.CreateText(Path.Combine(txtPath.Text, "level.lol")))
+                    Dictionary<string, StreamWriter> streams = new Dictionary<string, StreamWriter>
                     {
-                        wpup.WriteLine("module((...), level_powerup_setup)");
-                        wpup.WriteLine("accessories = {");
+                        { "StartingGrid", wacc },
+                        { "Accessory", wacc },
+                        { "Powerup", wpup }
+                    };
 
-                        wacc.WriteLine("module((...), level_accessory_setup)");
-                        wacc.WriteLine("accessories = {");
+                    wacc.WriteLine("module((...), level_accessory_setup)");
+                    wacc.WriteLine("accessories = {");
 
-                        for (int i = 0; i < SceneManager.Current.Entities.Count; i++)
-                        {
-                            Entity entity = SceneManager.Current.Entities[i];
-                            StreamWriter w = (entity.EntityType == EntityType.Accessory || entity.EntityType == EntityType.Grid ? wacc : wpup);
+                    wpup.WriteLine("module((...), level_powerup_setup)");
+                    wpup.WriteLine("accessories = {");
 
-                            w.WriteLine($"\t{(entity.UniqueIdentifier ?? $"entity{i:0000}")} = {{");
-                            w.WriteLine($"\t\ttype = \"{entity.Name}\",");
-                            if (entity.EntityType == EntityType.Powerup) { w.WriteLine($"\t\tname = \"{entity.Tag}\","); }
-                            w.WriteLine("\t\tlayer = \"race01\",");
-                            w.WriteLine("\t\ttransform = {");
-                            w.WriteLine($"\t\t\t{{{entity.Transform.M11},{entity.Transform.M21},{entity.Transform.M31}}},");
-                            w.WriteLine($"\t\t\t{{{entity.Transform.M12},{entity.Transform.M22},{entity.Transform.M32}}},");
-                            w.WriteLine($"\t\t\t{{{entity.Transform.M13},{entity.Transform.M23},{entity.Transform.M33}}},");
-                            w.WriteLine($"\t\t\t{{{entity.Transform.M41},{entity.Transform.M42},{entity.Transform.M43}}},");
-                            w.WriteLine("\t\t},");
-                            w.WriteLine("\t\tcolour = { 255, 255, 255 }");
-                            w.Write("\t}");
-                            w.WriteLine((i + 1 < SceneManager.Current.Entities.Count ? "," : ""));
-                        }
+                    for (int i = 0; i < SceneManager.Current.Entities.Count; i++)
+                    {
+                        IEntity entity = SceneManager.Current.Entities[i];
 
-                        wacc.WriteLine("}");
-                        wpup.WriteLine("}");
+                        if (!streams.ContainsKey(entity.GetType().Name)) { continue; }
+
+                        StreamWriter w = streams[entity.GetType().Name];
+
+                        w.WriteLine($"\t{$"entity{i:0000}"} = {{");
+                        w.WriteLine($"\t\ttype = \"{entity.Name}\",");
+                        if (entity is Core.Entities.Powerup) { w.WriteLine($"\t\tname = \"{entity.Tag}\","); }
+                        w.WriteLine("\t\tlayer = \"race01\",");
+                        w.WriteLine("\t\ttransform = {");
+                        w.WriteLine($"\t\t\t{{{entity.Transform.M11},{entity.Transform.M21},{entity.Transform.M31}}},");
+                        w.WriteLine($"\t\t\t{{{entity.Transform.M12},{entity.Transform.M22},{entity.Transform.M32}}},");
+                        w.WriteLine($"\t\t\t{{{entity.Transform.M13},{entity.Transform.M23},{entity.Transform.M33}}},");
+                        w.WriteLine($"\t\t\t{{{entity.Transform.M41},{entity.Transform.M42},{entity.Transform.M43}}},");
+                        w.WriteLine("\t\t},");
+                        w.WriteLine("\t\tcolour = { 255, 255, 255 }");
+                        w.Write("\t}");
+                        w.WriteLine((i + 1 < SceneManager.Current.Entities.Count ? "," : ""));
                     }
+
+                    wacc.WriteLine("}");
+                    wpup.WriteLine("}");
                 }
             }
 

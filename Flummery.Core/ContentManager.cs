@@ -9,7 +9,10 @@ namespace Flummery.Core
     public partial class ContentManager
     {
         Dictionary<string, Asset> Assets { get; } = new Dictionary<string, Asset>(StringComparer.InvariantCultureIgnoreCase);
+
         public static string Hints { get; private set; } = "";
+
+        public string RootPath { get; set; }
 
         public static bool LoadOrDefaultFile(string fileName, string fileExtension, out string filePath)
         {

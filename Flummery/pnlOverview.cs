@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 using Flummery.Core;
+using Flummery.Core.Entities;
 
 namespace Flummery
 {
@@ -235,11 +236,11 @@ namespace Flummery
 
                     if (bone.Type == BoneType.Mesh)
                     {
-                        SceneManager.Current.SetBoundingBox(bone.Mesh.BoundingBox);
+                        SceneManager.Current.Entities.Add(new Bounds { LinkedBox = bone.Mesh.BoundingBox });
                     }
                     else
                     {
-                        SceneManager.Current.SetNodePosition(bone);
+                        SceneManager.Current.Entities.Add(new Node { LinkedBone = bone });
                     }
                 }
             }
