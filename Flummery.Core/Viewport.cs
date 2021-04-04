@@ -98,58 +98,18 @@ namespace Flummery.Core
             );
         }
 
-        public Vector3 ConvertScreenToWorldCoords(int x, int y)
+        public Vector3 ConvertScreenToWorldCoords(int x, int y, float z = 0f)
         {
-            if (mode != ProjectionType.Orthographic) { return Vector3.Zero; }
+            Vector3 v = Vector3.Unproject(new Vector3(x - X + 1, h - y - 1 - Y, z), vw, vh, perspective, Camera.View);
 
-            Matrix4D m = SceneManager.Current.Transform;
-
-            Matrix4D lookat = Camera.View;
-
-            SceneManager.Current.Renderer.MatrixMode("Modelview");
-            SceneManager.Current.Renderer.LoadMatrix(ref lookat);
-            SceneManager.Current.Renderer.MultMatrix(ref m);
-
-            perspective = Matrix4D.CreateOrthographic(4 * Camera.Zoom, (4 / aspect_ratio) * Camera.Zoom, 0.001f, 1000);
-
-            SceneManager.Current.Renderer.MatrixMode("Projection");
-            SceneManager.Current.Renderer.LoadMatrix(ref perspective);
-
-            int[] viewport = new int[4];
-            SceneManager.Current.Renderer.GetFloat("ModelviewMatrix", out Matrix4D modelViewMatrix);
-            SceneManager.Current.Renderer.GetFloat("ProjectionMatrix", out Matrix4D projectionMatrix);
-            SceneManager.Current.Renderer.GetInteger("Viewport", viewport);
-
-            return UnProject(ref projectionMatrix, modelViewMatrix, viewport, new Vector2(x - X + 1, h - y - 1 - Y));
-        }
-
-        public Vector3 UnProject(ref Matrix4D projection, Matrix4D view, int[] viewport, Vector2 mouse)
-        {
-            Vector4 vec = Vector4.Zero;
-
-            vec.X = 2.0f * mouse.X / viewport[2] - 1;
-            vec.Y = 2.0f * mouse.Y / viewport[3] - 1;
-            vec.Z = 0;
-            vec.W = 1.0f;
-
-            Matrix4D viewInv = Matrix4D.Invert(view);
-            Matrix4D projInv = Matrix4D.Invert(projection);
-
-            Vector4.Transform(ref vec, ref projInv, out vec);
-            Vector4.Transform(ref vec, ref viewInv, out vec);
-
-            if (vec.W > float.Epsilon || vec.W < float.Epsilon)
+            if (mode == ProjectionType.Orthographic)
             {
-                vec.X /= vec.W;
-                vec.Y /= vec.W;
-                vec.Z /= vec.W;
+                if (Axis == Vector3.UnitX) { v.X = 0; }
+                if (Axis == Vector3.UnitY) { v.Y = 0; }
+                if (Axis == Vector3.UnitZ) { v.Z = 0; }
             }
 
-            if (Axis == Vector3.UnitX) { vec.X = 0; }
-            if (Axis == Vector3.UnitY) { vec.Y = 0; }
-            if (Axis == Vector3.UnitZ) { vec.Z = 0; }
-
-            return new Vector3(vec.X, vec.Y, vec.Z);
+            return v;
         }
 
         int ow = -1;
@@ -167,7 +127,7 @@ namespace Flummery.Core
 
             aspect_ratio = w / (float)h;
 
-            perspective = Matrix4D.CreatePerspectiveFieldOfView(Maths.PiOver4, aspect_ratio, 0.1f, 1000);
+            perspective = Matrix4D.CreatePerspectiveFieldOfView(Maths.PiOver4, aspect_ratio, 0.001f, 100);
 
             int xo = ((int)Position & 1);
             int yo = ((int)Position & 2) >> 1;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Flummery.Core.Collision;
+
 using ToxicRagers.Helpers;
 
 namespace Flummery.Core
@@ -16,8 +18,10 @@ namespace Flummery.Core
     public class ViewportManager
     {
         public static ViewportManager Current;
+
         private bool isMouseDown = false;
         private Vector2 previousMouseDragPosition;
+        private Vector2 mousePosition = Vector2.Zero;
 
         public bool HasFocus { get; set; } = false;
 
@@ -32,12 +36,14 @@ namespace Flummery.Core
         private int height;
 
         public delegate void MouseMoveHandler(object sender, ViewportMouseMoveEventArgs e);
-        public delegate void MouseDownHandler(object sender, ViewportMouseMoveEventArgs e);
-        public delegate void MouseUpHandler(object sender, ViewportMouseMoveEventArgs e);
-        public delegate void MouseScrollHandler(object sender, ViewportMouseMoveEventArgs e);
+        public delegate void MouseDownHandler(object sender, ViewportMouseDownEventArgs e);
+        public delegate void MouseUpHandler(object sender, ViewportMouseUpEventArgs e);
+        public delegate void MouseScrollHandler(object sender, ViewportMouseScrollEventArgs e);
 
         public event MouseMoveHandler OnMouseMove;
         public event MouseDownHandler OnMouseDown;
+        public event MouseUpHandler OnMouseUp;
+        public event MouseScrollHandler OnMouseScroll;
 
         public ViewportManager()
         {
@@ -134,9 +140,32 @@ namespace Flummery.Core
             foreach (Viewport viewport in viewports) { viewport.Camera.SetActionScale(scale); }
         }
 
-        public void MouseMove(int X, int Y)
+        public Ray GetRayFromMouse()
+        {
+            Ray ray = new Ray
+            {
+                Position = Active.ConvertScreenToWorldCoords((int)mousePosition.X, (int)mousePosition.Y),
+                Direction = Active.Camera.CameraDirection
+            };
+
+            if (Active.ProjectionMode == ProjectionType.Orthographic)
+            {
+                ray.Position += ray.Direction * -20;
+            }
+            else
+            {
+                ray.Direction = (Active.ConvertScreenToWorldCoords((int)mousePosition.X, (int)mousePosition.Y, 1) - ray.Position).Normalised;
+            }
+
+            return ray;
+        }
+
+        public void MouseMove(int x, int y)
         {
             if (!active.Enabled) { return; }
+
+            mousePosition.X = x;
+            mousePosition.Y = y;
 
             if (!isMouseDown)
             {
@@ -144,12 +173,12 @@ namespace Flummery.Core
                 {
                     if (!viewport.Enabled) { continue; }
 
-                    if (viewport.IsActive(X, Y))
+                    if (viewport.IsActive(x, y))
                     {
                         viewport.Active = true;
                         active = viewport;
 
-                        OnMouseMove?.Invoke(this, new ViewportMouseMoveEventArgs(viewport.ConvertScreenToWorldCoords(X, Y)));
+                        OnMouseMove?.Invoke(this, new ViewportMouseMoveEventArgs(x, y, active));
                     }
                     else
                     {
@@ -160,16 +189,16 @@ namespace Flummery.Core
                 return;
             }
 
-            Drag(new ViewportMouseDragEventArgs(previousMouseDragPosition, new Vector2(X, Y)));
+            Drag(new ViewportMouseDragEventArgs(previousMouseDragPosition, new Vector2(x, y)));
 
-            previousMouseDragPosition = new Vector2(X, Y);
+            previousMouseDragPosition = new Vector2(x, y);
         }
 
         public void MouseDown(int X, int Y)
         {
             isMouseDown = true;
 
-            OnMouseDown?.Invoke(this, new ViewportMouseMoveEventArgs(Active.ConvertScreenToWorldCoords(X, Y)));
+            OnMouseDown?.Invoke(this, new ViewportMouseDownEventArgs(Vector3.Zero));
             previousMouseDragPosition = new Vector2(X, Y);
         }
 
@@ -272,11 +301,19 @@ namespace Flummery.Core
 
     public class ViewportMouseMoveEventArgs : EventArgs
     {
-        public Vector3 Position { get; private set; }
+        public int X { get; private set; }
 
-        public ViewportMouseMoveEventArgs(Vector3 position)
+        public int Y { get; private set; }
+
+        public Viewport Viewport { get; private set; }
+
+        public Vector3 Position => Viewport.ConvertScreenToWorldCoords(X, Y);
+
+        public ViewportMouseMoveEventArgs(int x, int y, Viewport viewport)
         {
-            Position = position;
+            X = x;
+            Y = y;
+            Viewport = viewport;
         }
     }
 
@@ -290,9 +327,21 @@ namespace Flummery.Core
         }
     }
 
+    public class ViewportMouseScrollEventArgs : EventArgs
+    {
+        public Vector3 Position { get; private set; }
+
+        public ViewportMouseScrollEventArgs(Vector3 position)
+        {
+            Position = position;
+        }
+    }
+
     public class ViewportMouseDownEventArgs : EventArgs
     {
         public Vector3 Position { get; private set; }
+
+        public ModelMesh Selected { get; set; }
 
         public ViewportMouseDownEventArgs(Vector3 position)
         {
@@ -303,6 +352,7 @@ namespace Flummery.Core
     public class ViewportMouseDragEventArgs : EventArgs
     {
         public Vector2 PreviousPosition { get; private set; }
+
         public Vector2 CurrentPosition { get; private set; }
 
         public ViewportMouseDragEventArgs(Vector2 previousPosition, Vector2 currentPosition)

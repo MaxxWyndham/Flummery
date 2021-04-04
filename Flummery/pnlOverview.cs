@@ -301,7 +301,7 @@ namespace Flummery
         private void viewport_OnMouseMove(object sender, ViewportMouseMoveEventArgs e)
         {
             llblShoutOut.Visible = false;
-            lblCoords.Text = string.Format("{0:0.000}, {1:0.000}, {2:0.000}", e.Position.X, e.Position.Y, e.Position.Z);
+            if (e.Viewport.ProjectionMode == ProjectionType.Orthographic) { lblCoords.Text = $"{e.Position.X:0.000}, {e.Position.Y:0.000}, {e.Position.Z:0.000}"; }
         }
 
         private void lblCoords_Click(object sender, EventArgs e)

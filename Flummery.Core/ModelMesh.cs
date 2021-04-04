@@ -6,6 +6,8 @@ namespace Flummery.Core
     {
         BoundingBox boundingBox;
 
+        BoundingSphere boundingSphere;
+
         public string Name { get; set; }
 
         public object Tag { get; set; }
@@ -21,6 +23,16 @@ namespace Flummery.Core
                 if (boundingBox == null) { boundingBox = new BoundingBox(this); }
 
                 return boundingBox;
+            }
+        }
+
+        public BoundingSphere BoundingSphere
+        {
+            get
+            {
+                if (boundingSphere == null) { boundingSphere = BoundingSphere.CreateFromBoundingBox(BoundingBox); }
+
+                return boundingSphere;
             }
         }
 

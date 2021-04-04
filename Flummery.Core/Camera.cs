@@ -41,6 +41,8 @@ namespace Flummery.Core
 
         public ProjectionType ProjectionMode { get; set; } = ProjectionType.Perspective;
 
+        public Vector3 CameraDirection => (target - Position).Normalised;
+
         float zoom = 1.0f;
 
         public float Zoom

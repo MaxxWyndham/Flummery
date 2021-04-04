@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Flummery.Core.Collision;
 using Flummery.Core.Entities;
 
 using ToxicRagers.Helpers;
@@ -323,6 +324,21 @@ namespace Flummery.Core
             foreach (IEntity entity in Entities)
             {
                 entity.Draw();
+            }
+        }
+
+        public void Trace(Ray ray)
+        {
+            foreach (Model model in Models)
+            {
+                CollisionHelpers.RayIntersectsModel(ray, model, out bool insideBoundingSphere, out Vector3 vertex1, out Vector3 vertex2, out Vector3 vertex3, out ModelMeshPart intersectsWithPart, out ModelMesh intersectsWith);
+
+                if (intersectsWithPart != null)
+                {
+                    Console.WriteLine(intersectsWith.Name);
+
+                    Entities.Add(new Face { Points = new List<Vector3> { vertex1, vertex2, vertex3 } });
+                }
             }
         }
 

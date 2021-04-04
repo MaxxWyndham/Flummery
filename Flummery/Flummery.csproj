@@ -173,7 +173,6 @@
     <Compile Include="frmUpdater.Designer.cs">
       <DependentUpon>frmUpdater.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\BoundingSphere.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>

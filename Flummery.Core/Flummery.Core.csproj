@@ -47,7 +47,10 @@
     <Compile Include="Asset.cs" />
     <Compile Include="AssetList.cs" />
     <Compile Include="BoundingBox.cs" />
+    <Compile Include="BoundingSphere.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Collision\CollisionHelpers.cs" />
+    <Compile Include="Collision\Ray.cs" />
     <Compile Include="ContentManager.cs" />
     <Compile Include="ContentPipeline\ContentExporter.cs" />
     <Compile Include="ContentPipeline\ContentImporter.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="ContentPipeline\Core\TIFImporter.cs" />
     <Compile Include="ContentPipeline\ExportSettings.cs" />
     <Compile Include="Entities\Bounds.cs" />
+    <Compile Include="Entities\Face.cs" />
     <Compile Include="Entities\Icons\Accessory.cs" />
     <Compile Include="Entities\Icons\Driver.cs" />
     <Compile Include="Entities\Grid.cs" />
