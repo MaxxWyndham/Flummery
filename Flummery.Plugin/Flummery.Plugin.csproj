@@ -54,14 +54,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
-      <Project>{9B9C928D-9E64-400E-961E-F134E659146B}</Project>
-      <Name>ToxicRagers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Flummery.Core\Flummery.Core.csproj">
       <Project>{B97AA7DC-7375-424E-848C-6F6F4625EFC8}</Project>
       <Name>Flummery.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ToxicRagers">
+      <Version>1.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

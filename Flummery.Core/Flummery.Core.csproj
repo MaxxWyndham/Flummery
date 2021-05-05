@@ -107,10 +107,9 @@
     <Compile Include="ViewportManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ToxicRagers\ToxicRagers\ToxicRagers.csproj">
-      <Project>{9b9c928d-9e64-400e-961e-f134e659146b}</Project>
-      <Name>ToxicRagers</Name>
-    </ProjectReference>
+    <PackageReference Include="ToxicRagers">
+      <Version>1.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
