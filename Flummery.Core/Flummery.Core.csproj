@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Flummery.Core</RootNamespace>
     <AssemblyName>Flummery.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -80,8 +80,13 @@
     <Compile Include="Entities\Icons\VFX.cs" />
     <Compile Include="Entities\Icons\Wheel.cs" />
     <Compile Include="Entities\Node.cs" />
+    <Compile Include="EntityCollection.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FlumpFile.cs" />
+    <Compile Include="IGizmo.cs" />
+    <Compile Include="Gizmos\Move.cs" />
+    <Compile Include="Gizmos\Rotate.cs" />
+    <Compile Include="Gizmos\Scale.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IndexBuffer.cs" />
     <Compile Include="InputManager.cs" />
@@ -102,13 +107,14 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="TextWriter.cs" />
+    <Compile Include="Vertex.cs" />
     <Compile Include="VertexBuffer.cs" />
     <Compile Include="Viewport.cs" />
     <Compile Include="ViewportManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ToxicRagers">
-      <Version>1.0.0</Version>
+      <Version>1.8.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

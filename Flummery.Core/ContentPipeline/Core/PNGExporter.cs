@@ -13,6 +13,13 @@ namespace Flummery.Core.ContentPipeline
 
             SceneManager.Current.UpdateProgress($"Saving {texture.Name}");
 
+            //using (Bitmap butts = new Bitmap(b.Width, b.Height, PixelFormat.Format24bppRgb))
+            //using (Graphics g = Graphics.FromImage(butts))
+            //{
+            //    g.DrawImageUnscaledAndClipped(b, new Rectangle(Point.Empty, b.Size));
+            //    butts.Save(path, ImageFormat.Png);
+            //}
+
             b.Save(path, ImageFormat.Png);
 
             SceneManager.Current.UpdateProgress($"{Path.GetFileName(path)} saved!");

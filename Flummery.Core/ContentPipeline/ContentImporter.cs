@@ -10,7 +10,7 @@ namespace Flummery.Core.ContentPipeline
 
         public string Find(string assetName, string currentPath = null)
         {
-            if (currentPath != null && File.Exists(currentPath + assetName)) { return currentPath + assetName; }
+            if (currentPath != null && File.Exists(Path.Combine(currentPath, assetName))) { return Path.Combine(currentPath, assetName); }
 
             if (currentPath != null) { ContentManager.AddHint(currentPath); }
             if (assetName.IndexOf(".") > -1) { assetName = assetName.Substring(0, assetName.LastIndexOf(".")); }

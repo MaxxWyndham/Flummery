@@ -76,7 +76,7 @@ namespace Flummery.Core
             IndexBuffer.AddIndex(v3);
         }
 
-        public void AddFace(Vector3[] positions, Vector3[] normals, Vector2[] texcoords)
+        public void AddFace(Vector3[] positions, Vector3[] normals, Vector2[] texcoords, int[] originalIDs = null)
         {
             for (int i = 0; i < 3; i++)
             {
@@ -86,6 +86,8 @@ namespace Flummery.Core
                     Normal = normals[i],
                     UV = new Vector4(texcoords[i].X, texcoords[i].Y, 0, 1)
                 };
+
+                if (originalIDs != null) { v.OriginalIDs.Add(originalIDs[i]); }
 
                 int index = VertexBuffer.Data.FindIndex(vert =>
                     vert.Position.X.GetHashCode() == v.Position.X.GetHashCode() &&
@@ -101,7 +103,14 @@ namespace Flummery.Core
                     vert.Colour == v.Colour
                 );
 
-                if (index == -1) { index = VertexBuffer.AddVertex(v); }
+                if (index == -1) 
+                { 
+                    index = VertexBuffer.AddVertex(v); 
+                }
+                else if (v.OriginalID >= 0 && !VertexBuffer.Data[index].OriginalIDs.Contains(v.OriginalID))
+                {
+                    VertexBuffer.Data[index].OriginalIDs.Add(v.OriginalID);
+                }
 
                 IndexBuffer.AddIndex(index);
             }
@@ -157,8 +166,6 @@ namespace Flummery.Core
 
         public void Draw()
         {
-            List<int> data = IndexBuffer.Data;
-
             SceneManager.Current.Renderer.Enable("DepthTest");
             SceneManager.Current.Renderer.Enable("Texture2D");
 
@@ -182,7 +189,7 @@ namespace Flummery.Core
                     SceneManager.Current.Renderer.Disable("Lighting");
                     SceneManager.Current.Renderer.Disable("Light0");
                     SceneManager.Current.Renderer.PolygonMode("FrontAndBack", "Line");
-                    SceneManager.Current.Renderer.Color4(Colour);
+                    //SceneManager.Current.Renderer.Color4(Colour);
                     break;
             }
 

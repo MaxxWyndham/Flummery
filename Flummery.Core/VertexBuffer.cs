@@ -5,31 +5,6 @@ using ToxicRagers.Helpers;
 
 namespace Flummery.Core
 {
-
-    public class Vertex
-    {
-        public Vector3 Position { get; set; }
-
-        public Vector3 Normal { get; set; }
-
-        public Vector4 UV { get; set; }
-
-        public Colour Colour { get; set; } = Colour.White;
-
-        public Vertex Clone()
-        {
-            Vertex v = new Vertex
-            {
-                Position = Position,
-                Normal = Normal,
-                UV = UV,
-                Colour = Colour
-            };
-
-            return v;
-        }
-    }
-
     public sealed class VertexBuffer
     {
         private int vbo;

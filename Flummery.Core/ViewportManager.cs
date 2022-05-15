@@ -20,8 +20,8 @@ namespace Flummery.Core
         public static ViewportManager Current;
 
         private bool isMouseDown = false;
-        private Vector2 previousMouseDragPosition;
         private Vector2 mousePosition = Vector2.Zero;
+        private Vector2 previousMouseDragPosition = Vector2.Zero;
 
         public bool HasFocus { get; set; } = false;
 

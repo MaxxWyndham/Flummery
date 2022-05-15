@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 
+using Flummery.Core.Collision;
+
 using ToxicRagers.Helpers;
 
 namespace Flummery.Core
@@ -20,20 +22,15 @@ namespace Flummery.Core
             TopRight = 3
         }
 
-        bool disabled = false;
         Size width = Size.Half;
         Size height = Size.Half;
         Size oldwidth;
         Size oldheight;
         Quadrant oldposition;
-
         ProjectionType mode = ProjectionType.Perspective;
         TextWriter tw = null;
-
-        public int X { get; private set; }
-
-        public int Y { get; private set; }
-
+        private int ow = -1;
+        private int oh = -1;
         int w = 0;
         int h = 0;
         int vw = 0;
@@ -41,13 +38,13 @@ namespace Flummery.Core
         float aspect_ratio;
         Matrix4D perspective = Matrix4D.Identity;
 
+        public int X { get; private set; }
+
+        public int Y { get; private set; }
+
         public Camera Camera { get; }
 
-        public bool Enabled
-        {
-            get => !disabled;
-            set => disabled = !value;
-        }
+        public bool Enabled { get; set; } = true;
 
         public string Name { get; set; }
 
@@ -63,7 +60,7 @@ namespace Flummery.Core
 
         public Quadrant Position { get; set; } = Quadrant.BottomLeft;
 
-        public bool Maximised => (width == Size.Full && height == Size.Full);
+        public bool Maximised => width == Size.Full && height == Size.Full;
 
         public bool Active { get; set; }
 
@@ -71,7 +68,7 @@ namespace Flummery.Core
 
         public Viewport()
         {
-            Camera = new Camera() { ProjectionMode = mode, Zoom = 2 };
+            Camera = new Camera { ProjectionMode = mode, Zoom = 2 };
             tw = new TextWriter(50, 20);
         }
 
@@ -79,23 +76,19 @@ namespace Flummery.Core
         {
             y = h - y;
 
-            return (
-                x > X &&
-                x < X + vw &&
-                y > Y &&
-                y < Y + vh
-            );
+            return x > X &&
+                   x < X + vw &&
+                   y > Y &&
+                   y < Y + vh;
         }
 
         public bool RightClickLabel(MouseEvent e)
         {
-            return (
-                e.Button == MouseButtons.Right &&
-                e.X > X &&
-                e.X < X + 43 &&
-                e.Y > (h - (Y + vh)) &&
-                e.Y < (h - (Y + vh)) + 25
-            );
+            return e.Button == MouseButtons.Right &&
+                   e.X > X &&
+                   e.X < X + 43 &&
+                   e.Y > (h - (Y + vh)) &&
+                   e.Y < (h - (Y + vh)) + 25;
         }
 
         public Vector3 ConvertScreenToWorldCoords(int x, int y, float z = 0f)
@@ -111,9 +104,6 @@ namespace Flummery.Core
 
             return v;
         }
-
-        int ow = -1;
-        int oh = -1;
 
         public void Resize(int panelwidth, int panelheight)
         {
@@ -168,9 +158,9 @@ namespace Flummery.Core
 
         public void Draw(SceneManager scene)
         {
-            scene.Renderer.ClearColor(Color.FromArgb(0x9D9D9D));
+            scene.Renderer.ClearColor(Color.FromArgb(0x9d9d9d));
 
-            if (mode == ProjectionType.Orthographic) { perspective = Matrix4D.CreateOrthographic(4 * Camera.Zoom, (4 / aspect_ratio) * Camera.Zoom, 0.001f, 100); }
+            if (mode == ProjectionType.Orthographic) { perspective = Matrix4D.CreateOrthographic(4 * Camera.Zoom, 4 / aspect_ratio * Camera.Zoom, 0.001f, 100); }
 
             scene.Renderer.MatrixMode("Projection");
             scene.Renderer.LoadMatrix(ref perspective);

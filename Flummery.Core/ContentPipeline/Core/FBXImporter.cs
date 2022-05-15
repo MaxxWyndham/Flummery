@@ -20,6 +20,7 @@ namespace Flummery.Core.ContentPipeline
             Model model = new Model();
             Dictionary<long, object> components = new Dictionary<long, object>();
             Dictionary<long, Matrix4D> transforms = new Dictionary<long, Matrix4D>();
+            Dictionary<long, string> geometryNames = new Dictionary<long, string>();
 
             Dictionary<long, string> triangulationErrors = new Dictionary<long, string>();
 
@@ -49,7 +50,7 @@ namespace Flummery.Core.ContentPipeline
             {
                 FBXElem content = video.Children.Find(e => e.ID == "Content");
                 
-                if (content.Properties[0].Size > 4)
+                if (content != null && content.Properties[0].Size > 4)
                 {
                     components.Add((long)video.Properties[0].Value, (byte[])content.Properties[0].Value);
                 }
@@ -68,10 +69,13 @@ namespace Flummery.Core.ContentPipeline
 
                 if (components.ContainsKey(videoKey))
                 {
-                    using (FileStream fs = new FileStream(Path.Combine(Path.GetDirectoryName(path), file), FileMode.Create))
-                    using (BinaryWriter bw = new BinaryWriter(fs))
+                    if (!File.Exists(Path.Combine(Path.GetDirectoryName(path), file)))
                     {
-                        bw.Write((byte[])components[videoKey]);
+                        using (FileStream fs = new FileStream(Path.Combine(Path.GetDirectoryName(path), file), FileMode.Create))
+                        using (BinaryWriter bw = new BinaryWriter(fs))
+                        {
+                            bw.Write((byte[])components[videoKey]);
+                        }
                     }
                 }
 
@@ -474,6 +478,7 @@ namespace Flummery.Core.ContentPipeline
                     }
                 }
 
+                geometryNames.Add((long)element.Properties[0].Value, geometryName);
                 components.Add((long)element.Properties[0].Value, parts);
                 SceneManager.Current.UpdateProgress($"Processed {element.Properties[1].Value}");
             }
@@ -530,6 +535,7 @@ namespace Flummery.Core.ContentPipeline
                             {
                                 boneID = model.AddMesh((ModelMesh)components[keyA]);
                                 model.SetName(((ModelMesh)components[keyA]).Name, boneID);
+                                if (geometryNames.ContainsKey(keyA)) { ((ModelMesh)components[keyA]).Name = geometryNames[keyA]; }
                                 if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }
 
                                 FBXElem attribute = connections.Children.FirstOrDefault(c => nodeAttributes.ContainsKey((long)c.Properties[1].Value) && (long)c.Properties[2].Value == keyA);
@@ -548,6 +554,7 @@ namespace Flummery.Core.ContentPipeline
                                 {
                                     boneID = model.AddMesh((ModelMesh)components[keyA], parent.Parent.Index);
                                     model.SetName(((ModelMesh)components[keyA]).Name, boneID);
+                                    if (geometryNames.ContainsKey(keyA)) { ((ModelMesh)components[keyA]).Name = geometryNames[keyA]; }
                                     if (transforms.ContainsKey(keyA)) { model.SetTransform(transforms[keyA], boneID); }
                                 }
                                 else
@@ -583,6 +590,8 @@ namespace Flummery.Core.ContentPipeline
                         case "System.Collections.Generic.List`1[Flummery.Core.ModelMeshPart]":
                             if (components.ContainsKey(keyB) && components[keyB].GetType().ToString() == "Flummery.Core.ModelMesh")
                             {
+                                geometryNames.Add(keyB, geometryNames[keyA]);
+
                                 if (triangulationErrors.ContainsKey(keyA))
                                 {
                                     triangulationErrors[keyA] += " (geometry of " + ((ModelMesh)components[keyB]).Name + ")";
@@ -642,7 +651,7 @@ namespace Flummery.Core.ContentPipeline
                 model.Santise();
 
                 //if (worldMatrix != Matrix4D.Identity) { ModelManipulator.Freeze(model, worldMatrix); }
-                ModelManipulator.FlipAxis(model, Axis.Z, true);
+                //ModelManipulator.FlipAxis(model, Axis.X, true);
 
                 return model;
             }
@@ -755,9 +764,6 @@ namespace Flummery.Core.ContentPipeline
                     return Matrix4D.CreateRotationX(Maths.DegreesToRadians(-90));
 
                 case CoordinateSystem.pZpYpX:
-                    order = Quaternion.RotationOrder.OrderXYZ;
-                    return Matrix4D.Identity;
-
                 case CoordinateSystem.nZpYnX:
                     order = Quaternion.RotationOrder.OrderXYZ;
                     return Matrix4D.Identity;

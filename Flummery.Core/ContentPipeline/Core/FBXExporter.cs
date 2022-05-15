@@ -174,239 +174,247 @@ namespace Flummery.Core.ContentPipeline
 
             long rootKey = DateTime.Now.Ticks;
 
-            foreach (ModelMesh mesh in model.Meshes)
+            foreach (ModelBone bone in model.Bones)
             {
-                SceneManager.Current.UpdateProgress($"Pre-processing {mesh.Name}");
-
-                List<Vertex> vects = new List<Vertex>();
-                List<Vector3> verts = new List<Vector3>();
-                List<Vector3> norms = new List<Vector3>();
-                List<Vector4> uvs = new List<Vector4>();
-                List<Colour> colours = new List<Colour>();
-
-                List<int> ivt = new List<int>();
-                List<int> inm = new List<int>();
-                List<int> iuv = new List<int>();
-                List<int> icl = new List<int>();
-
-                List<int> materials = new List<int>();
-                List<int> smoothingGroups = new List<int>();
-
-                int materialIndex = 0;
-                int smoothingGroup = 1;
-
-                List<Material> materialList = mesh.GetMaterials();
-
-                foreach (ModelMeshPart part in mesh.MeshParts)
+                if (bone.Mesh != null)
                 {
-                    int ixvt, ixnm, ixuv, ixcl;
-                    if (part.Material != null) { materialIndex = materialList.FindIndex(m => m.Key == part.Material.Key); }
+                    SceneManager.Current.UpdateProgress($"Pre-processing {bone.Mesh.Name}");
 
-                    for (int i = 0; i < part.IndexBuffer.Data.Count; i++)
+                    List<Vertex> vects = new List<Vertex>();
+                    List<Vector3> verts = new List<Vector3>();
+                    List<Vector3> norms = new List<Vector3>();
+                    List<Vector4> uvs = new List<Vector4>();
+                    List<Colour> colours = new List<Colour>();
+
+                    List<int> ivt = new List<int>();
+                    List<int> inm = new List<int>();
+                    List<int> iuv = new List<int>();
+                    List<int> icl = new List<int>();
+
+                    List<int> materials = new List<int>();
+                    List<int> smoothingGroups = new List<int>();
+
+                    int materialIndex = 0;
+                    int smoothingGroup = 1;
+
+                    List<Material> materialList = bone.Mesh.GetMaterials();
+
+                    foreach (ModelMeshPart part in bone.Mesh.MeshParts)
                     {
-                        int p = part.IndexBuffer.Data[i];
-                        Vertex v = part.VertexBuffer.Data[p];
+                        int ixvt, ixnm, ixuv, ixcl;
+                        if (part.Material != null) { materialIndex = materialList.FindIndex(m => m.Key == part.Material.Key); }
 
-                        ixvt = verts.FindIndex(vert =>
-                               vert.X == v.Position.X &&
-                               vert.Y == v.Position.Y &&
-                               vert.Z == v.Position.Z);
-
-                        if (ixvt == -1)
+                        for (int i = 0; i < part.IndexBuffer.Data.Count; i++)
                         {
-                            ixvt = verts.Count;
-                            verts.Add(v.Position);
+                            int p = part.IndexBuffer.Data[i];
+                            Vertex v = part.VertexBuffer.Data[p];
+
+                            ixvt = verts.FindIndex(vert =>
+                                   vert.X == v.Position.X &&
+                                   vert.Y == v.Position.Y &&
+                                   vert.Z == v.Position.Z);
+
+                            if (ixvt == -1)
+                            {
+                                ixvt = verts.Count;
+                                verts.Add(v.Position);
+                            }
+
+                            ixnm = norms.FindIndex(norm => norm.X == v.Normal.X &&
+                                                           norm.Y == v.Normal.Y &&
+                                                           norm.Z == v.Normal.Z);
+
+                            if (ixnm == -1)
+                            {
+                                ixnm = norms.Count;
+                                norms.Add(v.Normal);
+                            }
+
+                            ixuv = uvs.FindIndex(uv => uv.X == v.UV.X &&
+                                                       uv.Y == v.UV.Y);
+
+                            if (ixuv == -1)
+                            {
+                                ixuv = uvs.Count;
+                                uvs.Add(v.UV);
+                            }
+
+                            ixcl = colours.FindIndex(colour => colour == v.Colour);
+
+                            if (ixcl == -1)
+                            {
+                                ixcl = colours.Count;
+                                colours.Add(v.Colour);
+                            }
+
+                            if ((i + 1) % 3 == 0)
+                            {
+                                smoothingGroups.Add(smoothingGroup);
+                                materials.Add(materialIndex);
+                                ixvt = (ixvt + 1) * -1;
+                            }
+
+                            ivt.Add(ixvt);
+                            inm.Add(ixnm);
+                            iuv.Add(ixuv);
+                            icl.Add(ixcl);
+
+                            if (i % 2500 == 0) { SceneManager.Current.UpdateProgress(string.Format("Pre-processing {0}: {1:0.00}% complete", bone.Mesh.Name, (i * 100.0f) / part.IndexBuffer.Data.Count)); }
                         }
-
-                        ixnm = norms.FindIndex(norm => norm.X == v.Normal.X &&
-                                                       norm.Y == v.Normal.Y &&
-                                                       norm.Z == v.Normal.Z);
-
-                        if (ixnm == -1)
-                        {
-                            ixnm = norms.Count;
-                            norms.Add(v.Normal);
-                        }
-
-                        ixuv = uvs.FindIndex(uv => uv.X == v.UV.X &&
-                                                   uv.Y == v.UV.Y);
-
-                        if (ixuv == -1)
-                        {
-                            ixuv = uvs.Count;
-                            uvs.Add(v.UV);
-                        }
-
-                        ixcl = colours.FindIndex(colour => colour == v.Colour);
-
-                        if (ixcl == -1)
-                        {
-                            ixcl = colours.Count;
-                            colours.Add(v.Colour);
-                        }
-
-                        if ((i + 1) % 3 == 0)
-                        {
-                            smoothingGroups.Add(smoothingGroup);
-                            materials.Add(materialIndex);
-                            ixvt = (ixvt + 1) * -1;
-                        }
-
-                        ivt.Add(ixvt);
-                        inm.Add(ixnm);
-                        iuv.Add(ixuv);
-                        icl.Add(ixcl);
-
-                        if (i % 2500 == 0) { SceneManager.Current.UpdateProgress(string.Format("Pre-processing {0}: {1:0.00}% complete", mesh.Name, (i * 100.0f) / part.IndexBuffer.Data.Count)); }
                     }
-                }
 
-                smoothingGroup++;
+                    smoothingGroup++;
 
-                double[] vertvalues = new double[verts.Count * 3];
-                for (int i = 0; i < verts.Count; i++)
-                {
-                    vertvalues[(i * 3) + 0] = verts[i].X;
-                    vertvalues[(i * 3) + 1] = verts[i].Y;
-                    vertvalues[(i * 3) + 2] = verts[i].Z;
-                }
-
-                double[] normvalues = new double[inm.Count * 3];
-                for (int i = 0; i < inm.Count; i++)
-                {
-                    normvalues[(i * 3) + 0] = norms[inm[i]].X;
-                    normvalues[(i * 3) + 1] = norms[inm[i]].Y;
-                    normvalues[(i * 3) + 2] = norms[inm[i]].Z;
-                }
-
-                double[] uvvalues = new double[uvs.Count * 2];
-                for (int i = 0; i < uvs.Count; i++)
-                {
-                    uvvalues[(i * 2) + 0] = uvs[i].X;
-                    uvvalues[(i * 2) + 1] = 1 - uvs[i].Y;
-                }
-
-                double[] colourvalues = new double[colours.Count * 4];
-                for (int i = 0; i < colours.Count; i++)
-                {
-                    colourvalues[(i * 4) + 0] = colours[i].R;
-                    colourvalues[(i * 4) + 1] = colours[i].G;
-                    colourvalues[(i * 4) + 2] = colours[i].B;
-                    colourvalues[(i * 4) + 3] = colours[i].A;
-                }
-
-                rootKey += verts.Count + 1;
-
-                fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs((mesh.Name + mesh.Parent.Index.ToString("x2") + "::Model").GetHashCode()), "Geometry", rootKey));
-
-                FBXElem geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = rootKey }, new FBXProperty { Type = 83, Value = "::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
-                geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues, Compressed = useCompression } } });
-                geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ivt.ToArray(), Compressed = useCompression } } });
-
-                geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
-                geometry.Children.Add(
-                    new FBXElem
+                    double[] vertvalues = new double[verts.Count * 3];
+                    for (int i = 0; i < verts.Count; i++)
                     {
-                        ID = "LayerElementNormal",
-                        Properties =
+                        vertvalues[(i * 3) + 0] = verts[i].X;
+                        vertvalues[(i * 3) + 1] = verts[i].Y;
+                        vertvalues[(i * 3) + 2] = verts[i].Z;
+                    }
+
+                    double[] normvalues = new double[inm.Count * 3];
+                    for (int i = 0; i < inm.Count; i++)
+                    {
+                        normvalues[(i * 3) + 0] = norms[inm[i]].X;
+                        normvalues[(i * 3) + 1] = norms[inm[i]].Y;
+                        normvalues[(i * 3) + 2] = norms[inm[i]].Z;
+                    }
+
+                    double[] uvvalues = new double[uvs.Count * 2];
+                    for (int i = 0; i < uvs.Count; i++)
+                    {
+                        uvvalues[(i * 2) + 0] = uvs[i].X;
+                        uvvalues[(i * 2) + 1] = 1 - uvs[i].Y;
+                    }
+
+                    double[] colourvalues = new double[colours.Count * 4];
+                    for (int i = 0; i < colours.Count; i++)
+                    {
+                        colourvalues[(i * 4) + 0] = colours[i].R;
+                        colourvalues[(i * 4) + 1] = colours[i].G;
+                        colourvalues[(i * 4) + 2] = colours[i].B;
+                        colourvalues[(i * 4) + 3] = colours[i].A;
+                    }
+
+                    rootKey += verts.Count + 1;
+
+                    fbxConnections.Children.Add(FBXConnection("Model", Math.Abs(($"{bone.Name}::Model").GetHashCode()), "Geometry", rootKey));
+
+                    FBXElem geometry = new FBXElem { ID = "Geometry", Properties = { new FBXProperty { Type = 76, Value = rootKey }, new FBXProperty { Type = 83, Value = $"{bone.Mesh.Name}::Geometry" }, new FBXProperty { Type = 83, Value = "Mesh" } } };
+                    geometry.Children.Add(new FBXElem { ID = "Vertices", Properties = { new FBXProperty { Type = 100, Value = vertvalues, Compressed = useCompression } } });
+                    geometry.Children.Add(new FBXElem { ID = "PolygonVertexIndex", Properties = { new FBXProperty { Type = 105, Value = ivt.ToArray(), Compressed = useCompression } } });
+
+                    geometry.Children.Add(new FBXElem { ID = "GeometryVersion", Properties = { new FBXProperty { Type = 73, Value = 124 } } });
+
+                    geometry.Children.Add(
+                        new FBXElem
                         {
+                            ID = "LayerElementNormal",
+                            Properties =
+                            {
                             new FBXProperty { Type = 73, Value = 0 }
-                        },
-                        Children =
-                        {
+                            },
+                            Children =
+                            {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
                             new FBXElem { ID = "Normals", Properties = { new FBXProperty { Type = 100, Value = normvalues, Compressed = useCompression } } },
                             new FBXElem { ID = "NormalsW", Properties = { new FBXProperty { Type = 100, Value = Enumerable.Repeat((double)1, normvalues.Length / 3).ToArray(), Compressed = useCompression } } }
+                            }
                         }
-                    }
-                );
-                geometry.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "LayerElementUV",
-                        Properties =
+                    );
+
+                    geometry.Children.Add(
+                        new FBXElem
                         {
+                            ID = "LayerElementUV",
+                            Properties =
+                            {
                             new FBXProperty { Type = 73, Value = 0 }
-                        },
-                        Children =
-                        {
+                            },
+                            Children =
+                            {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "map1" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
                             new FBXElem { ID = "UV", Properties = { new FBXProperty { Type = 100, Value = uvvalues, Compressed = useCompression } } },
                             new FBXElem { ID = "UVIndex", Properties = { new FBXProperty { Type = 105, Value = iuv.ToArray(), Compressed = useCompression } } }
+                            }
                         }
-                    }
-                );
-                geometry.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "LayerElementColor",
-                        Properties =
+                    );
+
+                    geometry.Children.Add(
+                        new FBXElem
                         {
+                            ID = "LayerElementColor",
+                            Properties =
+                            {
                             new FBXProperty { Type = 73, Value = 0 }
-                        },
-                        Children =
-                        {
+                            },
+                            Children =
+                            {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygonVertex" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
                             new FBXElem { ID = "Colors", Properties = { new FBXProperty { Type = 100, Value = colourvalues, Compressed = useCompression } } },
                             new FBXElem { ID = "ColorIndex", Properties = { new FBXProperty { Type = 105, Value = icl.ToArray(), Compressed = useCompression } } }
+                            }
                         }
-                    }
-                );
-                geometry.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "LayerElementSmoothing",
-                        Properties =
+                    );
+
+                    geometry.Children.Add(
+                        new FBXElem
                         {
+                            ID = "LayerElementSmoothing",
+                            Properties =
+                            {
                             new FBXProperty { Type = 73, Value = 0 }
-                        },
-                        Children =
-                        {
+                            },
+                            Children =
+                            {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 102 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "Direct" } } },
                             new FBXElem { ID = "Smoothing", Properties = { new FBXProperty { Type = 105, Value = smoothingGroups.ToArray(), Compressed = useCompression } } }
+                            }
                         }
-                    }
-                );
-                geometry.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "LayerElementMaterial",
-                        Properties =
+                    );
+
+                    geometry.Children.Add(
+                        new FBXElem
                         {
+                            ID = "LayerElementMaterial",
+                            Properties =
+                            {
                             new FBXProperty { Type = 73, Value = 0 }
-                        },
-                        Children =
-                        {
+                            },
+                            Children =
+                            {
                             new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 101 } } },
                             new FBXElem { ID = "Name", Properties = { new FBXProperty { Type = 83, Value = "" } } },
                             new FBXElem { ID = "MappingInformationType", Properties = { new FBXProperty { Type = 83, Value = "ByPolygon" } } },
                             new FBXElem { ID = "ReferenceInformationType", Properties = { new FBXProperty { Type = 83, Value = "IndexToDirect" } } },
                             new FBXElem { ID = "Materials", Properties = { new FBXProperty { Type = 105, Value = materials.ToArray(), Compressed = useCompression } } }
+                            }
                         }
-                    }
-                );
-                geometry.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "Layer",
-                        Properties =
+                    );
+
+                    geometry.Children.Add(
+                        new FBXElem
                         {
+                            ID = "Layer",
+                            Properties =
+                            {
                             new FBXProperty { Type = 73, Value = 0 }
-                        },
-                        Children =
-                        {
+                            },
+                            Children =
+                            {
                             new FBXElem { ID = "Version",
                                 Properties =
                                 {
@@ -448,20 +456,18 @@ namespace Flummery.Core.ContentPipeline
                                     new FBXElem { ID = "TypedIndex", Properties = { new FBXProperty { Type = 73, Value = 0 } } }
                                 }
                             }
+                            }
                         }
-                    }
-                );
+                    );
 
-                fbxObjects.Children.Add(geometry);
-            }
+                    fbxObjects.Children.Add(geometry);
+                }
 
-            foreach (ModelBone bone in model.Bones)
-            {
-                bool bHasMesh = (bone.Mesh != null);
-                string meshName = (bHasMesh ? bone.Mesh.Name : bone.Name);
-                long connectionKey = Math.Abs((bHasMesh ? meshName + bone.Mesh.Parent.Index.ToString("x2") + "::Model" : meshName + bone.Index.ToString("x2") + "::Node").GetHashCode());
+                bool hasMesh = bone.Mesh != null;
 
-                if (bHasMesh)
+                long connectionKey = Math.Abs($"{bone.Name}::{(hasMesh ? "Model" : "Node")}".GetHashCode());
+
+                if (hasMesh)
                 {
                     foreach (Material material in bone.Mesh.GetMaterials())
                     {
@@ -477,15 +483,15 @@ namespace Flummery.Core.ContentPipeline
                 {
                     if (bone.Parent.Mesh != null)
                     {
-                        fbxConnections.Children.Add(FBXConnection("Model", (long)Math.Abs((bone.Parent.Mesh.Name + bone.Parent.Mesh.Parent.Index.ToString("x2") + "::Model").GetHashCode()), "Model", connectionKey));
+                        fbxConnections.Children.Add(FBXConnection("Model", Math.Abs($"{bone.Parent.Name}::Model".GetHashCode()), "Model", connectionKey));
                     }
                     else
                     {
-                        fbxConnections.Children.Add(FBXConnection("Node", (long)Math.Abs((bone.Parent.Name + bone.Parent.Index.ToString("x2") + "::Node").GetHashCode()), "Model", connectionKey));
+                        fbxConnections.Children.Add(FBXConnection("Node", Math.Abs($"{bone.Parent.Name}::Node".GetHashCode()), "Model", connectionKey));
                     }
                 }
 
-                if (!bHasMesh)
+                if (!hasMesh)
                 {
                     long nodeKey = Math.Abs((bone.Name + bone.Index.ToString("x2") + "::NodeAttribute").GetHashCode());
 
@@ -514,7 +520,7 @@ namespace Flummery.Core.ContentPipeline
                     fbxConnections.Children.Add(FBXConnection("Node", Math.Abs((bone.Name + bone.Index.ToString("x2") + "::Node").GetHashCode()), "NodeAttribute", nodeKey));
                 }
 
-                SceneManager.Current.UpdateProgress(string.Format("Exporting {0}", meshName));
+                SceneManager.Current.UpdateProgress($"Exporting {bone.Name}");
 
                 Vector3 position = bone.GetPosition();
                 Vector3 rotation = bone.GetRotation();
@@ -527,7 +533,7 @@ namespace Flummery.Core.ContentPipeline
                         Properties =
                         {
                             new FBXProperty { Type = 76, Value = connectionKey },
-                            new FBXProperty { Type = 83, Value = meshName + "::Model" },
+                            new FBXProperty { Type = 83, Value = $"{bone.Name}::Model" },
                             new FBXProperty { Type = 83, Value = "Mesh" }
                         },
                         Children =
@@ -582,7 +588,7 @@ namespace Flummery.Core.ContentPipeline
                         FBXPropertyElement(FBXPropertyType.Double, "EmissiveFactor", "Number", "", "A", (double)0),
                         FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)1, (double)1, (double)1),
                         FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)1, (double)1, (double)1),
-                        FBXPropertyElement(FBXPropertyType.Double, "TransparentColor", "Color", "", "A", (double)1, (double)1, (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)1),
                         FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0, (double)0, (double)0),
                         FBXPropertyElement(FBXPropertyType.Double, "SpecularFactor", "Number", "", "A", 0.299999982118607),
                         FBXPropertyElement(FBXPropertyType.Double, "ShininessExponent", "Number", "", "A", (double)2),
@@ -590,8 +596,8 @@ namespace Flummery.Core.ContentPipeline
                         FBXPropertyElement(FBXPropertyType.Double, "Ambient", "Vector3D", "Vector", "", (double)1, (double)1, (double)1),
                         FBXPropertyElement(FBXPropertyType.Double, "Diffuse", "Vector3D", "Vector", "", (double)1, (double)1, (double)1),
                         FBXPropertyElement(FBXPropertyType.Double, "Specular", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
-                        FBXPropertyElement(FBXPropertyType.Double, "Shininess", "double", "Number", "", (double)2),
-                        FBXPropertyElement(FBXPropertyType.Double, "Opacity", "double", "Number", "", (double)1),
+                        FBXPropertyElement(FBXPropertyType.Double, "Shininess", "Number", "", "A", (double)2),
+                        FBXPropertyElement(FBXPropertyType.Double, "Opacity", "Number", "", "A", (double)1),
                         FBXPropertyElement(FBXPropertyType.Double, "Reflectivity", "double", "Number", "", (double)0)
                     }
                 });
@@ -609,19 +615,17 @@ namespace Flummery.Core.ContentPipeline
                     fbxTexture.Children.Add(new FBXElem { ID = "Type", Properties = { new FBXProperty { Type = 83, Value = "TextureVideoClip" } } });
                     fbxTexture.Children.Add(new FBXElem { ID = "Version", Properties = { new FBXProperty { Type = 73, Value = 202 } } });
                     fbxTexture.Children.Add(new FBXElem { ID = "TextureName", Properties = { new FBXProperty { Type = 83, Value = $"{material.Texture.Name}::Texture" } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "Media", Properties = { new FBXProperty { Type = 83, Value = $"{material.Texture.Name}::Video" } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
-                    fbxTexture.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
                     fbxTexture.Children.Add(new FBXElem
                     {
                         ID = "Properties70",
                         Children =
                         {
-                            FBXPropertyElement(FBXPropertyType.Integer, "PremultiplyAlpha", "bool", "", "", 1),
-                            FBXPropertyElement(FBXPropertyType.Integer, "CurrentMappingType", "enum", "", "", 6),
-                            FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
+                            FBXPropertyElement(FBXPropertyType.Integer, "UseMaterial", "bool", "", "", 1)
                         }
                     });
+                    fbxTexture.Children.Add(new FBXElem { ID = "Media", Properties = { new FBXProperty { Type = 83, Value = $"{material.Texture.Name}::Video" } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
+                    fbxTexture.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
 
                     fbxConnections.Children.Add(FBXConnection("Material", material.Key, "Texture", material.Texture.Key, FBXPropertyType.String, "DiffuseColor"));
 
@@ -636,7 +640,7 @@ namespace Flummery.Core.ContentPipeline
                         }
                     });
                     fbxVideo.Children.Add(new FBXElem { ID = "UseMipMap", Properties = { new FBXProperty { Type = 73, Value = 0 } } });
-                    fbxVideo.Children.Add(new FBXElem { ID = "FileName", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
+                    fbxVideo.Children.Add(new FBXElem { ID = "Filename", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
                     fbxVideo.Children.Add(new FBXElem { ID = "RelativeFilename", Properties = { new FBXProperty { Type = 83, Value = texturePath } } });
                     fbxVideo.Children.Add(new FBXElem { ID = "Content", Properties = { new FBXProperty { Type = 82, Value = File.ReadAllBytes(texturePath) } } });
 
@@ -763,61 +767,6 @@ namespace Flummery.Core.ContentPipeline
                 );
             }
             #endregion
-            #region Definitions :: Material
-            if (fbxObjects.Children.Any(e => e.ID == "Material"))
-            {
-                fbxDefinitions.Children.Add(
-                    new FBXElem
-                    {
-                        ID = "ObjectType",
-                        Properties =
-                        {
-                            new FBXProperty { Type = 83, Value = "Material" }
-                        },
-                        Children =
-                        {
-                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Material") } } },
-                            new FBXElem { ID = "PropertyTemplate",
-                                Properties =
-                                {
-                                    new FBXProperty { Type = 83, Value = "FbxSurfacePhong" }
-                                },
-                                Children =
-                                {
-                                    new FBXElem { ID = "Properties70",
-                                        Children =
-                                        {
-                                            FBXPropertyElement(FBXPropertyType.String, "ShadingModel", "KString", "", "", "Phong"),
-                                            FBXPropertyElement(FBXPropertyType.Integer, "MultiLayer", "bool", "", "", 0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
-                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)0.8, (double)0.8, (double)0.8),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "Bump", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "NormalMap", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "BumpFactor", "double", "Number", "", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "TransparentColor", "Color", "", "A", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementFactor", "double", "Number", "", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementFactor", "double", "Number", "", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
-                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularFactor", "Number", "", "A", (double)1),
-                                            FBXPropertyElement(FBXPropertyType.Double, "ShininessExponent", "Number", "", "A", (double)20),
-                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionColor", "Color", "", "A", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionFactor", "Number", "", "A", (double)1)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                );
-            }
-            #endregion
             #region Definitions :: Model
             if (fbxObjects.Children.Any(e => e.ID == "Model"))
             {
@@ -923,8 +872,8 @@ namespace Flummery.Core.ContentPipeline
                 );
             }
             #endregion
-            #region Definitions :: Geometry
-            if (fbxObjects.Children.Any(e => e.ID == "Geometry"))
+            #region Definitions :: Material
+            if (fbxObjects.Children.Any(e => e.ID == "Material"))
             {
                 fbxDefinitions.Children.Add(
                     new FBXElem
@@ -932,27 +881,46 @@ namespace Flummery.Core.ContentPipeline
                         ID = "ObjectType",
                         Properties =
                         {
-                            new FBXProperty { Type = 83, Value = "Geometry" }
+                            new FBXProperty { Type = 83, Value = "Material" }
                         },
                         Children =
                         {
-                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Geometry") } } },
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Material") } } },
                             new FBXElem { ID = "PropertyTemplate",
                                 Properties =
                                 {
-                                    new FBXProperty { Type = 83, Value = "FbxMesh" }
+                                    new FBXProperty { Type = 83, Value = "FbxSurfacePhong" }
                                 },
                                 Children =
                                 {
                                     new FBXElem { ID = "Properties70",
                                         Children =
                                         {
-                                            FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
-                                            FBXPropertyElement(FBXPropertyType.Double, "BBoxMin", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Double, "BBoxMax", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
-                                            FBXPropertyElement(FBXPropertyType.Integer, "Primary Visibility", "bool", "", "", 1),
-                                            FBXPropertyElement(FBXPropertyType.Integer, "Casts Shadows", "bool", "", "", 1),
-                                            FBXPropertyElement(FBXPropertyType.Integer, "Receive Shadows", "bool", "", "", 1)
+                                            FBXPropertyElement(FBXPropertyType.String, "ShadingModel", "KString", "", "", "Phong"),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "MultiLayer", "bool", "", "", 0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "EmissiveFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
+                                            FBXPropertyElement(FBXPropertyType.Double, "AmbientFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseColor", "Color", "", "A", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DiffuseFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TransparentColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "TransparencyFactor", "Number", "", "A", (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Opacity", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "NormalMap", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Bump", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "BumpFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "DisplacementFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementColor", "ColorRGB", "Color", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "VectorDisplacementFactor", "double", "Number", "", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularColor", "Color", "", "A", (double)0.2, (double)0.2, (double)0.2),
+                                            FBXPropertyElement(FBXPropertyType.Double, "SpecularFactor", "Number", "", "A", (double)1),
+                                            FBXPropertyElement(FBXPropertyType.Double, "Shininess", "Number", "", "A", (double)20),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ShininessExponent", "Number", "", "A", (double)20),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionColor", "Color", "", "A", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "ReflectionFactor", "Number", "", "A", (double)1)
+
                                         }
                                     }
                                 }
@@ -1002,6 +970,45 @@ namespace Flummery.Core.ContentPipeline
                                             FBXPropertyElement(FBXPropertyType.String, "UVSet", "KString", "", "", "default"),
                                             FBXPropertyElement(FBXPropertyType.Integer, "UseMaterial", "bool", "", "", 0),
                                             FBXPropertyElement(FBXPropertyType.Integer, "UseMipMap", "bool", "", "", 0)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+            #endregion
+            #region Definitions :: Geometry
+            if (fbxObjects.Children.Any(e => e.ID == "Geometry"))
+            {
+                fbxDefinitions.Children.Add(
+                    new FBXElem
+                    {
+                        ID = "ObjectType",
+                        Properties =
+                        {
+                            new FBXProperty { Type = 83, Value = "Geometry" }
+                        },
+                        Children =
+                        {
+                            new FBXElem { ID = "Count", Properties = { new FBXProperty { Type = 73, Value = fbxObjects.Children.Count(e => e.ID == "Geometry") } } },
+                            new FBXElem { ID = "PropertyTemplate",
+                                Properties =
+                                {
+                                    new FBXProperty { Type = 83, Value = "FbxMesh" }
+                                },
+                                Children =
+                                {
+                                    new FBXElem { ID = "Properties70",
+                                        Children =
+                                        {
+                                            FBXPropertyElement(FBXPropertyType.Double, "Color", "ColorRGB", "Color", "", (double)0.8, (double)0.8, (double)0.8),
+                                            FBXPropertyElement(FBXPropertyType.Double, "BBoxMin", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Double, "BBoxMax", "Vector3D", "Vector", "", (double)0, (double)0, (double)0),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Primary Visibility", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Casts Shadows", "bool", "", "", 1),
+                                            FBXPropertyElement(FBXPropertyType.Integer, "Receive Shadows", "bool", "", "", 1)
                                         }
                                     }
                                 }

@@ -14,6 +14,8 @@ namespace Flummery.Core
 
         public string RootPath { get; set; }
 
+        public string WorkingDirectory { get; set; }
+
         public static bool LoadOrDefaultFile(string fileName, string fileExtension, out string filePath)
         {
             string[] hints = Hints.Split(';');

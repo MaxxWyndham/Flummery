@@ -47,6 +47,8 @@ namespace Flummery.Core.Entities
             SceneManager.Current.Renderer.MultMatrix(ref mS);
             SceneManager.Current.Renderer.MultMatrix(ref mT);
 
+            SceneManager.Current.Renderer.Color4(0f, 1.0f, 0f, 1.0f);
+
             model.Draw();
 
             SceneManager.Current.Renderer.PopMatrix();

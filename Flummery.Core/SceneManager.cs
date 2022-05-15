@@ -65,7 +65,7 @@ namespace Flummery.Core
 
         public IRenderMode RenderMode => renderModes[currentRenderMode];
 
-        public List<IEntity> Entities { get; } = new List<IEntity>();
+        public EntityCollection Entities { get; } = new EntityCollection();
 
         public List<Model> Models { get; } = new List<Model>();
 
@@ -264,12 +264,12 @@ namespace Flummery.Core
 
         public void CycleRenderMode()
         {
-            //        do
-            //        {
-            //            currentRenderMode++;
-            //            if (currentRenderMode == renderModes.Count) { currentRenderMode = 0; }
-            //        }
-            //        while (!renderModes[currentRenderMode].IsValid());
+            do
+            {
+                currentRenderMode++;
+                if (currentRenderMode == renderModes.Count) { currentRenderMode = 0; }
+            }
+            while (!renderModes[currentRenderMode].IsValid());
         }
 
         public void Reset()
@@ -329,6 +329,8 @@ namespace Flummery.Core
 
         public void Trace(Ray ray)
         {
+            Entities.Remove<Face>();
+
             foreach (Model model in Models)
             {
                 CollisionHelpers.RayIntersectsModel(ray, model, out bool insideBoundingSphere, out Vector3 vertex1, out Vector3 vertex2, out Vector3 vertex3, out ModelMeshPart intersectsWithPart, out ModelMesh intersectsWith);
@@ -337,7 +339,7 @@ namespace Flummery.Core
                 {
                     Console.WriteLine(intersectsWith.Name);
 
-                    Entities.Add(new Face { Points = new List<Vector3> { vertex1, vertex2, vertex3 } });
+                    Entities.Add(new Face { Points = new List<Vector3> { vertex1, vertex2, vertex3 } }, true);
                 }
             }
         }

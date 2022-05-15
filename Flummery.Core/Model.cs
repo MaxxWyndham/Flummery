@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using ToxicRagers.Helpers;
 
 namespace Flummery.Core
@@ -12,27 +12,35 @@ namespace Flummery.Core
 
     public class Model : Asset
     {
-        public ModelBoneCollection Bones { get; } = new ModelBoneCollection();
+        public ModelBoneCollection Bones { get; private set; } = new ModelBoneCollection();
 
-        public List<ModelMesh> Meshes { get; } = new List<ModelMesh>();
+        public List<ModelMesh> Meshes { get; private set; } = new List<ModelMesh>();
 
         public ModelBone Root => Bones[0];
 
-        //public override Asset Clone()
-        //{
-        //    Model m = new Model
-        //    {
-        //        Bones = new ModelBoneCollection(bones),
-        //        Meshes = Meshes.ConvertAll(mesh => new ModelMesh(mesh))
-        //    };
+        public bool Visible
+        {
+            set
+            {
+                foreach (ModelMesh mesh in Meshes) { mesh.Visible = value; }
+            }
+        }
 
-        //    foreach (KeyValuePair<string, object> kvp in supportingDocuments)
-        //    {
-        //        m.SupportingDocuments[kvp.Key] = kvp.Value;
-        //    }
+        public override Asset Clone()
+        {
+            Model m = new Model
+            {
+                Bones = new ModelBoneCollection(Bones),
+                Meshes = Meshes.ConvertAll(mesh => new ModelMesh(mesh))
+            };
 
-        //    return m;
-        //}
+            //foreach (KeyValuePair<string, object> kvp in SupportingDocuments)
+            //{
+            //    m.SupportingDocuments[kvp.Key] = kvp.Value;
+            //}
+
+            return m;
+        }
 
         public void SetRenderStyle(RenderStyle style)
         {
@@ -201,6 +209,13 @@ namespace Flummery.Core
         public ModelMesh FindMesh(object tag)
         {
             foreach (ModelMesh mesh in Meshes) { if (mesh.Tag.Equals(tag)) { return mesh; } }
+
+            return null;
+        }
+
+        public ModelBone FindBone(string name)
+        {
+            foreach (ModelBone bone in Bones) { if (bone.Name == name) { return bone; } }
 
             return null;
         }
