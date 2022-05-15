@@ -54,9 +54,9 @@
             this.tsmiViewPreferences = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiViewSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiViewPanels = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiViewPanelsDetails = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiViewPanelsMaterialList = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiViewPanelsOverview = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiViewPanelsMaterialList = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiViewPanelsDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObject = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObjectNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiObjectRemove = new System.Windows.Forms.ToolStripMenuItem();
@@ -244,14 +244,14 @@
             // tsmiViewPreferences
             // 
             this.tsmiViewPreferences.Name = "tsmiViewPreferences";
-            this.tsmiViewPreferences.Size = new System.Drawing.Size(180, 22);
+            this.tsmiViewPreferences.Size = new System.Drawing.Size(135, 22);
             this.tsmiViewPreferences.Text = "Preferences";
             this.tsmiViewPreferences.Click += new System.EventHandler(this.menuViewClick);
             // 
             // tsmiViewSeparator1
             // 
             this.tsmiViewSeparator1.Name = "tsmiViewSeparator1";
-            this.tsmiViewSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.tsmiViewSeparator1.Size = new System.Drawing.Size(132, 6);
             // 
             // tsmiViewPanels
             // 
@@ -260,35 +260,35 @@
             this.tsmiViewPanelsMaterialList,
             this.tsmiViewPanelsDetails});
             this.tsmiViewPanels.Name = "tsmiViewPanels";
-            this.tsmiViewPanels.Size = new System.Drawing.Size(180, 22);
+            this.tsmiViewPanels.Size = new System.Drawing.Size(135, 22);
             this.tsmiViewPanels.Text = "Panels";
-            // 
-            // tsmiViewPanelsDetails
-            // 
-            this.tsmiViewPanelsDetails.Checked = true;
-            this.tsmiViewPanelsDetails.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tsmiViewPanelsDetails.Name = "tsmiViewPanelsDetails";
-            this.tsmiViewPanelsDetails.Size = new System.Drawing.Size(180, 22);
-            this.tsmiViewPanelsDetails.Text = "Details";
-            this.tsmiViewPanelsDetails.Click += new System.EventHandler(this.menuViewClick);
-            // 
-            // tsmiViewPanelsMaterialList
-            // 
-            this.tsmiViewPanelsMaterialList.Checked = true;
-            this.tsmiViewPanelsMaterialList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tsmiViewPanelsMaterialList.Name = "tsmiViewPanelsMaterialList";
-            this.tsmiViewPanelsMaterialList.Size = new System.Drawing.Size(180, 22);
-            this.tsmiViewPanelsMaterialList.Text = "Material List";
-            this.tsmiViewPanelsMaterialList.Click += new System.EventHandler(this.menuViewClick);
             // 
             // tsmiViewPanelsOverview
             // 
             this.tsmiViewPanelsOverview.Checked = true;
             this.tsmiViewPanelsOverview.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiViewPanelsOverview.Name = "tsmiViewPanelsOverview";
-            this.tsmiViewPanelsOverview.Size = new System.Drawing.Size(180, 22);
+            this.tsmiViewPanelsOverview.Size = new System.Drawing.Size(138, 22);
             this.tsmiViewPanelsOverview.Text = "Overview";
             this.tsmiViewPanelsOverview.Click += new System.EventHandler(this.menuViewClick);
+            // 
+            // tsmiViewPanelsMaterialList
+            // 
+            this.tsmiViewPanelsMaterialList.Checked = true;
+            this.tsmiViewPanelsMaterialList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsmiViewPanelsMaterialList.Name = "tsmiViewPanelsMaterialList";
+            this.tsmiViewPanelsMaterialList.Size = new System.Drawing.Size(138, 22);
+            this.tsmiViewPanelsMaterialList.Text = "Material List";
+            this.tsmiViewPanelsMaterialList.Click += new System.EventHandler(this.menuViewClick);
+            // 
+            // tsmiViewPanelsDetails
+            // 
+            this.tsmiViewPanelsDetails.Checked = true;
+            this.tsmiViewPanelsDetails.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsmiViewPanelsDetails.Name = "tsmiViewPanelsDetails";
+            this.tsmiViewPanelsDetails.Size = new System.Drawing.Size(138, 22);
+            this.tsmiViewPanelsDetails.Text = "Details";
+            this.tsmiViewPanelsDetails.Click += new System.EventHandler(this.menuViewClick);
             // 
             // tsmiObject
             // 

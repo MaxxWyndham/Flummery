@@ -61,6 +61,8 @@ namespace Flummery
 
             pluginHandler.InitialiseModules();
 
+            dockPanel.Theme = new VS2015LightTheme();
+
             viewport.Show(dockPanel, DockState.Document);
             materials.Show(dockPanel, DockState.DockBottom);
             overview.Show(dockPanel, DockState.DockLeft);
