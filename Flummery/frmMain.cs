@@ -151,7 +151,7 @@ namespace Flummery
 
         private void current_OnMouseMove(object sender, ViewportMouseMoveEventArgs e)
         {
-            SceneManager.Current.Trace(ViewportManager.Current.GetRayFromMouse());
+            //SceneManager.Current.Trace(ViewportManager.Current.GetRayFromMouse());
         }
 
         private void materials_FormClosed(object sender, FormClosedEventArgs e)
