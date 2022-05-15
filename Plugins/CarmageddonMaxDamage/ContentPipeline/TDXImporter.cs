@@ -1,4 +1,4 @@
-﻿using ToxicRagers.CarmageddonReincarnation.Formats;
+﻿using ToxicRagers.Stainless.Formats;
 
 using Flummery.Core.ContentPipeline;
 using Flummery.Core;
@@ -25,15 +25,13 @@ namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 
         public override Asset Import(string path)
         {
-            Texture texture = new Texture
-            {
-                FileName = path
-            };
+            Texture texture = new Texture { FileName = path };
 
             TDX tdx = TDX.Load(path);
-            texture.SetData(tdx.Name, tdx.Format.ToString(), tdx.MipMaps[0].Width, tdx.MipMaps[0].Height, tdx.MipMaps[0].Data);
-            texture.SupportingDocuments["Source"] = tdx;
 
+            SceneManager.Current.UpdateProgress($"Processing {tdx.Name}");
+
+            texture.CreateFromBitmap(tdx.GetBitmap(2), tdx.Name);
 
             return texture;
         }

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
+using ToxicRagers.Carmageddon.Helpers;
 using ToxicRagers.Carmageddon2;
 using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.Helpers;
@@ -75,7 +76,7 @@ namespace Flummery.Plugin.CarmageddonClassic
         {
             new MenuItem
             {
-                Name = "Vehicle",
+                Name = "Car (C1)",
                 ToolsAction = CarmageddonClassic.SaveAsVehicle
             }
         };
@@ -93,6 +94,11 @@ namespace Flummery.Plugin.CarmageddonClassic
             {
                 Name = "Process Race for Carmageddon: Max Damage",
                 ToolsAction = CarmageddonClassic.ProcessLevelForCarmageddonMaxDamage
+            },
+            new MenuItem
+            {
+                Name = "IWANTTOFIDDLE (decrypt Carmageddon TXT files)",
+                ToolsAction = CarmageddonClassic.IWantToFiddle
             }
         };
 
@@ -103,6 +109,12 @@ namespace Flummery.Plugin.CarmageddonClassic
                 Name = "TXT files (C1 Car)",
                 Mask = "*.txt",
                 ProcessAction = ToxicRagers.Carmageddon.Formats.Car.Load
+            },
+            new MenuItem
+            {
+                Name = "TXT files (C1 Noncar)",
+                Mask = "*.txt",
+                ProcessAction = ToxicRagers.Carmageddon.Formats.Noncar.Load
             }
         };
 
@@ -140,9 +152,31 @@ namespace Flummery.Plugin.CarmageddonClassic
         {
             SceneManager.Current.SetCoordinateSystem(CoordinateSystem.RightHanded);
 
-            SceneManager.Current.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
+            Model model = SceneManager.Current.Content.Load<Model, C1CarImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
             SceneManager.Current.SetContext("Carmageddon", ContextMode.Car);
+
+            var car = model.GetSupportingDocument<ToxicRagers.Carmageddon.Formats.Car>("Car");
+
+            //foreach (var point in car.Crushes[1].Points)
+            //{
+            //    Vector3 position = Vector3.Zero;
+
+            //    foreach (var meshpart in model.Meshes[0].MeshParts)
+            //    {
+            //        Vertex vert = meshpart.VertexBuffer.Data.Find(v => v.OriginalIDs.Contains(point.VertexIndex));
+
+            //        if (vert != null) { position = vert.Position; }
+            //    }
+
+            //    CrushPoint entity = new CrushPoint
+            //    {
+            //        Transform = Matrix4D.CreateTranslation(Vector3.TransformPosition(position, model.Root.CombinedTransform)),
+            //        Lollipop = true
+            //    };
+
+            //    SceneManager.Current.Entities.Add(entity);
+            //}
         }
 
         public static void ImportACT(string path)
@@ -406,6 +440,41 @@ namespace Flummery.Plugin.CarmageddonClassic
             SceneManager.Current.Change(ChangeType.Munge, ChangeContext.Model, -1);
 
             SceneManager.Current.SetContext("Carmageddon Max Damage", ContextMode.Level);
+        }
+
+        public static void IWantToFiddle()
+        {
+            FolderBrowserDialog fbdBrowseIn = new FolderBrowserDialog
+            {
+                Description = "Where is Carmageddon?",
+                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer), // Properties.Settings.Default.LastBrowsedFolder ?? 
+                ShowNewFolderButton = false
+            };
+
+            if (fbdBrowseIn.ShowDialog() == DialogResult.OK &&
+                Directory.Exists(fbdBrowseIn.SelectedPath) &&
+                MessageBox.Show($"This will decrypt all encrypted txt files under\r\n{fbdBrowseIn.SelectedPath}\r\nAre you sure?", "Totes sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                int success = 0;
+
+                IO.LoopDirectoriesIn(fbdBrowseIn.SelectedPath, (d) =>
+                {
+                    foreach (FileInfo fi in d.GetFiles("*.txt"))
+                    {
+                        DocumentParser file = new DocumentParser(fi.FullName);
+
+                        if (file.Fiddled)
+                        {
+                            File.WriteAllText(fi.FullName, file.ToString());
+                            success++;
+                        }
+
+                        SceneManager.Current.UpdateProgress($"[{success}] {fi.FullName.Replace(fbdBrowseIn.SelectedPath, "")}");
+                    }
+                });
+
+                SceneManager.Current.UpdateProgress("Done fiddling");
+            }
         }
 
         public static void SaveAsVehicle()

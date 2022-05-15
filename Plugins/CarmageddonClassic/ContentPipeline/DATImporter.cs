@@ -70,24 +70,33 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 
                     foreach (ToxicRagers.Carmageddon2.Helpers.C2Face face in datmesh.Mesh.Faces.Where(f => f.MaterialID == i))
                     {
-                        int smoothingGroup = (face.SmoothingGroup << 8);
+                        int smoothingGroup = face.SmoothingGroup << 8;
 
                         meshpart.AddFace(
-                            new Vector3[] {
-                                    new Vector3(datmesh.Mesh.Verts[face.V1].X, datmesh.Mesh.Verts[face.V1].Y, datmesh.Mesh.Verts[face.V1].Z),
-                                    new Vector3(datmesh.Mesh.Verts[face.V2].X, datmesh.Mesh.Verts[face.V2].Y, datmesh.Mesh.Verts[face.V2].Z),
-                                    new Vector3(datmesh.Mesh.Verts[face.V3].X, datmesh.Mesh.Verts[face.V3].Y, datmesh.Mesh.Verts[face.V3].Z)
-                                },
-                            new Vector3[] {
-                                    new Vector3(datmesh.Mesh.Normals[smoothingGroup + face.V1].X, datmesh.Mesh.Normals[smoothingGroup + face.V1].Y, datmesh.Mesh.Normals[smoothingGroup + face.V1].Z),
-                                    new Vector3(datmesh.Mesh.Normals[smoothingGroup + face.V2].X, datmesh.Mesh.Normals[smoothingGroup + face.V2].Y, datmesh.Mesh.Normals[smoothingGroup + face.V2].Z),
-                                    new Vector3(datmesh.Mesh.Normals[smoothingGroup + face.V3].X, datmesh.Mesh.Normals[smoothingGroup + face.V3].Y, datmesh.Mesh.Normals[smoothingGroup + face.V3].Z)
+                            new Vector3[] 
+                            {
+                                datmesh.Mesh.Verts[face.V1],
+                                datmesh.Mesh.Verts[face.V2],
+                                datmesh.Mesh.Verts[face.V3]
                             },
-                            new Vector2[] {
-                                    (datmesh.Mesh.HasUVs ? new Vector2(datmesh.Mesh.UVs[face.UV1].X, datmesh.Mesh.UVs[face.UV1].Y) : Vector2.Zero),
-                                    (datmesh.Mesh.HasUVs ? new Vector2(datmesh.Mesh.UVs[face.UV2].X, datmesh.Mesh.UVs[face.UV2].Y) : Vector2.Zero),
-                                    (datmesh.Mesh.HasUVs ? new Vector2(datmesh.Mesh.UVs[face.UV3].X, datmesh.Mesh.UVs[face.UV3].Y) : Vector2.Zero)
-                                }
+                            new Vector3[] 
+                            {
+                                datmesh.Mesh.Normals[smoothingGroup + face.V1],
+                                datmesh.Mesh.Normals[smoothingGroup + face.V2],
+                                datmesh.Mesh.Normals[smoothingGroup + face.V3]
+                            },
+                            new Vector2[] 
+                            {
+                                datmesh.Mesh.HasUVs ? datmesh.Mesh.UVs[face.UV1] : Vector2.Zero,
+                                datmesh.Mesh.HasUVs ? datmesh.Mesh.UVs[face.UV2] : Vector2.Zero,
+                                datmesh.Mesh.HasUVs ? datmesh.Mesh.UVs[face.UV3] : Vector2.Zero
+                            },
+                            new int[]
+                            {
+                                face.V1,
+                                face.V2,
+                                face.V3
+                            }
                         );
                     }
 

@@ -7,7 +7,8 @@ using System.Windows.Forms;
 using Flummery.Core;
 using Flummery.Plugin.CarmageddonClassic.ContentPipeline;
 
-using ToxicRagers.Carmageddon.Formats;
+using ToxicRagers.Carmageddon2.Formats;
+using ToxicRagers.Helpers;
 
 namespace Flummery.Plugin.CarmageddonClassic
 {
@@ -101,7 +102,21 @@ namespace Flummery.Plugin.CarmageddonClassic
             lblProgress.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             progressMax = 25;
 
+            string bon = $"{car.Substring(0, Math.Min(car.Length, 5))}BON";
+            string lod = $"{car.Substring(0, Math.Min(car.Length, 7))}X";
+
+            ACT act = new ACT();
+
+            act.AddActor(
+                SceneManager.Current.Models[0].Root.Name,
+                SceneManager.Current.Models[0].Root.Mesh.Name,
+                (Matrix3D)SceneManager.Current.Models[0].Root.Transform,
+                true);
+
+            act.Save(Path.Combine(txtPath.Text, "ACTORS", $"{bon}.ACT"));
             new ACTExporter().Export(SceneManager.Current.Models[0], Path.Combine(txtPath.Text, "ACTORS", $"{car}.ACT"));
+            act.Save(Path.Combine(txtPath.Text, "ACTORS", $"{lod}.ACT"));
+
             new DATExporter().Export(SceneManager.Current.Models[0], Path.Combine(txtPath.Text, "MODELS", $"{car}.DAT"));
 
             lblProgress.Text = "✓";
@@ -179,6 +194,8 @@ namespace Flummery.Plugin.CarmageddonClassic
             }
 
             if (pbProgress.Value < progressMax) { pbProgress.Value += Math.Max(1, (int)((progressMax - pbProgress.Value) * 0.01f)); }
+
+            Application.DoEvents();
         }
 
         void scene_OnProgress(object sender, ProgressEventArgs e)

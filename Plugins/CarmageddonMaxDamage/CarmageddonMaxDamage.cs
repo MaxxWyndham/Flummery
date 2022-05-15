@@ -400,61 +400,61 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
 
         public static void BulkUnZAD()
         {
-            //FolderBrowserDialog fbdBrowse = new FolderBrowserDialog
-            //{
-            //    SelectedPath = Properties.Settings.Default.LastBrowsedFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
-            //    ShowNewFolderButton = false
-            //};
+            FolderBrowserDialog fbdBrowseIn = new FolderBrowserDialog
+            {
+                Description = "Where are the ZADs?",
+                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer), // Properties.Settings.Default.LastBrowsedFolder ?? 
+                ShowNewFolderButton = false
+            };
 
-            //if (MessageBox.Show($"Are you entirely sure?  This will extra ALL ZAD files in and under\r\n{Properties.Settings.Default.PathCarmageddonMaxDamage}\r\nThis will require at least 30gb of free space", "Totes sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            //{
-            //    if (fbdBrowse.ShowDialog() == DialogResult.OK && Directory.Exists(fbdBrowse.SelectedPath))
-            //    {
-            //        if (Directory.Exists(Properties.Settings.Default.PathCarmageddonMaxDamage))
-            //        {
-            //            int success = 0;
-            //            int fail = 0;
+            FolderBrowserDialog fbdBrowseOut = new FolderBrowserDialog
+            {
+                Description = "Where should we extract to?",
+                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)
+            };
 
-            //            ToxicRagers.Helpers.IO.LoopDirectoriesIn(Properties.Settings.Default.PathCarmageddonMaxDamage, (d) =>
-            //            {
-            //                foreach (FileInfo fi in d.GetFiles("*.zad"))
-            //                {
-            //                    ToxicRagers.Stainless.Formats.ZAD zad = ToxicRagers.Stainless.Formats.ZAD.Load(fi.FullName);
-            //                    int i = 0;
+            if (fbdBrowseIn.ShowDialog() == DialogResult.OK &&
+                Directory.Exists(fbdBrowseIn.SelectedPath) &&
+                MessageBox.Show($"Are you entirely sure?  This will extra ALL ZAD files in and under\r\n{fbdBrowseIn.SelectedPath}\r\nThis will require at least 30gb of free space", "Totes sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (fbdBrowseOut.ShowDialog() == DialogResult.OK && Directory.Exists(fbdBrowseOut.SelectedPath))
+                {
+                    bool includeVTs = MessageBox.Show("Would you like to extract VTs too?", "Include VTs?", MessageBoxButtons.YesNo) == DialogResult.Yes;
+                    int success = 0;
+                    int fail = 0;
 
-            //                    if (zad != null)
-            //                    {
-            //                        if (!zad.IsVT)
-            //                        {
-            //                            foreach (ToxicRagers.Stainless.Formats.ZADEntry entry in zad.Contents)
-            //                            {
-            //                                i++;
+                    ToxicRagers.Helpers.IO.LoopDirectoriesIn(fbdBrowseIn.SelectedPath, (d) =>
+                    {
+                        foreach (FileInfo fi in d.GetFiles("*.zad"))
+                        {
+                            ZAD zad = ZAD.Load(fi.FullName);
 
-            //                                zad.Extract(entry, fbdBrowse.SelectedPath);
+                            if (zad != null)
+                            {
+                                if (includeVTs || (!includeVTs && !zad.IsVT))
+                                {
+                                    foreach (ZADEntry entry in zad.Contents)
+                                    {
+                                        zad.Extract(entry, fbdBrowseOut.SelectedPath);
 
-            //                                if (i % 25 == 0)
-            //                                {
-            //                                    SceneManager.Current.UpdateProgress($"[{success}/{fail}] {fi.Name} -> {entry.Name}");
-            //                                }
-            //                            }
+                                        SceneManager.Current.UpdateProgress($"[{success}/{fail}] {fi.Name} -> {entry.Name}");
+                                    }
 
-            //                            success++;
-            //                        }
-            //                    }
-            //                    else
-            //                    {
-            //                        fail++;
-            //                    }
+                                    success++;
+                                }
+                            }
+                            else
+                            {
+                                fail++;
+                            }
 
-            //                    SceneManager.Current.UpdateProgress($"[{success}/{fail}] {fi.FullName.Replace(Properties.Settings.Default.PathCarmageddonMaxDamage, "")}");
-            //                }
-            //            }
-            //            );
+                            SceneManager.Current.UpdateProgress($"[{success}/{fail}] {fi.FullName.Replace(fbdBrowseIn.SelectedPath, "")}");
+                        }
+                    });
 
-            //            SceneManager.Current.UpdateProgress($"UnZADing complete. {success} success {fail} fail");
-            //        }
-            //    }
-            //}
+                    SceneManager.Current.UpdateProgress($"UnZADing complete. {success} success {fail} fail");
+                }
+            }
         }
 
         public static void WheelPreview()

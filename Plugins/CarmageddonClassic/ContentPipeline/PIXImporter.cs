@@ -36,6 +36,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
             };
 
             PIX pix = PIX.Load(path);
+
             texture.CreateFromBitmap(pix.Pixies[0].GetBitmap(), pix.Pixies[0].Name);
 
             return texture;

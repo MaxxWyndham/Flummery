@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 using ToxicRagers.Carmageddon.Formats;
 
@@ -24,6 +25,8 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 
                     if (!textures.Contains(texture.FileName))
                     {
+                        SceneManager.Current.UpdateProgress($"Processing {texture.Name}");
+
                         PIXIE pixie = PIXIE.FromBitmap(PIXIE.PixelmapFormat.C1_8bit, texture.GetBitmap(false));
                         pixie.Name = texture.Name;
 
@@ -33,6 +36,8 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
                     }
                 }
             }
+
+            SceneManager.Current.UpdateProgress($"Saving {Path.GetFileName(path)}");
 
             pix.Save(path);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using ToxicRagers.Carmageddon2.Formats;
 using ToxicRagers.Carmageddon2.Helpers;
@@ -18,6 +19,8 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 
             foreach (ModelMesh mesh in model.Meshes)
             {
+                if (dat.DatMeshes.Any(d=> d.Name == mesh.Name)) { continue; }
+
                 C2Mesh m = new C2Mesh();
 
                 foreach (ModelMeshPart meshpart in mesh.MeshParts)

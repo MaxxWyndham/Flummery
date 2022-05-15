@@ -51,6 +51,8 @@ namespace Flummery.Plugin.CarmageddonMaxDamage.ContentPipeline
 
             bool bUsePrepData = true;
 
+            SceneManager.Current.UpdateProgress($"Processing {mdl.Name}");
+
             for (int i = 0; i < mdl.Meshes.Count; i++)
             {
                 Dictionary<int, int> newIndex = new Dictionary<int, int>();

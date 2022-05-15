@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CarmageddonClassic</RootNamespace>
     <AssemblyName>CarmageddonClassic</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,6 +58,7 @@
     <Compile Include="ContentPipeline\MATImporter.cs" />
     <Compile Include="ContentPipeline\PIXExporter.cs" />
     <Compile Include="ContentPipeline\PIXImporter.cs" />
+    <Compile Include="Entities\CrushPoint.cs" />
     <Compile Include="MaterialEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,7 +101,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="ToxicRagers">
-      <Version>1.0.0</Version>
+      <Version>1.8.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
