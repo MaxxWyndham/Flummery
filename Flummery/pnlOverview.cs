@@ -6,6 +6,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 using Flummery.Core;
 using Flummery.Core.Entities;
+using Flummery.Core.Gizmos;
 
 namespace Flummery
 {
@@ -28,7 +29,9 @@ namespace Flummery
             SceneManager.Current.OnChange += scene_OnChange;
             SceneManager.Current.OnReset += scene_OnReset;
             SceneManager.Current.OnContextChange += scene_OnContextChange;
+
             ViewportManager.Current.OnMouseMove += viewport_OnMouseMove;
+            ViewportManager.Current.OnMouseDown += viewport_OnMouseDown;
         }
 
         public void Reset()
@@ -197,7 +200,7 @@ namespace Flummery
             switch (bone.Type)
             {
                 case BoneType.Mesh:
-                    if (bone.Mesh != null) { name += " - " + bone.Mesh.Name; }
+                    if (bone.Mesh != null) { name += $" - {bone.Mesh.Name}"; }
                     break;
 
                 case BoneType.Light:
@@ -205,7 +208,7 @@ namespace Flummery
                     break;
 
                 case BoneType.VFX:
-                    name += " - " + bone.AttachmentFile;
+                    name += $" - {bone.AttachmentFile}";
                     break;
             }
 
@@ -234,6 +237,9 @@ namespace Flummery
 
                     ModelBone bone = SceneManager.Current.Models[mI].Bones[bI];
 
+                    SceneManager.Current.Entities.Remove<Bounds>();
+                    SceneManager.Current.Entities.Remove<Node>();
+
                     if (bone.Type == BoneType.Mesh)
                     {
                         SceneManager.Current.Entities.Add(new Bounds { LinkedBox = bone.Mesh.BoundingBox });
@@ -242,6 +248,8 @@ namespace Flummery
                     {
                         SceneManager.Current.Entities.Add(new Node { LinkedBone = bone });
                     }
+
+                    SceneManager.Current.Entities.Add(new Move { LinkedBone = bone }, true);
                 }
             }
         }
@@ -302,6 +310,14 @@ namespace Flummery
         {
             llblShoutOut.Visible = false;
             if (e.Viewport.ProjectionMode == ProjectionType.Orthographic) { lblCoords.Text = $"{e.Position.X:0.000}, {e.Position.Y:0.000}, {e.Position.Z:0.000}"; }
+        }
+
+        private void viewport_OnMouseDown(object sender, ViewportMouseDownEventArgs e)
+        {
+            if (e.Selected != null)
+            {
+
+            }
         }
 
         private void lblCoords_Click(object sender, EventArgs e)

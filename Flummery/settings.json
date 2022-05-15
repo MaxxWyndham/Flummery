@@ -1,0 +1,15 @@
+{
+  "Flummery": [
+    {
+      "Key": "CheckForUpdate",
+      "Value": true
+    }
+  ],
+  "Plugins": [
+    {
+      "MaxDamage": {
+
+      }
+    }
+  ]
+}

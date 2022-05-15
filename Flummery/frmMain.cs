@@ -39,9 +39,14 @@ namespace Flummery
 
             Text += $" v{FlummeryApplication.Version}";
 
+            string workingDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), ".working");
+            if (Directory.Exists(workingDirectory)) { Directory.Delete(workingDirectory, true); }
+            Directory.CreateDirectory(workingDirectory);
+
             InputManager inputManager = new InputManager();
             SceneManager.Create(new Renderer.OpenTKRenderer());
             SceneManager.Current.Content.RootPath = Path.GetDirectoryName(Application.ExecutablePath);
+            SceneManager.Current.Content.WorkingDirectory = workingDirectory;
             ContentManager.AddHint(Path.GetDirectoryName(Application.ExecutablePath));
             ContentManager.AddHint(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "data", "icons"));
 
@@ -81,7 +86,7 @@ namespace Flummery
 
             SceneManager.Current.OnProgress += scene_OnProgress;
             SceneManager.Current.OnError += scene_OnError;
-            SceneManager.Current.SetCoordinateSystem(CoordinateSystem.LeftHanded);
+            SceneManager.Current.SetCoordinateSystem(CoordinateSystem.RightHanded);
 
             //SceneManager.Current.SetContext(ContextGame.CarmageddonReincarnation, ContextMode.Car);
 
@@ -106,7 +111,45 @@ namespace Flummery
             //var mshs = ToxicRagers.TDR2000.Formats.MSHS.Load(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\Arena\Level Convsoft\ArenaMesh\ArenaMesh.mshs");
             //mshs.Save(@"D:\Carmageddon Installations\SCi\Carmageddon TDR2000\ASSETS\Tracks\Arena\Level Convsoft\ArenaMesh\ArenaMesh_Flummery.mshs");
 
+            //ToxicRagers.Core.Formats.FLI.Load(@"C:\Users\errol\Downloads\TRTES_C1\Data\ANIM\TRCARTES.FLI");
+
+            //foreach (string file in Directory.GetFiles(@"H:\Carmageddon\Carmeldgeddon\DATA\CARS"))
+            //{
+            //    var car = ToxicRagers.Carmageddon.Formats.Car.Load(file);
+
+            //    if (car != null)
+            //    {
+            //        //Console.WriteLine(car.RollingResistance);
+            //    }
+            //}
+
+            //var newcar = new ToxicRagers.Carmageddon.Formats.Car();
+            //newcar.Save(@"C:\Users\errol\Desktop\Eagle\CARS\EAGLE.TXT");
+
+            //using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(@"H:\Carmageddon\Carmeldgeddon\DATA\REG\PALETTES\DRRENDER.PAL")))
+            //using (BinaryReader br = new BinaryReader(ms))
+            //{
+            //    br.BaseStream.Seek(0x40, SeekOrigin.Begin);
+
+            //    for (int i = 0; i < 256; i++)
+            //    {
+            //        byte a = br.ReadByte();
+            //        byte r = br.ReadByte();
+            //        byte g = br.ReadByte();
+            //        byte b = br.ReadByte();
+
+            //        Console.WriteLine($"Add(Colour.FromArgb({a}, {r}, {g}, {b}));");
+            //    }
+            //}
+
             //Application.Exit();
+
+            ViewportManager.Current.OnMouseMove += current_OnMouseMove;
+        }
+
+        private void current_OnMouseMove(object sender, ViewportMouseMoveEventArgs e)
+        {
+            SceneManager.Current.Trace(ViewportManager.Current.GetRayFromMouse());
         }
 
         private void materials_FormClosed(object sender, FormClosedEventArgs e)
@@ -165,7 +208,7 @@ namespace Flummery
 
             switch (mi.Text)
             {
-                case " & New":
+                case "&New":
                     SceneManager.Current.Reset();
                     break;
 
@@ -190,7 +233,7 @@ namespace Flummery
 
                     if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
                     {
-                        SceneManager.Current.SetCoordinateSystem(CoordinateSystem.LeftHanded);
+                        //SceneManager.Current.SetCoordinateSystem(CoordinateSystem.LeftHanded);
                         Model _ = SceneManager.Current.Content.Load<Model, FBXImporter>(Path.GetFileNameWithoutExtension(ofdBrowse.FileName), Path.GetDirectoryName(ofdBrowse.FileName), true);
 
                         SceneManager.Current.UpdateProgress($"Imported {Path.GetFileName(ofdBrowse.FileName)}");
@@ -374,7 +417,7 @@ namespace Flummery
                     break;
 
                 case "Flatten hierarchy...":
-                    SceneManager.Current.UpdateProgress("TODO: Code \"Flatten hierarchy...\"");
+                    SceneManager.Current.UpdateProgress(@"TODO: Code ""Flatten hierarchy...""");
                     break;
 
                 case "Invert texture 'v' coordinates":
@@ -413,7 +456,7 @@ namespace Flummery
 
         private void frmMain_Resize(object sender, EventArgs e)
         {
-            FlummeryApplication.Active = (WindowState != FormWindowState.Minimized);
+            FlummeryApplication.Active = WindowState != FormWindowState.Minimized;
         }
     }
 }
