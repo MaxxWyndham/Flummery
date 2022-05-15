@@ -248,8 +248,7 @@ namespace Flummery.Plugin
 
                                     SceneManager.Current.UpdateProgress($"[{success}/{fail}] {fi.FullName.Replace(folderBrowserDialog.SelectedPath, "")}");
                                 }
-                            }
-                            );
+                            });
 
                             SceneManager.Current.UpdateProgress($"{menuItem.Name} processing complete. {success} success {fail} fail");
                         }
