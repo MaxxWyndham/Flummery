@@ -16,7 +16,7 @@ namespace Flummery.Plugin.CarmageddonClassic
     {
         public string Name { get; } = "Carmageddon (Classic)";
 
-        public List<string> Contexts { get; } = new List<string> { "Carmageddon", "Carmageddon 2" };
+        public List<string> Contexts { get; } = new List<string> { "Carmageddon", "Carmageddon 2", "BRender" };
 
         public List<MenuItem> FileOpenItems { get; } = new List<MenuItem>
         {
@@ -45,13 +45,13 @@ namespace Flummery.Plugin.CarmageddonClassic
             new MenuItem
             {
                 Name = "BRender ACT File",
-                Filter = "BRender ACT files (*.act)|*.act",
+                Filter = "BRender ACT files (*.ac*)|*.ac*",
                 FileOpenAction = CarmageddonClassic.ImportACT
             },
             new MenuItem
             {
                 Name = "BRender DAT File",
-                Filter = "BRender DAT files (*.dat)|*.dat",
+                Filter = "BRender DAT files (*.da*)|*.da*",
                 FileOpenAction = CarmageddonClassic.ImportDAT
             }
         };
@@ -178,6 +178,8 @@ namespace Flummery.Plugin.CarmageddonClassic
             SceneManager.Current.Content.Load<Model, ACTImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
             SceneManager.Current.UpdateProgress($"Imported {Path.GetFileName(path)}");
+
+            SceneManager.Current.SetContext("BRender", ContextMode.Generic);
         }
 
         public static void ImportDAT(string path)
@@ -185,6 +187,8 @@ namespace Flummery.Plugin.CarmageddonClassic
             SceneManager.Current.Content.Load<Model, DATImporter>(Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path), true);
 
             SceneManager.Current.UpdateProgress($"Imported {Path.GetFileName(path)}");
+
+            SceneManager.Current.SetContext("BRender", ContextMode.Generic);
         }
 
         public static void OpenRaceC2(string path)
@@ -359,7 +363,7 @@ namespace Flummery.Plugin.CarmageddonClassic
                 material.Name = material.Name.Replace("\\", "");
 
                 MATMaterial m = (material.SupportingDocuments["Source"] as MATMaterial);
-                if (!m.HasTexture)
+                if (!string.IsNullOrEmpty(m.Texture))
                 {
                     using (Bitmap bmp = new Bitmap(16, 16))
                     using (Graphics g = Graphics.FromImage(bmp))

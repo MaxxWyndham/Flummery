@@ -1,4 +1,4 @@
-﻿using ToxicRagers.Carmageddon2.Formats;
+﻿using ToxicRagers.Brender.Formats;
 using ToxicRagers.Helpers;
 
 using Flummery.Core;
@@ -35,7 +35,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
             foreach (ModelBone b in bone.Children)
             {
                 TravelTree(b, ref act);
-                act.AddSubLevelEnd();
+                act.Chunks.Add(new ACTNode(ChunkId.AddChild));
             }
         }
     }

@@ -324,13 +324,13 @@ namespace Flummery.Plugin.CarmageddonMaxDamage
                     Core.Entities.Wheel wheel = new Core.Entities.Wheel();
                     wheel.LinkWith(bone);
                     SceneManager.Current.Entities.Add(wheel);
-                } 
+                }
                 else if (boneName.StartsWith("vfx_"))
                 {
                     VFX vfx = new VFX();
                     vfx.LinkWith(bone);
                     SceneManager.Current.Entities.Add(vfx);
-                } 
+                }
                 else if (boneName.StartsWith("driver"))
                 {
                     Driver driver = new Driver();

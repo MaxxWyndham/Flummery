@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-
-using Flummery.Core;
+﻿using Flummery.Core;
 using Flummery.Core.ContentPipeline;
+using Flummery.Plugin.CarmageddonClassic.ContentPipeline;
 
 namespace Flummery.Plugin.CarmageddonClassic
 {
@@ -20,7 +17,7 @@ namespace Flummery.Plugin.CarmageddonClassic
 
             SetMaterial(M);
 
-            Width = 440;
+            Width = 510;
             gbPropColour.Left = 12;
             gbPropLighting.Left = 12;
             gbPropFlags.Left = 12;
@@ -44,6 +41,7 @@ namespace Flummery.Plugin.CarmageddonClassic
         {
             txtTexture.Text = t.Name;
             pbPreview.Image = t.GetThumbnail();
+
             //mi.SetThumbnail((Bitmap)pbPreview.Image);
         }
 
@@ -63,15 +61,19 @@ namespace Flummery.Plugin.CarmageddonClassic
                 case "Colour":
                     gbPropColour.Visible = true;
                     break;
+
                 case "Lighting":
                     gbPropLighting.Visible = true;
                     break;
+
                 case "Flags":
                     gbPropFlags.Visible = true;
                     break;
+
                 case "Data":
                     gbPropData.Visible = true;
                     break;
+
                 default:
                     MessageBox.Show(rdo.Text);
                     break;
@@ -91,7 +93,7 @@ namespace Flummery.Plugin.CarmageddonClassic
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga;*.bmp|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga|BMP (*.bmp)|*.bmp";
+            ofdBrowse.Filter = "All supported files|*.jpg;*.png;*.tif;*.tga;*.bmp;*.pix|JPG (*.jpg)|*.jpg|PNG (*.png)|*.png|TIF (*.tif)|*.tif|TGA (*.tga)|*.tga|BMP (*.bmp)|*.bmp|PIX (*.pix)|*.pix";
 
             if (ofdBrowse.ShowDialog() == DialogResult.OK && File.Exists(ofdBrowse.FileName))
             {
@@ -108,7 +110,7 @@ namespace Flummery.Plugin.CarmageddonClassic
         {
             FileInfo fi = new FileInfo(path);
 
-            switch (fi.Extension)
+            switch (fi.Extension.ToLower())
             {
                 case ".bmp":
                     m.Texture = SceneManager.Current.Content.Load<Texture, BMPImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
@@ -128,6 +130,10 @@ namespace Flummery.Plugin.CarmageddonClassic
 
                 case ".tga":
                     m.Texture = SceneManager.Current.Content.Load<Texture, TGAImporter>(Path.GetFileName(path), Path.GetDirectoryName(path));
+                    break;
+
+                case ".pix":
+                    m.SetTexture(txtTexture.Text, SceneManager.Current.Content.Load<Texture, PIXImporter>(Path.GetFileName(path), Path.GetDirectoryName(path)));
                     break;
             }
 

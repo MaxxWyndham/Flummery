@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-using ToxicRagers.Carmageddon.Formats;
+﻿using ToxicRagers.Brender.Formats;
 
 using Flummery.Core.ContentPipeline;
 using Flummery.Core;
@@ -27,7 +24,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
                     {
                         SceneManager.Current.UpdateProgress($"Processing {texture.Name}");
 
-                        PIXIE pixie = PIXIE.FromBitmap(PIXIE.PixelmapFormat.C1_8bit, texture.GetBitmap(false));
+                        PIXIE pixie = PIXIE.FromBitmap(PIXIE.PixelmapFormat.Indexed8bit, texture.GetBitmap(false));
                         pixie.Name = texture.Name;
 
                         pix.Pixies.Add(pixie);

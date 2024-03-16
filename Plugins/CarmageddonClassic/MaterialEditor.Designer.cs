@@ -28,698 +28,760 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialEditor));
-            this.gbPreview = new System.Windows.Forms.GroupBox();
-            this.pbPreview = new System.Windows.Forms.PictureBox();
-            this.gbGeneral = new System.Windows.Forms.GroupBox();
-            this.btnReload = new System.Windows.Forms.Button();
-            this.btnLoad = new System.Windows.Forms.Button();
-            this.lblTexture = new System.Windows.Forms.Label();
-            this.lblName = new System.Windows.Forms.Label();
-            this.txtTexture = new System.Windows.Forms.TextBox();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.gbPropColour = new System.Windows.Forms.GroupBox();
-            this.gbIndexedColour = new System.Windows.Forms.GroupBox();
-            this.btnBlendTable = new System.Windows.Forms.Button();
-            this.txtBlendTable = new System.Windows.Forms.TextBox();
-            this.lblBlendTable = new System.Windows.Forms.Label();
-            this.btnShadeTable = new System.Windows.Forms.Button();
-            this.txtShadeTable = new System.Windows.Forms.TextBox();
-            this.lblShadeTable = new System.Windows.Forms.Label();
-            this.lblLine = new System.Windows.Forms.Label();
-            this.lblIndexedColour = new System.Windows.Forms.Label();
-            this.btnSelectIndexedColour = new System.Windows.Forms.Button();
-            this.gbTrueColour = new System.Windows.Forms.GroupBox();
-            this.lblTrueColour = new System.Windows.Forms.Label();
-            this.btnSelectTrueColour = new System.Windows.Forms.Button();
-            this.rdoColour = new System.Windows.Forms.RadioButton();
-            this.rdoLighting = new System.Windows.Forms.RadioButton();
-            this.rdoFlags = new System.Windows.Forms.RadioButton();
-            this.rdoData = new System.Windows.Forms.RadioButton();
-            this.gbPropLighting = new System.Windows.Forms.GroupBox();
-            this.gbPropFlags = new System.Windows.Forms.GroupBox();
-            this.chk16384 = new System.Windows.Forms.CheckBox();
-            this.chk2 = new System.Windows.Forms.CheckBox();
-            this.chk1024 = new System.Windows.Forms.CheckBox();
-            this.chk512 = new System.Windows.Forms.CheckBox();
-            this.chk256 = new System.Windows.Forms.CheckBox();
-            this.chk128 = new System.Windows.Forms.CheckBox();
-            this.chk2097152 = new System.Windows.Forms.CheckBox();
-            this.chk524288 = new System.Windows.Forms.CheckBox();
-            this.chk262144 = new System.Windows.Forms.CheckBox();
-            this.chk65536 = new System.Windows.Forms.CheckBox();
-            this.chk131072 = new System.Windows.Forms.CheckBox();
-            this.chk1048576 = new System.Windows.Forms.CheckBox();
-            this.chk8192 = new System.Windows.Forms.CheckBox();
-            this.chk4096 = new System.Windows.Forms.CheckBox();
-            this.chk2048 = new System.Windows.Forms.CheckBox();
-            this.chk64 = new System.Windows.Forms.CheckBox();
-            this.chk32 = new System.Windows.Forms.CheckBox();
-            this.chk16 = new System.Windows.Forms.CheckBox();
-            this.chk8 = new System.Windows.Forms.CheckBox();
-            this.chk4 = new System.Windows.Forms.CheckBox();
-            this.chk1 = new System.Windows.Forms.CheckBox();
-            this.gbPropData = new System.Windows.Forms.GroupBox();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnApply = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.ofdBrowse = new System.Windows.Forms.OpenFileDialog();
-            this.gbPreview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
-            this.gbGeneral.SuspendLayout();
-            this.gbPropColour.SuspendLayout();
-            this.gbIndexedColour.SuspendLayout();
-            this.gbTrueColour.SuspendLayout();
-            this.gbPropFlags.SuspendLayout();
-            this.SuspendLayout();
+            gbPreview = new GroupBox();
+            pbPreview = new PictureBox();
+            gbGeneral = new GroupBox();
+            btnReload = new Button();
+            btnLoad = new Button();
+            lblTexture = new Label();
+            lblName = new Label();
+            txtTexture = new TextBox();
+            txtName = new TextBox();
+            gbPropColour = new GroupBox();
+            gbIndexedColour = new GroupBox();
+            btnBlendTable = new Button();
+            txtBlendTable = new TextBox();
+            lblBlendTable = new Label();
+            btnShadeTable = new Button();
+            txtShadeTable = new TextBox();
+            lblShadeTable = new Label();
+            lblLine = new Label();
+            lblIndexedColour = new Label();
+            btnSelectIndexedColour = new Button();
+            gbTrueColour = new GroupBox();
+            lblTrueColour = new Label();
+            btnSelectTrueColour = new Button();
+            rdoColour = new RadioButton();
+            rdoLighting = new RadioButton();
+            rdoFlags = new RadioButton();
+            rdoData = new RadioButton();
+            gbPropLighting = new GroupBox();
+            gbPropFlags = new GroupBox();
+            chk16384 = new CheckBox();
+            chk2 = new CheckBox();
+            chk1024 = new CheckBox();
+            chk512 = new CheckBox();
+            chk256 = new CheckBox();
+            chk128 = new CheckBox();
+            chk2097152 = new CheckBox();
+            chk524288 = new CheckBox();
+            chk262144 = new CheckBox();
+            chk65536 = new CheckBox();
+            chk131072 = new CheckBox();
+            chk1048576 = new CheckBox();
+            chk8192 = new CheckBox();
+            chk4096 = new CheckBox();
+            chk2048 = new CheckBox();
+            chk64 = new CheckBox();
+            chk32 = new CheckBox();
+            chk16 = new CheckBox();
+            chk8 = new CheckBox();
+            chk4 = new CheckBox();
+            chk1 = new CheckBox();
+            gbPropData = new GroupBox();
+            btnOK = new Button();
+            btnApply = new Button();
+            btnCancel = new Button();
+            ofdBrowse = new OpenFileDialog();
+            gbPreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbPreview).BeginInit();
+            gbGeneral.SuspendLayout();
+            gbPropColour.SuspendLayout();
+            gbIndexedColour.SuspendLayout();
+            gbTrueColour.SuspendLayout();
+            gbPropFlags.SuspendLayout();
+            SuspendLayout();
             // 
             // gbPreview
             // 
-            this.gbPreview.Controls.Add(this.pbPreview);
-            this.gbPreview.Location = new System.Drawing.Point(12, 12);
-            this.gbPreview.Name = "gbPreview";
-            this.gbPreview.Size = new System.Drawing.Size(128, 129);
-            this.gbPreview.TabIndex = 0;
-            this.gbPreview.TabStop = false;
-            this.gbPreview.Text = "Preview";
+            gbPreview.Controls.Add(pbPreview);
+            gbPreview.Location = new Point(14, 14);
+            gbPreview.Margin = new Padding(4, 3, 4, 3);
+            gbPreview.Name = "gbPreview";
+            gbPreview.Padding = new Padding(4, 3, 4, 3);
+            gbPreview.Size = new Size(149, 149);
+            gbPreview.TabIndex = 0;
+            gbPreview.TabStop = false;
+            gbPreview.Text = "Preview";
             // 
             // pbPreview
             // 
-            this.pbPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbPreview.Location = new System.Drawing.Point(12, 19);
-            this.pbPreview.Name = "pbPreview";
-            this.pbPreview.Size = new System.Drawing.Size(104, 104);
-            this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbPreview.TabIndex = 0;
-            this.pbPreview.TabStop = false;
-            //this.pbPreview.Click += new System.EventHandler(this.pbPreview_Click);
+            pbPreview.BorderStyle = BorderStyle.FixedSingle;
+            pbPreview.Location = new Point(14, 22);
+            pbPreview.Margin = new Padding(4, 3, 4, 3);
+            pbPreview.Name = "pbPreview";
+            pbPreview.Size = new Size(121, 120);
+            pbPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbPreview.TabIndex = 0;
+            pbPreview.TabStop = false;
             // 
             // gbGeneral
             // 
-            this.gbGeneral.Controls.Add(this.btnReload);
-            this.gbGeneral.Controls.Add(this.btnLoad);
-            this.gbGeneral.Controls.Add(this.lblTexture);
-            this.gbGeneral.Controls.Add(this.lblName);
-            this.gbGeneral.Controls.Add(this.txtTexture);
-            this.gbGeneral.Controls.Add(this.txtName);
-            this.gbGeneral.Location = new System.Drawing.Point(146, 12);
-            this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Size = new System.Drawing.Size(272, 100);
-            this.gbGeneral.TabIndex = 0;
-            this.gbGeneral.TabStop = false;
-            this.gbGeneral.Text = "General";
+            gbGeneral.Controls.Add(btnReload);
+            gbGeneral.Controls.Add(btnLoad);
+            gbGeneral.Controls.Add(lblTexture);
+            gbGeneral.Controls.Add(lblName);
+            gbGeneral.Controls.Add(txtTexture);
+            gbGeneral.Controls.Add(txtName);
+            gbGeneral.Location = new Point(170, 14);
+            gbGeneral.Margin = new Padding(4, 3, 4, 3);
+            gbGeneral.Name = "gbGeneral";
+            gbGeneral.Padding = new Padding(4, 3, 4, 3);
+            gbGeneral.Size = new Size(317, 115);
+            gbGeneral.TabIndex = 0;
+            gbGeneral.TabStop = false;
+            gbGeneral.Text = "General";
             // 
             // btnReload
             // 
-            this.btnReload.Location = new System.Drawing.Point(6, 71);
-            this.btnReload.Name = "btnReload";
-            this.btnReload.Size = new System.Drawing.Size(75, 23);
-            this.btnReload.TabIndex = 11;
-            this.btnReload.Text = "Reload";
-            this.btnReload.UseVisualStyleBackColor = true;
-            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
+            btnReload.Location = new Point(7, 82);
+            btnReload.Margin = new Padding(4, 3, 4, 3);
+            btnReload.Name = "btnReload";
+            btnReload.Size = new Size(88, 27);
+            btnReload.TabIndex = 11;
+            btnReload.Text = "Reload";
+            btnReload.UseVisualStyleBackColor = true;
+            btnReload.Click += btnReload_Click;
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(191, 71);
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(75, 23);
-            this.btnLoad.TabIndex = 10;
-            this.btnLoad.Text = "Load";
-            this.btnLoad.UseVisualStyleBackColor = true;
-            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            btnLoad.Location = new Point(223, 82);
+            btnLoad.Margin = new Padding(4, 3, 4, 3);
+            btnLoad.Name = "btnLoad";
+            btnLoad.Size = new Size(88, 27);
+            btnLoad.TabIndex = 10;
+            btnLoad.Text = "Load";
+            btnLoad.UseVisualStyleBackColor = true;
+            btnLoad.Click += btnLoad_Click;
             // 
             // lblTexture
             // 
-            this.lblTexture.AutoSize = true;
-            this.lblTexture.Location = new System.Drawing.Point(10, 48);
-            this.lblTexture.Name = "lblTexture";
-            this.lblTexture.Size = new System.Drawing.Size(43, 13);
-            this.lblTexture.TabIndex = 9;
-            this.lblTexture.Text = "Texture";
+            lblTexture.AutoSize = true;
+            lblTexture.Location = new Point(12, 55);
+            lblTexture.Margin = new Padding(4, 0, 4, 0);
+            lblTexture.Name = "lblTexture";
+            lblTexture.Size = new Size(45, 15);
+            lblTexture.TabIndex = 9;
+            lblTexture.Text = "Texture";
             // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(6, 22);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(47, 13);
-            this.lblName.TabIndex = 8;
-            this.lblName.Text = "Identifier";
+            lblName.AutoSize = true;
+            lblName.Location = new Point(7, 25);
+            lblName.Margin = new Padding(4, 0, 4, 0);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(54, 15);
+            lblName.TabIndex = 8;
+            lblName.Text = "Identifier";
             // 
             // txtTexture
             // 
-            this.txtTexture.BackColor = System.Drawing.SystemColors.Control;
-            this.txtTexture.Enabled = false;
-            this.txtTexture.Location = new System.Drawing.Point(59, 45);
-            this.txtTexture.Name = "txtTexture";
-            this.txtTexture.Size = new System.Drawing.Size(207, 20);
-            this.txtTexture.TabIndex = 7;
+            txtTexture.BackColor = SystemColors.Control;
+            txtTexture.Enabled = false;
+            txtTexture.Location = new Point(69, 52);
+            txtTexture.Margin = new Padding(4, 3, 4, 3);
+            txtTexture.Name = "txtTexture";
+            txtTexture.Size = new Size(241, 23);
+            txtTexture.TabIndex = 7;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(59, 19);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(207, 20);
-            this.txtName.TabIndex = 6;
+            txtName.Location = new Point(69, 22);
+            txtName.Margin = new Padding(4, 3, 4, 3);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(241, 23);
+            txtName.TabIndex = 6;
             // 
             // gbPropColour
             // 
-            this.gbPropColour.Controls.Add(this.gbIndexedColour);
-            this.gbPropColour.Controls.Add(this.gbTrueColour);
-            this.gbPropColour.Location = new System.Drawing.Point(12, 147);
-            this.gbPropColour.Name = "gbPropColour";
-            this.gbPropColour.Size = new System.Drawing.Size(406, 125);
-            this.gbPropColour.TabIndex = 0;
-            this.gbPropColour.TabStop = false;
-            this.gbPropColour.Text = "Properties";
+            gbPropColour.Controls.Add(gbIndexedColour);
+            gbPropColour.Controls.Add(gbTrueColour);
+            gbPropColour.Location = new Point(14, 170);
+            gbPropColour.Margin = new Padding(4, 3, 4, 3);
+            gbPropColour.Name = "gbPropColour";
+            gbPropColour.Padding = new Padding(4, 3, 4, 3);
+            gbPropColour.Size = new Size(474, 144);
+            gbPropColour.TabIndex = 0;
+            gbPropColour.TabStop = false;
+            gbPropColour.Text = "Properties";
             // 
             // gbIndexedColour
             // 
-            this.gbIndexedColour.Controls.Add(this.btnBlendTable);
-            this.gbIndexedColour.Controls.Add(this.txtBlendTable);
-            this.gbIndexedColour.Controls.Add(this.lblBlendTable);
-            this.gbIndexedColour.Controls.Add(this.btnShadeTable);
-            this.gbIndexedColour.Controls.Add(this.txtShadeTable);
-            this.gbIndexedColour.Controls.Add(this.lblShadeTable);
-            this.gbIndexedColour.Controls.Add(this.lblLine);
-            this.gbIndexedColour.Controls.Add(this.lblIndexedColour);
-            this.gbIndexedColour.Controls.Add(this.btnSelectIndexedColour);
-            this.gbIndexedColour.Location = new System.Drawing.Point(94, 19);
-            this.gbIndexedColour.Name = "gbIndexedColour";
-            this.gbIndexedColour.Size = new System.Drawing.Size(306, 100);
-            this.gbIndexedColour.TabIndex = 2;
-            this.gbIndexedColour.TabStop = false;
-            this.gbIndexedColour.Text = "Indexed colour";
+            gbIndexedColour.Controls.Add(btnBlendTable);
+            gbIndexedColour.Controls.Add(txtBlendTable);
+            gbIndexedColour.Controls.Add(lblBlendTable);
+            gbIndexedColour.Controls.Add(btnShadeTable);
+            gbIndexedColour.Controls.Add(txtShadeTable);
+            gbIndexedColour.Controls.Add(lblShadeTable);
+            gbIndexedColour.Controls.Add(lblLine);
+            gbIndexedColour.Controls.Add(lblIndexedColour);
+            gbIndexedColour.Controls.Add(btnSelectIndexedColour);
+            gbIndexedColour.Location = new Point(110, 22);
+            gbIndexedColour.Margin = new Padding(4, 3, 4, 3);
+            gbIndexedColour.Name = "gbIndexedColour";
+            gbIndexedColour.Padding = new Padding(4, 3, 4, 3);
+            gbIndexedColour.Size = new Size(357, 115);
+            gbIndexedColour.TabIndex = 2;
+            gbIndexedColour.TabStop = false;
+            gbIndexedColour.Text = "Indexed colour";
             // 
             // btnBlendTable
             // 
-            this.btnBlendTable.Location = new System.Drawing.Point(225, 69);
-            this.btnBlendTable.Name = "btnBlendTable";
-            this.btnBlendTable.Size = new System.Drawing.Size(75, 23);
-            this.btnBlendTable.TabIndex = 13;
-            this.btnBlendTable.Text = "Browse...";
-            this.btnBlendTable.UseVisualStyleBackColor = true;
+            btnBlendTable.Location = new Point(262, 80);
+            btnBlendTable.Margin = new Padding(4, 3, 4, 3);
+            btnBlendTable.Name = "btnBlendTable";
+            btnBlendTable.Size = new Size(88, 27);
+            btnBlendTable.TabIndex = 13;
+            btnBlendTable.Text = "Browse...";
+            btnBlendTable.UseVisualStyleBackColor = true;
             // 
             // txtBlendTable
             // 
-            this.txtBlendTable.BackColor = System.Drawing.SystemColors.Control;
-            this.txtBlendTable.Enabled = false;
-            this.txtBlendTable.Location = new System.Drawing.Point(90, 71);
-            this.txtBlendTable.Name = "txtBlendTable";
-            this.txtBlendTable.Size = new System.Drawing.Size(129, 20);
-            this.txtBlendTable.TabIndex = 12;
+            txtBlendTable.BackColor = SystemColors.Control;
+            txtBlendTable.Enabled = false;
+            txtBlendTable.Location = new Point(105, 82);
+            txtBlendTable.Margin = new Padding(4, 3, 4, 3);
+            txtBlendTable.Name = "txtBlendTable";
+            txtBlendTable.Size = new Size(150, 23);
+            txtBlendTable.TabIndex = 12;
             // 
             // lblBlendTable
             // 
-            this.lblBlendTable.AutoSize = true;
-            this.lblBlendTable.Location = new System.Drawing.Point(90, 55);
-            this.lblBlendTable.Name = "lblBlendTable";
-            this.lblBlendTable.Size = new System.Drawing.Size(60, 13);
-            this.lblBlendTable.TabIndex = 11;
-            this.lblBlendTable.Text = "Blend table";
+            lblBlendTable.AutoSize = true;
+            lblBlendTable.Location = new Point(105, 63);
+            lblBlendTable.Margin = new Padding(4, 0, 4, 0);
+            lblBlendTable.Name = "lblBlendTable";
+            lblBlendTable.Size = new Size(66, 15);
+            lblBlendTable.TabIndex = 11;
+            lblBlendTable.Text = "Blend table";
             // 
             // btnShadeTable
             // 
-            this.btnShadeTable.Location = new System.Drawing.Point(225, 30);
-            this.btnShadeTable.Name = "btnShadeTable";
-            this.btnShadeTable.Size = new System.Drawing.Size(75, 23);
-            this.btnShadeTable.TabIndex = 10;
-            this.btnShadeTable.Text = "Browse...";
-            this.btnShadeTable.UseVisualStyleBackColor = true;
+            btnShadeTable.Location = new Point(262, 35);
+            btnShadeTable.Margin = new Padding(4, 3, 4, 3);
+            btnShadeTable.Name = "btnShadeTable";
+            btnShadeTable.Size = new Size(88, 27);
+            btnShadeTable.TabIndex = 10;
+            btnShadeTable.Text = "Browse...";
+            btnShadeTable.UseVisualStyleBackColor = true;
             // 
             // txtShadeTable
             // 
-            this.txtShadeTable.BackColor = System.Drawing.SystemColors.Control;
-            this.txtShadeTable.Enabled = false;
-            this.txtShadeTable.Location = new System.Drawing.Point(90, 32);
-            this.txtShadeTable.Name = "txtShadeTable";
-            this.txtShadeTable.Size = new System.Drawing.Size(129, 20);
-            this.txtShadeTable.TabIndex = 8;
+            txtShadeTable.BackColor = SystemColors.Control;
+            txtShadeTable.Enabled = false;
+            txtShadeTable.Location = new Point(105, 37);
+            txtShadeTable.Margin = new Padding(4, 3, 4, 3);
+            txtShadeTable.Name = "txtShadeTable";
+            txtShadeTable.Size = new Size(150, 23);
+            txtShadeTable.TabIndex = 8;
             // 
             // lblShadeTable
             // 
-            this.lblShadeTable.AutoSize = true;
-            this.lblShadeTable.Location = new System.Drawing.Point(90, 16);
-            this.lblShadeTable.Name = "lblShadeTable";
-            this.lblShadeTable.Size = new System.Drawing.Size(64, 13);
-            this.lblShadeTable.TabIndex = 3;
-            this.lblShadeTable.Text = "Shade table";
+            lblShadeTable.AutoSize = true;
+            lblShadeTable.Location = new Point(105, 18);
+            lblShadeTable.Margin = new Padding(4, 0, 4, 0);
+            lblShadeTable.Name = "lblShadeTable";
+            lblShadeTable.Size = new Size(68, 15);
+            lblShadeTable.TabIndex = 3;
+            lblShadeTable.Text = "Shade table";
             // 
             // lblLine
             // 
-            this.lblLine.BackColor = System.Drawing.Color.Black;
-            this.lblLine.Location = new System.Drawing.Point(82, 16);
-            this.lblLine.Name = "lblLine";
-            this.lblLine.Size = new System.Drawing.Size(2, 72);
-            this.lblLine.TabIndex = 2;
+            lblLine.BackColor = Color.Black;
+            lblLine.Location = new Point(96, 18);
+            lblLine.Margin = new Padding(4, 0, 4, 0);
+            lblLine.Name = "lblLine";
+            lblLine.Size = new Size(2, 83);
+            lblLine.TabIndex = 2;
             // 
             // lblIndexedColour
             // 
-            this.lblIndexedColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblIndexedColour.Location = new System.Drawing.Point(6, 16);
-            this.lblIndexedColour.Name = "lblIndexedColour";
-            this.lblIndexedColour.Size = new System.Drawing.Size(70, 50);
-            this.lblIndexedColour.TabIndex = 1;
+            lblIndexedColour.BorderStyle = BorderStyle.Fixed3D;
+            lblIndexedColour.Location = new Point(7, 18);
+            lblIndexedColour.Margin = new Padding(4, 0, 4, 0);
+            lblIndexedColour.Name = "lblIndexedColour";
+            lblIndexedColour.Size = new Size(82, 58);
+            lblIndexedColour.TabIndex = 1;
             // 
             // btnSelectIndexedColour
             // 
-            this.btnSelectIndexedColour.Location = new System.Drawing.Point(6, 69);
-            this.btnSelectIndexedColour.Name = "btnSelectIndexedColour";
-            this.btnSelectIndexedColour.Size = new System.Drawing.Size(70, 23);
-            this.btnSelectIndexedColour.TabIndex = 0;
-            this.btnSelectIndexedColour.Text = "Select...";
-            this.btnSelectIndexedColour.UseVisualStyleBackColor = true;
+            btnSelectIndexedColour.Location = new Point(7, 80);
+            btnSelectIndexedColour.Margin = new Padding(4, 3, 4, 3);
+            btnSelectIndexedColour.Name = "btnSelectIndexedColour";
+            btnSelectIndexedColour.Size = new Size(82, 27);
+            btnSelectIndexedColour.TabIndex = 0;
+            btnSelectIndexedColour.Text = "Select...";
+            btnSelectIndexedColour.UseVisualStyleBackColor = true;
             // 
             // gbTrueColour
             // 
-            this.gbTrueColour.Controls.Add(this.lblTrueColour);
-            this.gbTrueColour.Controls.Add(this.btnSelectTrueColour);
-            this.gbTrueColour.Location = new System.Drawing.Point(6, 19);
-            this.gbTrueColour.Name = "gbTrueColour";
-            this.gbTrueColour.Size = new System.Drawing.Size(82, 100);
-            this.gbTrueColour.TabIndex = 0;
-            this.gbTrueColour.TabStop = false;
-            this.gbTrueColour.Text = "True colour";
+            gbTrueColour.Controls.Add(lblTrueColour);
+            gbTrueColour.Controls.Add(btnSelectTrueColour);
+            gbTrueColour.Location = new Point(7, 22);
+            gbTrueColour.Margin = new Padding(4, 3, 4, 3);
+            gbTrueColour.Name = "gbTrueColour";
+            gbTrueColour.Padding = new Padding(4, 3, 4, 3);
+            gbTrueColour.Size = new Size(96, 115);
+            gbTrueColour.TabIndex = 0;
+            gbTrueColour.TabStop = false;
+            gbTrueColour.Text = "True colour";
             // 
             // lblTrueColour
             // 
-            this.lblTrueColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTrueColour.Location = new System.Drawing.Point(6, 16);
-            this.lblTrueColour.Name = "lblTrueColour";
-            this.lblTrueColour.Size = new System.Drawing.Size(70, 50);
-            this.lblTrueColour.TabIndex = 1;
+            lblTrueColour.BorderStyle = BorderStyle.Fixed3D;
+            lblTrueColour.Location = new Point(7, 18);
+            lblTrueColour.Margin = new Padding(4, 0, 4, 0);
+            lblTrueColour.Name = "lblTrueColour";
+            lblTrueColour.Size = new Size(82, 58);
+            lblTrueColour.TabIndex = 1;
             // 
             // btnSelectTrueColour
             // 
-            this.btnSelectTrueColour.Location = new System.Drawing.Point(6, 69);
-            this.btnSelectTrueColour.Name = "btnSelectTrueColour";
-            this.btnSelectTrueColour.Size = new System.Drawing.Size(70, 23);
-            this.btnSelectTrueColour.TabIndex = 0;
-            this.btnSelectTrueColour.Text = "Select...";
-            this.btnSelectTrueColour.UseVisualStyleBackColor = true;
+            btnSelectTrueColour.Location = new Point(7, 80);
+            btnSelectTrueColour.Margin = new Padding(4, 3, 4, 3);
+            btnSelectTrueColour.Name = "btnSelectTrueColour";
+            btnSelectTrueColour.Size = new Size(82, 27);
+            btnSelectTrueColour.TabIndex = 0;
+            btnSelectTrueColour.Text = "Select...";
+            btnSelectTrueColour.UseVisualStyleBackColor = true;
             // 
             // rdoColour
             // 
-            this.rdoColour.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rdoColour.Checked = true;
-            this.rdoColour.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.rdoColour.Location = new System.Drawing.Point(152, 118);
-            this.rdoColour.Name = "rdoColour";
-            this.rdoColour.Size = new System.Drawing.Size(62, 23);
-            this.rdoColour.TabIndex = 1;
-            this.rdoColour.TabStop = true;
-            this.rdoColour.Text = "Colour";
-            this.rdoColour.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdoColour.UseVisualStyleBackColor = true;
-            this.rdoColour.CheckedChanged += new System.EventHandler(this.rdoProperties_CheckedChanged);
+            rdoColour.Appearance = Appearance.Button;
+            rdoColour.Checked = true;
+            rdoColour.FlatStyle = FlatStyle.System;
+            rdoColour.Location = new Point(177, 136);
+            rdoColour.Margin = new Padding(4, 3, 4, 3);
+            rdoColour.Name = "rdoColour";
+            rdoColour.Size = new Size(72, 27);
+            rdoColour.TabIndex = 1;
+            rdoColour.TabStop = true;
+            rdoColour.Text = "Colour";
+            rdoColour.TextAlign = ContentAlignment.MiddleCenter;
+            rdoColour.UseVisualStyleBackColor = true;
+            rdoColour.CheckedChanged += rdoProperties_CheckedChanged;
             // 
             // rdoLighting
             // 
-            this.rdoLighting.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rdoLighting.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.rdoLighting.Location = new System.Drawing.Point(220, 118);
-            this.rdoLighting.Name = "rdoLighting";
-            this.rdoLighting.Size = new System.Drawing.Size(62, 23);
-            this.rdoLighting.TabIndex = 2;
-            this.rdoLighting.Text = "Lighting";
-            this.rdoLighting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdoLighting.UseVisualStyleBackColor = true;
-            this.rdoLighting.CheckedChanged += new System.EventHandler(this.rdoProperties_CheckedChanged);
+            rdoLighting.Appearance = Appearance.Button;
+            rdoLighting.FlatStyle = FlatStyle.System;
+            rdoLighting.Location = new Point(257, 136);
+            rdoLighting.Margin = new Padding(4, 3, 4, 3);
+            rdoLighting.Name = "rdoLighting";
+            rdoLighting.Size = new Size(72, 27);
+            rdoLighting.TabIndex = 2;
+            rdoLighting.Text = "Lighting";
+            rdoLighting.TextAlign = ContentAlignment.MiddleCenter;
+            rdoLighting.UseVisualStyleBackColor = true;
+            rdoLighting.CheckedChanged += rdoProperties_CheckedChanged;
             // 
             // rdoFlags
             // 
-            this.rdoFlags.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rdoFlags.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.rdoFlags.Location = new System.Drawing.Point(288, 118);
-            this.rdoFlags.Name = "rdoFlags";
-            this.rdoFlags.Size = new System.Drawing.Size(62, 23);
-            this.rdoFlags.TabIndex = 3;
-            this.rdoFlags.Text = "Flags";
-            this.rdoFlags.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdoFlags.UseVisualStyleBackColor = true;
-            this.rdoFlags.CheckedChanged += new System.EventHandler(this.rdoProperties_CheckedChanged);
+            rdoFlags.Appearance = Appearance.Button;
+            rdoFlags.FlatStyle = FlatStyle.System;
+            rdoFlags.Location = new Point(336, 136);
+            rdoFlags.Margin = new Padding(4, 3, 4, 3);
+            rdoFlags.Name = "rdoFlags";
+            rdoFlags.Size = new Size(72, 27);
+            rdoFlags.TabIndex = 3;
+            rdoFlags.Text = "Flags";
+            rdoFlags.TextAlign = ContentAlignment.MiddleCenter;
+            rdoFlags.UseVisualStyleBackColor = true;
+            rdoFlags.CheckedChanged += rdoProperties_CheckedChanged;
             // 
             // rdoData
             // 
-            this.rdoData.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rdoData.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.rdoData.Location = new System.Drawing.Point(356, 118);
-            this.rdoData.Name = "rdoData";
-            this.rdoData.Size = new System.Drawing.Size(62, 23);
-            this.rdoData.TabIndex = 4;
-            this.rdoData.Text = "Data";
-            this.rdoData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdoData.UseVisualStyleBackColor = true;
-            this.rdoData.CheckedChanged += new System.EventHandler(this.rdoProperties_CheckedChanged);
+            rdoData.Appearance = Appearance.Button;
+            rdoData.FlatStyle = FlatStyle.System;
+            rdoData.Location = new Point(415, 136);
+            rdoData.Margin = new Padding(4, 3, 4, 3);
+            rdoData.Name = "rdoData";
+            rdoData.Size = new Size(72, 27);
+            rdoData.TabIndex = 4;
+            rdoData.Text = "Data";
+            rdoData.TextAlign = ContentAlignment.MiddleCenter;
+            rdoData.UseVisualStyleBackColor = true;
+            rdoData.CheckedChanged += rdoProperties_CheckedChanged;
             // 
             // gbPropLighting
             // 
-            this.gbPropLighting.Location = new System.Drawing.Point(424, 147);
-            this.gbPropLighting.Name = "gbPropLighting";
-            this.gbPropLighting.Size = new System.Drawing.Size(406, 125);
-            this.gbPropLighting.TabIndex = 1;
-            this.gbPropLighting.TabStop = false;
-            this.gbPropLighting.Text = "Properties";
-            this.gbPropLighting.Visible = false;
+            gbPropLighting.Location = new Point(495, 170);
+            gbPropLighting.Margin = new Padding(4, 3, 4, 3);
+            gbPropLighting.Name = "gbPropLighting";
+            gbPropLighting.Padding = new Padding(4, 3, 4, 3);
+            gbPropLighting.Size = new Size(474, 144);
+            gbPropLighting.TabIndex = 1;
+            gbPropLighting.TabStop = false;
+            gbPropLighting.Text = "Properties";
+            gbPropLighting.Visible = false;
             // 
             // gbPropFlags
             // 
-            this.gbPropFlags.Controls.Add(this.chk16384);
-            this.gbPropFlags.Controls.Add(this.chk2);
-            this.gbPropFlags.Controls.Add(this.chk1024);
-            this.gbPropFlags.Controls.Add(this.chk512);
-            this.gbPropFlags.Controls.Add(this.chk256);
-            this.gbPropFlags.Controls.Add(this.chk128);
-            this.gbPropFlags.Controls.Add(this.chk2097152);
-            this.gbPropFlags.Controls.Add(this.chk524288);
-            this.gbPropFlags.Controls.Add(this.chk262144);
-            this.gbPropFlags.Controls.Add(this.chk65536);
-            this.gbPropFlags.Controls.Add(this.chk131072);
-            this.gbPropFlags.Controls.Add(this.chk1048576);
-            this.gbPropFlags.Controls.Add(this.chk8192);
-            this.gbPropFlags.Controls.Add(this.chk4096);
-            this.gbPropFlags.Controls.Add(this.chk2048);
-            this.gbPropFlags.Controls.Add(this.chk64);
-            this.gbPropFlags.Controls.Add(this.chk32);
-            this.gbPropFlags.Controls.Add(this.chk16);
-            this.gbPropFlags.Controls.Add(this.chk8);
-            this.gbPropFlags.Controls.Add(this.chk4);
-            this.gbPropFlags.Controls.Add(this.chk1);
-            this.gbPropFlags.Location = new System.Drawing.Point(836, 147);
-            this.gbPropFlags.Name = "gbPropFlags";
-            this.gbPropFlags.Size = new System.Drawing.Size(406, 125);
-            this.gbPropFlags.TabIndex = 2;
-            this.gbPropFlags.TabStop = false;
-            this.gbPropFlags.Text = "Properties";
-            this.gbPropFlags.Visible = false;
+            gbPropFlags.Controls.Add(chk16384);
+            gbPropFlags.Controls.Add(chk2);
+            gbPropFlags.Controls.Add(chk1024);
+            gbPropFlags.Controls.Add(chk512);
+            gbPropFlags.Controls.Add(chk256);
+            gbPropFlags.Controls.Add(chk128);
+            gbPropFlags.Controls.Add(chk2097152);
+            gbPropFlags.Controls.Add(chk524288);
+            gbPropFlags.Controls.Add(chk262144);
+            gbPropFlags.Controls.Add(chk65536);
+            gbPropFlags.Controls.Add(chk131072);
+            gbPropFlags.Controls.Add(chk1048576);
+            gbPropFlags.Controls.Add(chk8192);
+            gbPropFlags.Controls.Add(chk4096);
+            gbPropFlags.Controls.Add(chk2048);
+            gbPropFlags.Controls.Add(chk64);
+            gbPropFlags.Controls.Add(chk32);
+            gbPropFlags.Controls.Add(chk16);
+            gbPropFlags.Controls.Add(chk8);
+            gbPropFlags.Controls.Add(chk4);
+            gbPropFlags.Controls.Add(chk1);
+            gbPropFlags.Location = new Point(975, 170);
+            gbPropFlags.Margin = new Padding(4, 3, 4, 3);
+            gbPropFlags.Name = "gbPropFlags";
+            gbPropFlags.Padding = new Padding(4, 3, 4, 3);
+            gbPropFlags.Size = new Size(474, 144);
+            gbPropFlags.TabIndex = 2;
+            gbPropFlags.TabStop = false;
+            gbPropFlags.Text = "Properties";
+            gbPropFlags.Visible = false;
             // 
             // chk16384
             // 
-            this.chk16384.AutoSize = true;
-            this.chk16384.Location = new System.Drawing.Point(70, 38);
-            this.chk16384.Name = "chk16384";
-            this.chk16384.Size = new System.Drawing.Size(54, 17);
-            this.chk16384.TabIndex = 21;
-            this.chk16384.Text = "Dither";
-            this.chk16384.UseVisualStyleBackColor = true;
-            this.chk16384.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk16384.AutoSize = true;
+            chk16384.Location = new Point(82, 44);
+            chk16384.Margin = new Padding(4, 3, 4, 3);
+            chk16384.Name = "chk16384";
+            chk16384.Size = new Size(58, 19);
+            chk16384.TabIndex = 21;
+            chk16384.Text = "Dither";
+            chk16384.UseVisualStyleBackColor = true;
+            chk16384.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk2
             // 
-            this.chk2.AutoSize = true;
-            this.chk2.Location = new System.Drawing.Point(70, 19);
-            this.chk2.Name = "chk2";
-            this.chk2.Size = new System.Drawing.Size(52, 17);
-            this.chk2.TabIndex = 20;
-            this.chk2.Text = "Pre-lit";
-            this.chk2.UseVisualStyleBackColor = true;
-            this.chk2.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk2.AutoSize = true;
+            chk2.Location = new Point(82, 22);
+            chk2.Margin = new Padding(4, 3, 4, 3);
+            chk2.Name = "chk2";
+            chk2.Size = new Size(58, 19);
+            chk2.TabIndex = 20;
+            chk2.Text = "Pre-lit";
+            chk2.UseVisualStyleBackColor = true;
+            chk2.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk1024
             // 
-            this.chk1024.AutoSize = true;
-            this.chk1024.Location = new System.Drawing.Point(331, 76);
-            this.chk1024.Name = "chk1024";
-            this.chk1024.Size = new System.Drawing.Size(62, 17);
-            this.chk1024.TabIndex = 19;
-            this.chk1024.Text = "V from I";
-            this.chk1024.UseVisualStyleBackColor = true;
-            this.chk1024.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk1024.AutoSize = true;
+            chk1024.Location = new Point(386, 88);
+            chk1024.Margin = new Padding(4, 3, 4, 3);
+            chk1024.Name = "chk1024";
+            chk1024.Size = new Size(68, 19);
+            chk1024.TabIndex = 19;
+            chk1024.Text = "V from I";
+            chk1024.UseVisualStyleBackColor = true;
+            chk1024.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk512
             // 
-            this.chk512.AutoSize = true;
-            this.chk512.Location = new System.Drawing.Point(331, 57);
-            this.chk512.Name = "chk512";
-            this.chk512.Size = new System.Drawing.Size(63, 17);
-            this.chk512.TabIndex = 18;
-            this.chk512.Text = "U from I";
-            this.chk512.UseVisualStyleBackColor = true;
-            this.chk512.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk512.AutoSize = true;
+            chk512.Location = new Point(386, 66);
+            chk512.Margin = new Padding(4, 3, 4, 3);
+            chk512.Name = "chk512";
+            chk512.Size = new Size(69, 19);
+            chk512.TabIndex = 18;
+            chk512.Text = "U from I";
+            chk512.UseVisualStyleBackColor = true;
+            chk512.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk256
             // 
-            this.chk256.AutoSize = true;
-            this.chk256.Location = new System.Drawing.Point(331, 38);
-            this.chk256.Name = "chk256";
-            this.chk256.Size = new System.Drawing.Size(62, 17);
-            this.chk256.TabIndex = 17;
-            this.chk256.Text = "I from V";
-            this.chk256.UseVisualStyleBackColor = true;
-            this.chk256.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk256.AutoSize = true;
+            chk256.Location = new Point(386, 44);
+            chk256.Margin = new Padding(4, 3, 4, 3);
+            chk256.Name = "chk256";
+            chk256.Size = new Size(68, 19);
+            chk256.TabIndex = 17;
+            chk256.Text = "I from V";
+            chk256.UseVisualStyleBackColor = true;
+            chk256.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk128
             // 
-            this.chk128.AutoSize = true;
-            this.chk128.Location = new System.Drawing.Point(331, 19);
-            this.chk128.Name = "chk128";
-            this.chk128.Size = new System.Drawing.Size(63, 17);
-            this.chk128.TabIndex = 16;
-            this.chk128.Text = "I from U";
-            this.chk128.UseVisualStyleBackColor = true;
-            this.chk128.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk128.AutoSize = true;
+            chk128.Location = new Point(386, 22);
+            chk128.Margin = new Padding(4, 3, 4, 3);
+            chk128.Name = "chk128";
+            chk128.Size = new Size(69, 19);
+            chk128.TabIndex = 16;
+            chk128.Text = "I from U";
+            chk128.UseVisualStyleBackColor = true;
+            chk128.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk2097152
             // 
-            this.chk2097152.AutoSize = true;
-            this.chk2097152.Location = new System.Drawing.Point(224, 95);
-            this.chk2097152.Name = "chk2097152";
-            this.chk2097152.Size = new System.Drawing.Size(97, 17);
-            this.chk2097152.TabIndex = 15;
-            this.chk2097152.Text = "Z transparency";
-            this.chk2097152.UseVisualStyleBackColor = true;
-            this.chk2097152.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk2097152.AutoSize = true;
+            chk2097152.Location = new Point(261, 110);
+            chk2097152.Margin = new Padding(4, 3, 4, 3);
+            chk2097152.Name = "chk2097152";
+            chk2097152.Size = new Size(104, 19);
+            chk2097152.TabIndex = 15;
+            chk2097152.Text = "Z transparency";
+            chk2097152.UseVisualStyleBackColor = true;
+            chk2097152.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk524288
             // 
-            this.chk524288.AutoSize = true;
-            this.chk524288.Location = new System.Drawing.Point(224, 76);
-            this.chk524288.Name = "chk524288";
-            this.chk524288.Size = new System.Drawing.Size(69, 17);
-            this.chk524288.TabIndex = 14;
-            this.chk524288.Text = "Fog local";
-            this.chk524288.UseVisualStyleBackColor = true;
-            this.chk524288.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk524288.AutoSize = true;
+            chk524288.Location = new Point(261, 88);
+            chk524288.Margin = new Padding(4, 3, 4, 3);
+            chk524288.Name = "chk524288";
+            chk524288.Size = new Size(74, 19);
+            chk524288.TabIndex = 14;
+            chk524288.Text = "Fog local";
+            chk524288.UseVisualStyleBackColor = true;
+            chk524288.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk262144
             // 
-            this.chk262144.AutoSize = true;
-            this.chk262144.Location = new System.Drawing.Point(224, 57);
-            this.chk262144.Name = "chk262144";
-            this.chk262144.Size = new System.Drawing.Size(103, 17);
-            this.chk262144.TabIndex = 13;
-            this.chk262144.Text = "Mip interpolation";
-            this.chk262144.UseVisualStyleBackColor = true;
-            this.chk262144.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk262144.AutoSize = true;
+            chk262144.Location = new Point(261, 66);
+            chk262144.Margin = new Padding(4, 3, 4, 3);
+            chk262144.Name = "chk262144";
+            chk262144.Size = new Size(118, 19);
+            chk262144.TabIndex = 13;
+            chk262144.Text = "Mip interpolation";
+            chk262144.UseVisualStyleBackColor = true;
+            chk262144.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk65536
             // 
-            this.chk65536.AutoSize = true;
-            this.chk65536.Location = new System.Drawing.Point(224, 38);
-            this.chk65536.Name = "chk65536";
-            this.chk65536.Size = new System.Drawing.Size(102, 17);
-            this.chk65536.TabIndex = 12;
-            this.chk65536.Text = "Map antialiasing";
-            this.chk65536.UseVisualStyleBackColor = true;
-            this.chk65536.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk65536.AutoSize = true;
+            chk65536.Location = new Point(261, 44);
+            chk65536.Margin = new Padding(4, 3, 4, 3);
+            chk65536.Name = "chk65536";
+            chk65536.Size = new Size(113, 19);
+            chk65536.TabIndex = 12;
+            chk65536.Text = "Map antialiasing";
+            chk65536.UseVisualStyleBackColor = true;
+            chk65536.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk131072
             // 
-            this.chk131072.AutoSize = true;
-            this.chk131072.Location = new System.Drawing.Point(224, 19);
-            this.chk131072.Name = "chk131072";
-            this.chk131072.Size = new System.Drawing.Size(107, 17);
-            this.chk131072.TabIndex = 11;
-            this.chk131072.Text = "Map interpolation";
-            this.chk131072.UseVisualStyleBackColor = true;
-            this.chk131072.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk131072.AutoSize = true;
+            chk131072.Location = new Point(261, 22);
+            chk131072.Margin = new Padding(4, 3, 4, 3);
+            chk131072.Name = "chk131072";
+            chk131072.Size = new Size(121, 19);
+            chk131072.TabIndex = 11;
+            chk131072.Text = "Map interpolation";
+            chk131072.UseVisualStyleBackColor = true;
+            chk131072.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk1048576
             // 
-            this.chk1048576.AutoSize = true;
-            this.chk1048576.Location = new System.Drawing.Point(134, 95);
-            this.chk1048576.Name = "chk1048576";
-            this.chk1048576.Size = new System.Drawing.Size(73, 17);
-            this.chk1048576.TabIndex = 10;
-            this.chk1048576.Text = "Subdivide";
-            this.chk1048576.UseVisualStyleBackColor = true;
-            this.chk1048576.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk1048576.AutoSize = true;
+            chk1048576.Location = new Point(156, 110);
+            chk1048576.Margin = new Padding(4, 3, 4, 3);
+            chk1048576.Name = "chk1048576";
+            chk1048576.Size = new Size(78, 19);
+            chk1048576.TabIndex = 10;
+            chk1048576.Text = "Subdivide";
+            chk1048576.UseVisualStyleBackColor = true;
+            chk1048576.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk8192
             // 
-            this.chk8192.AutoSize = true;
-            this.chk8192.Location = new System.Drawing.Point(134, 76);
-            this.chk8192.Name = "chk8192";
-            this.chk8192.Size = new System.Drawing.Size(77, 17);
-            this.chk8192.TabIndex = 9;
-            this.chk8192.Text = "Force front";
-            this.chk8192.UseVisualStyleBackColor = true;
-            this.chk8192.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk8192.AutoSize = true;
+            chk8192.Location = new Point(156, 88);
+            chk8192.Margin = new Padding(4, 3, 4, 3);
+            chk8192.Name = "chk8192";
+            chk8192.Size = new Size(84, 19);
+            chk8192.TabIndex = 9;
+            chk8192.Text = "Force front";
+            chk8192.UseVisualStyleBackColor = true;
+            chk8192.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk4096
             // 
-            this.chk4096.AutoSize = true;
-            this.chk4096.Location = new System.Drawing.Point(134, 57);
-            this.chk4096.Name = "chk4096";
-            this.chk4096.Size = new System.Drawing.Size(75, 17);
-            this.chk4096.TabIndex = 8;
-            this.chk4096.Text = "Two-sided";
-            this.chk4096.UseVisualStyleBackColor = true;
-            this.chk4096.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk4096.AutoSize = true;
+            chk4096.Location = new Point(156, 66);
+            chk4096.Margin = new Padding(4, 3, 4, 3);
+            chk4096.Name = "chk4096";
+            chk4096.Size = new Size(80, 19);
+            chk4096.TabIndex = 8;
+            chk4096.Text = "Two-sided";
+            chk4096.UseVisualStyleBackColor = true;
+            chk4096.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk2048
             // 
-            this.chk2048.AutoSize = true;
-            this.chk2048.Location = new System.Drawing.Point(134, 38);
-            this.chk2048.Name = "chk2048";
-            this.chk2048.Size = new System.Drawing.Size(91, 17);
-            this.chk2048.TabIndex = 7;
-            this.chk2048.Text = "Always visible";
-            this.chk2048.UseVisualStyleBackColor = true;
-            this.chk2048.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk2048.AutoSize = true;
+            chk2048.Location = new Point(156, 44);
+            chk2048.Margin = new Padding(4, 3, 4, 3);
+            chk2048.Name = "chk2048";
+            chk2048.Size = new Size(99, 19);
+            chk2048.TabIndex = 7;
+            chk2048.Text = "Always visible";
+            chk2048.UseVisualStyleBackColor = true;
+            chk2048.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk64
             // 
-            this.chk64.AutoSize = true;
-            this.chk64.Location = new System.Drawing.Point(134, 19);
-            this.chk64.Name = "chk64";
-            this.chk64.Size = new System.Drawing.Size(54, 17);
-            this.chk64.TabIndex = 6;
-            this.chk64.Text = "Decal";
-            this.chk64.UseVisualStyleBackColor = true;
-            this.chk64.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk64.AutoSize = true;
+            chk64.Location = new Point(156, 22);
+            chk64.Margin = new Padding(4, 3, 4, 3);
+            chk64.Name = "chk64";
+            chk64.Size = new Size(55, 19);
+            chk64.TabIndex = 6;
+            chk64.Text = "Decal";
+            chk64.UseVisualStyleBackColor = true;
+            chk64.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk32
             // 
-            this.chk32.AutoSize = true;
-            this.chk32.Location = new System.Drawing.Point(6, 95);
-            this.chk32.Name = "chk32";
-            this.chk32.Size = new System.Drawing.Size(118, 17);
-            this.chk32.TabIndex = 5;
-            this.chk32.Text = "Correct perspective";
-            this.chk32.UseVisualStyleBackColor = true;
-            this.chk32.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk32.AutoSize = true;
+            chk32.Location = new Point(7, 110);
+            chk32.Margin = new Padding(4, 3, 4, 3);
+            chk32.Name = "chk32";
+            chk32.Size = new Size(128, 19);
+            chk32.TabIndex = 5;
+            chk32.Text = "Correct perspective";
+            chk32.UseVisualStyleBackColor = true;
+            chk32.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk16
             // 
-            this.chk16.AutoSize = true;
-            this.chk16.Location = new System.Drawing.Point(6, 76);
-            this.chk16.Name = "chk16";
-            this.chk16.Size = new System.Drawing.Size(109, 17);
-            this.chk16.TabIndex = 4;
-            this.chk16.Text = "Env mapped (loc)";
-            this.chk16.UseVisualStyleBackColor = true;
-            this.chk16.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk16.AutoSize = true;
+            chk16.Location = new Point(7, 88);
+            chk16.Margin = new Padding(4, 3, 4, 3);
+            chk16.Name = "chk16";
+            chk16.Size = new Size(119, 19);
+            chk16.TabIndex = 4;
+            chk16.Text = "Env mapped (loc)";
+            chk16.UseVisualStyleBackColor = true;
+            chk16.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk8
             // 
-            this.chk8.AutoSize = true;
-            this.chk8.Location = new System.Drawing.Point(6, 57);
-            this.chk8.Name = "chk8";
-            this.chk8.Size = new System.Drawing.Size(106, 17);
-            this.chk8.TabIndex = 3;
-            this.chk8.Text = "Env mapped (inf)";
-            this.chk8.UseVisualStyleBackColor = true;
-            this.chk8.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk8.AutoSize = true;
+            chk8.Location = new Point(7, 66);
+            chk8.Margin = new Padding(4, 3, 4, 3);
+            chk8.Name = "chk8";
+            chk8.Size = new Size(117, 19);
+            chk8.TabIndex = 3;
+            chk8.Text = "Env mapped (inf)";
+            chk8.UseVisualStyleBackColor = true;
+            chk8.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk4
             // 
-            this.chk4.AutoSize = true;
-            this.chk4.Location = new System.Drawing.Point(6, 38);
-            this.chk4.Name = "chk4";
-            this.chk4.Size = new System.Drawing.Size(62, 17);
-            this.chk4.TabIndex = 2;
-            this.chk4.Text = "Smooth";
-            this.chk4.UseVisualStyleBackColor = true;
-            this.chk4.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk4.AutoSize = true;
+            chk4.Location = new Point(7, 44);
+            chk4.Margin = new Padding(4, 3, 4, 3);
+            chk4.Name = "chk4";
+            chk4.Size = new Size(68, 19);
+            chk4.TabIndex = 2;
+            chk4.Text = "Smooth";
+            chk4.UseVisualStyleBackColor = true;
+            chk4.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // chk1
             // 
-            this.chk1.AutoSize = true;
-            this.chk1.Location = new System.Drawing.Point(6, 19);
-            this.chk1.Name = "chk1";
-            this.chk1.Size = new System.Drawing.Size(37, 17);
-            this.chk1.TabIndex = 1;
-            this.chk1.Text = "Lit";
-            this.chk1.UseVisualStyleBackColor = true;
-            this.chk1.CheckedChanged += new System.EventHandler(this.chkFlags_CheckedChanged);
+            chk1.AutoSize = true;
+            chk1.Location = new Point(7, 22);
+            chk1.Margin = new Padding(4, 3, 4, 3);
+            chk1.Name = "chk1";
+            chk1.Size = new Size(39, 19);
+            chk1.TabIndex = 1;
+            chk1.Text = "Lit";
+            chk1.UseVisualStyleBackColor = true;
+            chk1.CheckedChanged += chkFlags_CheckedChanged;
             // 
             // gbPropData
             // 
-            this.gbPropData.Location = new System.Drawing.Point(1248, 147);
-            this.gbPropData.Name = "gbPropData";
-            this.gbPropData.Size = new System.Drawing.Size(406, 125);
-            this.gbPropData.TabIndex = 5;
-            this.gbPropData.TabStop = false;
-            this.gbPropData.Text = "Properties";
-            this.gbPropData.Visible = false;
+            gbPropData.Location = new Point(1456, 170);
+            gbPropData.Margin = new Padding(4, 3, 4, 3);
+            gbPropData.Name = "gbPropData";
+            gbPropData.Padding = new Padding(4, 3, 4, 3);
+            gbPropData.Size = new Size(474, 144);
+            gbPropData.TabIndex = 5;
+            gbPropData.TabStop = false;
+            gbPropData.Text = "Properties";
+            gbPropData.Visible = false;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(343, 278);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.DialogResult = DialogResult.OK;
+            btnOK.Location = new Point(400, 321);
+            btnOK.Margin = new Padding(4, 3, 4, 3);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(88, 27);
+            btnOK.TabIndex = 1;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(262, 278);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 7;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            btnApply.Location = new Point(306, 321);
+            btnApply.Margin = new Padding(4, 3, 4, 3);
+            btnApply.Name = "btnApply";
+            btnApply.Size = new Size(88, 27);
+            btnApply.TabIndex = 7;
+            btnApply.Text = "Apply";
+            btnApply.UseVisualStyleBackColor = true;
+            btnApply.Click += btnApply_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(181, 278);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 8;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            btnCancel.DialogResult = DialogResult.Cancel;
+            btnCancel.Location = new Point(211, 321);
+            btnCancel.Margin = new Padding(4, 3, 4, 3);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(88, 27);
+            btnCancel.TabIndex = 8;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
-            // frmClassicMaterialEditor
+            // MaterialEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1661, 307);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.gbPropData);
-            this.Controls.Add(this.gbPropFlags);
-            this.Controls.Add(this.gbPropLighting);
-            this.Controls.Add(this.rdoData);
-            this.Controls.Add(this.rdoFlags);
-            this.Controls.Add(this.rdoLighting);
-            this.Controls.Add(this.rdoColour);
-            this.Controls.Add(this.gbGeneral);
-            this.Controls.Add(this.gbPropColour);
-            this.Controls.Add(this.gbPreview);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "frmClassicMaterialEditor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Material Editor...";
-            this.gbPreview.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
-            this.gbGeneral.ResumeLayout(false);
-            this.gbGeneral.PerformLayout();
-            this.gbPropColour.ResumeLayout(false);
-            this.gbIndexedColour.ResumeLayout(false);
-            this.gbIndexedColour.PerformLayout();
-            this.gbTrueColour.ResumeLayout(false);
-            this.gbPropFlags.ResumeLayout(false);
-            this.gbPropFlags.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1942, 354);
+            Controls.Add(btnCancel);
+            Controls.Add(btnApply);
+            Controls.Add(btnOK);
+            Controls.Add(gbPropData);
+            Controls.Add(gbPropFlags);
+            Controls.Add(gbPropLighting);
+            Controls.Add(rdoData);
+            Controls.Add(rdoFlags);
+            Controls.Add(rdoLighting);
+            Controls.Add(rdoColour);
+            Controls.Add(gbGeneral);
+            Controls.Add(gbPropColour);
+            Controls.Add(gbPreview);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            Name = "MaterialEditor";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Material Editor...";
+            gbPreview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbPreview).EndInit();
+            gbGeneral.ResumeLayout(false);
+            gbGeneral.PerformLayout();
+            gbPropColour.ResumeLayout(false);
+            gbIndexedColour.ResumeLayout(false);
+            gbIndexedColour.PerformLayout();
+            gbTrueColour.ResumeLayout(false);
+            gbPropFlags.ResumeLayout(false);
+            gbPropFlags.PerformLayout();
+            ResumeLayout(false);
         }
         #endregion
 

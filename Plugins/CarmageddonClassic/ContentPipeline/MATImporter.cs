@@ -1,8 +1,4 @@
-﻿using System.IO;
-
-//using Flummery.ContentPipeline.Core;
-
-using ToxicRagers.Carmageddon2.Formats;
+﻿using ToxicRagers.Brender.Formats;
 
 using Flummery.Core.ContentPipeline;
 using Flummery.Core;
@@ -39,13 +35,13 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
             {
                 if (material.Texture == Path.GetFileNameWithoutExtension(material.Texture))
                 {
-                    //materials.Entries.Add(
-                    //    new Material
-                    //    {
-                    //        Name = material.Name,
-                    //        Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(material.Texture, Path.GetDirectoryName(path))
-                    //    }
-                    //);
+                    materials.Entries.Add(
+                        new Material
+                        {
+                            Name = material.Name,
+                            Texture = SceneManager.Current.Content.Load<Texture, TIFImporter>(material.Texture, Path.GetDirectoryName(path))
+                        }
+                    );
 
                     //materials.Entries[materials.Entries.Count - 1].SupportingDocuments["Source"] = material;
                 }

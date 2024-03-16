@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-using ToxicRagers.Carmageddon.Formats;
+﻿using ToxicRagers.Brender.Formats;
 
 using Flummery.Core.ContentPipeline;
 using Flummery.Core;
@@ -37,7 +35,16 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 
             PIX pix = PIX.Load(path);
 
-            texture.CreateFromBitmap(pix.Pixies[0].GetBitmap(), pix.Pixies[0].Name);
+            if (pix.Pixies.Count == 2 && pix.Pixies[0].Format == PIXIE.PixelmapFormat.Palette)
+            {
+                pix.Pixies[1].Name = Path.GetFileNameWithoutExtension(path);
+                pix.RebuildPalette(pix.Pixies[0]);
+                texture.CreateFromBitmap(pix.Pixies[1].GetBitmap(), pix.Pixies[1].Name);
+            }
+            else
+            {
+                texture.CreateFromBitmap(pix.Pixies[0].GetBitmap(), pix.Pixies[0].Name);
+            }
 
             return texture;
         }

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-using ToxicRagers.Carmageddon2.Formats;
-using ToxicRagers.Carmageddon2.Helpers;
+﻿using ToxicRagers.Brender.Formats;
 using ToxicRagers.Helpers;
 
 using Flummery.Core.ContentPipeline;
@@ -15,42 +11,42 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
         public override void Export(Asset asset, string path)
         {
             Model model = asset as Model;
-            DAT dat = new DAT();
+            DAT dat = new();
 
             foreach (ModelMesh mesh in model.Meshes)
             {
-                if (dat.DatMeshes.Any(d=> d.Name == mesh.Name)) { continue; }
+                if (dat.DatMeshes.Any(d => d.Name == mesh.Name)) { continue; }
 
-                C2Mesh m = new C2Mesh();
+                DatMesh m = new()
+                {
+                    Name = mesh.Name
+                };
 
                 foreach (ModelMeshPart meshpart in mesh.MeshParts)
                 {
-                    m.AddListMaterial((meshpart.Material == null || meshpart.Material.Name == null ? "DEFAULT" : meshpart.Material.Name));
+                    m.Materials.Add(meshpart.Material?.Name ?? "DEFAULT");
+
+                    foreach (Vertex v in meshpart.VertexBuffer.Data)
+                    {
+                        m.Vertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
+                        m.UVs.Add(new Vector2(v.UV.X, v.UV.Y));
+                    }
 
                     List<int> data = meshpart.IndexBuffer.Data;
 
                     for (int i = 0; i < data.Count; i += 3)
                     {
-                        Vertex v0 = meshpart.VertexBuffer.Data[data[i + 0]];
-                        Vertex v1 = meshpart.VertexBuffer.Data[data[i + 1]];
-                        Vertex v2 = meshpart.VertexBuffer.Data[data[i + 2]];
-
-                        m.AddFace(
-                            new Vector3(v0.Position.X, v0.Position.Y, v0.Position.Z),
-                            new Vector3(v1.Position.X, v1.Position.Y, v1.Position.Z),
-                            new Vector3(v2.Position.X, v2.Position.Y, v2.Position.Z),
-                            new Vector2(v0.UV.X, v0.UV.Y),
-                            new Vector2(v1.UV.X, v1.UV.Y),
-                            new Vector2(v2.UV.X, v2.UV.Y),
-                            m.Materials.Count - 1
-                        );
+                        m.Faces.Add(new DatFace
+                        {
+                            V1 = data[i + 0],
+                            V2 = data[i + 1],
+                            V3 = data[i + 2],
+                            MaterialId = m.Materials.Count - 1
+                        });
                     }
                 }
 
-                m.Optimise();
-                m.ProcessMesh();
-
-                dat.AddMesh(mesh.Name, 0, m);
+                dat.DatMeshes.Add(m);
             }
 
             dat.Save(path);

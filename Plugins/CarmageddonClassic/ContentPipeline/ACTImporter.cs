@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-
+﻿using ToxicRagers.Brender.Formats;
 using ToxicRagers.Helpers;
-using ToxicRagers.Carmageddon2.Formats;
 
 using Flummery.Core.ContentPipeline;
 using Flummery.Core;
@@ -11,7 +8,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
 {
     class ACTImporter : ContentImporter
     {
-        public override string GetExtension() { return "act"; }
+        public override string GetExtension() { return "act;acn"; }
 
         public override string GetHints(string currentPath)
         {
@@ -43,17 +40,17 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
             if (dat.SupportingDocuments.ContainsKey("Source")) { model.SupportingDocuments.Add("Source", dat.GetSupportingDocument<DAT>("Source")); }
             Material material = null;
 
-            foreach (ACTNode section in act.Sections)
+            foreach (ACTNode section in act.Chunks)
             {
                 switch (section.Section)
                 {
-                    case Section.Name:
+                    case ChunkId.Actor:
                         boneIndex = model.AddMesh(null, boneIndex);
                         model.SetName(section.Identifier, boneIndex);
                         material = null;
                         break;
 
-                    case Section.Material:
+                    case ChunkId.Material:
                         material = (Material)SceneManager.Current.Materials.Entries.Find(m => m != null && m.Name == section.Material);
                         if (material == null)
                         {
@@ -62,7 +59,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
                         }
                         break;
 
-                    case Section.Model:
+                    case ChunkId.Model:
                         ModelMesh mesh = dat.FindMesh(section.Model);
 
                         if (mesh != null)
@@ -82,7 +79,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
                         }
                         break;
 
-                    case Section.Matrix:
+                    case ChunkId.Matrix:
                         model.SetTransform(
                             new Matrix4D(
                                 section.Transform.M11, section.Transform.M12, section.Transform.M13, 0,
@@ -93,10 +90,7 @@ namespace Flummery.Plugin.CarmageddonClassic.ContentPipeline
                         );
                         break;
 
-                    case Section.SubLevelBegin:
-                        break;
-
-                    case Section.SubLevelEnd:
+                    case ChunkId.AddChild:
                         boneIndex = model.Bones[boneIndex].Parent.Index;
                         break;
                 }
