@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Flummery.Controls;
+﻿using Flummery.Controls;
 using Flummery.Core;
 
 using WeifenLuo.WinFormsUI.Docking;
@@ -9,7 +7,7 @@ namespace Flummery
 {
     public partial class PnlMaterialList : DockContent
     {
-        private List<Material> materials = new List<Material>();
+        private readonly Dictionary<long, Material> materials = new();
 
         public PnlMaterialList()
         {
@@ -21,39 +19,52 @@ namespace Flummery
             {
                 foreach (Material m in SceneManager.Current.Materials)
                 {
-                    materials.Add(m);
+                    materials.Add(m.Key, m);
                 }
             }
 
-            redraw();
+            Redraw();
         }
 
         public void RegisterEventHandlers()
         {
-            SceneManager.Current.OnAdd += scene_OnAdd;
-            SceneManager.Current.OnChange += scene_OnChange;
-            SceneManager.Current.OnReset += scene_OnReset;
+            SceneManager.Current.OnAdd += Scene_OnAdd;
+            SceneManager.Current.OnChange += Scene_OnChange;
+            SceneManager.Current.OnReset += Scene_OnReset;
         }
 
-        private void scene_OnChange(object sender, ChangeEventArgs e)
-        {
-            if (e.Context != ChangeContext.Material) { return; }
-
-
-        }
-
-        void scene_OnAdd(object sender, AddEventArgs e)
+        void Scene_OnAdd(object sender, AddEventArgs e)
         {
             if (e.Item is Material m)
             {
-                materials.Add(m);
-                addMaterial(m);
+                materials.Add(m.Key, m);
+                AddMaterial(m);
             }
         }
 
-        private void addMaterial(Material m)
+        private void Scene_OnChange(object sender, ChangeEventArgs e)
         {
-            MaterialItem mi = new MaterialItem()
+            if (e.Context != ChangeContext.Material) { return; }
+
+            foreach (MaterialItem mi in flpMaterials.Controls)
+            {
+                if (e.AdditionalInformation is Material m && m.Key == mi.Key)
+                {
+                    if (m.Texture != null) { mi.SetThumbnail(m.Texture.GetThumbnail()); }
+                    break;
+                }
+            }
+        }
+
+        void Scene_OnReset(object sender, ResetEventArgs e)
+        {
+            materials.Clear();
+            Redraw();
+        }
+
+        private void AddMaterial(Material m)
+        {
+            MaterialItem mi = new()
             {
                 MaterialName = m.Name,
                 Material = m
@@ -64,19 +75,13 @@ namespace Flummery
             flpMaterials.Controls.Add(mi);
         }
 
-        void scene_OnReset(object sender, ResetEventArgs e)
-        {
-            materials.Clear();
-            redraw();
-        }
-
-        private void redraw()
+        private void Redraw()
         {
             flpMaterials.Controls.Clear();
 
-            foreach (Material m in materials)
+            foreach (var m in materials)
             {
-                addMaterial(m);
+                AddMaterial(m.Value);
             }
         }
     }

@@ -5,10 +5,13 @@ using System.Windows.Forms;
 
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.WinForms;
+using OpenTK.Windowing.Common;
 
 using WeifenLuo.WinFormsUI.Docking;
 
 using Flummery.Core;
+
 
 namespace Flummery
 {
@@ -71,16 +74,19 @@ namespace Flummery
 
         private void pnlViewport_Load(object sender, EventArgs e)
         {
-            Control = new GLControl(new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default)
+            // new GraphicsMode(32, 24, 8, 4), 3, 0, GraphicsContextFlags.Default
+
+            Control = new GLControl()
             {
                 Name = "glcViewport",
-                VSync = true,
+                //VSync = true,
                 Width = 100,
                 Height = 100,
                 Dock = DockStyle.Fill,
                 Top = 3,
                 Left = 3,
-                BackColor = Color.Black
+                BackColor = Color.Black,
+                Profile = ContextProfile.Compatability
             };
 
             Control.Paint += glcViewport_Paint;

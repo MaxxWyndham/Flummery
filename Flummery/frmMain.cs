@@ -1,15 +1,10 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Globalization;
 
 using Flummery.Core;
 using Flummery.Core.ContentPipeline;
 using Flummery.Plugin;
 using Flummery.Util;
 
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 using ToxicRagers.Helpers;
@@ -35,7 +30,7 @@ namespace Flummery
             CultureInfo.DefaultThreadCurrentCulture = FlummeryApplication.Culture;
             CultureInfo.DefaultThreadCurrentUICulture = FlummeryApplication.Culture;
 
-            Toolkit.Init();
+            //Toolkit.Init();
 
             Text += $" v{FlummeryApplication.Version}";
 

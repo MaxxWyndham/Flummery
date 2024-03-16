@@ -1,8 +1,5 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 
 using Flummery.Core.ContentPipeline;
@@ -29,6 +26,8 @@ namespace Flummery.Core
 
         private Bitmap Thumb { get; set; }
 
+        public Bitmap Source { get; set; }
+
         public Texture()
         {
             SceneManager.Current.Renderer.GenTextures(1, out int texture);
@@ -52,7 +51,8 @@ namespace Flummery.Core
             SceneManager.Current.Renderer.TexImage2D("Texture2D", 0, "Rgba", bmpdata.Width, bmpdata.Height, 0, "Bgra", "UnsignedByte", bmpdata.Scan0);
             bitmap.UnlockBits(bmpdata);
 
-            Thumb = bitmap.Resize(512, 512);
+            Source = bitmap.Clone(new Rectangle(0, 0, bitmap.Width, bitmap.Height), bitmap.PixelFormat);
+            Thumb = Source.Resize(512, 512);
         }
 
         public Bitmap GetBitmap(bool suppressAlpha = true)
@@ -61,7 +61,7 @@ namespace Flummery.Core
 
             //if (SupportingDocuments["Source"] is TDX tdx) { return tdx.Decompress(0, suppressAlpha); }
 
-            return new Bitmap(64, 64);
+            return Source;
         }
 
         public Bitmap GetThumbnail(int maxWidth = 128, bool suppressAlpha = true)

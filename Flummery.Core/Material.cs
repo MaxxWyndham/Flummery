@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Flummery.Core
+﻿namespace Flummery.Core
 {
     public class Material : Asset
     {
@@ -21,5 +17,10 @@ namespace Flummery.Core
         }
 
         public List<Texture> Textures => textures.Values.ToList();
+
+        public void SetTexture(string name, Texture texture)
+        {
+            textures[name] = texture;
+        }
     }
 }

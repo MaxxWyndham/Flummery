@@ -28,103 +28,108 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAbout));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.lblEmail = new System.Windows.Forms.LinkLabel();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.btnUpdateCheck = new System.Windows.Forms.Button();
-            this.btnDonate = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
+            pictureBox1 = new PictureBox();
+            lblVersion = new Label();
+            lblEmail = new LinkLabel();
+            btnOk = new Button();
+            btnUpdateCheck = new Button();
+            btnDonate = new Button();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Flummery.Properties.Resources.flummery;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(451, 186);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Image = Properties.Resources.flummery;
+            pictureBox1.Location = new Point(13, 12);
+            pictureBox1.Margin = new Padding(4, 3, 4, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(529, 217);
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
             // 
             // lblVersion
             // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(12, 201);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(35, 13);
-            this.lblVersion.TabIndex = 1;
-            this.lblVersion.Text = "label1";
+            lblVersion.AutoSize = true;
+            lblVersion.Location = new Point(14, 232);
+            lblVersion.Margin = new Padding(4, 0, 4, 0);
+            lblVersion.Name = "lblVersion";
+            lblVersion.Size = new Size(38, 15);
+            lblVersion.TabIndex = 1;
+            lblVersion.Text = "label1";
             // 
             // lblEmail
             // 
-            this.lblEmail.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(9, 220);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(122, 13);
-            this.lblEmail.TabIndex = 2;
-            this.lblEmail.TabStop = true;
-            this.lblEmail.Text = "errol@toxic-ragers.co.uk";
-            this.lblEmail.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblEmail_LinkClicked);
+            lblEmail.Anchor = AnchorStyles.Bottom;
+            lblEmail.AutoSize = true;
+            lblEmail.Location = new Point(10, 254);
+            lblEmail.Margin = new Padding(4, 0, 4, 0);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(137, 15);
+            lblEmail.TabIndex = 2;
+            lblEmail.TabStop = true;
+            lblEmail.Text = "errol@toxic-ragers.co.uk";
+            lblEmail.LinkClicked += lblEmail_LinkClicked;
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(388, 215);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 3;
-            this.btnOk.Text = "close";
-            this.btnOk.UseVisualStyleBackColor = true;
+            btnOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnOk.DialogResult = DialogResult.OK;
+            btnOk.Location = new Point(453, 248);
+            btnOk.Margin = new Padding(4, 3, 4, 3);
+            btnOk.Name = "btnOk";
+            btnOk.Size = new Size(88, 27);
+            btnOk.TabIndex = 3;
+            btnOk.Text = "close";
+            btnOk.UseVisualStyleBackColor = true;
             // 
             // btnUpdateCheck
             // 
-            this.btnUpdateCheck.Location = new System.Drawing.Point(262, 215);
-            this.btnUpdateCheck.Name = "btnUpdateCheck";
-            this.btnUpdateCheck.Size = new System.Drawing.Size(121, 23);
-            this.btnUpdateCheck.TabIndex = 4;
-            this.btnUpdateCheck.Text = "check for updates";
-            this.btnUpdateCheck.UseVisualStyleBackColor = true;
-            this.btnUpdateCheck.Click += new System.EventHandler(this.btnUpdateCheck_Click);
+            btnUpdateCheck.Location = new Point(306, 248);
+            btnUpdateCheck.Margin = new Padding(4, 3, 4, 3);
+            btnUpdateCheck.Name = "btnUpdateCheck";
+            btnUpdateCheck.Size = new Size(141, 27);
+            btnUpdateCheck.TabIndex = 4;
+            btnUpdateCheck.Text = "check for updates";
+            btnUpdateCheck.UseVisualStyleBackColor = true;
+            btnUpdateCheck.Click += btnUpdateCheck_Click;
             // 
             // btnDonate
             // 
-            this.btnDonate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDonate.Location = new System.Drawing.Point(181, 215);
-            this.btnDonate.Name = "btnDonate";
-            this.btnDonate.Size = new System.Drawing.Size(75, 23);
-            this.btnDonate.TabIndex = 5;
-            this.btnDonate.Text = "donate";
-            this.btnDonate.UseVisualStyleBackColor = true;
-            this.btnDonate.Click += new System.EventHandler(this.btnDonate_Click);
+            btnDonate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnDonate.Location = new Point(211, 248);
+            btnDonate.Margin = new Padding(4, 3, 4, 3);
+            btnDonate.Name = "btnDonate";
+            btnDonate.Size = new Size(88, 27);
+            btnDonate.TabIndex = 5;
+            btnDonate.Text = "donate";
+            btnDonate.UseVisualStyleBackColor = true;
+            btnDonate.Click += btnDonate_Click;
             // 
             // frmAbout
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 250);
-            this.Controls.Add(this.btnDonate);
-            this.Controls.Add(this.btnUpdateCheck);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.lblEmail);
-            this.Controls.Add(this.lblVersion);
-            this.Controls.Add(this.pictureBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::Flummery.Properties.Resources.icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "frmAbout";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "About Flummery";
-            this.Load += new System.EventHandler(this.frmAbout_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(555, 288);
+            Controls.Add(btnDonate);
+            Controls.Add(btnUpdateCheck);
+            Controls.Add(btnOk);
+            Controls.Add(lblEmail);
+            Controls.Add(lblVersion);
+            Controls.Add(pictureBox1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.icon;
+            Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "frmAbout";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "About Flummery";
+            Load += frmAbout_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

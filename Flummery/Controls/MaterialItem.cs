@@ -1,14 +1,12 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-using Flummery.Core;
+﻿using Flummery.Core;
 
 namespace Flummery.Controls
 {
     public partial class MaterialItem : UserControl
     {
         Material m;
+
+        public long? Key => m?.Key;
 
         public string MaterialName
         {

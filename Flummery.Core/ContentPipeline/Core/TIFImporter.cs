@@ -16,7 +16,7 @@ namespace Flummery.Core.ContentPipeline
                 if (currentPath.EndsWith(@"\")) { currentPath = Path.GetDirectoryName(currentPath); }
 
                 hints += $"{Path.Combine(currentPath, "tiffrgb")};";
-                hints += $";{Path.Combine(Path.GetDirectoryName(currentPath), Path.GetFileName(currentPath).Substring(0, 4), "tiffrgb")};";
+                //hints += $";{Path.Combine(Path.GetDirectoryName(currentPath), Path.GetFileName(currentPath).Substring(0, 4), "tiffrgb")};";
 
                 return hints;
             }

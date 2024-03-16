@@ -2,7 +2,7 @@
 
 namespace Flummery.Plugin.CarmageddonClassic.Entities
 {
-    class CrushPoint : Icon
+    class CrushPoint : Core.Entities.Icon
     {
         public CrushPoint()
         {

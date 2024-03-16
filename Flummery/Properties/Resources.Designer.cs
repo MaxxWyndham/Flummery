@@ -83,26 +83,6 @@ namespace Flummery.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap interface_eye_16x16 {
-            get {
-                object obj = ResourceManager.GetObject("interface_eye_16x16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap interface_eye_blind_16x16 {
-            get {
-                object obj = ResourceManager.GetObject("interface_eye_blind_16x16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap interface_frame_borderless_16x16 {
             get {
                 object obj = ResourceManager.GetObject("interface_frame_borderless_16x16", resourceCulture);
