@@ -1,133 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{97AADEF0-A89E-4917-9C69-911E2C2B870E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CarmageddonMaxDamage</RootNamespace>
-    <AssemblyName>CarmageddonMaxDamage</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CarmageddonMaxDamage.cs" />
-    <Compile Include="ContentPipeline\CNTExporter.cs" />
-    <Compile Include="ContentPipeline\CNTImporter.cs" />
-    <Compile Include="ContentPipeline\LIGHTImporter.cs" />
-    <Compile Include="ContentPipeline\MaterialImporter.cs" />
-    <Compile Include="ContentPipeline\MDLExporter.cs" />
-    <Compile Include="ContentPipeline\MDLImporter.cs" />
-    <Compile Include="ContentPipeline\MT2Importer.cs" />
-    <Compile Include="ContentPipeline\MTLImporter.cs" />
-    <Compile Include="ContentPipeline\SetupLOLExporter.cs" />
-    <Compile Include="ContentPipeline\StructureXMLExporter.cs" />
-    <Compile Include="ContentPipeline\SystemsDamageXMLExporter.cs" />
-    <Compile Include="ContentPipeline\TDXExporter.cs" />
-    <Compile Include="ContentPipeline\TDXImporter.cs" />
-    <Compile Include="ContentPipeline\VehicleSetupCFGExporter.cs" />
-    <Compile Include="ContentPipeline\VehicleSetupLOLExporter.cs" />
-    <Compile Include="MaterialEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MaterialEditor.Designer.cs">
-      <DependentUpon>MaterialEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WheelPreview.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WheelPreview.Designer.cs">
-      <DependentUpon>WheelPreview.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SaveAsLevel.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SaveAsLevel.Designer.cs">
-      <DependentUpon>SaveAsLevel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SaveAsVehicle.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SaveAsVehicle.Designer.cs">
-      <DependentUpon>SaveAsVehicle.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Flummery.Core\Flummery.Core.csproj">
-      <Project>{b97aa7dc-7375-424e-848c-6f6f4625efc8}</Project>
-      <Name>Flummery.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Flummery.Plugin\Flummery.Plugin.csproj">
-      <Project>{1077661c-a13b-4b4e-95fd-30454b39bd9a}</Project>
-      <Name>Flummery.Plugin</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="MaterialEditor.resx">
-      <DependentUpon>MaterialEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WheelPreview.resx">
-      <DependentUpon>WheelPreview.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaveAsLevel.resx">
-      <DependentUpon>SaveAsLevel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaveAsVehicle.resx">
-      <DependentUpon>SaveAsVehicle.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Costura.Fody">
-      <Version>4.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>6.2.0</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="ToxicRagers">
-      <Version>1.8.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll" "$(SolutionDir)Flummery\bin\Debug\plugins\"</PostBuildEvent>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Flummery.Core\Flummery.Core.csproj" />
+	  <ProjectReference Include="..\..\Flummery.Plugin\Flummery.Plugin.csproj" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy /Y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)Flummery\bin\Debug\$(TargetFramework)\plugins\&quot;" />
+	</Target>
+
 </Project>

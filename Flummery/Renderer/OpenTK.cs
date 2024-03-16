@@ -2,7 +2,7 @@
 using System.Drawing;
 using Flummery.Core;
 
-using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL;
 
 using ToxicRagers.Helpers;
@@ -341,14 +341,14 @@ namespace Flummery.Renderer
                 m.M41, m.M42, m.M43, m.M44);
         }
 
-        public static OpenTK.Vector3 ToVector3(this ToxicRagers.Helpers.Vector3 v)
+        public static OpenTK.Mathematics.Vector3 ToVector3(this ToxicRagers.Helpers.Vector3 v)
         {
-            return new OpenTK.Vector3(v.X, v.Y, v.Z);
+            return new OpenTK.Mathematics.Vector3(v.X, v.Y, v.Z);
         }
 
-        public static OpenTK.Vector4 ToVector4(this ToxicRagers.Helpers.Vector4 v)
+        public static OpenTK.Mathematics.Vector4 ToVector4(this ToxicRagers.Helpers.Vector4 v)
         {
-            return new OpenTK.Vector4(v.X, v.Y, v.Z, v.W);
+            return new OpenTK.Mathematics.Vector4(v.X, v.Y, v.Z, v.W);
         }
     }
 }

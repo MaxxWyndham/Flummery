@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-
-using ToxicRagers.CarmageddonReincarnation.Formats;
+﻿using ToxicRagers.CarmageddonReincarnation.Formats;
 using ToxicRagers.Stainless.Formats;
 
 using Flummery.Core;

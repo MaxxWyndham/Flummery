@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Flummery.Core;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
-
-using Flummery.Core;
 
 namespace Flummery.Plugin
 {
@@ -22,7 +17,7 @@ namespace Flummery.Plugin
         {
             Plugins = new List<Lazy<IPlugin, IPluginAttribute>>();
 
-            string pluginsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "plugins");
+            string pluginsFolder = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "plugins");
 
             if (!Directory.Exists(pluginsFolder)) { Directory.CreateDirectory(pluginsFolder); }
 

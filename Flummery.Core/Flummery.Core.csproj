@@ -1,121 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B97AA7DC-7375-424E-848C-6F6F4625EFC8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Flummery.Core</RootNamespace>
-    <AssemblyName>Flummery.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
+	<PropertyGroup>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="ToxicRagers" Version="2.0.4" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Asset.cs" />
-    <Compile Include="AssetList.cs" />
-    <Compile Include="BoundingBox.cs" />
-    <Compile Include="BoundingSphere.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="Collision\CollisionHelpers.cs" />
-    <Compile Include="Collision\Ray.cs" />
-    <Compile Include="ContentManager.cs" />
-    <Compile Include="ContentPipeline\ContentExporter.cs" />
-    <Compile Include="ContentPipeline\ContentImporter.cs" />
-    <Compile Include="ContentPipeline\Core\BMPExporter.cs" />
-    <Compile Include="ContentPipeline\Core\BMPImporter.cs" />
-    <Compile Include="ContentPipeline\Core\DDSExporter.cs" />
-    <Compile Include="ContentPipeline\Core\DDSImporter.cs" />
-    <Compile Include="ContentPipeline\Core\FBXExporter.cs" />
-    <Compile Include="ContentPipeline\Core\FBXImporter.cs" />
-    <Compile Include="ContentPipeline\Core\JPGExporter.cs" />
-    <Compile Include="ContentPipeline\Core\JPGImporter.cs" />
-    <Compile Include="ContentPipeline\Core\PNGExporter.cs" />
-    <Compile Include="ContentPipeline\Core\PNGImporter.cs" />
-    <Compile Include="ContentPipeline\Core\TGAImporter.cs" />
-    <Compile Include="ContentPipeline\Core\TIFExporter.cs" />
-    <Compile Include="ContentPipeline\Core\TIFImporter.cs" />
-    <Compile Include="ContentPipeline\ExportSettings.cs" />
-    <Compile Include="Entities\Bounds.cs" />
-    <Compile Include="Entities\Face.cs" />
-    <Compile Include="Entities\Icons\Accessory.cs" />
-    <Compile Include="Entities\Icons\Driver.cs" />
-    <Compile Include="Entities\Grid.cs" />
-    <Compile Include="Entities\Icon.cs" />
-    <Compile Include="Entities\Icons\Light.cs" />
-    <Compile Include="Entities\Icons\Powerup.cs" />
-    <Compile Include="Entities\Icons\StartingGrid.cs" />
-    <Compile Include="Entities\Icons\VFX.cs" />
-    <Compile Include="Entities\Icons\Wheel.cs" />
-    <Compile Include="Entities\Node.cs" />
-    <Compile Include="EntityCollection.cs" />
-    <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="FlumpFile.cs" />
-    <Compile Include="IGizmo.cs" />
-    <Compile Include="Gizmos\Move.cs" />
-    <Compile Include="Gizmos\Rotate.cs" />
-    <Compile Include="Gizmos\Scale.cs" />
-    <Compile Include="IEntity.cs" />
-    <Compile Include="IndexBuffer.cs" />
-    <Compile Include="InputManager.cs" />
-    <Compile Include="IRenderer.cs" />
-    <Compile Include="Material.cs" />
-    <Compile Include="MaterialList.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="ModelBone.cs" />
-    <Compile Include="ModelBoneCollection.cs" />
-    <Compile Include="ModelManipulator.cs" />
-    <Compile Include="ModelMesh.cs" />
-    <Compile Include="ModelMeshPart.cs" />
-    <Compile Include="Primitive.cs" />
-    <Compile Include="Primitives\Sphere.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RenderModes.cs" />
-    <Compile Include="SceneManager.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Texture.cs" />
-    <Compile Include="TextWriter.cs" />
-    <Compile Include="Vertex.cs" />
-    <Compile Include="VertexBuffer.cs" />
-    <Compile Include="Viewport.cs" />
-    <Compile Include="ViewportManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ToxicRagers">
-      <Version>1.8.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

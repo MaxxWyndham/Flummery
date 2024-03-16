@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-using Flummery.Core;
+﻿using Flummery.Core;
 using Flummery.Plugin.TDR2000.ContentPipeline;
 
 using ToxicRagers.TDR2000.Formats;

@@ -1,13 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>publish\</PublishUrlHistory>
-    <InstallUrlHistory />
-    <SupportUrlHistory />
-    <UpdateUrlHistory />
-    <BootstrapperUrlHistory />
-    <ErrorReportUrlHistory />
-    <FallbackCulture>en-US</FallbackCulture>
-    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+    <_LastSelectedProfileId>C:\Projects\Flummery\Flummery\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Controls\MaterialItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\PowerOfTwoUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmChangeContext.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmChangeNodeType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmMaterialEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmModifyActor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmModifyModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmNewObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmPreferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmRemoveObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmRename.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmTDXConvert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmUpdater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="pnlDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="pnlMaterialList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="pnlOverview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="pnlTexturePreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="pnlViewport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Widgets\Lighting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Widgets\Transform.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

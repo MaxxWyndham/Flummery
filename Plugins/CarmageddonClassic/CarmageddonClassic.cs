@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-
+﻿using ToxicRagers.Brender.Formats;
 using ToxicRagers.Carmageddon.Helpers;
 using ToxicRagers.Carmageddon2;
 using ToxicRagers.Carmageddon2.Formats;
@@ -13,7 +8,6 @@ using Flummery.Core;
 using Flummery.Core.ContentPipeline;
 using Flummery.Core.Entities;
 using Flummery.Plugin.CarmageddonClassic.ContentPipeline;
-using Flummery.Plugin.CarmageddonClassic.Entities;
 
 namespace Flummery.Plugin.CarmageddonClassic
 {
